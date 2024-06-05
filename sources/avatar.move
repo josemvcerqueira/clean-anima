@@ -112,14 +112,12 @@ module anima::anima_avatar {
 
     public fun equip_weapon(self: &mut Avatar, weapon: Weapon) {
         let key = WeaponKey { key: weapon.slot() };
-        assert!(!dof::exists_(&self.id, key), EWeaponSlotAlreadyEquipped);
-        dof::add(&mut self.id, key, weapon)
+        equip(&mut self.id, key, weapon, EWeaponSlotAlreadyEquipped);
     }
 
     public fun equip_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
         let key = CosmeticKey { key: cosmetic.kind() };
-        assert!(!dof::exists_(&self.id, key), ECosmeticSlotAlreadyEquipped);
-        dof::add(&mut self.id, key, cosmetic)        
+        equip(&mut self.id, key, cosmetic, ECosmeticSlotAlreadyEquipped);    
     }
 
     public fun unequip_weapon(
@@ -129,9 +127,7 @@ module anima::anima_avatar {
         slot: u8
     ) {
         let key = WeaponKey { key: slot };
-        assert!(dof::exists_(&self.id, key), EWeaponSlotDoesNotExist);
-        let weapon = dof::remove<WeaponKey, Weapon>(&mut self.id, key);
-        kiosk.place(cap, weapon);
+        unequip<WeaponKey, Weapon>(&mut self.id, kiosk, cap, key, EWeaponSlotDoesNotExist);
     }
 
     public fun unequip_cosmetic(
@@ -141,9 +137,7 @@ module anima::anima_avatar {
         kind: u8
     ) {
         let key = CosmeticKey { key: kind };
-        assert!(dof::exists_(&self.id, key), ECosmeticKindDoesNotExist);
-        let cosmetic = dof::remove<CosmeticKey, Cosmetic>(&mut self.id, key);
-        kiosk.place(cap, cosmetic);
+        unequip<CosmeticKey, Cosmetic>(&mut self.id, kiosk, cap, key, ECosmeticKindDoesNotExist);
     }
 
     // === Public-View Functions ===
@@ -153,6 +147,23 @@ module anima::anima_avatar {
     // === Public-Package Functions ===
 
     // === Private Functions ===
+
+    fun equip<Key: store + copy + drop, Item: key + store>(uid_mut: &mut UID, key: Key, item: Item, error: u64) {
+        assert!(!dof::exists_(uid_mut, key), error);
+        dof::add(uid_mut, key, item)  
+    }
+
+    fun unequip<Key: store + copy + drop, Item: key + store>(
+        uid_mut: &mut UID, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,         
+        key: Key, 
+        error: u64
+    ) {
+        assert!(dof::exists_(uid_mut, key), error);
+        let item = dof::remove<Key, Item>(uid_mut, key);
+        kiosk.place(cap, item);
+    }
 
     // === Test Functions === 
 }
