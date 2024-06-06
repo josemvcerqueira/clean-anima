@@ -15,12 +15,14 @@
 module act::act_avatar {
     // === Imports ===
 
-    use std::string::String;
+    use std::string::{utf8, String};
 
     use sui::clock::Clock;
     use sui::table::{Self, Table};
     use sui::dynamic_object_field as dof;
     use sui::kiosk::{Kiosk, KioskOwnerCap};
+    use sui::package;
+    use sui::display;
 
     use act::act_weapon::Weapon;
     use act::act_cosmetic::Cosmetic;
@@ -37,6 +39,9 @@ module act::act_avatar {
 
     // === Structs ===
 
+    // one-time witness
+    public struct ACT_AVATAR has drop {}
+
     // @dev Shared object to ensure we have one account per avatar
     public struct AvatarRegistry has key {
         id: UID,
@@ -44,13 +49,9 @@ module act::act_avatar {
         accounts: Table<address, ID>
     }
     
-    public struct CosmeticKey has copy, store, drop { 
-        key: u8 
-    }
-    
-    public struct WeaponKey has copy, store, drop {
-        key: u8
-    }
+    public struct CosmeticKey(u8) has copy, store, drop; 
+
+    public struct WeaponKey(u8) has copy, store, drop;
 
     public struct Field has store {
         `type`: String,
@@ -64,8 +65,12 @@ module act::act_avatar {
     // What rules should weapon and cosmetics have ?!
     public struct Avatar has key {
         id: UID,
-        name: String,
         alias: String,
+        username: String, // or account_name
+        image_url: String,
+        image_hash: String,
+        avatar_url: String,
+        `type`: String,
         creation_date: u64,
         reputation: vector<Field>,
         accolades: vector<Field>,
@@ -77,20 +82,47 @@ module act::act_avatar {
 
     // === Public-Mutative Functions ===
 
-    fun init(ctx: &mut TxContext) {
+    fun init(otw: ACT_AVATAR, ctx: &mut TxContext) {
         let avatar_registry = AvatarRegistry {
             id: object::new(ctx),
             accounts: table::new(ctx)
         };
-
         transfer::share_object(avatar_registry);
+
+        let keys = vector[
+            utf8(b"name"),
+            utf8(b"description"),
+            utf8(b"image_url"),
+            utf8(b"project_url"),
+            utf8(b"creator"),
+        ];
+        let values = vector[
+            utf8(b"ACT Avatar: {alias}"),
+            utf8(b"ACT is a fast-paced, high-skill multiplayer FPS"),
+            utf8(b"ipfs://{image_url}"),
+            utf8(b"https://animalabs.io"), // to change with ACT game page
+            utf8(b"Anima Labs"),
+        ];
+
+        let publisher = package::claim(otw, ctx);
+        let mut display = display::new_with_fields<Avatar>(
+            &publisher, keys, values, ctx
+        );
+        display.update_version();
+
+        transfer::public_transfer(publisher, ctx.sender());
+        transfer::public_transfer(display, ctx.sender());
     }
 
     public fun mint(
-        clock: &mut Clock,
         registry: &mut AvatarRegistry, 
-        name: String,
         alias: String,
+        username: String,
+        image_url: String,
+        image_hash: String,
+        avatar_url: String,
+        `type`: String,
+        clock: &Clock,
         ctx: &mut TxContext
     ) {
         // One Avatar per user
@@ -98,8 +130,12 @@ module act::act_avatar {
 
         let avatar = Avatar {
             id: object::new(ctx),
-            name,
             alias,
+            username,
+            image_url,
+            image_hash,
+            avatar_url,
+            `type`,
             creation_date: clock.timestamp_ms(),
             reputation: vector[],
             accolades: vector[],
@@ -110,13 +146,11 @@ module act::act_avatar {
     }
 
     public fun equip_weapon(self: &mut Avatar, weapon: Weapon) {
-        let key = WeaponKey { key: weapon.slot() };
-        equip(&mut self.id, key, weapon, EWeaponSlotAlreadyEquipped);
+        equip(&mut self.id, WeaponKey(weapon.slot()), weapon, EWeaponSlotAlreadyEquipped);
     }
 
     public fun equip_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
-        let key = CosmeticKey { key: cosmetic.`type`() };
-        equip(&mut self.id, key, cosmetic, ECosmeticSlotAlreadyEquipped);    
+        equip(&mut self.id, CosmeticKey(cosmetic.`type`()), cosmetic, ECosmeticSlotAlreadyEquipped);    
     }
 
     public fun unequip_weapon(
@@ -125,8 +159,7 @@ module act::act_avatar {
         cap: &KioskOwnerCap, 
         slot: u8
     ) {
-        let key = WeaponKey { key: slot };
-        unequip<WeaponKey, Weapon>(&mut self.id, kiosk, cap, key, EWeaponSlotDoesNotExist);
+        unequip<WeaponKey, Weapon>(&mut self.id, kiosk, cap, WeaponKey(slot), EWeaponSlotDoesNotExist);
     }
 
     public fun unequip_cosmetic(
@@ -135,8 +168,7 @@ module act::act_avatar {
         cap: &KioskOwnerCap, 
         `type`: u8
     ) {
-        let key = CosmeticKey { key: `type` };
-        unequip<CosmeticKey, Cosmetic>(&mut self.id, kiosk, cap, key, ECosmeticKindDoesNotExist);
+        unequip<CosmeticKey, Cosmetic>(&mut self.id, kiosk, cap, CosmeticKey(`type`), ECosmeticKindDoesNotExist);
     }
 
     // === Public-View Functions ===

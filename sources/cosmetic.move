@@ -1,6 +1,10 @@
 module act::act_cosmetic {
     // === Imports ===
 
+    use std::string::{utf8, String};
+    use sui::package;
+    use sui::display;
+
     // === Errors ===
 
     // === Constants ===
@@ -24,14 +28,55 @@ module act::act_cosmetic {
 
     // === Structs ===
 
+    public struct ACT_COSMETIC has drop {}
+
     public struct Cosmetic has key, store {
         id: UID,
-        `type`: u8
+        name: String,
+        image_url: String,
+        image_hash: String,
+        `type`: u8, 
+        uuid: u64, // is is necessary if we have id: UID?
+        global_rank: u64,
+        edition: String,
+        wear_rating: u64, // [0,1] scaled to 1B
+        colour_way: String,
+        rarity: String,
+        manufacturer: String,
+        hash: String,
+        // see how to manage the secondary image
     }
 
     // === Method Aliases ===
 
     // === Public-Mutative Functions ===
+
+    fun init(otw: ACT_COSMETIC, ctx: &mut TxContext) {
+
+        let keys = vector[
+            utf8(b"name"),
+            utf8(b"description"),
+            utf8(b"image_url"),
+            utf8(b"project_url"),
+            utf8(b"creator"),
+        ];
+        let values = vector[
+            utf8(b"ACT Cosmetic: {name}"),
+            utf8(b"ACT is a fast-paced, high-skill multiplayer FPS"),
+            utf8(b"ipfs://{image_url}"),
+            utf8(b"https://animalabs.io"), // to change with ACT game page
+            utf8(b"Anima Labs"),
+        ];
+
+        let publisher = package::claim(otw, ctx);
+        let mut display = display::new_with_fields<Cosmetic>(
+            &publisher, keys, values, ctx
+        );
+        display.update_version();
+
+        transfer::public_transfer(publisher, ctx.sender());
+        transfer::public_transfer(display, ctx.sender());
+    }
 
     // === Public-View Functions ===
 
