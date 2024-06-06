@@ -2,7 +2,7 @@
 //primary
 //secondary
 //tertiary
-module anima::anima_weapon {
+module act::act_weapon {
     // === Imports ===
 
     // === Errors ===
@@ -11,7 +11,7 @@ module anima::anima_weapon {
 
     const PRIMARY_SLOT: u8 = 0;
     const SECONDARY_SLOT: u8 = 1;
-    const TERTIARY_SLOT: u8 = 1;
+    const TERTIARY_SLOT: u8 = 2;
 
     // === Structs ===
 

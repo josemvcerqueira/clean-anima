@@ -1,4 +1,4 @@
-module anima::anima_cosmetic {
+module act::act_cosmetic {
     // === Imports ===
 
     // === Errors ===
@@ -26,8 +26,7 @@ module anima::anima_cosmetic {
 
     public struct Cosmetic has key, store {
         id: UID,
-        /// type is a reserved word
-        kind: u8
+        `type`: u8
     }
 
     // === Method Aliases ===
@@ -36,8 +35,8 @@ module anima::anima_cosmetic {
 
     // === Public-View Functions ===
 
-    public fun kind(self: &Cosmetic): u8 {
-     self.kind
+    public fun `type`(self: &Cosmetic): u8 {
+        self.`type`
     }
 
     // === Admin Functions ===

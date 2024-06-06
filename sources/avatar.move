@@ -12,7 +12,7 @@
 * 5 - Custom rule of personal_kiosk_rule or equip. Tradeport can ad d acustom rule but takes THEM TIME
 * - issue two transfer policies?
 */
-module anima::anima_avatar {
+module act::act_avatar {
     // === Imports ===
 
     use std::string::String;
@@ -22,8 +22,8 @@ module anima::anima_avatar {
     use sui::dynamic_object_field as dof;
     use sui::kiosk::{Kiosk, KioskOwnerCap};
 
-    use anima::anima_weapon::Weapon;
-    use anima::anima_cosmetic::Cosmetic;
+    use act::act_weapon::Weapon;
+    use act::act_cosmetic::Cosmetic;
 
     // === Errors ===
 
@@ -53,8 +53,7 @@ module anima::anima_avatar {
     }
 
     public struct Field has store {
-        // type is a reserved field
-        kind: String,
+        `type`: String,
         description: String,
         link: String
     }
@@ -116,7 +115,7 @@ module anima::anima_avatar {
     }
 
     public fun equip_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
-        let key = CosmeticKey { key: cosmetic.kind() };
+        let key = CosmeticKey { key: cosmetic.`type`() };
         equip(&mut self.id, key, cosmetic, ECosmeticSlotAlreadyEquipped);    
     }
 
@@ -134,9 +133,9 @@ module anima::anima_avatar {
         self: &mut Avatar, 
         kiosk: &mut Kiosk, 
         cap: &KioskOwnerCap, 
-        kind: u8
+        `type`: u8
     ) {
-        let key = CosmeticKey { key: kind };
+        let key = CosmeticKey { key: `type` };
         unequip<CosmeticKey, Cosmetic>(&mut self.id, kiosk, cap, key, ECosmeticKindDoesNotExist);
     }
 
