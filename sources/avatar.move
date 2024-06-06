@@ -16,16 +16,15 @@ module act::act_avatar {
     // === Imports ===
 
     use std::string::{utf8, String};
-
-    use sui::clock::Clock;
-    use sui::table::{Self, Table};
-    use sui::dynamic_object_field as dof;
-    use sui::kiosk::{Kiosk, KioskOwnerCap};
-    use sui::package;
-    use sui::display;
-
-    use act::act_weapon::Weapon;
-    use act::act_cosmetic::Cosmetic;
+    use sui::{
+        package, 
+        display,
+        clock::Clock,
+        table::{Self, Table},
+        dynamic_object_field as dof,
+        kiosk::{Kiosk, KioskOwnerCap},
+    };
+    use act::{act_weapon::Weapon, act_cosmetic::Cosmetic};
 
     // === Errors ===
 

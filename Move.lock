@@ -2,11 +2,10 @@
 
 [move]
 version = 2
-manifest_digest = "4435EF7B3490FB80F1529188ACB1268241465E7D246E28291F86B17818F1A58B"
-deps_digest = "060AD7E57DFB13104F21BE5F5C3759D03F0553FC3229247D9A7A6B45F50D03A3"
+manifest_digest = "1D95616C39C5AF470086D54EA4523E4C3CC3A5A6960433819B4379B428F5A40B"
+deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
 dependencies = [
   { name = "Kiosk" },
-  { name = "MoveStdlib" },
   { name = "Sui" },
 ]
 
@@ -31,6 +30,6 @@ dependencies = [
 ]
 
 [move.toolchain-version]
-compiler-version = "1.26.0"
+compiler-version = "1.25.1"
 edition = "2024.beta"
 flavor = "sui"

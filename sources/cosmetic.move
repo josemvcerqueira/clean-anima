@@ -2,8 +2,8 @@ module act::act_cosmetic {
     // === Imports ===
 
     use std::string::{utf8, String};
-    use sui::package;
-    use sui::display;
+    use sui::{package, display, transfer_policy};
+    use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
 
     // === Errors ===
 
@@ -30,6 +30,8 @@ module act::act_cosmetic {
 
     public struct ACT_COSMETIC has drop {}
 
+    public struct Equip has drop {}
+
     public struct Cosmetic has key, store {
         id: UID,
         name: String,
@@ -51,8 +53,9 @@ module act::act_cosmetic {
 
     // === Public-Mutative Functions ===
 
+    #[allow(lint(share_owned))]
     fun init(otw: ACT_COSMETIC, ctx: &mut TxContext) {
-
+        // create Display
         let keys = vector[
             utf8(b"name"),
             utf8(b"description"),
@@ -73,9 +76,22 @@ module act::act_cosmetic {
             &publisher, keys, values, ctx
         );
         display.update_version();
+        transfer::public_transfer(display, ctx.sender());
+
+        // create TransferPolicy for trading
+        let (mut policy, cap) = transfer_policy::new<Cosmetic>(&publisher, ctx);
+        royalty_rule::add(&mut policy, &cap, 100, 0); // % royalty?
+        kiosk_lock_rule::add(&mut policy, &cap);
+        transfer::public_share_object(policy);
+        transfer::public_transfer(cap, ctx.sender());
+
+        // create TransferPolicy for equipping 
+        let (mut policy, cap) = transfer_policy::new<Cosmetic>(&publisher, ctx);
+        witness_rule::add<Cosmetic, Equip>(&mut policy, &cap);
+        transfer::public_share_object(policy);
+        transfer::public_transfer(cap, ctx.sender());
 
         transfer::public_transfer(publisher, ctx.sender());
-        transfer::public_transfer(display, ctx.sender());
     }
 
     // === Public-View Functions ===
