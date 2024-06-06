@@ -6,10 +6,21 @@ module act::act_weapon {
     // === Imports ===
 
     use std::string::{utf8, String};
-    use sui::{package, display, transfer_policy};
+    use sui::{
+        package, 
+        display, 
+        coin,
+        sui::SUI,
+        transfer_policy::{Self, TransferPolicy}, 
+        dynamic_object_field as dof,
+        kiosk::{Kiosk, KioskOwnerCap},
+    };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
 
     // === Errors ===
+
+    const EWeaponTypeAlreadyEquipped: u64 = 0;
+    const EWeaponTypeNotEquipped: u64 = 1;
 
     // === Constants ===
 
@@ -97,6 +108,39 @@ module act::act_weapon {
     // === Admin Functions ===
 
     // === Public-Package Functions ===
+
+    public(package) fun equip<Key: store + copy + drop>(
+        uid_mut: &mut UID, 
+        key: Key, 
+        weapon_id: ID, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,         
+        policy: &TransferPolicy<Weapon>, // equipping policy
+        ctx: &mut TxContext,
+    ) {
+        assert!(!dof::exists_(uid_mut, key), EWeaponTypeAlreadyEquipped);
+
+        kiosk.list<Weapon>(cap, weapon_id, 0);
+        let coin = coin::zero<SUI>(ctx);
+        let (weapon, mut request) = kiosk.purchase<Weapon>(weapon_id, coin);
+
+        witness_rule::prove(Equip {}, policy, &mut request);
+        policy.confirm_request(request);
+
+        dof::add(uid_mut, key, weapon)  
+    }
+
+    public(package) fun unequip<Key: store + copy + drop>(
+        uid_mut: &mut UID, 
+        key: Key, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,     
+        policy: &TransferPolicy<Weapon>, // trading policy    
+    ) {
+        assert!(dof::exists_(uid_mut, key), EWeaponTypeNotEquipped);
+        let weapon = dof::remove<Key, Weapon>(uid_mut, key);
+        kiosk.lock(cap, policy, weapon);
+    }
 
     // === Private Functions ===
 

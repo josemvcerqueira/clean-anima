@@ -2,10 +2,21 @@ module act::act_cosmetic {
     // === Imports ===
 
     use std::string::{utf8, String};
-    use sui::{package, display, transfer_policy};
+    use sui::{
+        package, 
+        display, 
+        coin,
+        sui::SUI,
+        transfer_policy::{Self, TransferPolicy}, 
+        dynamic_object_field as dof,
+        kiosk::{Kiosk, KioskOwnerCap},
+    };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
 
     // === Errors ===
+
+    const ECosmeticTypeAlreadyEquipped: u64 = 0;
+    const ECosmeticTypeNotEquipped: u64 = 1;
 
     // === Constants ===
 
@@ -92,6 +103,39 @@ module act::act_cosmetic {
         transfer::public_transfer(cap, ctx.sender());
 
         transfer::public_transfer(publisher, ctx.sender());
+    }
+
+    public fun equip<Key: store + copy + drop>(
+        uid_mut: &mut UID, 
+        key: Key, 
+        cosmetic_id: ID, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,         
+        policy: &TransferPolicy<Cosmetic>, // equipping policy
+        ctx: &mut TxContext,
+    ) {
+        assert!(!dof::exists_(uid_mut, key), ECosmeticTypeAlreadyEquipped);
+
+        kiosk.list<Cosmetic>(cap, cosmetic_id, 0);
+        let coin = coin::zero<SUI>(ctx);
+        let (cosmetic, mut request) = kiosk.purchase<Cosmetic>(cosmetic_id, coin);
+
+        witness_rule::prove(Equip {}, policy, &mut request);
+        policy.confirm_request(request);
+
+        dof::add(uid_mut, key, cosmetic)  
+    }
+
+    public fun unequip<Key: store + copy + drop>(
+        uid_mut: &mut UID, 
+        key: Key, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,     
+        policy: &TransferPolicy<Cosmetic>, // trading policy    
+    ) {
+        assert!(dof::exists_(uid_mut, key), ECosmeticTypeNotEquipped);
+        let cosmetic = dof::remove<Key, Cosmetic>(uid_mut, key);
+        kiosk.lock(cap, policy, cosmetic);
     }
 
     // === Public-View Functions ===

@@ -19,20 +19,22 @@ module act::act_avatar {
     use sui::{
         package, 
         display,
+        transfer_policy::TransferPolicy,
         clock::Clock,
         table::{Self, Table},
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
     };
-    use act::{act_weapon::Weapon, act_cosmetic::Cosmetic};
+    use act::{
+        act_weapon::{Self, Weapon}, 
+        act_cosmetic::{Self, Cosmetic}
+    };
 
     // === Errors ===
 
     const EAlreadyMintedAnAvatar: u64 = 0;
     const EWeaponSlotAlreadyEquipped: u64 = 1;
     const ECosmeticSlotAlreadyEquipped: u64 = 2;
-    const EWeaponSlotDoesNotExist: u64 = 3;
-    const ECosmeticKindDoesNotExist: u64 = 4;
 
     // === Constants ===
 
@@ -144,30 +146,88 @@ module act::act_avatar {
         transfer::transfer(avatar, ctx.sender());
     }
 
-    public fun equip_weapon(self: &mut Avatar, weapon: Weapon) {
-        equip(&mut self.id, WeaponKey(weapon.slot()), weapon, EWeaponSlotAlreadyEquipped);
+    // used during the mint in a ptb
+    public fun equip_minted_weapon(uid_mut: &mut UID, weapon: Weapon) {
+        assert!(!dof::exists_(uid_mut, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
+        dof::add(uid_mut, WeaponKey(weapon.slot()), weapon)  
     }
 
-    public fun equip_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
-        equip(&mut self.id, CosmeticKey(cosmetic.`type`()), cosmetic, ECosmeticSlotAlreadyEquipped);    
+    // used during the mint in a ptb
+    public fun equip_minted_cosmetic(uid_mut: &mut UID, cosmetic: Cosmetic) {
+        assert!(!dof::exists_(uid_mut, CosmeticKey(cosmetic.`type`())), ECosmeticSlotAlreadyEquipped);
+        dof::add(uid_mut, CosmeticKey(cosmetic.`type`()), cosmetic)  
+    }
+
+    public fun equip_weapon(
+        self: &mut Avatar, 
+        weapon_id: ID,
+        weapon_slot: u8,
+        kiosk: &mut Kiosk,
+        cap: &KioskOwnerCap,
+        policy: &TransferPolicy<Weapon>, // equipping policy
+        ctx: &mut TxContext
+    ) {
+        act_weapon::equip(
+            &mut self.id, 
+            WeaponKey(weapon_slot), 
+            weapon_id, 
+            kiosk,
+            cap,
+            policy,
+            ctx
+        );
+    }
+
+    public fun equip_cosmetic(
+        self: &mut Avatar, 
+        cosmetic_id: ID,
+        cosmetic_type: u8,
+        kiosk: &mut Kiosk,
+        cap: &KioskOwnerCap,
+        policy: &TransferPolicy<Cosmetic>, // equipping policy
+        ctx: &mut TxContext
+    ) {
+        act_cosmetic::equip(
+            &mut self.id, 
+            CosmeticKey(cosmetic_type), 
+            cosmetic_id, 
+            kiosk,
+            cap,
+            policy,
+            ctx
+        );
     }
 
     public fun unequip_weapon(
         self: &mut Avatar, 
-        kiosk: &mut Kiosk, 
-        cap: &KioskOwnerCap, 
-        slot: u8
+        weapon_slot: u8,
+        kiosk: &mut Kiosk,
+        cap: &KioskOwnerCap,
+        policy: &TransferPolicy<Weapon>, // trading policy
     ) {
-        unequip<WeaponKey, Weapon>(&mut self.id, kiosk, cap, WeaponKey(slot), EWeaponSlotDoesNotExist);
+        act_weapon::unequip(
+            &mut self.id, 
+            WeaponKey(weapon_slot), 
+            kiosk,
+            cap,
+            policy,
+        );
     }
 
     public fun unequip_cosmetic(
         self: &mut Avatar, 
-        kiosk: &mut Kiosk, 
-        cap: &KioskOwnerCap, 
-        `type`: u8
+        cosmetic_type: u8,
+        kiosk: &mut Kiosk,
+        cap: &KioskOwnerCap,
+        policy: &TransferPolicy<Cosmetic>, // trading policy
     ) {
-        unequip<CosmeticKey, Cosmetic>(&mut self.id, kiosk, cap, CosmeticKey(`type`), ECosmeticKindDoesNotExist);
+        act_cosmetic::unequip(
+            &mut self.id, 
+            CosmeticKey(cosmetic_type), 
+            kiosk,
+            cap,
+            policy,
+        );
     }
 
     // === Public-View Functions ===
@@ -176,24 +236,11 @@ module act::act_avatar {
 
     // === Public-Package Functions ===
 
+    public(package) fun uid_mut(self: &mut Avatar): &mut UID {
+        &mut self.id
+    }
+
     // === Private Functions ===
-
-    fun equip<Key: store + copy + drop, Item: key + store>(uid_mut: &mut UID, key: Key, item: Item, error: u64) {
-        assert!(!dof::exists_(uid_mut, key), error);
-        dof::add(uid_mut, key, item)  
-    }
-
-    fun unequip<Key: store + copy + drop, Item: key + store>(
-        uid_mut: &mut UID, 
-        kiosk: &mut Kiosk, 
-        cap: &KioskOwnerCap,         
-        key: Key, 
-        error: u64
-    ) {
-        assert!(dof::exists_(uid_mut, key), error);
-        let item = dof::remove<Key, Item>(uid_mut, key);
-        kiosk.place(cap, item);
-    }
 
     // === Test Functions === 
 }
