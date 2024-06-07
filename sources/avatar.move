@@ -290,7 +290,7 @@ module act::act_avatar {
         self.avatar_url
     }    
 
-    public fun type_(self: &Avatar): String {
+    public fun `type`(self: &Avatar): String {
         self.`type`
     }
 
