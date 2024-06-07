@@ -27,7 +27,7 @@ module act::act_avatar {
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use act::{
-        act_utils,
+        avatar_attributes,
         act_admin,
         act_upgrade::{Self, Upgrade},
         act_weapon::{Self, Weapon}, 
@@ -85,13 +85,16 @@ module act::act_avatar {
         username: String, 
         image_url: String,
         image_hash: String,
+        model_url: String,
         avatar_url: String,
-        `type`: String,
+        avatar_hash: String,
         creation_date: u64,
+        edition: String,
         reputation: vector<Reputation>,
         accolades: vector<Accolade>,
         upgrades: vector<Upgrade>,
         attributes: VecMap<String, String>
+        // see how to manage the secondary image
     }
 
     // === Method Aliases ===
@@ -137,8 +140,10 @@ module act::act_avatar {
         username: String,
         image_url: String,
         image_hash: String,
+        model_url: String,
         avatar_url: String,
-        `type`: String,
+        avatar_hash: String,
+        edition: String,
         clock: &Clock,
         ctx: &mut TxContext
     ) {
@@ -151,13 +156,15 @@ module act::act_avatar {
             username,
             image_url,
             image_hash,
+            model_url,
             avatar_url,
-            `type`,
+            avatar_hash,
+            edition,
             creation_date: clock.timestamp_ms(),
             reputation: vector[],
             accolades: vector[],
             upgrades: vector[],
-            attributes: act_utils::init_attributes(),
+            attributes: avatar_attributes::new(),
         };
 
         transfer::transfer(avatar, ctx.sender());
@@ -283,12 +290,20 @@ module act::act_avatar {
         self.image_hash
     }
 
+    public fun model_url(self: &Avatar): String {
+        self.model_url
+    }    
+
     public fun avatar_url(self: &Avatar): String {
         self.avatar_url
     }    
 
-    public fun type_(self: &Avatar): String {
-        self.`type`
+    public fun avatar_hash(self: &Avatar): String {
+        self.avatar_hash
+    }    
+
+    public fun edition(self: &Avatar): String {
+        self.edition
     }
 
     public fun creation_date(self: &Avatar): u64 {

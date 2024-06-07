@@ -13,7 +13,6 @@ module act::act_cosmetic {
     };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
     use act::{
-        act_utils,
         act_admin,
         act_upgrade::{Self, Upgrade},
         access_control::{Admin, AccessControl},
@@ -37,14 +36,14 @@ module act::act_cosmetic {
         name: String,
         image_url: String,
         image_hash: String,
+        model_url: String,
         `type`: String, 
-        global_rank: u64,
-        edition: String,
-        wear_rating: u64, // [0,1] scaled to 1B
         colour_way: String,
-        rarity: String,
+        edition: String,
         manufacturer: String,
+        rarity: String,
         hash: String,
+        wear_rating: u64, // [0,1] scaled to 1B
         upgrades: vector<Upgrade>
         // TODO: see how to manage the secondary image
     }
@@ -124,8 +123,8 @@ module act::act_cosmetic {
         self.image_hash
     }
 
-    public fun global_rank(self: &Cosmetic): u64 {
-        self.global_rank
+    public fun model_url(self: &Cosmetic): String {
+        self.model_url
     }
 
     public fun edition(self: &Cosmetic): String {

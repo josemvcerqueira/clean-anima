@@ -17,7 +17,6 @@ module act::act_weapon {
     };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
     use act::{
-        act_utils,
         act_admin,
         act_upgrade::{Self, Upgrade},
         access_control::{Admin, AccessControl},
@@ -41,17 +40,15 @@ module act::act_weapon {
         name: String,
         image_url: String,
         image_hash: String,
+        model_url: String,
         slot: String,
-        kill_count: u64,  
-        accuracy: String, 
-        uuid: u64,
-        global_rank: u64,
-        edition: String,
-        wear_rating: u64,
         colour_way: String,
-        rarity: String,
+        edition: String,
         manufacturer: String,
+        rarity: String,
         hash: String,
+        wear_rating: u64,
+        kill_count: u64,  
         upgrades: vector<Upgrade>
         // see how to manage the secondary image
     }
@@ -130,20 +127,12 @@ module act::act_weapon {
         self.image_hash
     }
 
+    public fun model_url(self: &Weapon): String {
+        self.model_url
+    }
+
     public fun kill_count(self: &Weapon): u64 {
         self.kill_count
-    }
-
-    public fun accuracy(self: &Weapon): String {
-        self.accuracy
-    }
-
-    public fun uuid(self: &Weapon): u64 {
-        self.uuid
-    }
-
-    public fun global_rank(self: &Weapon): u64 {
-        self.global_rank
     }
 
     public fun edition(self: &Weapon): String {
