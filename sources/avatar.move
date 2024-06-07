@@ -19,14 +19,19 @@ module act::act_avatar {
     use sui::{
         package, 
         display,
-        transfer_policy::TransferPolicy,
         clock::Clock,
         table::{Self, Table},
+        vec_map::{Self, VecMap},
+        transfer_policy::TransferPolicy,
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use act::{
+        act_utils,
+        act_admin,
+        act_upgrade::{Self, Upgrade},
         act_weapon::{Self, Weapon}, 
+        access_control::{Admin, AccessControl},
         act_cosmetic::{Self, Cosmetic}
     };
 
@@ -35,6 +40,7 @@ module act::act_avatar {
     const EAlreadyMintedAnAvatar: u64 = 0;
     const EWeaponSlotAlreadyEquipped: u64 = 1;
     const ECosmeticSlotAlreadyEquipped: u64 = 2;
+    const ECosmeticIsNotEquipped: u64 = 3;
 
     // === Constants ===
 
@@ -54,8 +60,16 @@ module act::act_avatar {
 
     public struct WeaponKey(u8) has copy, store, drop;
 
-    public struct Field has store {
+    public struct Accolade has store {
         `type`: String,
+        description: String,
+        link: String
+    }
+
+    public struct Reputation has store, drop {
+        `type`: String,
+        value: u64,
+        positive: bool,
         description: String,
         link: String
     }
@@ -73,10 +87,10 @@ module act::act_avatar {
         avatar_url: String,
         `type`: String,
         creation_date: u64,
-        reputation: vector<Field>,
-        accolades: vector<Field>,
-        // What does his represent ?!
-        upgrades: u64
+        reputation: vector<Reputation>,
+        accolades: vector<Accolade>,
+        upgrades: vector<Upgrade>,
+        attributes: VecMap<String, String>
     }
 
     // === Method Aliases ===
@@ -88,6 +102,7 @@ module act::act_avatar {
             id: object::new(ctx),
             accounts: table::new(ctx)
         };
+
         transfer::share_object(avatar_registry);
 
         let keys = vector[
@@ -129,6 +144,10 @@ module act::act_avatar {
         // One Avatar per user
         assert!(!registry.accounts.contains(ctx.sender()), EAlreadyMintedAnAvatar);
 
+        let mut attributes = vec_map::empty();
+
+        act_utils::set_up_attributes(&mut attributes);
+
         let avatar = Avatar {
             id: object::new(ctx),
             alias,
@@ -140,22 +159,31 @@ module act::act_avatar {
             creation_date: clock.timestamp_ms(),
             reputation: vector[],
             accolades: vector[],
-            upgrades: 0
+            upgrades: vector[],
+            attributes
         };
 
         transfer::transfer(avatar, ctx.sender());
     }
 
     // used during the mint in a ptb
-    public fun equip_minted_weapon(uid_mut: &mut UID, weapon: Weapon) {
-        assert!(!dof::exists_(uid_mut, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
-        dof::add(uid_mut, WeaponKey(weapon.slot()), weapon)  
+    public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
+        assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
+
+        let cosmetic_val = self.attributes.get_mut(&weapon.slot_string());
+        *cosmetic_val = weapon.name();
+
+        dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon)  
     }
 
     // used during the mint in a ptb
-    public fun equip_minted_cosmetic(uid_mut: &mut UID, cosmetic: Cosmetic) {
-        assert!(!dof::exists_(uid_mut, CosmeticKey(cosmetic.`type`())), ECosmeticSlotAlreadyEquipped);
-        dof::add(uid_mut, CosmeticKey(cosmetic.`type`()), cosmetic)  
+    public fun equip_minted_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
+        assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.`type`())), ECosmeticSlotAlreadyEquipped);
+
+        let cosmetic_val = self.attributes.get_mut(&cosmetic.type_string());
+        *cosmetic_val = cosmetic.name();
+
+        dof::add(&mut self.id, CosmeticKey(cosmetic.`type`()), cosmetic)  
     }
 
     public fun equip_weapon(
@@ -167,7 +195,9 @@ module act::act_avatar {
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext
     ) {
-        act_weapon::equip(
+        let weapon_val = self.attributes.get_mut(&act_utils::to_weapon_string_slot(weapon_slot));
+
+        *weapon_val = act_weapon::equip(
             &mut self.id, 
             WeaponKey(weapon_slot), 
             weapon_id, 
@@ -187,7 +217,9 @@ module act::act_avatar {
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext
     ) {
-        act_cosmetic::equip(
+        let cosmetic_val = self.attributes.get_mut(&act_utils::to_cosmetic_string_type(cosmetic_type));
+
+        *cosmetic_val = act_cosmetic::equip(
             &mut self.id, 
             CosmeticKey(cosmetic_type), 
             cosmetic_id, 
@@ -205,6 +237,9 @@ module act::act_avatar {
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // trading policy
     ) {
+        let weapon_val = self.attributes.get_mut(&act_utils::to_weapon_string_slot(weapon_slot));
+        *weapon_val = utf8(b"");
+
         act_weapon::unequip(
             &mut self.id, 
             WeaponKey(weapon_slot), 
@@ -221,6 +256,9 @@ module act::act_avatar {
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // trading policy
     ) {
+        let cosmetic_val = self.attributes.get_mut(&act_utils::to_cosmetic_string_type(cosmetic_type));
+        *cosmetic_val = utf8(b"");
+
         act_cosmetic::unequip(
             &mut self.id, 
             CosmeticKey(cosmetic_type), 
@@ -232,13 +270,140 @@ module act::act_avatar {
 
     // === Public-View Functions ===
 
+    public fun alias(self: &Avatar): String {
+        self.alias
+    }
+
+    public fun username(self: &Avatar): String {
+        self.username
+    }
+
+    public fun image_url(self: &Avatar): String {
+        self.image_url
+    }
+
+    public fun image_hash(self: &Avatar): String {
+        self.image_hash
+    }
+
+    public fun avatar_url(self: &Avatar): String {
+        self.avatar_url
+    }    
+
+    public fun type_(self: &Avatar): String {
+        self.`type`
+    }
+
+    public fun creation_date(self: &Avatar): u64 {
+        self.creation_date
+    }
+
+    public fun reputation(self: &Avatar): &vector<Reputation> {
+        &self.reputation
+    }
+
+    public fun accolades(self: &Avatar): &vector<Accolade> {
+        &self.accolades
+    }
+
+    public fun upgrades(self: &Avatar): &vector<Upgrade> {
+        &self.upgrades
+    }
+
+    public fun attributes(self: &Avatar): &VecMap<String, String>{
+        &self.attributes
+    }
+
     // === Admin Functions ===
 
-    // === Public-Package Functions ===
-
-    public(package) fun uid_mut(self: &mut Avatar): &mut UID {
-        &mut self.id
+    public fun upgrade(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        name: String, 
+        image: String
+    ) {
+        act_admin::assert_upgrades_role(access_control, admin);
+        self.upgrades.push_back(act_upgrade::new(name, image));
     }
+
+    public fun upgrade_equipped_cosmetic(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        type_: u8,
+        name: String, 
+        image: String        
+    ) {
+        act_admin::assert_upgrades_role(access_control, admin);
+        assert!(dof::exists_(&self.id, CosmeticKey(type_)), ECosmeticIsNotEquipped);
+        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(type_)); 
+        cosmetic.upgrade(access_control, admin, name, image);   
+    }
+ 
+    public fun upgrade_weapon_cosmetic(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        slot: u8,
+        name: String, 
+        image: String        
+    ) {
+        act_admin::assert_upgrades_role(access_control, admin);
+        assert!(dof::exists_(&self.id, WeaponKey(slot)), ECosmeticIsNotEquipped);
+        let weapon = dof::borrow_mut<WeaponKey, Weapon>(&mut self.id, WeaponKey(slot)); 
+        weapon.upgrade(access_control, admin, name, image);   
+    }
+
+    public fun add_reputation(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        type_: String,
+        value: u64,
+        positive: bool,
+        description: String,
+        link: String
+    ) {
+        act_admin::assert_reputation_role(access_control, admin);
+        let reputation = Reputation {
+            `type`: type_,
+            value,
+            positive, 
+            description,
+            link
+        };
+        self.reputation.push_back(reputation);
+    }
+
+    public fun remove_reputation(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        idx: u64
+    ) {
+        act_admin::assert_reputation_role(access_control, admin);
+        self.reputation.remove(idx);
+    }
+
+    public fun add_accolade(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        type_: String,
+        description: String,
+        link: String        
+    ) {
+        act_admin::assert_accolades_role(access_control, admin);
+        let accolade = Accolade {
+            `type`: type_,
+            description,
+            link
+        };
+        self.accolades.push_back(accolade);
+    }
+
+    // === Public-Package Functions ===
 
     // === Private Functions ===
 

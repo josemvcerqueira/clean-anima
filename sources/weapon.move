@@ -16,6 +16,12 @@ module act::act_weapon {
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
+    use act::{
+        act_utils,
+        act_admin,
+        act_upgrade::{Self, Upgrade},
+        access_control::{Admin, AccessControl},
+    };
 
     // === Errors ===
 
@@ -23,10 +29,6 @@ module act::act_weapon {
     const EWeaponTypeNotEquipped: u64 = 1;
 
     // === Constants ===
-
-    const PRIMARY_SLOT: u8 = 0;
-    const SECONDARY_SLOT: u8 = 1;
-    const TERTIARY_SLOT: u8 = 2;
 
     // === Structs ===
 
@@ -50,7 +52,7 @@ module act::act_weapon {
         rarity: String,
         manufacturer: String,
         hash: String,
-        upgrades: vector<String>,
+        upgrades: vector<Upgrade>
         // see how to manage the secondary image
     }
 
@@ -99,10 +101,81 @@ module act::act_weapon {
         transfer::public_transfer(publisher, ctx.sender());
     }
 
+    public fun upgrade(
+        self: &mut Weapon, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        name: String, 
+        image: String        
+    ) {
+        act_admin::assert_upgrades_role(access_control, admin);
+        self.upgrades.push_back(act_upgrade::new(name, image));        
+    }
+
     // === Public-View Functions ===
 
     public fun slot(self: &Weapon): u8 {
         self.slot
+    }
+
+    public fun name(self: &Weapon): String {
+        self.name
+    }
+
+    public fun slot_string(self: &Weapon): String {
+        act_utils::to_weapon_string_slot(self.slot)
+    }
+
+    public fun image_url(self: &Weapon): String {
+        self.image_url
+    }
+
+    public fun image_hash(self: &Weapon): String {
+        self.image_hash
+    }
+
+    public fun kill_count(self: &Weapon): u64 {
+        self.kill_count
+    }
+
+    public fun accuracy(self: &Weapon): String {
+        self.accuracy
+    }
+
+    public fun uuid(self: &Weapon): u64 {
+        self.uuid
+    }
+
+    public fun global_rank(self: &Weapon): u64 {
+        self.global_rank
+    }
+
+    public fun edition(self: &Weapon): String {
+        self.edition
+    }
+
+    public fun wear_rating(self: &Weapon): u64 {
+        self.wear_rating
+    }
+
+    public fun colour_way(self: &Weapon): String {
+        self.colour_way
+    }
+
+    public fun rarity(self: &Weapon): String {
+        self.rarity
+    }
+
+    public fun manufacturer(self: &Weapon): String {
+        self.manufacturer
+    }
+
+    public fun hash(self: &Weapon): String {
+        self.hash
+    }
+
+    public fun upgrades(self: &Weapon): &vector<Upgrade> {
+        &self.upgrades
     }
 
     // === Admin Functions ===
@@ -117,7 +190,7 @@ module act::act_weapon {
         cap: &KioskOwnerCap,         
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext,
-    ) {
+    ): String {
         assert!(!dof::exists_(uid_mut, key), EWeaponTypeAlreadyEquipped);
 
         kiosk.list<Weapon>(cap, weapon_id, 0);
@@ -127,7 +200,11 @@ module act::act_weapon {
         witness_rule::prove(Equip {}, policy, &mut request);
         policy.confirm_request(request);
 
-        dof::add(uid_mut, key, weapon)  
+        let name = weapon.name();
+
+        dof::add(uid_mut, key, weapon);  
+
+        name
     }
 
     public(package) fun unequip<Key: store + copy + drop>(
@@ -136,10 +213,15 @@ module act::act_weapon {
         kiosk: &mut Kiosk, 
         cap: &KioskOwnerCap,     
         policy: &TransferPolicy<Weapon>, // trading policy    
-    ) {
+    ): String {
         assert!(dof::exists_(uid_mut, key), EWeaponTypeNotEquipped);
         let weapon = dof::remove<Key, Weapon>(uid_mut, key);
+
+        let name = weapon.name();
+
         kiosk.lock(cap, policy, weapon);
+
+        name
     }
 
     // === Private Functions ===

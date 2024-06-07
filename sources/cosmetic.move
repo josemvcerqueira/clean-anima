@@ -12,30 +12,19 @@ module act::act_cosmetic {
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
-
+    use act::{
+        act_utils,
+        act_admin,
+        act_upgrade::{Self, Upgrade},
+        access_control::{Admin, AccessControl},
+    };
+    
     // === Errors ===
 
     const ECosmeticTypeAlreadyEquipped: u64 = 0;
     const ECosmeticTypeNotEquipped: u64 = 1;
 
     // === Constants ===
-
-    const HELM: u8 = 0;
-    const CHESTPIECE: u8 = 1;
-    const BACKPIECE: u8 = 2;
-    const UPPER_TORSO: u8 = 3;
-    const LEFT_PAULDRON: u8 = 4;
-    const RIGHT_PAULDRON: u8 = 5;
-    const RIGHT_ARN: u8 = 6;
-    const LEFT_ARM: u8 = 7;
-    const RIGHT_GLOVE: u8 = 8;
-    const LEFT_GLOVE: u8 = 9;
-    const RIGHT_BRACER: u8 = 10;
-    const LEFT_BRACER: u8 = 11;
-    const LEGS: u8 = 12;
-    const SHINS: u8 = 13;
-    const BOOTS: u8 = 14;
-    const ACCESSORY: u8 = 15;
 
     // === Structs ===
 
@@ -57,6 +46,7 @@ module act::act_cosmetic {
         rarity: String,
         manufacturer: String,
         hash: String,
+        upgrades: vector<Upgrade>
         // see how to manage the secondary image
     }
 
@@ -105,37 +95,16 @@ module act::act_cosmetic {
         transfer::public_transfer(publisher, ctx.sender());
     }
 
-    public fun equip<Key: store + copy + drop>(
-        uid_mut: &mut UID, 
-        key: Key, 
-        cosmetic_id: ID, 
-        kiosk: &mut Kiosk, 
-        cap: &KioskOwnerCap,         
-        policy: &TransferPolicy<Cosmetic>, // equipping policy
-        ctx: &mut TxContext,
+
+    public fun upgrade(
+        self: &mut Cosmetic, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        name: String, 
+        image: String        
     ) {
-        assert!(!dof::exists_(uid_mut, key), ECosmeticTypeAlreadyEquipped);
-
-        kiosk.list<Cosmetic>(cap, cosmetic_id, 0);
-        let coin = coin::zero<SUI>(ctx);
-        let (cosmetic, mut request) = kiosk.purchase<Cosmetic>(cosmetic_id, coin);
-
-        witness_rule::prove(Equip {}, policy, &mut request);
-        policy.confirm_request(request);
-
-        dof::add(uid_mut, key, cosmetic)  
-    }
-
-    public fun unequip<Key: store + copy + drop>(
-        uid_mut: &mut UID, 
-        key: Key, 
-        kiosk: &mut Kiosk, 
-        cap: &KioskOwnerCap,     
-        policy: &TransferPolicy<Cosmetic>, // trading policy    
-    ) {
-        assert!(dof::exists_(uid_mut, key), ECosmeticTypeNotEquipped);
-        let cosmetic = dof::remove<Key, Cosmetic>(uid_mut, key);
-        kiosk.lock(cap, policy, cosmetic);
+        act_admin::assert_upgrades_role(access_control, admin);
+        self.upgrades.push_back(act_upgrade::new(name, image));        
     }
 
     // === Public-View Functions ===
@@ -144,9 +113,103 @@ module act::act_cosmetic {
         self.`type`
     }
 
+    public fun name(self: &Cosmetic): String {
+        self.name
+    }
+
+    public fun type_string(self: &Cosmetic): String {
+        act_utils::to_cosmetic_string_type(self.`type`)
+    }
+
+    public fun image_url(self: &Cosmetic): String {
+        self.image_url
+    }
+
+    public fun image_hash(self: &Cosmetic): String {
+        self.image_hash
+    }
+
+    public fun uuid(self: &Cosmetic): u64 {
+        self.uuid
+    }
+
+    public fun global_rank(self: &Cosmetic): u64 {
+        self.global_rank
+    }
+
+    public fun edition(self: &Cosmetic): String {
+        self.edition
+    }
+
+    public fun wear_rating(self: &Cosmetic): u64 {
+        self.wear_rating
+    }
+
+    public fun colour_way(self: &Cosmetic): String {
+        self.colour_way
+    }
+
+    public fun rarity(self: &Cosmetic): String {
+        self.rarity
+    }
+
+    public fun manufacturer(self: &Cosmetic): String {
+        self.manufacturer
+    }
+
+    public fun hash(self: &Cosmetic): String {
+        self.hash
+    }
+
+    public fun upgrades(self: &Cosmetic): &vector<Upgrade> {
+        &self.upgrades
+    }
+
     // === Admin Functions ===
 
     // === Public-Package Functions ===
+
+    public(package) fun equip<Key: store + copy + drop>(
+        uid_mut: &mut UID, 
+        key: Key, 
+        cosmetic_id: ID, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,         
+        policy: &TransferPolicy<Cosmetic>, // equipping policy
+        ctx: &mut TxContext,
+    ): String {
+        assert!(!dof::exists_(uid_mut, key), ECosmeticTypeAlreadyEquipped);
+
+        kiosk.list<Cosmetic>(cap, cosmetic_id, 0);
+        let coin = coin::zero<SUI>(ctx);
+        let (cosmetic, mut request) = kiosk.purchase<Cosmetic>(cosmetic_id, coin);
+
+        let name = cosmetic.name();
+
+        witness_rule::prove(Equip {}, policy, &mut request);
+        policy.confirm_request(request);
+
+        dof::add(uid_mut, key, cosmetic);
+
+        name  
+    }
+
+    public(package) fun unequip<Key: store + copy + drop>(
+        uid_mut: &mut UID, 
+        key: Key, 
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,     
+        policy: &TransferPolicy<Cosmetic>, // trading policy    
+    ): String {
+        assert!(dof::exists_(uid_mut, key), ECosmeticTypeNotEquipped);
+        let cosmetic = dof::remove<Key, Cosmetic>(uid_mut, key);
+
+        let name = cosmetic.name();
+
+        kiosk.lock(cap, policy, cosmetic);
+    
+        name
+    }
 
     // === Private Functions ===
 
