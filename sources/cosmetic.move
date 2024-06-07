@@ -37,8 +37,7 @@ module act::act_cosmetic {
         name: String,
         image_url: String,
         image_hash: String,
-        `type`: u8, 
-        uuid: u64, // is is necessary if we have id: UID?
+        `type`: String, 
         global_rank: u64,
         edition: String,
         wear_rating: u64, // [0,1] scaled to 1B
@@ -47,7 +46,7 @@ module act::act_cosmetic {
         manufacturer: String,
         hash: String,
         upgrades: vector<Upgrade>
-        // see how to manage the secondary image
+        // TODO: see how to manage the secondary image
     }
 
     // === Method Aliases ===
@@ -109,16 +108,12 @@ module act::act_cosmetic {
 
     // === Public-View Functions ===
 
-    public fun `type`(self: &Cosmetic): u8 {
+    public fun type_(self: &Cosmetic): String {
         self.`type`
     }
 
     public fun name(self: &Cosmetic): String {
         self.name
-    }
-
-    public fun type_string(self: &Cosmetic): String {
-        act_utils::to_cosmetic_string_type(self.`type`)
     }
 
     public fun image_url(self: &Cosmetic): String {
@@ -127,10 +122,6 @@ module act::act_cosmetic {
 
     public fun image_hash(self: &Cosmetic): String {
         self.image_hash
-    }
-
-    public fun uuid(self: &Cosmetic): u64 {
-        self.uuid
     }
 
     public fun global_rank(self: &Cosmetic): u64 {

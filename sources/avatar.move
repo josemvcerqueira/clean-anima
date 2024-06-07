@@ -21,7 +21,7 @@ module act::act_avatar {
         display,
         clock::Clock,
         table::{Self, Table},
-        vec_map::{Self, VecMap},
+        vec_map::VecMap,
         transfer_policy::TransferPolicy,
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
@@ -41,6 +41,7 @@ module act::act_avatar {
     const EWeaponSlotAlreadyEquipped: u64 = 1;
     const ECosmeticSlotAlreadyEquipped: u64 = 2;
     const ECosmeticIsNotEquipped: u64 = 3;
+    const EWeaponIsNotEquipped: u64 = 4;
 
     // === Constants ===
 
@@ -56,9 +57,9 @@ module act::act_avatar {
         accounts: Table<address, ID>
     }
     
-    public struct CosmeticKey(u8) has copy, store, drop; 
+    public struct CosmeticKey(String) has copy, store, drop; 
 
-    public struct WeaponKey(u8) has copy, store, drop;
+    public struct WeaponKey(String) has copy, store, drop;
 
     public struct Accolade has store {
         `type`: String,
@@ -81,7 +82,7 @@ module act::act_avatar {
     public struct Avatar has key {
         id: UID,
         alias: String,
-        username: String, // or account_name
+        username: String, 
         image_url: String,
         image_hash: String,
         avatar_url: String,
@@ -130,7 +131,7 @@ module act::act_avatar {
         transfer::public_transfer(display, ctx.sender());
     }
 
-    public fun mint(
+    public fun new(
         registry: &mut AvatarRegistry, 
         alias: String,
         username: String,
@@ -144,10 +145,6 @@ module act::act_avatar {
         // One Avatar per user
         assert!(!registry.accounts.contains(ctx.sender()), EAlreadyMintedAnAvatar);
 
-        let mut attributes = vec_map::empty();
-
-        act_utils::set_up_attributes(&mut attributes);
-
         let avatar = Avatar {
             id: object::new(ctx),
             alias,
@@ -160,7 +157,7 @@ module act::act_avatar {
             reputation: vector[],
             accolades: vector[],
             upgrades: vector[],
-            attributes
+            attributes: act_utils::init_attributes(),
         };
 
         transfer::transfer(avatar, ctx.sender());
@@ -170,7 +167,7 @@ module act::act_avatar {
     public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
         assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
 
-        let cosmetic_val = self.attributes.get_mut(&weapon.slot_string());
+        let cosmetic_val = self.attributes.get_mut(&weapon.slot());
         *cosmetic_val = weapon.name();
 
         dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon)  
@@ -178,24 +175,24 @@ module act::act_avatar {
 
     // used during the mint in a ptb
     public fun equip_minted_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
-        assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.`type`())), ECosmeticSlotAlreadyEquipped);
+        assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.type_())), ECosmeticSlotAlreadyEquipped);
 
-        let cosmetic_val = self.attributes.get_mut(&cosmetic.type_string());
+        let cosmetic_val = self.attributes.get_mut(&cosmetic.type_());
         *cosmetic_val = cosmetic.name();
 
-        dof::add(&mut self.id, CosmeticKey(cosmetic.`type`()), cosmetic)  
+        dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic)  
     }
 
     public fun equip_weapon(
         self: &mut Avatar, 
         weapon_id: ID,
-        weapon_slot: u8,
+        weapon_slot: String,
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext
     ) {
-        let weapon_val = self.attributes.get_mut(&act_utils::to_weapon_string_slot(weapon_slot));
+        let weapon_val = self.attributes.get_mut(&weapon_slot);
 
         *weapon_val = act_weapon::equip(
             &mut self.id, 
@@ -211,13 +208,13 @@ module act::act_avatar {
     public fun equip_cosmetic(
         self: &mut Avatar, 
         cosmetic_id: ID,
-        cosmetic_type: u8,
+        cosmetic_type: String,
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext
     ) {
-        let cosmetic_val = self.attributes.get_mut(&act_utils::to_cosmetic_string_type(cosmetic_type));
+        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
 
         *cosmetic_val = act_cosmetic::equip(
             &mut self.id, 
@@ -232,12 +229,12 @@ module act::act_avatar {
 
     public fun unequip_weapon(
         self: &mut Avatar, 
-        weapon_slot: u8,
+        weapon_slot: String,
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // trading policy
     ) {
-        let weapon_val = self.attributes.get_mut(&act_utils::to_weapon_string_slot(weapon_slot));
+        let weapon_val = self.attributes.get_mut(&weapon_slot);
         *weapon_val = utf8(b"");
 
         act_weapon::unequip(
@@ -251,12 +248,12 @@ module act::act_avatar {
 
     public fun unequip_cosmetic(
         self: &mut Avatar, 
-        cosmetic_type: u8,
+        cosmetic_type: String,
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // trading policy
     ) {
-        let cosmetic_val = self.attributes.get_mut(&act_utils::to_cosmetic_string_type(cosmetic_type));
+        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
         *cosmetic_val = utf8(b"");
 
         act_cosmetic::unequip(
@@ -290,7 +287,7 @@ module act::act_avatar {
         self.avatar_url
     }    
 
-    public fun `type`(self: &Avatar): String {
+    public fun type_(self: &Avatar): String {
         self.`type`
     }
 
@@ -331,26 +328,26 @@ module act::act_avatar {
         self: &mut Avatar, 
         access_control: &AccessControl, 
         admin: &Admin, 
-        type_: u8,
+        `type`: String,
         name: String, 
         image: String        
     ) {
         act_admin::assert_upgrades_role(access_control, admin);
-        assert!(dof::exists_(&self.id, CosmeticKey(type_)), ECosmeticIsNotEquipped);
-        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(type_)); 
+        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
+        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
         cosmetic.upgrade(access_control, admin, name, image);   
     }
- 
-    public fun upgrade_weapon_cosmetic(
+
+    public fun upgrade_equipped_weapon(
         self: &mut Avatar, 
         access_control: &AccessControl, 
         admin: &Admin, 
-        slot: u8,
+        slot: String,
         name: String, 
         image: String        
     ) {
         act_admin::assert_upgrades_role(access_control, admin);
-        assert!(dof::exists_(&self.id, WeaponKey(slot)), ECosmeticIsNotEquipped);
+        assert!(dof::exists_(&self.id, WeaponKey(slot)), EWeaponIsNotEquipped);
         let weapon = dof::borrow_mut<WeaponKey, Weapon>(&mut self.id, WeaponKey(slot)); 
         weapon.upgrade(access_control, admin, name, image);   
     }
@@ -359,7 +356,7 @@ module act::act_avatar {
         self: &mut Avatar, 
         access_control: &AccessControl, 
         admin: &Admin, 
-        type_: String,
+        `type`: String,
         value: u64,
         positive: bool,
         description: String,
@@ -367,7 +364,7 @@ module act::act_avatar {
     ) {
         act_admin::assert_reputation_role(access_control, admin);
         let reputation = Reputation {
-            `type`: type_,
+            `type`,
             value,
             positive, 
             description,
@@ -390,13 +387,13 @@ module act::act_avatar {
         self: &mut Avatar, 
         access_control: &AccessControl, 
         admin: &Admin, 
-        type_: String,
+        `type`: String,
         description: String,
         link: String        
     ) {
         act_admin::assert_accolades_role(access_control, admin);
         let accolade = Accolade {
-            `type`: type_,
+            `type`,
             description,
             link
         };

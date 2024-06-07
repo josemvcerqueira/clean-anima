@@ -41,7 +41,7 @@ module act::act_weapon {
         name: String,
         image_url: String,
         image_hash: String,
-        slot: u8,
+        slot: String,
         kill_count: u64,  
         accuracy: String, 
         uuid: u64,
@@ -114,16 +114,12 @@ module act::act_weapon {
 
     // === Public-View Functions ===
 
-    public fun slot(self: &Weapon): u8 {
+    public fun slot(self: &Weapon): String {
         self.slot
     }
 
     public fun name(self: &Weapon): String {
         self.name
-    }
-
-    public fun slot_string(self: &Weapon): String {
-        act_utils::to_weapon_string_slot(self.slot)
     }
 
     public fun image_url(self: &Weapon): String {

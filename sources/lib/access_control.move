@@ -39,7 +39,7 @@ module act::access_control {
         access_control: address
     }
 
-    // === Public-Mutative Functions ===
+    // === Public-Package Functions ===
 
     /*
      * @notice It creates an {AccessControl} and an {Admin} with the {SUPER_ADMIN_ROLE}.
@@ -50,7 +50,7 @@ module act::access_control {
      * @return {AccessControl}. It stores the role's data.
      * @return {Admin}. The {SUPER_ADMIN_ROLE} {Admin}.
      */
-    public fun new(ctx: &mut TxContext): (AccessControl, Admin) {
+    public(package) fun new(ctx: &mut TxContext): (AccessControl, Admin) {
         let mut access_control = AccessControl {id: object::new(ctx), roles: vec_map::empty()};
 
         let super_admin = new_admin(&access_control, ctx);
@@ -66,7 +66,7 @@ module act::access_control {
      * @param self The {AccessControl} object.
      * @return {Admin}. An {Admin} without roles.
      */
-    public fun new_admin(self: &AccessControl, ctx: &mut TxContext): Admin {
+    public(package) fun new_admin(self: &AccessControl, ctx: &mut TxContext): Admin {
         Admin {id: object::new(ctx), access_control: self.id.to_address()}
     }
 
@@ -83,7 +83,7 @@ module act::access_control {
      * - `admin` is not a {SUPER_ADMIN_ROLE} {Admin}.
      * - `admin` was not created from the `self`.
      */
-    public fun add(admin: &Admin, self: &mut AccessControl, role: vector<u8>) {
+    public(package) fun add(admin: &Admin, self: &mut AccessControl, role: vector<u8>) {
         assert_super_admin(admin, self);
 
         if (!self.contains(role)) {
@@ -104,7 +104,7 @@ module act::access_control {
      * - `admin` is not a {SUPER_ADMIN_ROLE} {Admin}.
      * - `admin` was not created from the `self`.
      */
-    public fun remove(admin: &Admin, self: &mut AccessControl, role: vector<u8>) {
+    public(package) fun remove(admin: &Admin, self: &mut AccessControl, role: vector<u8>) {
         assert_super_admin(admin, self);
 
         if (self.contains(role)) {
@@ -128,7 +128,7 @@ module act::access_control {
      * - `admin` was not created from the `self`.
      * - `role` does not exist.
      */
-    public fun grant(
+    public(package) fun grant(
         admin: &Admin,
         self: &mut AccessControl,
         role: vector<u8>,
@@ -159,7 +159,7 @@ module act::access_control {
      * - `admin` was not created from the `self`.
      * - `role` does not exist.
      */
-    public fun revoke(
+    public(package) fun revoke(
         admin: &Admin,
         self: &mut AccessControl,
         role: vector<u8>,
@@ -185,7 +185,7 @@ module act::access_control {
      * aborts-if
      * - `admin` was not created from the `self`.
      */
-    public fun renounce(admin: &Admin, self: &mut AccessControl, role: vector<u8>) {
+    public(package) fun renounce(admin: &Admin, self: &mut AccessControl, role: vector<u8>) {
         assert!(self.id.to_address() == admin.access_control, EInvalidAccessControlAddress);
 
         let old_admin = admin.id.to_address();
@@ -208,7 +208,7 @@ module act::access_control {
      * - `admin` is not a {SUPER_ADMIN_ROLE} {Admin}.
      * - `admin` was not created from the `self`.
      */
-    public fun destroy(admin: &Admin, self: AccessControl) {
+    public(package) fun destroy(admin: &Admin, self: AccessControl) {
         assert_super_admin(admin, &self);
 
         let AccessControl { id, roles: _ } = self;
@@ -226,7 +226,7 @@ module act::access_control {
      * aborts-if
      * - `self` is not empty.
      */
-    public fun destroy_empty(self: AccessControl) {
+    public(package) fun destroy_empty(self: AccessControl) {
         let AccessControl { id, roles } = self;
 
         roles.destroy_empty();
@@ -238,14 +238,14 @@ module act::access_control {
      *
      * @param admin An {Admin}.
      */
-    public fun destroy_account(admin: Admin) {
+    public(package) fun destroy_account(admin: Admin) {
         let Admin { id, access_control: _ } = admin;
         id.delete()
     }
 
     // === Public-View Functions ===
 
-    public fun addy(admin: &Admin): address {
+    public(package) fun addy(admin: &Admin): address {
         admin.id.uid_to_address()
     }
 
@@ -254,7 +254,7 @@ module act::access_control {
      *
      * @return {SUPER_ADMIN_ROLE}.
      */
-    public fun super_admin_role(): vector<u8> {
+    public(package) fun super_admin_role(): vector<u8> {
         SUPER_ADMIN_ROLE
     }
 
@@ -264,7 +264,7 @@ module act::access_control {
      * @param admin An {Admin}.
      * @return address.
      */
-    public fun access_control(admin: &Admin): address {
+    public(package) fun access_control(admin: &Admin): address {
         admin.access_control
     }
 
@@ -275,11 +275,11 @@ module act::access_control {
      * @param role A role.
      * @return bool. True if it contains the `role`.
      */
-    public fun contains(self: &AccessControl, role: vector<u8>): bool {
+    public(package) fun contains(self: &AccessControl, role: vector<u8>): bool {
         self.roles.contains(&role)
     }
 
-    public fun admin_has_role(admin: &Admin, self: &AccessControl, role: vector<u8>): bool {
+    public(package) fun admin_has_role(admin: &Admin, self: &AccessControl, role: vector<u8>): bool {
         self.roles.contains(&role) && self.roles[&role].contains(&admin.id.uid_to_address())
     }
 
@@ -293,7 +293,7 @@ module act::access_control {
      * @param role A role.
      * @return bool. True if it has the `role`.
      */
-    public fun has_role_(admin_address: address, self: &AccessControl, role: vector<u8>): bool {
+    public(package) fun has_role_(admin_address: address, self: &AccessControl, role: vector<u8>): bool {
         self.roles.contains(&role) && self.roles[&role].contains(&admin_address)
     }
 
@@ -310,7 +310,7 @@ module act::access_control {
      * aborts-if
      * - `admin` was not created from the `self`.
      */
-    public fun has_role(admin: &Admin, self: &AccessControl, role: vector<u8>): bool {
+    public(package) fun has_role(admin: &Admin, self: &AccessControl, role: vector<u8>): bool {
         assert!(self.id.to_address() == admin.access_control, EInvalidAccessControlAddress);
 
         has_role_(admin.id.to_address(), self, role)

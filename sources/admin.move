@@ -19,6 +19,7 @@ module act::act_admin {
 
     // === Public-Mutative Functions ===
 
+    #[allow(lint(share_owned))]
     fun init(ctx: &mut TxContext) {
         let (mut access_control, super_admin) = access_control::new(ctx);
 
