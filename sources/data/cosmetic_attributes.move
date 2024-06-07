@@ -1,3 +1,9 @@
+/// this module has a function hardcoding all fields of a cosmetic type like helm()
+/// then there is a function to generate a random helm cosmetic 
+/// the Data generated is supposed to be added in ./drop.move -> Sale.drops
+/// we can either store the Whole Data or just the (name, colour_way) pair
+/// if we store the pair we generate the Data upon mint
+
 module act::cosmetic_attributes {
     use std::string::{utf8, String};
 
@@ -35,6 +41,7 @@ module act::cosmetic_attributes {
 
     // number must be between [0, 10000)
     // for each name we have the same distributions of colour ways here
+    // could return only the name and colour way pair to store in Sale
     public fun random_helm(number: u64): Data {
         assert_number(number);
 

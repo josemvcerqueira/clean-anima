@@ -1,3 +1,9 @@
+/// this module has a function hardcoding all fields of a weapon slot like principal()
+/// then there is a function to generate a random principal weapon 
+/// the Data generated is supposed to be added in ./drop.move -> Sale.drops
+/// we can either store the Whole Data or just the (name, colour_way) pair
+/// if we store the pair we generate the Data upon mint
+
 module act::weapon_attributes {
     use std::string::{utf8, String};
 
@@ -36,7 +42,7 @@ module act::weapon_attributes {
     // number must be between [0, 10000)
     public fun random_primary(number: u64): Data {
         assert_number(number);
-        
+
         let distributions = vector[
             364, 260, 364, 260, 364, 364, 364, 260, 308, 220, 308, 
             220, 308, 308, 308, 220, 364, 260, 364, 260, 364, 364, 
