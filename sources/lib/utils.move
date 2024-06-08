@@ -14,7 +14,7 @@ module act::act_utils {
     // === Public-View Functions ===
 
     public fun min(x: u64, y: u64): u64 {
-     if (x > y) y else x
+        if (x > y) y else x
     }
 
     // === Admin Functions ===

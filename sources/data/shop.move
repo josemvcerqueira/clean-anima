@@ -10,12 +10,63 @@ module act::act_shop {
 
     use sui::table_vec::TableVec;
     use act::act_factory::{Self, Item};
-  
+
 
     // === Errors ===
 
     // === Constants ===
 
+    // Rarities
+    const COSMETICS_RARITIES: vector<vector<u8>> = vector[
+        b"Ultra Rare",
+        b"Mythic",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+    ];
+    const PRIMARY_RARITIES: vector<vector<u8>> = vector[
+        b"Ultra Rare",
+        b"Mythic",
+        b"Ultra Rare",
+        b"Mythic",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Mythic",
+    ];
+    const SECONDARY_RARITIES: vector<vector<vector<u8>>> = vector[
+        vector[
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Mythic",
+        ],
+        vector[
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+            b"Ultra Rare",
+        ],
+    ];
+    const TERTIARY_RARITIES: vector<vector<u8>> = vector[
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Mythic",
+    ];
+
+    // Coloour ways
     const COSMETICS_COLOUR_WAY: vector<vector<u8>> = vector[
         b"Vesper",
         b"Hikari",
@@ -26,7 +77,6 @@ module act::act_shop {
         b"Dusk",
         b"Viceroy"
     ];
-
     const SECONDARY_COLOUR_WAY: vector<vector<u8>> = vector[
         b"Vesper",
         b"Hikari",
@@ -37,7 +87,6 @@ module act::act_shop {
         b"Dusk",
         b"JK's"
     ];
-
     const TERTIARY_COLOUR_WAY: vector<vector<u8>> = vector[
         b"K1TSUN3",
         b"Volt",
@@ -352,6 +401,7 @@ module act::act_shop {
             HELM_NAMES, 
             COSMETICS_COLOUR_WAY,
             HELM_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             HELM_CHANCES, 
             HELM_PRECISION, 
             ctx
@@ -370,6 +420,7 @@ module act::act_shop {
             CHESTPIECE_NAMES, 
             COSMETICS_COLOUR_WAY,
             CHESTPIECE_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             CHESTPIECE_CHANCES,
             CHESTPIECE_PRECISION
         );
@@ -387,6 +438,7 @@ module act::act_shop {
             UPPER_TORSO_NAMES, 
             COSMETICS_COLOUR_WAY,
             UPPER_TORSO_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             UPPER_TORSO_CHANCES,
             UPPER_TORSO_PRECISION
         );
@@ -404,6 +456,7 @@ module act::act_shop {
             PAULDRON_NAMES, 
             COSMETICS_COLOUR_WAY,
             PAULDRON_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             PAULDRON_CHANCES,
             PAULDRON_PRECISION
         );
@@ -421,6 +474,7 @@ module act::act_shop {
             ARM_NAMES, 
             COSMETICS_COLOUR_WAY,
             ARM_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             ARM_CHANCES,
             ARM_PRECISION
         );
@@ -438,6 +492,7 @@ module act::act_shop {
             GLOVE_NAMES, 
             COSMETICS_COLOUR_WAY,
             GLOVE_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             GLOVE_CHANCES,
             GLOVE_PRECISION
         );
@@ -455,6 +510,7 @@ module act::act_shop {
             BRACER_NAMES, 
             COSMETICS_COLOUR_WAY,
             BRACER_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             BRACER_CHANCES,
             BRACER_PRECISION
         );
@@ -472,6 +528,7 @@ module act::act_shop {
             LEGS_NAMES, 
             COSMETICS_COLOUR_WAY,
             LEGS_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             LEGS_CHANCES,
             LEGS_PRECISION
         );
@@ -489,6 +546,7 @@ module act::act_shop {
             SHINS_NAMES, 
             COSMETICS_COLOUR_WAY,
             SHINS_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             SHINS_CHANCES,
             SHINS_PRECISION
         );
@@ -506,6 +564,7 @@ module act::act_shop {
             BOOTS_NAMES, 
             COSMETICS_COLOUR_WAY,
             BOOTS_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             BOOTS_CHANCES,
             BOOTS_PRECISION
         );
@@ -523,6 +582,7 @@ module act::act_shop {
             ACCESSORY_NAMES, 
             COSMETICS_COLOUR_WAY,
             ACCESSORY_MANUFACTURERS, 
+            COSMETICS_RARITIES,
             ACCESSORY_CHANCES,
             ACCESSORY_PRECISION
         );
@@ -540,6 +600,7 @@ module act::act_shop {
             PRIMARY_NAMES, 
             COSMETICS_COLOUR_WAY, // same
             PRIMARY_MANUFACTURERS, 
+            PRIMARY_RARITIES,
             PRIMARY_CHANCES, 
             PRIMARY_PRECISION, 
             ctx
@@ -554,10 +615,11 @@ module act::act_shop {
     }
 
     public fun new_secondary_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let inner = act_factory::build_secondary(
             SECONDARY_NAMES, 
             SECONDARY_COLOUR_WAY,
             SECONDARY_MANUFACTURERS, 
+            SECONDARY_RARITIES,
             SECONDARY_CHANCES, 
             SECONDARY_PRECISION, 
         );
@@ -575,6 +637,7 @@ module act::act_shop {
             TERTIARY_NAMES, 
             TERTIARY_COLOUR_WAY,
             TERTIARY_MANUFACTURERS, 
+            TERTIARY_RARITIES,
             TERTIARY_CHANCES, 
             TERTIARY_PRECISION, 
         );
