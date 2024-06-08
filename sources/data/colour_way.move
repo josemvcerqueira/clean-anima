@@ -5,7 +5,7 @@ module act::act_colour_way {
 
     // === Constants ===
 
-    const COLOUR_WAY: vector<vector<u8>> = vector[
+    const COSMETICS_COLOUR_WAY: vector<vector<u8>> = vector[
         b"Vesper",
         b"Hikari",
         b"Volt",
@@ -22,8 +22,8 @@ module act::act_colour_way {
 
     // === Public-Mutative Functions ===
 
-    public fun get(): vector<vector<u8>> {
-        COLOUR_WAY
+    public fun cosmetics(): vector<vector<u8>> {
+        COSMETICS_COLOUR_WAY
     }
 
     // === Public-View Functions ===

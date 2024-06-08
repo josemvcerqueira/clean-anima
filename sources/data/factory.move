@@ -43,7 +43,7 @@ module act::act_factory {
         assert!(MAX_VEC_SIZE >= precision, ESetIsTooLarge);
 
         let mut i = 0;
-        let colour_ways = act_colour_way::get();
+        let colour_ways = act_colour_way::cosmetics();
         
         let mut remaining = precision;
         
@@ -91,7 +91,7 @@ module act::act_factory {
         ctx: &mut TxContext
     ): TableVec<Item> {
         let mut i = 0;
-        let colour_ways = act_colour_way::get();
+        let colour_ways = act_colour_way::cosmetics();
         
         let mut remaining = precision;
         
