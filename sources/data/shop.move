@@ -388,7 +388,7 @@ module act::act_shop {
 
     public struct Shop<phantom Item, Data: store> has key {
         id: UID,
-        inner: Data
+        items: Data
     }
 
     // === Method Aliases ===
@@ -396,7 +396,7 @@ module act::act_shop {
     // === Public-Mutative Functions ===
 
     public fun new_helm_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_large_set(
+        let items = act_factory::build_large_set(
             HELM_NAMES, 
             COSMETICS_COLOUR_WAY,
             HELM_MANUFACTURERS, 
@@ -409,13 +409,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Helm, TableVec<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_chestpiece_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             CHESTPIECE_NAMES, 
             COSMETICS_COLOUR_WAY,
             CHESTPIECE_MANUFACTURERS, 
@@ -427,13 +427,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Chestpiece, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_upper_torso_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             UPPER_TORSO_NAMES, 
             COSMETICS_COLOUR_WAY,
             UPPER_TORSO_MANUFACTURERS, 
@@ -445,13 +445,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<UpperTorso, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_pauldron_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             PAULDRON_NAMES, 
             COSMETICS_COLOUR_WAY,
             PAULDRON_MANUFACTURERS, 
@@ -463,13 +463,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Pauldron, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_arm_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             ARM_NAMES, 
             COSMETICS_COLOUR_WAY,
             ARM_MANUFACTURERS, 
@@ -481,13 +481,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Arm, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_glove_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             GLOVE_NAMES, 
             COSMETICS_COLOUR_WAY,
             GLOVE_MANUFACTURERS, 
@@ -499,13 +499,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Glove, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_bracer_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             BRACER_NAMES, 
             COSMETICS_COLOUR_WAY,
             BRACER_MANUFACTURERS, 
@@ -517,13 +517,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Bracer, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_legs_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             LEGS_NAMES, 
             COSMETICS_COLOUR_WAY,
             LEGS_MANUFACTURERS, 
@@ -535,13 +535,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Legs, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_shins_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             SHINS_NAMES, 
             COSMETICS_COLOUR_WAY,
             SHINS_MANUFACTURERS, 
@@ -553,13 +553,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Shins, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_boots_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             BOOTS_NAMES, 
             COSMETICS_COLOUR_WAY,
             BOOTS_MANUFACTURERS, 
@@ -571,13 +571,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Boots, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_accessory_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             ACCESSORY_NAMES, 
             COSMETICS_COLOUR_WAY,
             ACCESSORY_MANUFACTURERS, 
@@ -589,13 +589,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Accessory, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_primary_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_large_set(
+        let items = act_factory::build_large_set(
             PRIMARY_NAMES, 
             COSMETICS_COLOUR_WAY, // same
             PRIMARY_MANUFACTURERS, 
@@ -608,13 +608,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Primary, TableVec<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_secondary_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_secondary(
+        let items = act_factory::build_secondary(
             SECONDARY_NAMES, 
             SECONDARY_COLOUR_WAY,
             SECONDARY_MANUFACTURERS, 
@@ -626,13 +626,13 @@ module act::act_shop {
         transfer::share_object(
             Shop<Secondary, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     public fun new_tertiary_shop(ctx: &mut TxContext) {
-        let inner = act_factory::build_set(
+        let items = act_factory::build_set(
             TERTIARY_NAMES, 
             TERTIARY_COLOUR_WAY,
             TERTIARY_MANUFACTURERS, 
@@ -644,15 +644,15 @@ module act::act_shop {
         transfer::share_object(
             Shop<Tertiary, vector<Item>> {
                 id: object::new(ctx),
-                inner
+                items
             }
         );
     }
 
     // === Public-View Functions ===
 
-    public fun inner<Item, Data: store>(self: &Shop<Item, Data>): &Data {
-        &self.inner
+    public fun items<Item, Data: store>(self: &Shop<Item, Data>): &Data {
+        &self.items
     }
 
     // === Admin Functions ===

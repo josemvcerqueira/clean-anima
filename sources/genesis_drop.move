@@ -154,7 +154,7 @@ module act::act_genesis_drop {
 
         let mut gen = random.new_generator(ctx);
 
-        let helms = shop.inner();
+        let helms = shop.items();
         let index = gen.generate_u64_in_range(0, helms.length());
         let wear_rating = gen.generate_u64_in_range(0, WEAR_RATING_MAX);
 
