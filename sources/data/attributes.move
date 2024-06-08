@@ -1,5 +1,5 @@
 // ex utils
-module act::avatar_attributes {
+module act::attributes {
     // === Imports ===
 
     use std::string::{utf8, String};

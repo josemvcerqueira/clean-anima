@@ -9,7 +9,6 @@ module act::act_factory {
     use std::string::{utf8, String};
     use sui::table_vec::{Self, TableVec};
     use act::{
-        act_colour_way,
         act_utils::min
     };
 
@@ -36,17 +35,15 @@ module act::act_factory {
 
     public fun build_set(
         names: vector<vector<u8>>,
+        colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
         chances: vector<vector<u64>>,
         precision: u64
     ): vector<Item> {
         assert!(MAX_VEC_SIZE >= precision, ESetIsTooLarge);
 
-        let mut i = 0;
-        let colour_ways = act_colour_way::cosmetics();
-        
+        let mut i = 0;        
         let mut remaining = precision;
-        
         let mut items = vector[];
 
         while (SET_SIZE > i) {
@@ -85,16 +82,14 @@ module act::act_factory {
 
     public fun build_large_set(
         names: vector<vector<u8>>,
+        colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
         chances: vector<vector<u64>>,
         precision: u64,
         ctx: &mut TxContext
     ): TableVec<Item> {
-        let mut i = 0;
-        let colour_ways = act_colour_way::cosmetics();
-        
+        let mut i = 0;        
         let mut remaining = precision;
-        
         let mut items = table_vec::empty(ctx);
 
         while (SET_SIZE > i) {

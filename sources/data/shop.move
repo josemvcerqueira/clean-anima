@@ -16,6 +16,35 @@ module act::act_shop {
 
     // === Constants ===
 
+    const COSMETICS_COLOUR_WAY: vector<vector<u8>> = vector[
+        b"Vesper",
+        b"Hikari",
+        b"Volt",
+        b"Blood Ivory",
+        b"Red Damascus",
+        b"Forest",
+        b"Dusk",
+        b"Viceroy"
+    ];
+
+    const SECONDARY_COLOUR_WAY: vector<vector<u8>> = vector[
+        b"Vesper",
+        b"Hikari",
+        b"Volt",
+        b"Blood Ivory",
+        b"Red Damascus",
+        b"Forest",
+        b"Dusk",
+        b"JK's"
+    ];
+
+    const TERTIARY_COLOUR_WAY: vector<vector<u8>> = vector[
+        b"K1TSUN3",
+        b"Volt",
+        b"Viceroy",
+        b"Future",
+    ];
+
     // Names
     const BIODOME: vector<u8> = b"Biodome";
     const VENOM: vector<u8> = b"Venom";
@@ -27,6 +56,17 @@ module act::act_shop {
     const BAHA_2000: vector<u8> = b"Baha-2000";
     const NEO_SHOGUNATE: vector<u8> = b"Neo-Shogunate";
 
+    const TALON: vector<u8> = b"Talon";
+    const RENEGADE: vector<u8> = b"Renegade";
+    const RAPTOR: vector<u8> = b"Raptor";
+    const TWELVE_GAUGE: vector<u8> = b"12 Guage";
+    const ENFORCER: vector<u8> = b"Enforcer";
+    const WHISPER_9MM: vector<u8> = b"Whisper 9mm";
+    const WAKIZASHI: vector<u8> = b"Wakizashi";
+    const KARAMBIT: vector<u8> = b"Karambit";
+    const SCALPER: vector<u8> = b"Scalper";
+    const NEO_KATANA: vector<u8> = b"Neo-Katana";
+
     // Manufacturers
     const ASTRAL: vector<u8> = b"Astral Exploration Technologies";
     const OBSIDIAN: vector<u8> = b"Obsidian Dynamics";
@@ -37,7 +77,16 @@ module act::act_shop {
     const OMEGA: vector<u8> = b"Omega Tactical Systems";
     const ROOTS: vector<u8> = b"Roots Robotics";
 
-
+    const FENRIR: vector<u8> = b"Fenrir Arms";
+    const VOLOSLAV: vector<u8> = b"Voloslav Industrial";
+    const AEGIS: vector<u8> = b"Aegis Tactical";
+    const VALENTI: vector<u8> = b"Valenti";
+    const LIBERTY: vector<u8> = b"Liberty Arms Corporation";
+    const PRECISIONE: vector<u8> = b"Precisione Milano";
+    const RYUJIN: vector<u8> = b"Ryujin Industrial";
+    const KAGE: vector<u8> = b"Kage Blade Foundry";
+    const ECLIPSE: vector<u8> = b"Eclipse Steel Forging LTD";
+    const HYPERBLADE: vector<u8> = b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION";
 
     // Helms
     const HELM_PRECISION: u64 = 10_000;
@@ -108,7 +157,7 @@ module act::act_shop {
     const PAULDRON_CHANCES: vector<vector<u64>> = vector[
         vector[80, 20, 40, 30, 40, 80, 80, 30],
         vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20 , 25, 60, 60, 20]
+        vector[60, 10, 35, 20 , 35, 60, 60, 20]
     ];
     const PAULDRON_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -211,6 +260,66 @@ module act::act_shop {
         EXO,
     ];  
 
+
+    // Primary Weapon
+    const PRIMARY_PRECISION: u64 = 10_000;
+    const PRIMARY_CHANCES: vector<vector<u64>> = vector[
+        vector[364, 260, 364, 260, 364, 364, 364, 260],
+        vector[308, 220, 308, 220, 308, 308, 308, 220],
+        vector[364, 260, 364, 260, 364, 364, 364, 260],
+        vector[364, 260, 364, 260, 364, 364, 364, 260],
+    ];
+    const PRIMARY_NAMES: vector<vector<u8>> = vector[
+        TALON,
+        RENEGADE,
+        RAPTOR,
+        TWELVE_GAUGE,
+    ];
+    const PRIMARY_MANUFACTURERS: vector<vector<u8>> = vector[
+        FENRIR,
+        VOLOSLAV,
+        AEGIS,
+        VALENTI,
+    ];  
+
+    // Secondary Weapon
+    const SECONDARY_PRECISION: u64 = 100;
+    const SECONDARY_CHANCES: vector<vector<u64>> = vector[
+        vector[5, 5, 5, 4, 5, 5, 5, 2],
+        vector[8, 8, 8, 8, 8, 8, 8, 8],
+    ];
+    const SECONDARY_NAMES: vector<vector<u8>> = vector[
+        ENFORCER,
+        WHISPER_9MM,
+    ];
+    const SECONDARY_MANUFACTURERS: vector<vector<u8>> = vector[
+        LIBERTY,
+        PRECISIONE
+    ];  
+
+    // Tertiary Weapon
+    const TERTIARY_PRECISION: u64 = 100;
+    const TERTIARY_CHANCES: vector<vector<u64>> = vector[
+        vector[25],
+        vector[25],
+        vector[40],
+        vector[10],
+    ];
+    const TERTIARY_NAMES: vector<vector<u8>> = vector[
+        WAKIZASHI,
+        KARAMBIT,
+        SCALPER,
+        NEO_KATANA,
+    ];
+    const TERTIARY_MANUFACTURERS: vector<vector<u8>> = vector[
+        RYUJIN,
+        KAGE,
+        ECLIPSE,
+        HYPERBLADE
+    ];  
+
+
+
     // === Structs ===
 
     public struct Helm has drop {}
@@ -225,6 +334,10 @@ module act::act_shop {
     public struct Boots has drop {}
     public struct Accessory has drop {}
 
+    public struct Primary has drop {}
+    public struct Secondary has drop {}
+    public struct Tertiary has drop {}
+
     public struct Shop<phantom Item, Data: store> has key {
         id: UID,
         inner: Data
@@ -237,6 +350,7 @@ module act::act_shop {
     public fun new_helm_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_large_set(
             HELM_NAMES, 
+            COSMETICS_COLOUR_WAY,
             HELM_MANUFACTURERS, 
             HELM_CHANCES, 
             HELM_PRECISION, 
@@ -254,6 +368,7 @@ module act::act_shop {
     public fun new_chestpiece_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             CHESTPIECE_NAMES, 
+            COSMETICS_COLOUR_WAY,
             CHESTPIECE_MANUFACTURERS, 
             CHESTPIECE_CHANCES,
             CHESTPIECE_PRECISION
@@ -270,6 +385,7 @@ module act::act_shop {
     public fun new_upper_torso_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             UPPER_TORSO_NAMES, 
+            COSMETICS_COLOUR_WAY,
             UPPER_TORSO_MANUFACTURERS, 
             UPPER_TORSO_CHANCES,
             UPPER_TORSO_PRECISION
@@ -286,6 +402,7 @@ module act::act_shop {
     public fun new_pauldron_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             PAULDRON_NAMES, 
+            COSMETICS_COLOUR_WAY,
             PAULDRON_MANUFACTURERS, 
             PAULDRON_CHANCES,
             PAULDRON_PRECISION
@@ -302,6 +419,7 @@ module act::act_shop {
     public fun new_arm_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             ARM_NAMES, 
+            COSMETICS_COLOUR_WAY,
             ARM_MANUFACTURERS, 
             ARM_CHANCES,
             ARM_PRECISION
@@ -318,6 +436,7 @@ module act::act_shop {
     public fun new_glove_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             GLOVE_NAMES, 
+            COSMETICS_COLOUR_WAY,
             GLOVE_MANUFACTURERS, 
             GLOVE_CHANCES,
             GLOVE_PRECISION
@@ -334,6 +453,7 @@ module act::act_shop {
     public fun new_bracer_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             BRACER_NAMES, 
+            COSMETICS_COLOUR_WAY,
             BRACER_MANUFACTURERS, 
             BRACER_CHANCES,
             BRACER_PRECISION
@@ -350,6 +470,7 @@ module act::act_shop {
     public fun new_legs_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             LEGS_NAMES, 
+            COSMETICS_COLOUR_WAY,
             LEGS_MANUFACTURERS, 
             LEGS_CHANCES,
             LEGS_PRECISION
@@ -366,6 +487,7 @@ module act::act_shop {
     public fun new_shins_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             SHINS_NAMES, 
+            COSMETICS_COLOUR_WAY,
             SHINS_MANUFACTURERS, 
             SHINS_CHANCES,
             SHINS_PRECISION
@@ -382,6 +504,7 @@ module act::act_shop {
     public fun new_boots_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             BOOTS_NAMES, 
+            COSMETICS_COLOUR_WAY,
             BOOTS_MANUFACTURERS, 
             BOOTS_CHANCES,
             BOOTS_PRECISION
@@ -398,6 +521,7 @@ module act::act_shop {
     public fun new_accessory_shop(ctx: &mut TxContext) {
         let inner = act_factory::build_set(
             ACCESSORY_NAMES, 
+            COSMETICS_COLOUR_WAY,
             ACCESSORY_MANUFACTURERS, 
             ACCESSORY_CHANCES,
             ACCESSORY_PRECISION
@@ -405,6 +529,58 @@ module act::act_shop {
 
         transfer::share_object(
             Shop<Accessory, vector<Item>> {
+                id: object::new(ctx),
+                inner
+            }
+        );
+    }
+
+    public fun new_primary_shop(ctx: &mut TxContext) {
+        let inner = act_factory::build_large_set(
+            PRIMARY_NAMES, 
+            COSMETICS_COLOUR_WAY, // same
+            PRIMARY_MANUFACTURERS, 
+            PRIMARY_CHANCES, 
+            PRIMARY_PRECISION, 
+            ctx
+        );
+
+        transfer::share_object(
+            Shop<Primary, TableVec<Item>> {
+                id: object::new(ctx),
+                inner
+            }
+        );
+    }
+
+    public fun new_secondary_shop(ctx: &mut TxContext) {
+        let inner = act_factory::build_set(
+            SECONDARY_NAMES, 
+            SECONDARY_COLOUR_WAY,
+            SECONDARY_MANUFACTURERS, 
+            SECONDARY_CHANCES, 
+            SECONDARY_PRECISION, 
+        );
+
+        transfer::share_object(
+            Shop<Secondary, vector<Item>> {
+                id: object::new(ctx),
+                inner
+            }
+        );
+    }
+
+    public fun new_tertiary_shop(ctx: &mut TxContext) {
+        let inner = act_factory::build_set(
+            TERTIARY_NAMES, 
+            TERTIARY_COLOUR_WAY,
+            TERTIARY_MANUFACTURERS, 
+            TERTIARY_CHANCES, 
+            TERTIARY_PRECISION, 
+        );
+
+        transfer::share_object(
+            Shop<Tertiary, vector<Item>> {
                 id: object::new(ctx),
                 inner
             }

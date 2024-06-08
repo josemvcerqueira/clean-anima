@@ -27,7 +27,7 @@ module act::act_avatar {
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use act::{
-        avatar_attributes,
+        attributes,
         act_admin,
         act_upgrade::{Self, Upgrade},
         act_weapon::{Self, Weapon}, 
@@ -164,7 +164,7 @@ module act::act_avatar {
             reputation: vector[],
             accolades: vector[],
             upgrades: vector[],
-            attributes: avatar_attributes::new(),
+            attributes: attributes::new(),
         };
 
         transfer::transfer(avatar, ctx.sender());
