@@ -170,6 +170,16 @@ module act::act_avatar {
         transfer::transfer(avatar, ctx.sender());
     }
 
+    // alias, accountName
+
+    public fun update_alias(self: &mut Avatar, alias: String) {
+        self.alias = alias;
+    }
+
+    public fun update_username(self: &mut Avatar, username: String) {
+        self.username = username;
+    }
+
     // used during the mint in a ptb
     public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
         assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);

@@ -32,7 +32,7 @@ module act::weapon_attributes {
 
     // === Public mutative functions ===
 
-    public fun unpack_data(
+    public fun unpack(
         data: Data
     ): (String, String, String, String, String, String, String, String, String, String) {
         let Data { name, image_url, image_hash, model_url, slot, colour_way, edition, manufacturer, rarity, hash } = data;
