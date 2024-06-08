@@ -59,6 +59,14 @@ module act::act_avatar_helm {
 
     // === Public-View Functions ===
 
+    public fun name(helm: &Helm): String {
+        helm.name
+    }
+
+    public fun colour_way(helm: &Helm): String {
+        helm.colour_way
+    }
+
     public fun borrow(self: &HelmShop, i: u64): &Helm {
         self.borrow(i)
     }
