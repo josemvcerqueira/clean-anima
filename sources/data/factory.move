@@ -19,7 +19,6 @@ module act::act_factory {
     // === Constants ===
 
     const MAX_VEC_SIZE: u64 = 1000;
-    const SET_SIZE: u64 = 8;
 
     // === Structs ===
 
@@ -47,8 +46,10 @@ module act::act_factory {
         let mut i = 0;        
         let mut remaining = precision;
         let mut items = vector[];
-
-        while (SET_SIZE > i) {
+        let names_len = names.length();
+        let chances_len = chances.length();
+        
+        while (names_len > i) {
 
             let name = names[i];
             let manufacturer = manufacturers[i];
@@ -57,14 +58,14 @@ module act::act_factory {
 
             let mut j = 0;
 
-            while (SET_SIZE > j) {
+            while (chances_len > j) {
 
-                let num_of_helmets = min(chances[j], remaining);
-                remaining = remaining - num_of_helmets;
+                let num_of_items = min(chances[j], remaining);
+                remaining = remaining - num_of_items;
 
                 let mut k = 0;
 
-                while (num_of_helmets > k) {
+                while (num_of_items > k) {
                     items.push_back(Item {
                         name: utf8(name),
                         colour_way: utf8(colour_ways[j]),
@@ -96,8 +97,10 @@ module act::act_factory {
         let mut i = 0;        
         let mut remaining = precision;
         let mut items = table_vec::empty(ctx);
+        let names_len = names.length();
+        let chances_len = chances.length();
 
-        while (SET_SIZE > i) {
+        while (names_len > i) {
 
             let name = names[i];
             let manufacturer = manufacturers[i];
@@ -106,14 +109,14 @@ module act::act_factory {
             
             let mut j = 0;
 
-            while (SET_SIZE > j) {
+            while (chances_len > j) {
 
-                let num_of_helmets = min(chances[j], remaining);
-                remaining = remaining - num_of_helmets;
+                let num_of_items = min(chances[j], remaining);
+                remaining = remaining - num_of_items;
 
                 let mut k = 0;
 
-                while (num_of_helmets > k) {
+                while (num_of_items > k) {
                     items.push_back(Item {
                         name: utf8(name),
                         colour_way: utf8(colour_ways[j]),
@@ -147,8 +150,10 @@ module act::act_factory {
         let mut i = 0;        
         let mut remaining = precision;
         let mut items = vector[];
+        let names_len = names.length();
+        let chances_len = chances.length();
 
-        while (SET_SIZE > i) {
+        while (names_len > i) {
 
             let name = names[i];
             let manufacturer = manufacturers[i];
@@ -157,14 +162,14 @@ module act::act_factory {
 
             let mut j = 0;
 
-            while (SET_SIZE > j) {
+            while (chances_len > j) {
 
-                let num_of_helmets = min(chances[j], remaining);
-                remaining = remaining - num_of_helmets;
+                let num_of_items = min(chances[j], remaining);
+                remaining = remaining - num_of_items;
 
                 let mut k = 0;
 
-                while (num_of_helmets > k) {
+                while (num_of_items > k) {
                     items.push_back(Item {
                         name: utf8(name),
                         colour_way: utf8(colour_ways[j]),
@@ -196,6 +201,10 @@ module act::act_factory {
 
     public fun manufacturer(self: &Item): String {
         self.manufacturer
+    }
+
+    public fun rarity(self: &Item): String {
+        self.rarity
     }
 
     // === Admin Functions ===

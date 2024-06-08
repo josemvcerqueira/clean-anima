@@ -147,11 +147,8 @@ module act::act_avatar {
         clock: &Clock,
         ctx: &mut TxContext
     ) {
-        // One Avatar per user
-        assert!(!registry.accounts.contains(ctx.sender()), EAlreadyMintedAnAvatar);
-
-        let avatar = Avatar {
-            id: object::new(ctx),
+        let avatar = new_impl(
+            registry,
             alias,
             username,
             image_url,
@@ -160,12 +157,9 @@ module act::act_avatar {
             avatar_url,
             avatar_hash,
             edition,
-            creation_date: clock.timestamp_ms(),
-            reputation: vector[],
-            accolades: vector[],
-            upgrades: vector[],
-            attributes: attributes::new(),
-        };
+            clock,
+            ctx
+        );
 
         transfer::transfer(avatar, ctx.sender());
     }
@@ -426,6 +420,45 @@ module act::act_avatar {
     }
 
     // === Public-Package Functions ===
+
+    public(package) fun new_impl(
+        registry: &mut AvatarRegistry, 
+        alias: String,
+        username: String,
+        image_url: String,
+        image_hash: String,
+        model_url: String,
+        avatar_url: String,
+        avatar_hash: String,
+        edition: String,
+        clock: &Clock,
+        ctx: &mut TxContext
+    ): Avatar {
+        // One Avatar per user
+        assert!(!registry.accounts.contains(ctx.sender()), EAlreadyMintedAnAvatar);
+        
+
+        let avatar = Avatar {
+            id: object::new(ctx),
+            alias,
+            username,
+            image_url,
+            image_hash,
+            model_url,
+            avatar_url,
+            avatar_hash,
+            edition,
+            creation_date: clock.timestamp_ms(),
+            reputation: vector[],
+            accolades: vector[],
+            upgrades: vector[],
+            attributes: attributes::new(),
+        };
+
+        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
+
+        avatar
+    }
 
     // === Private Functions ===
 

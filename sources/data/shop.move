@@ -11,7 +11,6 @@ module act::act_shop {
     use sui::table_vec::TableVec;
     use act::act_factory::{Self, Item};
 
-
     // === Errors ===
 
     // === Constants ===
@@ -651,6 +650,10 @@ module act::act_shop {
     }
 
     // === Public-View Functions ===
+
+    public fun inner<Item, Data: store>(self: &Shop<Item, Data>): &Data {
+        &self.inner
+    }
 
     // === Admin Functions ===
 

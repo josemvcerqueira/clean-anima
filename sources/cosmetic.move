@@ -159,6 +159,37 @@ module act::act_cosmetic {
 
     // === Public-Package Functions ===
 
+    public(package) fun mint(
+        name: String,
+        image_url: String,
+        image_hash: String,
+        model_url: String,
+        `type`: String, 
+        colour_way: String,
+        edition: String,
+        manufacturer: String,
+        rarity: String,
+        hash: String,
+        wear_rating: u64, // [0,1] scaled to 1B
+        ctx: &mut TxContext
+    ): Cosmetic {
+        Cosmetic {
+            id: object::new(ctx),
+            name,
+            image_url,
+            image_hash,
+            model_url,
+            `type`,
+            colour_way,
+            edition,
+            manufacturer,
+            rarity,
+            hash,
+            wear_rating,
+            upgrades: vector[]
+        }   
+    }
+
     public(package) fun equip<Key: store + copy + drop>(
         uid_mut: &mut UID, 
         key: Key, 
