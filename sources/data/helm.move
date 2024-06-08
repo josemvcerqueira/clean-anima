@@ -71,6 +71,10 @@ module act::act_avatar_helm {
         self.borrow(i)
     }
 
+    public fun length(self: &HelmShop): u64 {
+        self.inner.length()
+    }
+
     // === Admin Functions ===
 
     // === Public-Package Functions ===
