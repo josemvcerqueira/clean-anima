@@ -99,11 +99,11 @@ module act::act_drop {
     ) {
         registry.assert_has_avatar(ctx.sender());
         let amount = coin.value();
-        assert_can_mint(sale, &pass, amount, quantity, clock.timestamp_ms());
+        assert_can_mint(sale, pass, amount, quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
         while (quantity > 0) {
-            let drop = sale.drops.pop_back();
+            let mut drop = sale.drops.pop_back();
 
             while (drop.length() > 11) { // mint weapons
                 let item = drop.pop_back();
@@ -131,7 +131,7 @@ module act::act_drop {
                 let (image_url, image_hash, model_url) = uris::get_cosmetic_uris(name, colour_way);
                 let hash = utf8(b"hash"); // TODO generate 
                 let wear_rating = 0; // TODO generate 
-                let (kind_left, kind_right) = (kind, kind);
+                let (mut kind_left, mut kind_right) = (kind, kind);
                 kind_left.append_utf8(b"Left");
                 kind_right.append_utf8(b"Right");
                 let cosmetic_left = act_cosmetic::new(name, image_url, image_hash, model_url, kind_left, colour_way, utf8(b"Genesis"), manufacturer, rarity, hash, wear_rating, ctx);
@@ -166,7 +166,7 @@ module act::act_drop {
     ) {
         registry.assert_has_avatar(ctx.sender());
         let amount = coin.value();
-        assert_can_mint(sale, &pass, amount, 1, clock.timestamp_ms());
+        assert_can_mint(sale, pass, amount, 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
         let drop = sale.drops.pop_back();
@@ -193,10 +193,10 @@ module act::act_drop {
         ctx: &mut TxContext,
     ) {
         assert_valid_ticket(&ticket);
-        let AvatarTicket { id, drop, username, image_url, image_hash, model_url } = ticket;
+        let AvatarTicket { id, mut drop, username, image_url, image_hash, model_url } = ticket;
         id.delete();
         // TODO: set avatar_url avatar_hash
-        let avatar = act_avatar::new_impl(registry, alias, username, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), clock, ctx);
+        let mut avatar = act_avatar::new_impl(registry, alias, username, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), clock, ctx);
 
         while (drop.length() > 11) { // mint weapons
             let item = drop.pop_back();
@@ -224,7 +224,7 @@ module act::act_drop {
             let (image_url, image_hash, model_url) = uris::get_cosmetic_uris(name, colour_way);
             let hash = utf8(b"hash"); // TODO generate 
             let wear_rating = 0; // TODO generate 
-            let (kind_left, kind_right) = (kind, kind);
+            let (mut kind_left, mut kind_right) = (kind, kind);
             kind_left.append_utf8(b"Left");
             kind_right.append_utf8(b"Right");
             let cosmetic_left = act_cosmetic::new(name, image_url, image_hash, model_url, kind_left, colour_way, utf8(b"Genesis"), manufacturer, rarity, hash, wear_rating, ctx);
@@ -244,6 +244,7 @@ module act::act_drop {
             avatar.equip_minted_cosmetic(cosmetic);
         };
 
+        act_avatar::transfer(avatar, ctx.sender());
     }
 
     // === Admin functions ===
@@ -271,21 +272,21 @@ module act::act_drop {
     // and 1 random weapon of each 3 slots (name, colour_way)
     public fun push_drop(
         sale: &mut Sale, 
-        helm_shop: Shop<Helm, vector<vector<Item>>>,
-        chestpiece_shop: Shop<Chestpiece, vector<Item>>,
-        upper_torso_shop: Shop<UpperTorso, vector<Item>>,
-        pauldron_shop: Shop<Pauldron, vector<Item>>,
-        arm_shop: Shop<Arm, vector<Item>>,
-        glove_shop: Shop<Glove, vector<Item>>,
-        bracer_shop: Shop<Bracer, vector<Item>>,
-        legs_shop: Shop<Legs, vector<Item>>,
-        shins_shop: Shop<Shins, vector<Item>>,
-        boots_shop: Shop<Boots, vector<Item>>,
-        accessory_shop: Shop<Accessory, vector<Item>>,
-        primary_shop: Shop<Primary, vector<vector<Item>>>,
-        secondary_shop: Shop<Secondary, vector<Item>>,
-        tertiary_shop: Shop<Tertiary, vector<Item>>,
-        seed: vector<u8>, // random seed
+        helm_shop: &mut Shop<Helm, vector<vector<Item>>>,
+        chestpiece_shop: &mut Shop<Chestpiece, vector<Item>>,
+        upper_torso_shop: &mut Shop<UpperTorso, vector<Item>>,
+        pauldron_shop: &mut Shop<Pauldron, vector<Item>>,
+        arm_shop: &mut Shop<Arm, vector<Item>>,
+        glove_shop: &mut Shop<Glove, vector<Item>>,
+        bracer_shop: &mut Shop<Bracer, vector<Item>>,
+        legs_shop: &mut Shop<Legs, vector<Item>>,
+        shins_shop: &mut Shop<Shins, vector<Item>>,
+        boots_shop: &mut Shop<Boots, vector<Item>>,
+        accessory_shop: &mut Shop<Accessory, vector<Item>>,
+        primary_shop: &mut Shop<Primary, vector<vector<Item>>>,
+        secondary_shop: &mut Shop<Secondary, vector<Item>>,
+        tertiary_shop: &mut Shop<Tertiary, vector<Item>>,
+        mut seed: vector<u8>, // random seed
     ) {
         assert!(sale.drops.length() < sale.drops_left, ETooMany);
         let mut drop = vector::empty();
@@ -409,7 +410,7 @@ module act::act_drop {
 
     // === Private functions ===
 
-    fun assert_can_mint(sale: &Sale, pass: &Option<MintPass>, amount: u64, quantity: u64, now: u64) {
+    fun assert_can_mint(sale: &Sale, pass: Option<MintPass>, amount: u64, quantity: u64, now: u64) {
         assert!(sale.active, ESaleNotActive);
         // current phase
         let mut phase = 0;
@@ -418,8 +419,11 @@ module act::act_drop {
         };
         if (pass.is_none()) { // public sale (idx = 2)
             assert!(now > sale.start_times[2], EPublicNotOpen);
+            pass.destroy_none();
         } else { // freemint or whitelist sale
-            assert!(now > sale.start_times[pass.borrow().phase], EWrongPass);
+            let MintPass { id, phase } = pass.destroy_some();
+            assert!(now > sale.start_times[phase], EWrongPass);
+            id.delete();
         };
         // check price and quantity
         assert!(amount == sale.prices[phase], EWrongCoinValue);

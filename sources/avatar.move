@@ -468,6 +468,10 @@ module act::act_avatar {
         avatar
     }
 
+    public(package) fun transfer(self: Avatar, recipient: address) {
+        transfer::transfer(self, recipient);
+    }
+
     // === Private Functions ===
 
     // === Test Functions === 
