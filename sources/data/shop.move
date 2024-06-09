@@ -9,7 +9,7 @@ module act::act_shop {
     // === Imports ===
 
     use sui::table_vec::TableVec;
-    use act::act_factory::{Self, Item};
+    use act::{act_factory::{Self, Item}, attributes};
 
     // === Errors ===
 
@@ -398,16 +398,16 @@ module act::act_shop {
     public fun new_helm_shop(ctx: &mut TxContext) {
         let items = act_factory::build_large_set(
             HELM_NAMES, 
+            attributes::helm(),
             COSMETICS_COLOUR_WAY,
             HELM_MANUFACTURERS, 
             COSMETICS_RARITIES,
             HELM_CHANCES, 
             HELM_PRECISION, 
-            ctx
         );
 
         transfer::share_object(
-            Shop<Helm, TableVec<Item>> {
+            Shop<Helm, vector<vector<Item>>> {
                 id: object::new(ctx),
                 items
             }
@@ -417,6 +417,7 @@ module act::act_shop {
     public fun new_chestpiece_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             CHESTPIECE_NAMES, 
+            attributes::chestpiece(),
             COSMETICS_COLOUR_WAY,
             CHESTPIECE_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -435,6 +436,7 @@ module act::act_shop {
     public fun new_upper_torso_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             UPPER_TORSO_NAMES, 
+            attributes::upper_torso(),
             COSMETICS_COLOUR_WAY,
             UPPER_TORSO_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -453,6 +455,7 @@ module act::act_shop {
     public fun new_pauldron_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             PAULDRON_NAMES, 
+            attributes::pauldron(),
             COSMETICS_COLOUR_WAY,
             PAULDRON_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -471,6 +474,7 @@ module act::act_shop {
     public fun new_arm_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             ARM_NAMES, 
+            attributes::arm(),
             COSMETICS_COLOUR_WAY,
             ARM_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -489,6 +493,7 @@ module act::act_shop {
     public fun new_glove_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             GLOVE_NAMES, 
+            attributes::glove(),
             COSMETICS_COLOUR_WAY,
             GLOVE_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -507,6 +512,7 @@ module act::act_shop {
     public fun new_bracer_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             BRACER_NAMES, 
+            attributes::bracer(),
             COSMETICS_COLOUR_WAY,
             BRACER_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -525,6 +531,7 @@ module act::act_shop {
     public fun new_legs_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             LEGS_NAMES, 
+            attributes::legs(),
             COSMETICS_COLOUR_WAY,
             LEGS_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -543,6 +550,7 @@ module act::act_shop {
     public fun new_shins_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             SHINS_NAMES, 
+            attributes::shins(),
             COSMETICS_COLOUR_WAY,
             SHINS_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -561,6 +569,7 @@ module act::act_shop {
     public fun new_boots_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             BOOTS_NAMES, 
+            attributes::boots(),
             COSMETICS_COLOUR_WAY,
             BOOTS_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -579,6 +588,7 @@ module act::act_shop {
     public fun new_accessory_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             ACCESSORY_NAMES, 
+            attributes::accessory(),
             COSMETICS_COLOUR_WAY,
             ACCESSORY_MANUFACTURERS, 
             COSMETICS_RARITIES,
@@ -597,16 +607,16 @@ module act::act_shop {
     public fun new_primary_shop(ctx: &mut TxContext) {
         let items = act_factory::build_large_set(
             PRIMARY_NAMES, 
+            attributes::primary(),
             COSMETICS_COLOUR_WAY, // same
             PRIMARY_MANUFACTURERS, 
             PRIMARY_RARITIES,
             PRIMARY_CHANCES, 
             PRIMARY_PRECISION, 
-            ctx
         );
 
         transfer::share_object(
-            Shop<Primary, TableVec<Item>> {
+            Shop<Primary, vector<vector<Item>>> {
                 id: object::new(ctx),
                 items
             }
@@ -616,7 +626,7 @@ module act::act_shop {
     public fun new_secondary_shop(ctx: &mut TxContext) {
         let items = act_factory::build_secondary(
             SECONDARY_NAMES, 
-            SECONDARY_COLOUR_WAY,
+            COSMETICS_COLOUR_WAY,
             SECONDARY_MANUFACTURERS, 
             SECONDARY_RARITIES,
             SECONDARY_CHANCES, 
@@ -634,7 +644,8 @@ module act::act_shop {
     public fun new_tertiary_shop(ctx: &mut TxContext) {
         let items = act_factory::build_set(
             TERTIARY_NAMES, 
-            TERTIARY_COLOUR_WAY,
+            attributes::tertiary(),
+            COSMETICS_COLOUR_WAY,
             TERTIARY_MANUFACTURERS, 
             TERTIARY_RARITIES,
             TERTIARY_CHANCES, 

@@ -167,6 +167,38 @@ module act::act_weapon {
 
     // === Public-Package Functions ===
 
+    public(package) fun new(
+        name: String,
+        image_url: String,
+        image_hash: String,
+        model_url: String,
+        slot: String,
+        colour_way: String,
+        edition: String,
+        manufacturer: String,
+        rarity: String,
+        hash: String,
+        wear_rating: u64,
+        ctx: &mut TxContext,
+    ): Weapon {
+        Weapon {
+            id: object::new(ctx),
+            name,
+            image_url,
+            image_hash,
+            model_url,
+            slot,
+            colour_way,
+            edition,
+            manufacturer,
+            rarity,
+            hash,
+            wear_rating,
+            kill_count: 0,
+            upgrades: vector::empty(),
+        }
+    }
+
     public(package) fun equip<Key: store + copy + drop>(
         uid_mut: &mut UID, 
         key: Key, 

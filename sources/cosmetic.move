@@ -159,7 +159,7 @@ module act::act_cosmetic {
 
     // === Public-Package Functions ===
 
-    public(package) fun mint(
+    public(package) fun new(
         name: String,
         image_url: String,
         image_hash: String,

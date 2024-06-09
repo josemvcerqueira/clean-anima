@@ -11,7 +11,6 @@ module act::attributes {
 
     // === Constants ===
 
-    /// Cosmetic Types
     const HELM: vector<u8> = b"Helm";
     const CHESTPIECE: vector<u8> = b"Chestpiece";
     const BACKPIECE: vector<u8> = b"Backpiece";
@@ -28,6 +27,10 @@ module act::attributes {
     const SHINS: vector<u8> = b"Shins";
     const BOOTS: vector<u8> = b"Boots";
     const ACCESSORY: vector<u8> = b"Accessory";
+
+    const PRIMARY: vector<u8> = b"Primary";
+    const SECONDARY: vector<u8> = b"Secondary";
+    const TERTIARY: vector<u8> = b"Tertiary";
 
     const COSMETIC_TYPES: vector<vector<u8>> = vector[
         HELM,
@@ -47,11 +50,6 @@ module act::attributes {
         BOOTS,
         ACCESSORY
     ];
-
-    /// Weapon slots
-    const PRIMARY: vector<u8> = b"Primary";
-    const SECONDARY: vector<u8> = b"Secondary";
-    const TERTIARY: vector<u8> = b"Tertiary";
 
     // === Structs ===
 
@@ -92,6 +90,23 @@ module act::attributes {
     }
 
     // === Public-View Functions ===
+
+    public fun helm(): vector<u8> { HELM }
+    public fun chestpiece(): vector<u8> { CHESTPIECE }
+    public fun backpiece(): vector<u8> { BACKPIECE }
+    public fun upper_torso(): vector<u8> { UPPER_TORSO }
+    public fun pauldron(): vector<u8> { b"Pauldron" } // need to be left and right
+    public fun arm(): vector<u8> { b"Arm" } // need to be left and right
+    public fun glove(): vector<u8> { b"Glove" } // need to be left and right
+    public fun bracer(): vector<u8> { b"Bracer" } // need to be left and right
+    public fun legs(): vector<u8> { LEGS }
+    public fun shins(): vector<u8> { SHINS }
+    public fun boots(): vector<u8> { BOOTS }
+    public fun accessory(): vector<u8> { ACCESSORY }
+
+    public fun primary(): vector<u8> { PRIMARY }
+    public fun secondary(): vector<u8> { SECONDARY }
+    public fun tertiary(): vector<u8> { TERTIARY }
 
     // === Admin Functions ===
 

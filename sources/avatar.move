@@ -42,6 +42,7 @@ module act::act_avatar {
     const ECosmeticSlotAlreadyEquipped: u64 = 2;
     const ECosmeticIsNotEquipped: u64 = 3;
     const EWeaponIsNotEquipped: u64 = 4;
+    const ENeedToMintAnAvatar: u64 = 5;
 
     // === Constants ===
 
@@ -330,6 +331,14 @@ module act::act_avatar {
         &self.attributes
     }
 
+    public fun assert_no_avatar(self: &AvatarRegistry, addr: address) {
+        assert!(!self.accounts.contains(addr), EAlreadyMintedAnAvatar);
+    }
+
+    public fun assert_has_avatar(self: &AvatarRegistry, addr: address) {
+        assert!(!self.accounts.contains(addr), ENeedToMintAnAvatar);
+    }
+
     // === Admin Functions ===
 
     public fun upgrade(
@@ -435,9 +444,8 @@ module act::act_avatar {
         ctx: &mut TxContext
     ): Avatar {
         // One Avatar per user
-        assert!(!registry.accounts.contains(ctx.sender()), EAlreadyMintedAnAvatar);
+        registry.assert_no_avatar(ctx.sender());
         
-
         let avatar = Avatar {
             id: object::new(ctx),
             alias,
