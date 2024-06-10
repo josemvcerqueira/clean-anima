@@ -250,6 +250,26 @@ module act::act_genesis_drop {
 
     // === Admin functions ===
 
+    public fun airdrop_freemint(
+        access_control: &AccessControl, 
+        admin: &Admin,
+        recipient: address,
+        ctx: &mut TxContext,
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        transfer::public_transfer(GenesisPass { id: object::new(ctx), phase: 0 }, recipient);
+    }
+
+    public fun airdrop_whitelist(
+        access_control: &AccessControl, 
+        admin: &Admin,
+        recipient: address,
+        ctx: &mut TxContext,
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        transfer::public_transfer(GenesisPass { id: object::new(ctx), phase: 1 }, recipient);
+    }
+
     public fun set_active(
         sale: &mut Sale, 
         access_control: &AccessControl, 
