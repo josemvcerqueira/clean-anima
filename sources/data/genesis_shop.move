@@ -1,19 +1,33 @@
 /*
 * @title Act Shop
 *
-* @description Creates Shops for Act Items.
+* @description Creates the Genesis Shop. 
+* 1 - Create each items shop using the AdminCap
+* 2 - Store all items in the Genesis Shop
 *
 * @dev Please call these functions only once.
 */
-module act::act_shop {
+module act::act_genesis_shop {
     // === Imports ===
 
-    use sui::table_vec::TableVec;
-    use act::{act_factory::{Self, Item}, attributes};
+    use std::string::{utf8, String};
+    use sui::{
+        table_vec::TableVec,
+        dynamic_field as df
+    };
+    use act::{
+        act_admin,
+        attributes,
+        act_factory::{Self, Item as FactoryItem}, 
+        access_control::{Admin, AccessControl}
+    };
 
     // === Errors ===
 
     // === Constants ===
+
+    const GENISIS_AMOUNT: u64 = 6_0000;
+    const COSMETIC_SET_SIZE: u64 = 8;
 
     // Rarities
     const COSMETICS_RARITIES: vector<vector<u8>> = vector[
@@ -76,15 +90,27 @@ module act::act_shop {
         b"Dusk",
         b"Viceroy"
     ];
-    const SECONDARY_COLOUR_WAY: vector<vector<u8>> = vector[
-        b"Vesper",
-        b"Hikari",
-        b"Volt",
-        b"Blood Ivory",
-        b"Red Damascus",
-        b"Forest",
-        b"Dusk",
-        b"JK's"
+    const SECONDARY_COLOUR_WAY: vector<vector<vector<u8>>> = vector[
+        vector[
+            b"Vesper",
+            b"Hikari",
+            b"Volt",
+            b"Blood Ivory",
+            b"Red Damascus",
+            b"Forest",
+            b"Dusk",
+            b"JK's"
+        ],
+        vector[
+            b"Vesper",
+            b"Hikari",
+            b"Volt",
+            b"Blood Ivory",
+            b"Red Damascus",
+            b"Forest",
+            b"Dusk",
+            b"Viceroy"
+        ]
     ];
     const TERTIARY_COLOUR_WAY: vector<vector<u8>> = vector[
         b"K1TSUN3",
@@ -137,7 +163,6 @@ module act::act_shop {
     const HYPERBLADE: vector<u8> = b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION";
 
     // Helms
-    const HELM_PRECISION: u64 = 10_000;
     const HELM_NAMES: vector<vector<u8>> = vector[
         BIODOME,
         VENOM,
@@ -171,7 +196,6 @@ module act::act_shop {
     ];
 
     // Chestpiece
-    const CHESTPIECE_PRECISION: u64 = 1_000;
     const CHESTPIECE_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
         HELIOS,
@@ -189,7 +213,6 @@ module act::act_shop {
     ];
 
     // Upper torso
-    const UPPER_TORSO_PRECISION: u64 = 1_000;
     const UPPER_TORSO_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
     ];
@@ -201,7 +224,6 @@ module act::act_shop {
     ];
 
     // Pauldron
-    const PAULDRON_PRECISION: u64 = 1_000;
     const PAULDRON_CHANCES: vector<vector<u64>> = vector[
         vector[80, 20, 40, 30, 40, 80, 80, 30],
         vector[60, 10, 35, 20, 35, 60, 60, 20],
@@ -219,7 +241,6 @@ module act::act_shop {
     ];
 
     // Arm
-    const ARM_PRECISION: u64 = 1_000;
     const ARM_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
     ];
@@ -231,7 +252,6 @@ module act::act_shop {
     ];
 
     // Glove
-    const GLOVE_PRECISION: u64 = 1_000;
     const GLOVE_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
     ];
@@ -243,7 +263,6 @@ module act::act_shop {
     ];
 
     // BRACER
-    const BRACER_PRECISION: u64 = 1_000;
     const BRACER_CHANCES: vector<vector<u64>> = vector[
         vector[80, 20, 40, 30, 40, 80, 80, 30],
         vector[60, 10, 35, 20, 35, 60, 60, 20],
@@ -261,7 +280,6 @@ module act::act_shop {
     ];
 
     // Legs
-    const LEGS_PRECISION: u64 = 1_000;
     const LEGS_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
     ];
@@ -273,7 +291,6 @@ module act::act_shop {
     ];
 
     // Shins
-    const SHINS_PRECISION: u64 = 1_000;
     const SHINS_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
     ];
@@ -285,7 +302,6 @@ module act::act_shop {
     ];
 
     // Boots
-    const BOOTS_PRECISION: u64 = 1_000;
     const BOOTS_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
     ];
@@ -297,7 +313,6 @@ module act::act_shop {
     ];    
 
     // Accesssory
-    const ACCESSORY_PRECISION: u64 = 1_000;
     const ACCESSORY_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
     ];
@@ -310,7 +325,6 @@ module act::act_shop {
 
 
     // Primary Weapon
-    const PRIMARY_PRECISION: u64 = 10_000;
     const PRIMARY_CHANCES: vector<vector<u64>> = vector[
         vector[364, 260, 364, 260, 364, 364, 364, 260],
         vector[308, 220, 308, 220, 308, 308, 308, 220],
@@ -331,7 +345,6 @@ module act::act_shop {
     ];  
 
     // Secondary Weapon
-    const SECONDARY_PRECISION: u64 = 100;
     const SECONDARY_CHANCES: vector<vector<u64>> = vector[
         vector[5, 5, 5, 4, 5, 5, 5, 2],
         vector[8, 8, 8, 8, 8, 8, 8, 8],
@@ -346,13 +359,7 @@ module act::act_shop {
     ];  
 
     // Tertiary Weapon
-    const TERTIARY_PRECISION: u64 = 100;
-    const TERTIARY_CHANCES: vector<vector<u64>> = vector[
-        vector[25],
-        vector[25],
-        vector[40],
-        vector[10],
-    ];
+    const TERTIARY_CHANCES: vector<u64> = vector[25, 25, 40, 10];
     const TERTIARY_NAMES: vector<vector<u8>> = vector[
         WAKIZASHI,
         KARAMBIT,
@@ -365,8 +372,6 @@ module act::act_shop {
         ECLIPSE,
         HYPERBLADE
     ];  
-
-
 
     // === Structs ===
 
@@ -386,291 +391,452 @@ module act::act_shop {
     public struct Secondary has drop {}
     public struct Tertiary has drop {}
 
-    public struct Shop<phantom Item, Data: store> has key {
+    public struct Shop<phantom Kind> has key, store {
         id: UID,
-        items: Data
+        name: String,
+        set:  bool,
+        items: TableVec<FactoryItem>
+    }
+
+    public struct Item has store {
+        set: bool,
+        items: TableVec<FactoryItem>
+    }
+
+    public struct GenesisShop has key {
+        id: UID
     }
 
     // === Method Aliases ===
 
     // === Public-Mutative Functions ===
 
-    public fun new_helm_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_large_set(
+    public fun new_helm_shop(
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ): Shop<Helm> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             HELM_NAMES, 
-            attributes::helm(),
+            vector[utf8(attributes::helm())],
             COSMETICS_COLOUR_WAY,
             HELM_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             HELM_CHANCES, 
-            HELM_PRECISION, 
+            GENISIS_AMOUNT, 
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Helm, vector<vector<Item>>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Helm> {
+            id: object::new(ctx),
+            name: utf8(attributes::helm()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_chestpiece_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_chestpiece_shop(
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ): Shop<Chestpiece> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             CHESTPIECE_NAMES, 
-            attributes::chestpiece(),
+            vector[utf8(attributes::chestpiece())],
             COSMETICS_COLOUR_WAY,
             CHESTPIECE_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             CHESTPIECE_CHANCES,
-            CHESTPIECE_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Chestpiece, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Chestpiece> {
+            id: object::new(ctx),
+            name: utf8(attributes::chestpiece()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_upper_torso_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_upper_torso_shop(
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ): Shop<UpperTorso> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             UPPER_TORSO_NAMES, 
-            attributes::upper_torso(),
+            vector[utf8(attributes::upper_torso())],
             COSMETICS_COLOUR_WAY,
             UPPER_TORSO_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             UPPER_TORSO_CHANCES,
-            UPPER_TORSO_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<UpperTorso, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<UpperTorso> {
+            id: object::new(ctx),
+            name: utf8(attributes::upper_torso()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_pauldron_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_pauldron_shop(
+        access_control: &AccessControl, 
+        admin: &Admin,
+        ctx: &mut TxContext
+    ): Shop<Pauldron> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             PAULDRON_NAMES, 
-            attributes::pauldron(),
+            vector[utf8(attributes::right_pauldron()), utf8(attributes::left_pauldron())],
             COSMETICS_COLOUR_WAY,
             PAULDRON_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             PAULDRON_CHANCES,
-            PAULDRON_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Pauldron, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Pauldron> {
+            id: object::new(ctx),
+            name: utf8(attributes::pauldron()),
+            set: true,
+            items
+        }
     }
 
-    public fun new_arm_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_arm_shop(
+        access_control: &AccessControl, 
+        admin: &Admin,        
+        ctx: &mut TxContext
+    ): Shop<Arm> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             ARM_NAMES, 
-            attributes::arm(),
+            vector[utf8(attributes::right_pauldron()), utf8(attributes::left_pauldron())],
             COSMETICS_COLOUR_WAY,
             ARM_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             ARM_CHANCES,
-            ARM_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Arm, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Arm> {
+            id: object::new(ctx),
+            name: utf8(attributes::arm()),
+            set: true,
+            items
+        }
     }
 
-    public fun new_glove_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_glove_shop(
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Shop<Glove> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             GLOVE_NAMES, 
-            attributes::glove(),
+            vector[utf8(attributes::right_glove()), utf8(attributes::left_glove())],
             COSMETICS_COLOUR_WAY,
             GLOVE_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             GLOVE_CHANCES,
-            GLOVE_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Glove, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Glove> {
+            id: object::new(ctx),
+            name: utf8(attributes::glove()),
+            set: true,
+            items
+        }
     }
 
-    public fun new_bracer_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_bracer_shop(
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Shop<Bracer> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             BRACER_NAMES, 
-            attributes::bracer(),
+            vector[utf8(attributes::right_bracer()), utf8(attributes::left_bracer())],
             COSMETICS_COLOUR_WAY,
             BRACER_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             BRACER_CHANCES,
-            BRACER_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Bracer, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Bracer> {
+            id: object::new(ctx),
+            name: utf8(attributes::bracer()),
+            set: true,
+            items
+        }
     }
 
-    public fun new_legs_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_legs_shop(
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Shop<Legs> {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             LEGS_NAMES, 
-            attributes::legs(),
+            vector[utf8(attributes::legs())],
             COSMETICS_COLOUR_WAY,
             LEGS_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             LEGS_CHANCES,
-            LEGS_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Legs, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Legs> {
+            id: object::new(ctx),
+            name: utf8(attributes::legs()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_shins_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_shins_shop(
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Shop<Shins>  {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
             SHINS_NAMES, 
-            attributes::shins(),
+            vector[utf8(attributes::shins())],
             COSMETICS_COLOUR_WAY,
             SHINS_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             SHINS_CHANCES,
-            SHINS_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Shins, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Shins> {
+            id: object::new(ctx),
+            name: utf8(attributes::shins()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_boots_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_boots_shop(ctx: &mut TxContext): Shop<Boots> {
+        let items = act_factory::build(
+            true,
             BOOTS_NAMES, 
-            attributes::boots(),
+            vector[utf8(attributes::boots())],
             COSMETICS_COLOUR_WAY,
             BOOTS_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             BOOTS_CHANCES,
-            BOOTS_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Boots, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Boots> {
+            id: object::new(ctx),
+            name: utf8(attributes::boots()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_accessory_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_accessory_shop(ctx: &mut TxContext): Shop<Accessory>  {
+        let items = act_factory::build(
+            true,
             ACCESSORY_NAMES, 
-            attributes::accessory(),
+            vector[utf8(attributes::accessory())],
             COSMETICS_COLOUR_WAY,
             ACCESSORY_MANUFACTURERS, 
-            COSMETICS_RARITIES,
+            make_cosmetic_rarities(),
             ACCESSORY_CHANCES,
-            ACCESSORY_PRECISION
+            GENISIS_AMOUNT,
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Accessory, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Accessory> {
+            id: object::new(ctx),
+            name: utf8(attributes::accessory()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_primary_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_large_set(
+    public fun new_primary_shop(ctx: &mut TxContext): Shop<Primary> {
+        let items = act_factory::build(
+            false,
             PRIMARY_NAMES, 
-            attributes::primary(),
+            vector[utf8(attributes::primary())],
             COSMETICS_COLOUR_WAY, // same
             PRIMARY_MANUFACTURERS, 
-            PRIMARY_RARITIES,
+            make_primary_rarities(),
             PRIMARY_CHANCES, 
-            PRIMARY_PRECISION, 
+            GENISIS_AMOUNT, 
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Primary, vector<vector<Item>>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Primary> {
+            id: object::new(ctx),
+            name: utf8(attributes::primary()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_secondary_shop(ctx: &mut TxContext) {
+    public fun new_secondary_shop(ctx: &mut TxContext): Shop<Secondary> {
         let items = act_factory::build_secondary(
             SECONDARY_NAMES, 
-            COSMETICS_COLOUR_WAY,
+            vector[utf8(attributes::secondary())],
+            SECONDARY_COLOUR_WAY,
             SECONDARY_MANUFACTURERS, 
             SECONDARY_RARITIES,
             SECONDARY_CHANCES, 
-            SECONDARY_PRECISION, 
+            GENISIS_AMOUNT, 
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Secondary, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Secondary> {
+            id: object::new(ctx),
+            name: utf8(attributes::secondary()),
+            set: false,
+            items
+        }
     }
 
-    public fun new_tertiary_shop(ctx: &mut TxContext) {
-        let items = act_factory::build_set(
+    public fun new_tertiary_shop(ctx: &mut TxContext): Shop<Tertiary> {
+        let items = act_factory::build_tertiary(
             TERTIARY_NAMES, 
-            attributes::tertiary(),
-            COSMETICS_COLOUR_WAY,
+            vector[utf8(attributes::tertiary())],
+            TERTIARY_COLOUR_WAY,
             TERTIARY_MANUFACTURERS, 
             TERTIARY_RARITIES,
             TERTIARY_CHANCES, 
-            TERTIARY_PRECISION, 
+            GENISIS_AMOUNT, 
+            ctx
         );
 
-        transfer::share_object(
-            Shop<Tertiary, vector<Item>> {
-                id: object::new(ctx),
-                items
-            }
-        );
+        Shop<Tertiary> {
+            id: object::new(ctx),
+            name: utf8(attributes::secondary()),
+            set: false,
+            items
+        }
+    }
+
+    public fun new_genesis_shop(
+        helm_shop: Shop<Helm>,
+        chestpiece_shop: Shop<Chestpiece>,
+        upper_torso_shop: Shop<UpperTorso>,
+        pauldron_shop: Shop<Pauldron>,
+        arm_shop: Shop<Arm>,
+        glove_shop: Shop<Glove>,
+        bracer_shop: Shop<Bracer>,
+        legs_shop: Shop<Legs>,
+        shins_shop: Shop<Shins>,
+        boots_shop: Shop<Boots>,
+        accessory_shop: Shop<Accessory>,
+        primary_shop: Shop<Primary>,
+        secondary_shop: Shop<Secondary>,
+        tertiary_shop: Shop<Tertiary>,
+        ctx: &mut TxContext
+    ) {
+        let mut shop = GenesisShop {
+            id: object::new(ctx)
+        };
+
+        shop.add(helm_shop);
+        shop.add(chestpiece_shop);
+        shop.add(upper_torso_shop);
+        shop.add(pauldron_shop);
+        shop.add(arm_shop);
+        shop.add(glove_shop);
+        shop.add(bracer_shop);
+        shop.add(legs_shop);
+        shop.add(shins_shop);
+        shop.add(boots_shop);
+        shop.add(accessory_shop);
+        shop.add(primary_shop);
+        shop.add(secondary_shop);
+        shop.add(tertiary_shop);
+
+        transfer::share_object(shop);
     }
 
     // === Public-View Functions ===
 
-    public fun items<Item, Data: store>(self: &Shop<Item, Data>): &Data {
-        &self.items
-    }
-
     // === Admin Functions ===
 
-    // === Public-Package Functions ===
+    // === Public-Package Functions ===\
+
+    public(package) fun borrow_mut(self: &mut GenesisShop, name: String): &mut Item {
+        df::borrow_mut(&mut self.id, name)
+    }
+
+    public(package) fun items(item: &mut Item): &mut TableVec<FactoryItem> {
+        &mut item.items
+    }
+
+    public(package) fun set(item: &Item): bool {
+        item.set
+    }
 
     // === Private Functions ===
+
+    fun add<Kind>(self: &mut GenesisShop, shop: Shop<Kind>) {
+        let Shop { id, name, items, set } = shop;
+        id.delete();
+        df::add(&mut self.id, name, Item { items, set });
+    }
+
+    fun make_cosmetic_rarities(): vector<vector<vector<u8>>> {
+        let mut rarities = vector[];
+        let mut i = 0;
+
+        while (COSMETIC_SET_SIZE > i) {
+            rarities.push_back(COSMETICS_RARITIES);
+            i = i + 1;
+        };
+
+        rarities
+    }
+
+    fun make_primary_rarities(): vector<vector<vector<u8>>> {
+        let mut rarities = vector[];
+        let mut i = 0;
+        let len = PRIMARY_NAMES.length();
+
+        while (len > i) {
+            rarities.push_back(PRIMARY_RARITIES);
+            i = i + 1;
+        };
+
+        rarities
+    }
 
     // === Test Functions ===    
 }

@@ -91,10 +91,46 @@ module act::attributes {
 
     // === Public-View Functions ===
 
+    public fun cosmetic_types(): vector<vector<u8>> {
+        COSMETIC_TYPES
+    }
+
+    public fun weapon_types(): vector<vector<u8>> {
+        vector[PRIMARY, SECONDARY, TERTIARY]
+    }
+
+    public fun types(): vector<vector<u8>> {
+        vector[
+            HELM,
+            CHESTPIECE,
+            BACKPIECE,
+            UPPER_TORSO,
+            b"Pauldron",
+            b"Arm",
+            b"Glove",
+            b"Bracer",
+            LEGS,
+            SHINS,
+            BOOTS,
+            ACCESSORY,
+            PRIMARY,
+            SECONDARY,
+            TERTIARY
+        ]        
+    }
+
     public fun helm(): vector<u8> { HELM }
     public fun chestpiece(): vector<u8> { CHESTPIECE }
     public fun backpiece(): vector<u8> { BACKPIECE }
     public fun upper_torso(): vector<u8> { UPPER_TORSO }
+    public fun right_pauldron(): vector<u8> { RIGHT_PAULDRON }
+    public fun left_pauldron(): vector<u8> { LEFT_PAULDRON }
+    public fun right_arm(): vector<u8> { RIGHT_ARM }
+    public fun left_arm(): vector<u8> { LEFT_ARM }
+    public fun right_glove(): vector<u8> { RIGHT_GLOVE }
+    public fun left_glove(): vector<u8> { LEFT_GLOVE }
+    public fun right_bracer(): vector<u8> { RIGHT_BRACER }
+    public fun left_bracer(): vector<u8> { LEFT_BRACER }
     public fun pauldron(): vector<u8> { b"Pauldron" } // need to be left and right
     public fun arm(): vector<u8> { b"Arm" } // need to be left and right
     public fun glove(): vector<u8> { b"Glove" } // need to be left and right
