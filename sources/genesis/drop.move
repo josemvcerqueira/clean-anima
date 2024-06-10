@@ -21,6 +21,8 @@ module act::act_genesis_drop {
         act_cosmetic,
         act_factory::Item,
         act_genesis_shop::GenesisShop,
+        act_admin,
+        access_control::{AccessControl, Admin},
         uris,
     };
 
@@ -100,7 +102,7 @@ module act::act_genesis_drop {
         assert_can_mint(sale, pass, amount, quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
-        let attributes = attributes::types();
+        let mut attributes = attributes::types();
         let mut gen = random.new_generator(ctx);
 
         while (!attributes.is_empty()) {
@@ -161,7 +163,7 @@ module act::act_genesis_drop {
         assert_can_mint(sale, pass, amount, 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
-        let attributes = attributes::types();
+        let mut attributes = attributes::types();
         let mut gen = random.new_generator(ctx);
         let mut drop = vector::empty();
 
@@ -248,20 +250,43 @@ module act::act_genesis_drop {
 
     // === Admin functions ===
 
-    //TODO: add admin
-    public fun set_active(sale: &mut Sale, active: bool) {
+    public fun set_active(
+        sale: &mut Sale, 
+        access_control: &AccessControl, 
+        admin: &Admin,
+        active: bool
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         sale.active = active;
     }
 
-    public fun set_start_times(sale: &mut Sale, start_times: vector<u64>) {
+    public fun set_start_times(
+        sale: &mut Sale, 
+        access_control: &AccessControl, 
+        admin: &Admin,
+        start_times: vector
+    <u64>) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         sale.start_times = start_times;
     }
 
-    public fun set_prices(sale: &mut Sale, prices: vector<u64>) {
+    public fun set_prices(
+        sale: &mut Sale, 
+        access_control: &AccessControl, 
+        admin: &Admin,
+        prices: vector
+    <u64>) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         sale.prices = prices;
     }
 
-    public fun set_drops_left(sale: &mut Sale, drops_left: u64) {
+    public fun set_drops_left(
+        sale: &mut Sale, 
+        access_control: &AccessControl, 
+        admin: &Admin,
+        drops_left: u64
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         sale.drops_left = drops_left;
     }
 
@@ -269,7 +294,7 @@ module act::act_genesis_drop {
 
     // === Private functions ===
 
-    fun assert_can_mint(sale: &Sale, pass: vector<GenesisPass>, amount: u64, quantity: u64, now: u64) {
+    fun assert_can_mint(sale: &Sale, mut pass: vector<GenesisPass>, amount: u64, quantity: u64, now: u64) {
         assert!(sale.active, ESaleNotActive);
         assert!(pass.length() < 2, EInvalidPass);
         // current phase
@@ -279,12 +304,12 @@ module act::act_genesis_drop {
         };
         if (pass.is_empty()) { // public sale (idx = 2)
             assert!(now > sale.start_times[2], EPublicNotOpen);
-            pass.destroy_empty();
         } else { // freemint or whitelist sale
             let GenesisPass { id, phase } = pass.pop_back();
             assert!(now > sale.start_times[phase], EWrongPass);
             id.delete();
         };
+        pass.destroy_empty();
         // check price and quantity
         assert!(amount == sale.prices[phase], EWrongCoinValue);
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);

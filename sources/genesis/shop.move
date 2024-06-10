@@ -121,7 +121,7 @@ module act::act_genesis_shop {
 
     // Names
     const BIODOME: vector<u8> = b"Biodome";
-    const VENOM: vector<u8> = b"Venom";
+    const SK_VIPER: vector<u8> = b"SK-Viper";
     const FANG_MK_IV: vector<u8> = b"Fang MK IV";
     const SCOUT: vector<u8> = b"Scout";
     const SPECTRE_09: vector<u8> = b"Spectre-09";
@@ -165,7 +165,7 @@ module act::act_genesis_shop {
     // Helms
     const HELM_NAMES: vector<vector<u8>> = vector[
         BIODOME,
-        VENOM,
+        SK_VIPER,
         FANG_MK_IV,
         SCOUT,
         SPECTRE_09,
