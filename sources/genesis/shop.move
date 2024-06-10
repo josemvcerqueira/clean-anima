@@ -195,6 +195,17 @@ module act::act_genesis_shop {
         ROOTS
     ];
 
+    // Upper torso
+    const UPPER_TORSO_NAMES: vector<vector<u8>> = vector[
+        FANG_MK_IV,
+    ];
+    const UPPER_TORSO_CHANCES: vector<vector<u64>> = vector[
+        vector[200, 50, 95, 80, 95, 200, 200, 80]
+    ];
+    const UPPER_TORSO_MANUFACTURERS: vector<vector<u8>> = vector[
+        EXO,
+    ];
+
     // Chestpiece
     const CHESTPIECE_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -212,34 +223,6 @@ module act::act_genesis_shop {
         OBSIDIAN
     ];
 
-    // Upper torso
-    const UPPER_TORSO_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-    ];
-    const UPPER_TORSO_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
-    ];
-    const UPPER_TORSO_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-
-    // Pauldron
-    const PAULDRON_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20 , 35, 60, 60, 20]
-    ];
-    const PAULDRON_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-        HELIOS,
-        NEO_SHOGUNATE
-    ];
-    const PAULDRON_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-        ZENITH,
-        OBSIDIAN
-    ];
-
     // Arm
     const ARM_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
@@ -248,17 +231,6 @@ module act::act_genesis_shop {
         FANG_MK_IV,
     ];
     const ARM_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-
-    // Glove
-    const GLOVE_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
-    ];
-    const GLOVE_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-    ];
-    const GLOVE_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
     ];
 
@@ -279,6 +251,34 @@ module act::act_genesis_shop {
         OBSIDIAN
     ];
 
+    // Glove
+    const GLOVE_CHANCES: vector<vector<u64>> = vector[
+        vector[200, 50, 95, 80, 95, 200, 200, 80]
+    ];
+    const GLOVE_NAMES: vector<vector<u8>> = vector[
+        FANG_MK_IV,
+    ];
+    const GLOVE_MANUFACTURERS: vector<vector<u8>> = vector[
+        EXO,
+    ];
+    
+    // Pauldron
+    const PAULDRON_CHANCES: vector<vector<u64>> = vector[
+        vector[80, 20, 40, 30, 40, 80, 80, 30],
+        vector[60, 10, 35, 20, 35, 60, 60, 20],
+        vector[60, 10, 35, 20 , 35, 60, 60, 20]
+    ];
+    const PAULDRON_NAMES: vector<vector<u8>> = vector[
+        FANG_MK_IV,
+        HELIOS,
+        NEO_SHOGUNATE
+    ];
+    const PAULDRON_MANUFACTURERS: vector<vector<u8>> = vector[
+        EXO,
+        ZENITH,
+        OBSIDIAN
+    ];
+
     // Legs
     const LEGS_CHANCES: vector<vector<u64>> = vector[
         vector[200, 50, 95, 80, 95, 200, 200, 80]
@@ -289,6 +289,17 @@ module act::act_genesis_shop {
     const LEGS_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
     ];
+
+    // Accessory
+    const ACCESSORY_CHANCES: vector<vector<u64>> = vector[
+        vector[200, 50, 95, 80, 95, 200, 200, 80]
+    ];
+    const ACCESSORY_NAMES: vector<vector<u8>> = vector[
+        FANG_MK_IV
+    ];
+    const ACCESSORY_MANUFACTURERS: vector<vector<u8>> = vector[
+        EXO,
+    ];  
 
     // Shins
     const SHINS_CHANCES: vector<vector<u64>> = vector[
@@ -311,17 +322,6 @@ module act::act_genesis_shop {
     const BOOTS_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
     ];    
-
-    // Accesssory
-    const ACCESSORY_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
-    ];
-    const ACCESSORY_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV
-    ];
-    const ACCESSORY_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];  
 
 
     // Primary Weapon
@@ -375,22 +375,6 @@ module act::act_genesis_shop {
 
     // === Structs ===
 
-    public struct Helm has drop {}
-    public struct Chestpiece has drop {}
-    public struct UpperTorso has drop {}
-    public struct Pauldron has drop {}
-    public struct Arm has drop {}
-    public struct Glove has drop {}
-    public struct Bracer has drop {}
-    public struct Legs has drop {}
-    public struct Shins has drop {}
-    public struct Boots has drop {}
-    public struct Accessory has drop {}
-
-    public struct Primary has drop {}
-    public struct Secondary has drop {}
-    public struct Tertiary has drop {}
-
     public struct GenesisShop has key {
         id: UID,
         items: Table<String, TableVec<Item>>
@@ -404,7 +388,7 @@ module act::act_genesis_shop {
         transfer::share_object(GenesisShop { id: object::new(ctx), items: table::new(ctx) });
     }
 
-    public fun add_helm_shop(
+    public fun add_helm(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin, 
@@ -414,7 +398,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             true,
             HELM_NAMES, 
-            vector[utf8(attributes::helm())],
+            vector[attributes::helm()],
             COSMETICS_COLOUR_WAY,
             HELM_MANUFACTURERS, 
             make_cosmetic_rarities(),
@@ -423,32 +407,10 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::helm()), items);
+        table::add(&mut genesis_shop.items, attributes::helm(), items);
     }
 
-    public fun new_chestpiece_shop(
-        genesis_shop: &mut GenesisShop,
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        ctx: &mut TxContext
-    ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
-            true,
-            CHESTPIECE_NAMES, 
-            vector[utf8(attributes::chestpiece())],
-            COSMETICS_COLOUR_WAY,
-            CHESTPIECE_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            CHESTPIECE_CHANCES,
-            GENISIS_AMOUNT,
-            ctx
-        );
-
-        table::add(&mut genesis_shop.items, utf8(attributes::chestpiece()), items);
-    }
-
-    public fun new_upper_torso_shop(
+    public fun add_upper_torso(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin, 
@@ -458,7 +420,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             true,
             UPPER_TORSO_NAMES, 
-            vector[utf8(attributes::upper_torso())],
+            vector[attributes::upper_torso()],
             COSMETICS_COLOUR_WAY,
             UPPER_TORSO_MANUFACTURERS, 
             make_cosmetic_rarities(),
@@ -467,32 +429,32 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::upper_torso()), items);
+        table::add(&mut genesis_shop.items, attributes::upper_torso(), items);
     }
 
-    public fun new_pauldron_shop(
+    public fun add_chestpiece(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
-        admin: &Admin,
+        admin: &Admin, 
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
-            PAULDRON_NAMES, 
-            vector[utf8(attributes::right_pauldron()), utf8(attributes::left_pauldron())],
+            CHESTPIECE_NAMES, 
+            vector[attributes::chestpiece()],
             COSMETICS_COLOUR_WAY,
-            PAULDRON_MANUFACTURERS, 
+            CHESTPIECE_MANUFACTURERS, 
             make_cosmetic_rarities(),
-            PAULDRON_CHANCES,
+            CHESTPIECE_CHANCES,
             GENISIS_AMOUNT,
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::pauldron()), items);
+        table::add(&mut genesis_shop.items, attributes::chestpiece(), items);
     }
 
-    public fun new_arm_shop(
+    public fun add_left_arm(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,        
@@ -502,7 +464,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             true,
             ARM_NAMES, 
-            vector[utf8(attributes::right_pauldron()), utf8(attributes::left_pauldron())],
+            vector[attributes::left_arm()],
             COSMETICS_COLOUR_WAY,
             ARM_MANUFACTURERS, 
             make_cosmetic_rarities(),
@@ -511,32 +473,32 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::arm()), items);
+        table::add(&mut genesis_shop.items, attributes::left_arm(), items);
     }
 
-    public fun new_glove_shop(
+    public fun add_right_arm(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
-        admin: &Admin,  
+        admin: &Admin,        
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
-            GLOVE_NAMES, 
-            vector[utf8(attributes::right_glove()), utf8(attributes::left_glove())],
+            ARM_NAMES, 
+            vector[attributes::right_arm()],
             COSMETICS_COLOUR_WAY,
-            GLOVE_MANUFACTURERS, 
+            ARM_MANUFACTURERS, 
             make_cosmetic_rarities(),
-            GLOVE_CHANCES,
+            ARM_CHANCES,
             GENISIS_AMOUNT,
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::glove()), items);
+        table::add(&mut genesis_shop.items, attributes::right_arm(), items);
     }
 
-    public fun new_bracer_shop(
+    public fun add_left_bracer(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
@@ -546,7 +508,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             true,
             BRACER_NAMES, 
-            vector[utf8(attributes::right_bracer()), utf8(attributes::left_bracer())],
+            vector[attributes::left_bracer()],
             COSMETICS_COLOUR_WAY,
             BRACER_MANUFACTURERS, 
             make_cosmetic_rarities(),
@@ -555,10 +517,120 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::bracer()), items);
+        table::add(&mut genesis_shop.items, attributes::left_bracer(), items);
     }
 
-    public fun new_legs_shop(
+    public fun add_right_bracer(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            BRACER_NAMES, 
+            vector[attributes::right_bracer()],
+            COSMETICS_COLOUR_WAY,
+            BRACER_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            BRACER_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::right_bracer(), items);
+    }
+
+    public fun add_left_glove(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            GLOVE_NAMES, 
+            vector[attributes::left_glove()],
+            COSMETICS_COLOUR_WAY,
+            GLOVE_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            GLOVE_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::left_glove(), items);
+    }
+
+    public fun add_right_glove(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            GLOVE_NAMES, 
+            vector[attributes::right_glove()],
+            COSMETICS_COLOUR_WAY,
+            GLOVE_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            GLOVE_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::right_glove(), items);
+    }
+
+    public fun add_left_pauldron(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            PAULDRON_NAMES, 
+            vector[attributes::left_pauldron()],
+            COSMETICS_COLOUR_WAY,
+            PAULDRON_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            PAULDRON_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::left_pauldron(), items);
+    }
+
+    public fun add_right_pauldron(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            PAULDRON_NAMES, 
+            vector[attributes::right_pauldron()],
+            COSMETICS_COLOUR_WAY,
+            PAULDRON_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            PAULDRON_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::right_pauldron(), items);
+    }
+
+    public fun add_legs(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
@@ -568,7 +640,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             true,
             LEGS_NAMES, 
-            vector[utf8(attributes::legs())],
+            vector[attributes::legs()],
             COSMETICS_COLOUR_WAY,
             LEGS_MANUFACTURERS, 
             make_cosmetic_rarities(),
@@ -577,54 +649,10 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::legs()), items);
+        table::add(&mut genesis_shop.items, attributes::legs(), items);
     }
 
-    public fun new_shins_shop(
-        genesis_shop: &mut GenesisShop,
-        access_control: &AccessControl, 
-        admin: &Admin,  
-        ctx: &mut TxContext
-    ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
-            true,
-            SHINS_NAMES, 
-            vector[utf8(attributes::shins())],
-            COSMETICS_COLOUR_WAY,
-            SHINS_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            SHINS_CHANCES,
-            GENISIS_AMOUNT,
-            ctx
-        );
-
-        table::add(&mut genesis_shop.items, utf8(attributes::shins()), items);
-    }
-
-    public fun new_boots_shop(
-        genesis_shop: &mut GenesisShop,
-        access_control: &AccessControl, 
-        admin: &Admin,  
-        ctx: &mut TxContext
-    ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
-            true,
-            BOOTS_NAMES, 
-            vector[utf8(attributes::boots())],
-            COSMETICS_COLOUR_WAY,
-            BOOTS_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            BOOTS_CHANCES,
-            GENISIS_AMOUNT,
-            ctx
-        );
-
-        table::add(&mut genesis_shop.items, utf8(attributes::boots()), items);
-    }
-
-    public fun new_accessory_shop(
+    public fun add_accessory(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
@@ -634,7 +662,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             true,
             ACCESSORY_NAMES, 
-            vector[utf8(attributes::accessory())],
+            vector[attributes::accessory()],
             COSMETICS_COLOUR_WAY,
             ACCESSORY_MANUFACTURERS, 
             make_cosmetic_rarities(),
@@ -643,10 +671,54 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::accessory()), items);
+        table::add(&mut genesis_shop.items, attributes::accessory(), items);
     }
 
-    public fun new_primary_shop(
+    public fun add_shins(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            SHINS_NAMES, 
+            vector[attributes::shins()],
+            COSMETICS_COLOUR_WAY,
+            SHINS_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            SHINS_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::shins(), items);
+    }
+
+    public fun add_boots(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
+        let items = act_factory::build(
+            true,
+            BOOTS_NAMES, 
+            vector[attributes::boots()],
+            COSMETICS_COLOUR_WAY,
+            BOOTS_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            BOOTS_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::boots(), items);
+    }
+
+    public fun add_primary(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
@@ -656,7 +728,7 @@ module act::act_genesis_shop {
         let items = act_factory::build(
             false,
             PRIMARY_NAMES, 
-            vector[utf8(attributes::primary())],
+            vector[attributes::primary()],
             COSMETICS_COLOUR_WAY, // same
             PRIMARY_MANUFACTURERS, 
             make_primary_rarities(),
@@ -665,10 +737,10 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::primary()), items);
+        table::add(&mut genesis_shop.items, attributes::primary(), items);
     }
 
-    public fun new_secondary_shop(
+    public fun add_secondary(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
@@ -677,7 +749,7 @@ module act::act_genesis_shop {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build_secondary(
             SECONDARY_NAMES, 
-            vector[utf8(attributes::secondary())],
+            vector[attributes::secondary()],
             SECONDARY_COLOUR_WAY,
             SECONDARY_MANUFACTURERS, 
             SECONDARY_RARITIES,
@@ -686,10 +758,10 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::secondary()), items);
+        table::add(&mut genesis_shop.items, attributes::secondary(), items);
     }
 
-    public fun new_tertiary_shop(
+    public fun add_tertiary(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
@@ -698,7 +770,7 @@ module act::act_genesis_shop {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build_tertiary(
             TERTIARY_NAMES, 
-            vector[utf8(attributes::tertiary())],
+            vector[attributes::tertiary()],
             TERTIARY_COLOUR_WAY,
             TERTIARY_MANUFACTURERS, 
             TERTIARY_RARITIES,
@@ -707,7 +779,7 @@ module act::act_genesis_shop {
             ctx
         );
 
-        table::add(&mut genesis_shop.items, utf8(attributes::tertiary()), items);
+        table::add(&mut genesis_shop.items, attributes::tertiary(), items);
     }
 
     // === Public-View Functions ===
@@ -721,7 +793,7 @@ module act::act_genesis_shop {
     }
 
     public(package) fun is_set(self: &GenesisShop): bool {
-        self.items.length() == 14
+        self.items.length() == 18 // 19 equipments - backpiece
     }
 
     // === Private Functions ===
