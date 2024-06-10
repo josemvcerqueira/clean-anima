@@ -1,115 +1,304 @@
-/*
-* @title Genesis Drop
-* @description
-*
-* 1 - 
-*/
-module act::act_genesis_drop {
-    // === Imports ===
+/// Sale stores all data relative to the mint, including all Avatar with equipments data
+/// Equipment data is stored in attributes in Drop, which corresponds to Avatar.attributes
+/// start_times and drops_left and passes are vector corresponding to the different phases
+/// passes are the whitelist object that will be airdropped to the users and destroyed upon mint
 
-    use std::string::utf8;
-    use sui::{random::Random};
+module act::act_genesis_drop {
+    use std::{
+        string::{utf8, String},
+    };
+    use sui::{
+        kiosk::{Kiosk, KioskOwnerCap},
+        coin::Coin,
+        sui::SUI,
+        clock::Clock,
+        random::Random,
+    };
     use act::{
-        act_weapon,
         attributes,
+        act_avatar::{Self, Avatar, AvatarRegistry},
+        act_weapon,
         act_cosmetic,
-        act_avatar::Avatar,
-        act_genesis_shop::GenesisShop
+        act_factory::Item,
+        act_genesis_shop::GenesisShop,
+        uris,
     };
 
     // === Errors ===
+
+    const EPublicNotOpen: u64 = 1;
+    const EWrongPass: u64 = 2;
+    const EInvalidTicket: u64 = 3;
+    const ESaleNotActive: u64 = 4;
+    const EWrongCoinValue: u64 = 5;
+    const ETooManyMints: u64 = 6;
+    const EInvalidPass: u64 = 7;
 
     // === Constants ===
 
     const WEAR_RATING_MAX: u64 = 1_000_000_000;
 
     // === Structs ===
-    
-    // TODO handle distribution
-    public struct GenesisPass has key {
-        id: UID
+
+    // pass for whitelist and free mint, public phase doesn't need a pass
+    public struct GenesisPass has key, store {
+        id: UID,
+        phase: u64,
     }
 
-    // === Method Aliases ===
+    public struct Sale has key {
+        id: UID,
+        active: bool, 
+        start_times: vector<u64>, // idx -> 0: freemint, 1: whitelist, 2: public, >2: closed
+        prices: vector<u64>, // length is number of phases
+        max_mints: vector<u64>, // max mint for a pass by phase (for public it corresponds to max purchases in 1 tx)
+        drops_left: u64,
+    }
 
-    // === Public-Mutative Functions ===
-    
-    // TODO HANDLE PRICE + FIRSTS/SECOND MINT and other stuff
-    // @dev Equips the avatar with 16 random items + 3 weapons 
-    // It will error out if it already has items
-    entry fun first_mint(
+    // if the user has no Avatar when he mints, a ticket is sent to him with all the info
+    // images, models, hash are generated on the frontend, 
+    // then the user can resolve his ticket to mint the Avatar with the equipments
+    public struct AvatarTicket has key {
+        id: UID,
+        drop: vector<Item>,
+        // following fields are to be added between mint_to_ticket and mint_to_avatar
+        username: String,
+        image_url: String, 
+        image_hash: String,
+        model_url: String, 
+    }
+
+    // === Public mutative Functions ===
+
+    fun init(ctx: &mut TxContext) {
+        transfer::share_object(Sale {
+            id: object::new(ctx),
+            active: true,
+            start_times: vector::empty(),
+            prices: vector::empty(),
+            max_mints: vector::empty(),
+            drops_left: 6000,
+        });
+    } 
+
+    // mint equipments to the kiosk
+    entry fun mint_to_kiosk(
+        sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
+        registry: &AvatarRegistry,
+        pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,
+        coin: Coin<SUI>, // exact amount
+        mut quantity: u64, // number of drops to mint
         random: &Random,
-        avatar: &mut Avatar,
-        _: &GenesisPass,
-        ctx: &mut TxContext
+        clock: &Clock,
+        ctx: &mut TxContext,
     ) {
-        let all_types = attributes::types();
-        let mut i = 0;
-        let len = all_types.length();
+        registry.assert_has_avatar(ctx.sender());
+        let amount = coin.value();
+        assert_can_mint(sale, pass, amount, quantity, clock.timestamp_ms());
+        transfer::public_transfer(coin, @treasury);
+
+        let attributes = attributes::types();
         let mut gen = random.new_generator(ctx);
 
-        while (len > i) {
-            let items = genesis_shop.borrow_item_mut(utf8(all_types[i]));
-
-            let total_items = items.length();
-            let index = if (total_items == 1) { 0 } else { gen.generate_u64_in_range(0, total_items - 1) };
-
+        while (!attributes.is_empty()) {
+            let items = genesis_shop.borrow_item_mut(attributes.pop_back());
+            let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
             let item = items.swap_remove(index);
             let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
-            let len = kinds.length();
-            let mut j = 0;
 
-            while (len > j) {
-                let kind = kinds[j];
-
-                if (is_cosmetic) {
-                    let cosmetic = act_cosmetic::new(
-                        name,
-                        utf8(b""),
-                        utf8(b""),
-                        utf8(b""),
-                        kind,
-                        colour_way,
-                        utf8(b"Genesis"),
-                        manufacturer,
-                        rarity,
-                        utf8(b""),
-                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
-                        ctx
-                    );
-                    avatar.equip_minted_cosmetic(cosmetic);
-                } else {
-                    let weapon = act_weapon::new(
-                        name,
-                        utf8(b""),
-                        utf8(b""),
-                        utf8(b""),
-                        kind,
-                        colour_way,
-                        utf8(b"Genesis"),
-                        manufacturer,
-                        rarity,
-                        utf8(b""),
-                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
-                        ctx
-                    );
-                    avatar.equip_minted_weapon(weapon);
-                };
-
-                j = j + 1;
+            if (is_cosmetic) {
+                let cosmetic = act_cosmetic::new(
+                    name,
+                    utf8(b""),
+                    utf8(b""),
+                    utf8(b""),
+                    kinds[0],
+                    colour_way,
+                    utf8(b"Genesis"),
+                    manufacturer,
+                    rarity,
+                    utf8(b""),
+                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    ctx
+                );
+                kiosk.place(cap, cosmetic);
+            } else {
+                let weapon = act_weapon::new(
+                    name,
+                    utf8(b""),
+                    utf8(b""),
+                    utf8(b""),
+                    kinds[0],
+                    colour_way,
+                    utf8(b"Genesis"),
+                    manufacturer,
+                    rarity,
+                    utf8(b""),
+                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    ctx
+                );
+                kiosk.place(cap, weapon);
             };
-            i = i + 1;
         };
+    }
+
+    // mint equipments to a ticket for generating the Avatar
+    entry fun mint_to_ticket(
+        sale: &mut Sale, 
+        genesis_shop: &mut GenesisShop,
+        registry: &AvatarRegistry,
+        pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
+        coin: Coin<SUI>, // exact amount for one drop at this phase
+        random: &Random,
+        clock: &Clock,
+        ctx: &mut TxContext,
+    ) {
+        registry.assert_has_avatar(ctx.sender());
+        let amount = coin.value();
+        assert_can_mint(sale, pass, amount, 1, clock.timestamp_ms());
+        transfer::public_transfer(coin, @treasury);
+
+        let attributes = attributes::types();
+        let mut gen = random.new_generator(ctx);
+        let mut drop = vector::empty();
+
+        while (!attributes.is_empty()) {
+            let items = genesis_shop.borrow_item_mut(attributes.pop_back());
+            let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
+            let item = items.swap_remove(index);
+            drop.push_back(item);
+        };
+
+        transfer::transfer(
+            AvatarTicket {
+                id: object::new(ctx),
+                drop: drop,
+                username: utf8(b""),
+                image_url: utf8(b""),
+                image_hash: utf8(b""),
+                model_url: utf8(b""),
+            },
+            ctx.sender() 
+        );
+    }
+
+    // mint equipments and equip them to the avatar
+    entry fun mint_to_avatar(
+        ticket: AvatarTicket,
+        registry: &mut AvatarRegistry,
+        alias: String,
+        random: &Random,
+        clock: &Clock,
+        ctx: &mut TxContext,
+    ) {
+        assert_valid_ticket(&ticket);
+        let AvatarTicket { id, mut drop, username, image_url, image_hash, model_url } = ticket;
+        id.delete();
+        // TODO: set avatar_url avatar_hash
+        let mut avatar = act_avatar::new_impl(registry, alias, username, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), clock, ctx);
+        let mut gen = random.new_generator(ctx);
+
+        while (!drop.is_empty()) {
+            let item = drop.pop_back();
+            let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+
+            if (is_cosmetic) {
+                let cosmetic = act_cosmetic::new(
+                    name,
+                    utf8(b""),
+                    utf8(b""),
+                    utf8(b""),
+                    kinds[0],
+                    colour_way,
+                    utf8(b"Genesis"),
+                    manufacturer,
+                    rarity,
+                    utf8(b""),
+                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    ctx
+                );
+                avatar.equip_minted_cosmetic(cosmetic);
+            } else {
+                let weapon = act_weapon::new(
+                    name,
+                    utf8(b""),
+                    utf8(b""),
+                    utf8(b""),
+                    kinds[0],
+                    colour_way,
+                    utf8(b"Genesis"),
+                    manufacturer,
+                    rarity,
+                    utf8(b""),
+                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    ctx
+                );
+                avatar.equip_minted_weapon(weapon);
+            };
+        };
+
+
+        act_avatar::transfer(avatar, ctx.sender());
     }
 
     // === Public-View Functions ===
 
-    // === Admin Functions ===
+    // === Admin functions ===
+
+    //TODO: add admin
+    public fun set_active(sale: &mut Sale, active: bool) {
+        sale.active = active;
+    }
+
+    public fun set_start_times(sale: &mut Sale, start_times: vector<u64>) {
+        sale.start_times = start_times;
+    }
+
+    public fun set_prices(sale: &mut Sale, prices: vector<u64>) {
+        sale.prices = prices;
+    }
+
+    public fun set_drops_left(sale: &mut Sale, drops_left: u64) {
+        sale.drops_left = drops_left;
+    }
 
     // === Public-Package Functions ===
 
-    // === Private Functions ===
+    // === Private functions ===
+
+    fun assert_can_mint(sale: &Sale, pass: vector<GenesisPass>, amount: u64, quantity: u64, now: u64) {
+        assert!(sale.active, ESaleNotActive);
+        assert!(pass.length() < 2, EInvalidPass);
+        // current phase
+        let mut phase = 0;
+        while (now <= sale.start_times[phase]) {
+            phase = phase + 1;
+        };
+        if (pass.is_empty()) { // public sale (idx = 2)
+            assert!(now > sale.start_times[2], EPublicNotOpen);
+            pass.destroy_empty();
+        } else { // freemint or whitelist sale
+            let GenesisPass { id, phase } = pass.pop_back();
+            assert!(now > sale.start_times[phase], EWrongPass);
+            id.delete();
+        };
+        // check price and quantity
+        assert!(amount == sale.prices[phase], EWrongCoinValue);
+        assert!(quantity <= sale.max_mints[phase], ETooManyMints);
+    }
+
+    fun assert_valid_ticket(ticket: &AvatarTicket) {
+        assert!(
+            !ticket.username.is_empty() &&
+            !ticket.image_url.is_empty() &&
+            !ticket.image_hash.is_empty() &&
+            !ticket.model_url.is_empty(),
+            EInvalidTicket
+        );
+    }
 
     // === Test Functions ===
 }
