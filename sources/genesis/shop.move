@@ -13,12 +13,12 @@ module act::act_genesis_shop {
     use std::string::{utf8, String};
     use sui::{
         table_vec::TableVec,
-        dynamic_field as df
+        table::{Self, Table},
     };
     use act::{
         act_admin,
         attributes,
-        act_factory::{Self, Item as FactoryItem}, 
+        act_factory::{Self, Item}, 
         access_control::{Admin, AccessControl}
     };
 
@@ -391,31 +391,25 @@ module act::act_genesis_shop {
     public struct Secondary has drop {}
     public struct Tertiary has drop {}
 
-    public struct Shop<phantom Kind> has key, store {
-        id: UID,
-        name: String,
-        set:  bool,
-        items: TableVec<FactoryItem>
-    }
-
-    public struct Item has store {
-        set: bool,
-        items: TableVec<FactoryItem>
-    }
-
     public struct GenesisShop has key {
-        id: UID
+        id: UID,
+        items: Table<String, TableVec<Item>>
     }
 
     // === Method Aliases ===
 
     // === Public-Mutative Functions ===
 
-    public fun new_helm_shop(
+    fun init(ctx: &mut TxContext) {
+        transfer::share_object(GenesisShop { id: object::new(ctx), items: table::new(ctx) });
+    }
+
+    public fun add_helm_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin, 
         ctx: &mut TxContext
-    ): Shop<Helm> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -429,19 +423,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Helm> {
-            id: object::new(ctx),
-            name: utf8(attributes::helm()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::helm()), items);
     }
 
     public fun new_chestpiece_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin, 
         ctx: &mut TxContext
-    ): Shop<Chestpiece> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -455,19 +445,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Chestpiece> {
-            id: object::new(ctx),
-            name: utf8(attributes::chestpiece()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::chestpiece()), items);
     }
 
     public fun new_upper_torso_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin, 
         ctx: &mut TxContext
-    ): Shop<UpperTorso> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -481,19 +467,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<UpperTorso> {
-            id: object::new(ctx),
-            name: utf8(attributes::upper_torso()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::upper_torso()), items);
     }
 
     public fun new_pauldron_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,
         ctx: &mut TxContext
-    ): Shop<Pauldron> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -507,19 +489,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Pauldron> {
-            id: object::new(ctx),
-            name: utf8(attributes::pauldron()),
-            set: true,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::pauldron()), items);
     }
 
     public fun new_arm_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,        
         ctx: &mut TxContext
-    ): Shop<Arm> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -533,19 +511,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Arm> {
-            id: object::new(ctx),
-            name: utf8(attributes::arm()),
-            set: true,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::arm()), items);
     }
 
     public fun new_glove_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ): Shop<Glove> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -559,19 +533,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Glove> {
-            id: object::new(ctx),
-            name: utf8(attributes::glove()),
-            set: true,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::glove()), items);
     }
 
     public fun new_bracer_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ): Shop<Bracer> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -585,19 +555,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Bracer> {
-            id: object::new(ctx),
-            name: utf8(attributes::bracer()),
-            set: true,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::bracer()), items);
     }
 
     public fun new_legs_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ): Shop<Legs> {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -611,19 +577,15 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Legs> {
-            id: object::new(ctx),
-            name: utf8(attributes::legs()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::legs()), items);
     }
 
     public fun new_shins_shop(
+        genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ): Shop<Shins>  {
+    ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
@@ -637,15 +599,16 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Shins> {
-            id: object::new(ctx),
-            name: utf8(attributes::shins()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::shins()), items);
     }
 
-    public fun new_boots_shop(ctx: &mut TxContext): Shop<Boots> {
+    public fun new_boots_shop(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
             BOOTS_NAMES, 
@@ -658,15 +621,16 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Boots> {
-            id: object::new(ctx),
-            name: utf8(attributes::boots()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::boots()), items);
     }
 
-    public fun new_accessory_shop(ctx: &mut TxContext): Shop<Accessory>  {
+    public fun new_accessory_shop(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             true,
             ACCESSORY_NAMES, 
@@ -679,15 +643,16 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Accessory> {
-            id: object::new(ctx),
-            name: utf8(attributes::accessory()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::accessory()), items);
     }
 
-    public fun new_primary_shop(ctx: &mut TxContext): Shop<Primary> {
+    public fun new_primary_shop(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build(
             false,
             PRIMARY_NAMES, 
@@ -700,15 +665,16 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Primary> {
-            id: object::new(ctx),
-            name: utf8(attributes::primary()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::primary()), items);
     }
 
-    public fun new_secondary_shop(ctx: &mut TxContext): Shop<Secondary> {
+    public fun new_secondary_shop(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build_secondary(
             SECONDARY_NAMES, 
             vector[utf8(attributes::secondary())],
@@ -720,15 +686,16 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Secondary> {
-            id: object::new(ctx),
-            name: utf8(attributes::secondary()),
-            set: false,
-            items
-        }
+        table::add(&mut genesis_shop.items, utf8(attributes::secondary()), items);
     }
 
-    public fun new_tertiary_shop(ctx: &mut TxContext): Shop<Tertiary> {
+    public fun new_tertiary_shop(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ) {
+        act_admin::assert_genesis_minter_role(access_control, admin);
         let items = act_factory::build_tertiary(
             TERTIARY_NAMES, 
             vector[utf8(attributes::tertiary())],
@@ -740,51 +707,7 @@ module act::act_genesis_shop {
             ctx
         );
 
-        Shop<Tertiary> {
-            id: object::new(ctx),
-            name: utf8(attributes::secondary()),
-            set: false,
-            items
-        }
-    }
-
-    public fun new_genesis_shop(
-        helm_shop: Shop<Helm>,
-        chestpiece_shop: Shop<Chestpiece>,
-        upper_torso_shop: Shop<UpperTorso>,
-        pauldron_shop: Shop<Pauldron>,
-        arm_shop: Shop<Arm>,
-        glove_shop: Shop<Glove>,
-        bracer_shop: Shop<Bracer>,
-        legs_shop: Shop<Legs>,
-        shins_shop: Shop<Shins>,
-        boots_shop: Shop<Boots>,
-        accessory_shop: Shop<Accessory>,
-        primary_shop: Shop<Primary>,
-        secondary_shop: Shop<Secondary>,
-        tertiary_shop: Shop<Tertiary>,
-        ctx: &mut TxContext
-    ) {
-        let mut shop = GenesisShop {
-            id: object::new(ctx)
-        };
-
-        shop.add(helm_shop);
-        shop.add(chestpiece_shop);
-        shop.add(upper_torso_shop);
-        shop.add(pauldron_shop);
-        shop.add(arm_shop);
-        shop.add(glove_shop);
-        shop.add(bracer_shop);
-        shop.add(legs_shop);
-        shop.add(shins_shop);
-        shop.add(boots_shop);
-        shop.add(accessory_shop);
-        shop.add(primary_shop);
-        shop.add(secondary_shop);
-        shop.add(tertiary_shop);
-
-        transfer::share_object(shop);
+        table::add(&mut genesis_shop.items, utf8(attributes::tertiary()), items);
     }
 
     // === Public-View Functions ===
@@ -793,25 +716,15 @@ module act::act_genesis_shop {
 
     // === Public-Package Functions ===\
 
-    public(package) fun borrow_mut(self: &mut GenesisShop, name: String): &mut Item {
-        df::borrow_mut(&mut self.id, name)
+    public(package) fun borrow_item_mut(self: &mut GenesisShop, name: String): &mut TableVec<Item> {
+        table::borrow_mut(&mut self.items, name)
     }
 
-    public(package) fun items(item: &mut Item): &mut TableVec<FactoryItem> {
-        &mut item.items
-    }
-
-    public(package) fun set(item: &Item): bool {
-        item.set
+    public(package) fun is_set(self: &GenesisShop): bool {
+        self.items.length() == 14
     }
 
     // === Private Functions ===
-
-    fun add<Kind>(self: &mut GenesisShop, shop: Shop<Kind>) {
-        let Shop { id, name, items, set } = shop;
-        id.delete();
-        df::add(&mut self.id, name, Item { items, set });
-    }
 
     fun make_cosmetic_rarities(): vector<vector<vector<u8>>> {
         let mut rarities = vector[];

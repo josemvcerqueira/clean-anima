@@ -50,11 +50,9 @@ module act::act_genesis_drop {
         let mut gen = random.new_generator(ctx);
 
         while (len > i) {
-            let shop = genesis_shop.borrow_mut(utf8(all_types[i]));
-            let items = shop.items();
+            let items = genesis_shop.borrow_item_mut(utf8(all_types[i]));
 
             let total_items = items.length();
-
             let index = if (total_items == 1) { 0 } else { gen.generate_u64_in_range(0, total_items - 1) };
 
             let item = items.swap_remove(index);
