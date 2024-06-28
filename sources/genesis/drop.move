@@ -16,14 +16,13 @@ module act::act_genesis_drop {
     };
     use act::{
         attributes,
-        act_avatar::{Self, Avatar, AvatarRegistry},
+        act_avatar::{Self, AvatarRegistry},
         act_weapon,
         act_cosmetic,
         act_factory::Item,
         act_genesis_shop::GenesisShop,
         act_admin,
         access_control::{AccessControl, Admin},
-        uris,
     };
 
     // === Errors ===
@@ -85,7 +84,7 @@ module act::act_genesis_drop {
 
     // mint equipments to the kiosk
     entry fun mint_to_kiosk(
-        sale: &mut Sale, 
+        sale: &Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
@@ -102,54 +101,58 @@ module act::act_genesis_drop {
         assert_can_mint(sale, pass, amount, quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
-        let mut attributes = attributes::types();
         let mut gen = random.new_generator(ctx);
 
-        while (!attributes.is_empty()) {
-            let items = genesis_shop.borrow_item_mut(attributes.pop_back());
-            let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
-            let item = items.swap_remove(index);
-            let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+        while (quantity > 0) {
+            let mut attributes = attributes::types();
 
-            if (is_cosmetic) {
-                let cosmetic = act_cosmetic::new(
-                    name,
-                    utf8(b""),
-                    utf8(b""),
-                    utf8(b""),
-                    kinds[0],
-                    colour_way,
-                    utf8(b"Genesis"),
-                    manufacturer,
-                    rarity,
-                    utf8(b""),
-                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
-                    ctx
-                );
-                kiosk.place(cap, cosmetic);
-            } else {
-                let weapon = act_weapon::new(
-                    name,
-                    utf8(b""),
-                    utf8(b""),
-                    utf8(b""),
-                    kinds[0],
-                    colour_way,
-                    utf8(b"Genesis"),
-                    manufacturer,
-                    rarity,
-                    utf8(b""),
-                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
-                    ctx
-                );
-                kiosk.place(cap, weapon);
+            while (!attributes.is_empty()) {
+                let items = genesis_shop.borrow_item_mut(attributes.pop_back());
+                let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
+                let item = items.swap_remove(index);
+                let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+
+                if (is_cosmetic) {
+                    let cosmetic = act_cosmetic::new(
+                        name,
+                        utf8(b""),
+                        utf8(b""),
+                        utf8(b""),
+                        kinds[0],
+                        colour_way,
+                        utf8(b"Genesis"),
+                        manufacturer,
+                        rarity,
+                        utf8(b""),
+                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                        ctx
+                    );
+                    kiosk.place(cap, cosmetic);
+                } else {
+                    let weapon = act_weapon::new(
+                        name,
+                        utf8(b""),
+                        utf8(b""),
+                        utf8(b""),
+                        kinds[0],
+                        colour_way,
+                        utf8(b"Genesis"),
+                        manufacturer,
+                        rarity,
+                        utf8(b""),
+                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                        ctx
+                    );
+                    kiosk.place(cap, weapon);
+                };
             };
+            quantity = quantity - 1;
         };
     }
 
     // mint equipments to a ticket for generating the Avatar
     entry fun mint_to_ticket(
-        sale: &mut Sale, 
+        sale: &Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
