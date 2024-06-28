@@ -34,6 +34,7 @@ module act::act_genesis_drop {
     const EWrongCoinValue: u64 = 5;
     const ETooManyMints: u64 = 6;
     const EInvalidPass: u64 = 7;
+    const ENoMoreDrops: u64 = 8;
 
     // === Constants ===
 
@@ -97,8 +98,7 @@ module act::act_genesis_drop {
         ctx: &mut TxContext,
     ) {
         registry.assert_has_avatar(ctx.sender());
-        let amount = coin.value();
-        assert_can_mint(sale, pass, amount, quantity, clock.timestamp_ms());
+        assert_can_mint(sale, pass, coin.value(), quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
         let mut gen = random.new_generator(ctx);
@@ -162,8 +162,7 @@ module act::act_genesis_drop {
         ctx: &mut TxContext,
     ) {
         registry.assert_has_avatar(ctx.sender());
-        let amount = coin.value();
-        assert_can_mint(sale, pass, amount, 1, clock.timestamp_ms());
+        assert_can_mint(sale, pass, coin.value(), 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
         let mut attributes = attributes::types();
@@ -319,6 +318,7 @@ module act::act_genesis_drop {
 
     fun assert_can_mint(sale: &Sale, mut pass: vector<GenesisPass>, amount: u64, quantity: u64, now: u64) {
         assert!(sale.active, ESaleNotActive);
+        assert!(sale.drops_left >= quantity, ENoMoreDrops);
         assert!(pass.length() < 2, EInvalidPass);
         // current phase
         let mut phase = 0;
