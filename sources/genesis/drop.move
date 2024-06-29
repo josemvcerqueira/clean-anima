@@ -317,7 +317,7 @@ module act::act_genesis_drop {
     // === Private functions ===
 
     fun assert_can_mint(sale: &Sale, mut pass: vector<GenesisPass>, amount: u64, quantity: u64, now: u64) {
-        assert!(sale.active, ESaleNotActive);
+        assert!(sale.active && now > sale.start_times[0], ESaleNotActive);
         assert!(sale.drops_left >= quantity, ENoMoreDrops);
         assert!(pass.length() < 2, EInvalidPass);
         // current phase
@@ -325,6 +325,8 @@ module act::act_genesis_drop {
         while (now <= sale.start_times[phase]) {
             phase = phase + 1;
         };
+        phase = phase - 1;
+        
         if (pass.is_empty()) { // public sale (idx = 2)
             assert!(now > sale.start_times[2], EPublicNotOpen);
         } else { // freemint or whitelist sale
