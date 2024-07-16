@@ -135,7 +135,7 @@ module act::act_avatar {
         transfer::public_transfer(display, ctx.sender());
     }
 
-    public fun new(
+    public fun create(
         registry: &mut AvatarRegistry, 
         alias: String,
         username: String,
@@ -148,7 +148,7 @@ module act::act_avatar {
         clock: &Clock,
         ctx: &mut TxContext
     ) {
-        let avatar = new_impl(
+        let avatar = new(
             registry,
             alias,
             username,
@@ -430,7 +430,7 @@ module act::act_avatar {
 
     // === Public-Package Functions ===
 
-    public(package) fun new_impl(
+    public(package) fun new(
         registry: &mut AvatarRegistry, 
         alias: String,
         username: String,

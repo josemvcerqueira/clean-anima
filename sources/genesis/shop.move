@@ -12,14 +12,14 @@ module act::act_genesis_shop {
 
     use std::string::{utf8, String};
     use sui::{
-        table_vec::TableVec,
+        table_vec::{Self, TableVec},
         table::{Self, Table},
     };
     use act::{
         act_admin,
         attributes,
-        act_factory::{Self, Item}, 
-        access_control::{Admin, AccessControl}
+        access_control::{Admin, AccessControl},
+        act_utils::min
     };
 
     // === Errors ===
@@ -380,6 +380,15 @@ module act::act_genesis_shop {
         items: Table<String, TableVec<Item>>
     }
 
+    public struct Item has store, copy, drop {
+        name: String,
+        kinds: vector<String>,
+        is_cosmetic: bool,
+        colour_way: String,
+        manufacturer: String,
+        rarity: String
+    }
+
     // === Method Aliases ===
 
     // === Public-Mutative Functions ===
@@ -395,7 +404,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             HELM_NAMES, 
             vector[attributes::helm()],
@@ -417,7 +426,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             UPPER_TORSO_NAMES, 
             vector[attributes::upper_torso()],
@@ -439,7 +448,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             CHESTPIECE_NAMES, 
             vector[attributes::chestpiece()],
@@ -461,7 +470,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             ARM_NAMES, 
             vector[attributes::left_arm()],
@@ -483,7 +492,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             ARM_NAMES, 
             vector[attributes::right_arm()],
@@ -505,7 +514,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             BRACER_NAMES, 
             vector[attributes::left_bracer()],
@@ -527,7 +536,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             BRACER_NAMES, 
             vector[attributes::right_bracer()],
@@ -549,7 +558,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             GLOVE_NAMES, 
             vector[attributes::left_glove()],
@@ -571,7 +580,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             GLOVE_NAMES, 
             vector[attributes::right_glove()],
@@ -593,7 +602,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             PAULDRON_NAMES, 
             vector[attributes::left_pauldron()],
@@ -615,7 +624,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             PAULDRON_NAMES, 
             vector[attributes::right_pauldron()],
@@ -637,7 +646,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             LEGS_NAMES, 
             vector[attributes::legs()],
@@ -659,7 +668,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             ACCESSORY_NAMES, 
             vector[attributes::accessory()],
@@ -681,7 +690,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             SHINS_NAMES, 
             vector[attributes::shins()],
@@ -703,7 +712,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             true,
             BOOTS_NAMES, 
             vector[attributes::boots()],
@@ -725,7 +734,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build(
+        let items = build(
             false,
             PRIMARY_NAMES, 
             vector[attributes::primary()],
@@ -747,7 +756,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build_secondary(
+        let items = build_secondary(
             SECONDARY_NAMES, 
             vector[attributes::secondary()],
             SECONDARY_COLOUR_WAY,
@@ -768,7 +777,7 @@ module act::act_genesis_shop {
         ctx: &mut TxContext
     ) {
         act_admin::assert_genesis_minter_role(access_control, admin);
-        let items = act_factory::build_tertiary(
+        let items = build_tertiary(
             TERTIARY_NAMES, 
             vector[attributes::tertiary()],
             TERTIARY_COLOUR_WAY,
@@ -784,6 +793,26 @@ module act::act_genesis_shop {
 
     // === Public-View Functions ===
 
+    public fun kinds(self: &Item): vector<String> {
+        self.kinds
+    }
+
+    public fun name(self: &Item): String {
+        self.name
+    }
+
+    public fun colour_way(self: &Item): String {
+        self.colour_way
+    }
+
+    public fun manufacturer(self: &Item): String {
+        self.manufacturer
+    }
+
+    public fun rarity(self: &Item): String {
+        self.rarity
+    }
+
     // === Admin Functions ===
 
     // === Public-Package Functions ===\
@@ -796,7 +825,169 @@ module act::act_genesis_shop {
         self.items.length() == 18 // 19 equipments - backpiece
     }
 
+    public(package) fun unpack(item: Item): (String, vector<String>, String, String, String, bool) {
+        let Item { name, kinds, colour_way, manufacturer, rarity, is_cosmetic } = item;
+        (name, kinds, colour_way, manufacturer, rarity, is_cosmetic)
+    }
+
     // === Private Functions ===
+
+    fun build(
+        is_cosmetic: bool,
+        names: vector<vector<u8>>,
+        kinds: vector<String>,
+        colour_ways: vector<vector<u8>>,
+        manufacturers: vector<vector<u8>>,
+        rarities:vector<vector<vector<u8>>>,
+        chances: vector<vector<u64>>,
+        precision: u64,
+        ctx: &mut TxContext
+    ): TableVec<Item> {
+        let mut i = 0;        
+        let mut remaining = precision;
+        let mut items = table_vec::empty(ctx);
+        let names_len = names.length();
+        let chances_len = chances.length();
+        
+        while (names_len > i) {
+
+            let name = names[i];
+            let manufacturer = manufacturers[i];
+            let rarity = rarities[i];
+            let chances = chances[i];
+
+            let mut j = 0;
+
+            while (chances_len > j) {
+
+                let num_of_items = min(chances[j], remaining);
+                remaining = remaining - num_of_items;
+
+                let mut k = 0;
+
+                while (num_of_items > k) {
+                    items.push_back(Item {
+                        is_cosmetic,
+                        name: utf8(name),
+                        kinds,
+                        colour_way: utf8(colour_ways[j]),
+                        manufacturer: utf8(manufacturer),
+                        rarity: utf8(rarity[j])
+                    });
+
+                    k = k + 1;
+                };
+
+                j = j + 1;
+            };
+
+            i = i + 1;
+        };
+
+        items
+    }
+
+    fun build_secondary(
+        names: vector<vector<u8>>,
+        kinds: vector<String>,
+        colour_ways: vector<vector<vector<u8>>>,
+        manufacturers: vector<vector<u8>>,
+        rarities:vector<vector<vector<u8>>>,
+        chances: vector<vector<u64>>,
+        precision: u64,
+        ctx: &mut TxContext
+    ): TableVec<Item> {
+        let mut i = 0;        
+        let mut remaining = precision;
+        let mut items = table_vec::empty(ctx);
+        let names_len = names.length();
+        let chances_len = chances.length();
+        
+        while (names_len > i) {
+
+            let name = names[i];
+            let manufacturer = manufacturers[i];
+            let rarity = rarities[i];
+            let chances = chances[i];
+            let colour_ways = colour_ways[i];
+
+            let mut j = 0;
+
+            while (chances_len > j) {
+
+                let num_of_items = min(chances[j], remaining);
+                remaining = remaining - num_of_items;
+
+                let mut k = 0;
+
+                while (num_of_items > k) {
+                    items.push_back(Item {
+                        is_cosmetic: false,
+                        name: utf8(name),
+                        kinds,
+                        colour_way: utf8(colour_ways[j]),
+                        manufacturer: utf8(manufacturer),
+                        rarity: utf8(rarity[j])
+                    });
+
+                    k = k + 1;
+                };
+
+                j = j + 1;
+            };
+
+            i = i + 1;
+        };
+
+        items
+    }
+
+    fun build_tertiary(
+        names: vector<vector<u8>>,
+        kinds: vector<String>,
+        colour_ways: vector<vector<u8>>,
+        manufacturers: vector<vector<u8>>,
+        rarities: vector<vector<u8>>,
+        chances: vector<u64>,
+        precision: u64,
+        ctx: &mut TxContext
+    ): TableVec<Item> {
+        let mut i = 0;        
+        let mut remaining = precision;
+        let mut items = table_vec::empty(ctx);
+        let names_len = names.length();
+        
+        while (names_len > i) {
+
+            let name = names[i];
+            let manufacturer = manufacturers[i];
+            let rarity = rarities[i];
+            let chance = chances[i];
+            let colour_ways = colour_ways[i];
+
+            let num_of_items = min(chance, remaining);
+            remaining = remaining - num_of_items;
+
+            let mut k = 0;
+
+            while (num_of_items > k) {
+                items.push_back(Item {
+                    is_cosmetic: false,
+                    name: utf8(name),
+                    kinds,
+                    colour_way: utf8(colour_ways),
+                    manufacturer: utf8(manufacturer),
+                    rarity: utf8(rarity)
+                });
+
+                k = k + 1;
+            };
+
+            i = i + 1;
+        };
+
+        items
+    }
 
     fun make_cosmetic_rarities(): vector<vector<vector<u8>>> {
         let mut rarities = vector[];

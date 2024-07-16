@@ -19,8 +19,7 @@ module act::act_genesis_drop {
         act_avatar::{Self, AvatarRegistry},
         act_weapon,
         act_cosmetic,
-        act_factory::Item,
-        act_genesis_shop::GenesisShop,
+        act_genesis_shop::{Item, GenesisShop},
         act_admin,
         access_control::{AccessControl, Admin},
     };
@@ -202,7 +201,7 @@ module act::act_genesis_drop {
         let AvatarTicket { id, mut drop, username, image_url, image_hash, model_url } = ticket;
         id.delete();
         // TODO: set avatar_url avatar_hash
-        let mut avatar = act_avatar::new_impl(registry, alias, username, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), clock, ctx);
+        let mut avatar = act_avatar::new(registry, alias, username, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), clock, ctx);
         let mut gen = random.new_generator(ctx);
 
         while (!drop.is_empty()) {
