@@ -1,4 +1,4 @@
-module act::act_upgrade {
+module act::upgrade {
     // === Imports ===
 
     use std::string::String;
@@ -10,8 +10,7 @@ module act::act_upgrade {
     // === Structs ===
 
     public struct Upgrade has store {
-        name: String,
-        image: String
+        url: String
     }
 
     // === Method Aliases ===
@@ -20,23 +19,16 @@ module act::act_upgrade {
 
     // === Public-View Functions ===
 
-    public fun name(self: &Upgrade): String {
-        self.name
-    }
-
-    public fun image(self: &Upgrade): String {
-        self.image
+    public fun url(self: &Upgrade): String {
+        self.url
     }
 
     // === Admin Functions ===
 
     // === Public-Package Functions ===
 
-    public(package) fun new(name: String, image: String): Upgrade {
-        Upgrade {   
-            name,
-            image
-        }
+    public(package) fun new(url: String): Upgrade {
+        Upgrade { url }
     }
 
     // === Private Functions ===

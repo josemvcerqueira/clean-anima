@@ -2,7 +2,7 @@
 
 module act::uris {
     use std::string::{utf8, String};
-    use act::act_genesis_shop::{Self, Item};
+    use act::genesis_shop::{Self, Item};
     use act::attributes;
 
     public fun get_weapon_uris(name: String, colour_way: String): (String, String, String) {

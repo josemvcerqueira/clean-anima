@@ -7,7 +7,7 @@
 *
 * @dev Please call these functions only once.
 */
-module act::act_genesis_shop {
+module act::genesis_shop {
     // === Imports ===
 
     use std::string::{utf8, String};
@@ -16,10 +16,10 @@ module act::act_genesis_shop {
         table::{Self, Table},
     };
     use act::{
-        act_admin,
+        admin,
         attributes,
         access_control::{Admin, AccessControl},
-        act_utils::min
+        utils::min
     };
 
     // === Errors ===
@@ -403,7 +403,7 @@ module act::act_genesis_shop {
         admin: &Admin, 
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             HELM_NAMES, 
@@ -425,7 +425,7 @@ module act::act_genesis_shop {
         admin: &Admin, 
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             UPPER_TORSO_NAMES, 
@@ -447,7 +447,7 @@ module act::act_genesis_shop {
         admin: &Admin, 
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             CHESTPIECE_NAMES, 
@@ -469,7 +469,7 @@ module act::act_genesis_shop {
         admin: &Admin,        
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             ARM_NAMES, 
@@ -491,7 +491,7 @@ module act::act_genesis_shop {
         admin: &Admin,        
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             ARM_NAMES, 
@@ -513,7 +513,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             BRACER_NAMES, 
@@ -535,7 +535,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             BRACER_NAMES, 
@@ -557,7 +557,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             GLOVE_NAMES, 
@@ -579,7 +579,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             GLOVE_NAMES, 
@@ -601,7 +601,7 @@ module act::act_genesis_shop {
         admin: &Admin,
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             PAULDRON_NAMES, 
@@ -623,7 +623,7 @@ module act::act_genesis_shop {
         admin: &Admin,
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             PAULDRON_NAMES, 
@@ -645,7 +645,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             LEGS_NAMES, 
@@ -667,7 +667,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             ACCESSORY_NAMES, 
@@ -689,7 +689,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             SHINS_NAMES, 
@@ -711,7 +711,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             true,
             BOOTS_NAMES, 
@@ -733,7 +733,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build(
             false,
             PRIMARY_NAMES, 
@@ -755,7 +755,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build_secondary(
             SECONDARY_NAMES, 
             vector[attributes::secondary()],
@@ -776,7 +776,7 @@ module act::act_genesis_shop {
         admin: &Admin,  
         ctx: &mut TxContext
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         let items = build_tertiary(
             TERTIARY_NAMES, 
             vector[attributes::tertiary()],

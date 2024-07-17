@@ -2,8 +2,17 @@
 
 [move]
 version = 2
-manifest_digest = "D35063DBE43B919C07806EA7A5AA075895D515459F9981706FF3A0CAEC97643E"
+manifest_digest = "04FAC214CAB8E343B249F964EF2B7A637ECEAD70F0F9B551B88B8D5FA08D9A4B"
 deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
+dependencies = [
+  { name = "ACT" },
+  { name = "Sui" },
+]
+
+[[move.package]]
+name = "ACT"
+source = { local = "../ACT" }
+
 dependencies = [
   { name = "Kiosk" },
   { name = "Sui" },

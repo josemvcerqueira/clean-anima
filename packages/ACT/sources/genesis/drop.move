@@ -3,7 +3,7 @@
 /// start_times and drops_left and passes are vector corresponding to the different phases
 /// passes are the whitelist object that will be airdropped to the users and destroyed upon mint
 
-module act::act_genesis_drop {
+module act::genesis_drop {
     use std::{
         string::{utf8, String},
     };
@@ -16,11 +16,11 @@ module act::act_genesis_drop {
     };
     use act::{
         attributes,
-        act_avatar::{Self, AvatarRegistry},
-        act_weapon,
-        act_cosmetic,
-        act_genesis_shop::{Item, GenesisShop},
-        act_admin,
+        avatar::{Self, AvatarRegistry},
+        weapon,
+        cosmetic,
+        genesis_shop::{Item, GenesisShop},
+        admin,
         access_control::{AccessControl, Admin},
     };
 
@@ -63,7 +63,6 @@ module act::act_genesis_drop {
         id: UID,
         drop: vector<Item>,
         // following fields are to be added between mint_to_ticket and mint_to_avatar
-        username: String,
         image_url: String, 
         image_hash: String,
         model_url: String, 
@@ -112,7 +111,7 @@ module act::act_genesis_drop {
                 let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
 
                 if (is_cosmetic) {
-                    let cosmetic = act_cosmetic::new(
+                    let cosmetic = cosmetic::new(
                         name,
                         utf8(b""),
                         utf8(b""),
@@ -128,7 +127,7 @@ module act::act_genesis_drop {
                     );
                     kiosk.place(cap, cosmetic);
                 } else {
-                    let weapon = act_weapon::new(
+                    let weapon = weapon::new(
                         name,
                         utf8(b""),
                         utf8(b""),
@@ -179,7 +178,6 @@ module act::act_genesis_drop {
             AvatarTicket {
                 id: object::new(ctx),
                 drop: drop,
-                username: utf8(b""),
                 image_url: utf8(b""),
                 image_hash: utf8(b""),
                 model_url: utf8(b""),
@@ -192,16 +190,14 @@ module act::act_genesis_drop {
     entry fun mint_to_avatar(
         ticket: AvatarTicket,
         registry: &mut AvatarRegistry,
-        alias: String,
         random: &Random,
-        clock: &Clock,
         ctx: &mut TxContext,
     ) {
         assert_valid_ticket(&ticket);
-        let AvatarTicket { id, mut drop, username, image_url, image_hash, model_url } = ticket;
+        let AvatarTicket { id, mut drop, image_url, image_hash, model_url } = ticket;
         id.delete();
         // TODO: set avatar_url avatar_hash
-        let mut avatar = act_avatar::new(registry, alias, username, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), clock, ctx);
+        let mut avatar = avatar::new(registry, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), ctx);
         let mut gen = random.new_generator(ctx);
 
         while (!drop.is_empty()) {
@@ -209,7 +205,7 @@ module act::act_genesis_drop {
             let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
 
             if (is_cosmetic) {
-                let cosmetic = act_cosmetic::new(
+                let cosmetic = cosmetic::new(
                     name,
                     utf8(b""),
                     utf8(b""),
@@ -225,7 +221,7 @@ module act::act_genesis_drop {
                 );
                 avatar.equip_minted_cosmetic(cosmetic);
             } else {
-                let weapon = act_weapon::new(
+                let weapon = weapon::new(
                     name,
                     utf8(b""),
                     utf8(b""),
@@ -244,7 +240,7 @@ module act::act_genesis_drop {
         };
 
 
-        act_avatar::transfer(avatar, ctx.sender());
+        avatar::transfer(avatar, ctx.sender());
     }
 
     // === Public-View Functions ===
@@ -257,7 +253,7 @@ module act::act_genesis_drop {
         recipient: address,
         ctx: &mut TxContext,
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         transfer::public_transfer(GenesisPass { id: object::new(ctx), phase: 0 }, recipient);
     }
 
@@ -267,7 +263,7 @@ module act::act_genesis_drop {
         recipient: address,
         ctx: &mut TxContext,
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         transfer::public_transfer(GenesisPass { id: object::new(ctx), phase: 1 }, recipient);
     }
 
@@ -277,7 +273,7 @@ module act::act_genesis_drop {
         admin: &Admin,
         active: bool
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         sale.active = active;
     }
 
@@ -287,7 +283,7 @@ module act::act_genesis_drop {
         admin: &Admin,
         start_times: vector
     <u64>) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         sale.start_times = start_times;
     }
 
@@ -297,7 +293,7 @@ module act::act_genesis_drop {
         admin: &Admin,
         prices: vector
     <u64>) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         sale.prices = prices;
     }
 
@@ -307,7 +303,7 @@ module act::act_genesis_drop {
         admin: &Admin,
         drops_left: u64
     ) {
-        act_admin::assert_genesis_minter_role(access_control, admin);
+        admin::assert_genesis_minter_role(access_control, admin);
         sale.drops_left = drops_left;
     }
 
@@ -341,7 +337,6 @@ module act::act_genesis_drop {
 
     fun assert_valid_ticket(ticket: &AvatarTicket) {
         assert!(
-            !ticket.username.is_empty() &&
             !ticket.image_url.is_empty() &&
             !ticket.image_hash.is_empty() &&
             !ticket.model_url.is_empty(),

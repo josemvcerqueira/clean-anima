@@ -1,4 +1,4 @@
-module act::act_utils {
+module act::utils {
     // === Imports ===
 
     // === Errors ===
