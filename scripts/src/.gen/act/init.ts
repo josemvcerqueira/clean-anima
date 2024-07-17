@@ -1,0 +1,31 @@
+import * as accessControl from "./access-control/structs";
+import * as actAvatar from "./act-avatar/structs";
+import * as actCosmetic from "./act-cosmetic/structs";
+import * as actGenesisDrop from "./act-genesis-drop/structs";
+import * as actGenesisShop from "./act-genesis-shop/structs";
+import * as actUpgrade from "./act-upgrade/structs";
+import * as actWeapon from "./act-weapon/structs";
+import {StructClassLoader} from "../_framework/loader";
+
+export function registerClasses(loader: StructClassLoader) { loader.register(accessControl.AccessControl);
+loader.register(accessControl.Admin);
+loader.register(actUpgrade.Upgrade);
+loader.register(actWeapon.ACT_WEAPON);
+loader.register(actWeapon.Equip);
+loader.register(actWeapon.Weapon);
+loader.register(actCosmetic.Equip);
+loader.register(actCosmetic.ACT_COSMETIC);
+loader.register(actCosmetic.Cosmetic);
+loader.register(actAvatar.ACT_AVATAR);
+loader.register(actAvatar.Accolade);
+loader.register(actAvatar.Avatar);
+loader.register(actAvatar.AvatarRegistry);
+loader.register(actAvatar.CosmeticKey);
+loader.register(actAvatar.Reputation);
+loader.register(actAvatar.WeaponKey);
+loader.register(actGenesisShop.Item);
+loader.register(actGenesisShop.GenesisShop);
+loader.register(actGenesisDrop.AvatarTicket);
+loader.register(actGenesisDrop.GenesisPass);
+loader.register(actGenesisDrop.Sale);
+ }

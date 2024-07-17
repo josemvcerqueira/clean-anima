@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "publish": "bun ./src/publish.ts",
+    "prepare-shop": "bun ./src/prepare-shop.ts"
+  },
+  "dependencies": {
+    "@mysten/sui": "^1.2.1",
+    "bun-types": "^1.0.25",
+    "dotenv": "^16.4.1"
+  }
+}

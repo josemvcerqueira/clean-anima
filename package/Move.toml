@@ -1,5 +1,5 @@
 [package]
-name = "act"
+name = "ACT"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
 # authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
@@ -20,7 +20,7 @@ Kiosk = { git = "https://github.com/MystenLabs/apps.git", subdir = "kiosk", rev 
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-act = "0x0"
+act = "0x39eace67af11d8ded99f0fccca47c59b5c2582e2e48353da211aa6d7cf4b5ecc"
 kiosk = "0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585"
 treasury = "0xbabe" # TODO: replace with the actual address
 
