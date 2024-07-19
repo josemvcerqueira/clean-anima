@@ -64,6 +64,9 @@ module anima::acess_control_tests {
         access_control::remove(&super_admin, &mut ac, TEST_ROLE);
         assert_eq(access_control::contains(&ac, TEST_ROLE), false);
 
+        access_control::remove(&super_admin, &mut ac, TEST_ROLE);
+        assert_eq(access_control::contains(&ac, TEST_ROLE), false);
+
         destroy(ac);
         destroy(super_admin);
     }
@@ -112,12 +115,16 @@ module anima::acess_control_tests {
         access_control::grant(&super_admin, &mut ac, TEST_ROLE, id_address(&admin));
 
         assert_eq(access_control::has_role(&admin, &ac, TEST_ROLE), true);
+        // @ does not error out
+        assert_eq(admin.admin_has_role( &ac, b"just to test"), false);
+        assert_eq(admin.admin_has_role( &ac, TEST_ROLE), true);
 
         access_control::renounce(&admin, &mut ac, TEST_ROLE);
         // Can renounce twice without throwing.
         access_control::renounce(&admin, &mut ac, TEST_ROLE);
 
         assert_eq(access_control::has_role(&admin, &ac, TEST_ROLE), false);
+        assert_eq(admin.admin_has_role( &ac, TEST_ROLE), false);
 
         destroy(ac);
         destroy(admin);
@@ -233,6 +240,23 @@ module anima::acess_control_tests {
         let admin = access_control::new_admin(&ac2, &mut new_from_hint(@0x6, 1, 2, 3, 4));
 
         access_control::renounce(&admin, &mut ac, TEST_ROLE);
+
+        destroy(ac);
+        destroy(ac2);
+        destroy(admin);
+        destroy(super_admin);
+        destroy(super_admin2);
+    }
+
+    #[test]
+    #[expected_failure(abort_code = access_control::EInvalidAccessControlAddress)]
+    fun test_has_role_wrong_access_control() {
+        let (ac, super_admin) = access_control::new(&mut dummy());
+        let (ac2, super_admin2) = access_control::new(&mut new_from_hint(@0x5, 1, 2, 3, 4));
+
+        let admin = access_control::new_admin(&ac2, &mut new_from_hint(@0x6, 1, 2, 3, 4));
+
+        admin.has_role(&ac, TEST_ROLE);
 
         destroy(ac);
         destroy(ac2);

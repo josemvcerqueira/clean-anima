@@ -79,11 +79,11 @@ module anima::account {
         username: String,
         clock: &Clock,
         ctx: &mut TxContext
-    ) {
+    ): Account {
         // One Account per user
         registry.assert_no_avatar(ctx.sender());
         
-        let avatar = Account {
+        let account = Account {
             id: object::new(ctx),
             alias,
             username,
@@ -91,9 +91,13 @@ module anima::account {
             accolades: table_vec::empty(ctx),
         };
 
-        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
+        registry.accounts.add(ctx.sender(), account.id.uid_to_inner());
 
-        transfer::transfer(avatar, ctx.sender());
+        account
+    }
+
+    public fun keep(self: Account, ctx: &TxContext) {
+        transfer::transfer(self, ctx.sender());
     }
 
     public fun update_alias(self: &mut Account, alias: String) {
@@ -192,4 +196,76 @@ module anima::account {
     // === Private Functions ===
 
     // === Test Functions === 
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(ctx);
+    }
+
+    #[test_only]
+    public fun accounts(self: &Registry): &Table<address, ID> {
+        &self.accounts
+    }
+
+    #[test_only]
+    public fun accolades(self: &Account): &TableVec<Accolade> {
+        &self.accolades
+    }
+    
+    #[test_only]
+    public use fun accolade_type as Accolade.type_;
+    #[test_only]
+    public fun accolade_type(self: &Accolade): String {
+        self.`type`
+    }
+
+    #[test_only]
+    public use fun accolade_description as Accolade.description;
+    #[test_only]
+    public fun accolade_description(self: &Accolade): String {
+        self.description
+    }
+
+    #[test_only]
+    public use fun accolade_url as Accolade.url;
+    #[test_only]
+    public fun accolade_url(self: &Accolade): String {
+        self.url
+    }
+
+    #[test_only]
+    public use fun reputation_type as Reputation.type_;
+    #[test_only]
+    public fun reputation_type(self: &Reputation): String {
+        self.`type`
+    }
+
+    #[test_only]
+    public fun value(self: &Reputation): u64 {
+        self.value
+    }
+
+    #[test_only]
+    public fun positive(self: &Reputation): bool {
+        self.positive
+    }
+
+    #[test_only]
+    public fun issuer(self: &Reputation): ID {
+        self.issuer
+    }
+
+    #[test_only]
+    public use fun reputation_description as Reputation.description;
+    #[test_only]
+    public fun reputation_description(self: &Reputation): String {
+        self.description
+    }
+
+    #[test_only]
+    public use fun reputation_url as Reputation.url;
+    #[test_only]
+    public fun reputation_url(self: &Reputation): String {
+        self.url
+    }
 }
