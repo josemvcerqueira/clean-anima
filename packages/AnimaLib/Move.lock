@@ -2,26 +2,8 @@
 
 [move]
 version = 2
-manifest_digest = "8D98AC7200052814ACE09968D4253843E8B859A036748256591B7C8CA5B4DA69"
-deps_digest = "060AD7E57DFB13104F21BE5F5C3759D03F0553FC3229247D9A7A6B45F50D03A3"
-dependencies = [
-  { name = "AnimaLib" },
-  { name = "Kiosk" },
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "AnimaLib"
-source = { local = "../AnimaLib" }
-
-dependencies = [
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "Kiosk"
-source = { git = "https://github.com/MystenLabs/apps.git", rev = "testnet", subdir = "kiosk" }
-
+manifest_digest = "63C9102A08897FF9D2462C26A8496778904613DD843CA4FA56BD0B85EED37C1A"
+deps_digest = "F8BBB0CCB2491CA29A3DF03D6F92277A4F3574266507ACD77214D37ECA3F3082"
 dependencies = [
   { name = "Sui" },
 ]
@@ -42,3 +24,11 @@ dependencies = [
 compiler-version = "1.29.0"
 edition = "2024.beta"
 flavor = "sui"
+
+[env]
+
+[env.testnet]
+chain-id = "4c78adac"
+original-published-id = "0x2dfbe84752305de6e87a2372739438f3c67f1e7f3a07f1dad69f650a9d2c2d1e"
+latest-published-id = "0x2dfbe84752305de6e87a2372739438f3c67f1e7f3a07f1dad69f650a9d2c2d1e"
+published-version = "1"

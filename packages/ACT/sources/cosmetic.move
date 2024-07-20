@@ -12,10 +12,10 @@ module act::cosmetic {
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
+    use animalib::access_control::{Admin, AccessControl};
     use act::{
         admin,
         upgrade::{Self, Upgrade},
-        access_control::{Admin, AccessControl},
     };
     
     // === Errors ===

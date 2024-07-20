@@ -1,5 +1,5 @@
 #[test_only]
-module anima::acess_control_tests {
+module animalib::acess_control_tests {
 
     use sui::{
         object::id_address,
@@ -7,7 +7,7 @@ module anima::acess_control_tests {
         tx_context::{dummy, new_from_hint}
     };
 
-    use anima::access_control;
+    use animalib::access_control;
 
     const TEST_ROLE: vector<u8> = b"TEST_ROLE";
 

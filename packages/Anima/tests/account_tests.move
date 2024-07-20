@@ -7,10 +7,11 @@ module anima::account_tests {
         test_scenario::{Self as ts, Scenario, receiving_ticket_by_id}
     };
 
+    use animalib::access_control::{Admin, AccessControl};
+
     use anima::{
         admin,
         account::{Self, Registry, Reputation},
-        access_control::{Admin, AccessControl},
     };
 
     const OWNER: address = @0xBABE;

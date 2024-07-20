@@ -1,7 +1,7 @@
 module anima::admin {
     // === Imports ===
 
-    use anima::access_control::{Self, Admin, AccessControl};
+    use animalib::access_control::{Self, Admin, AccessControl};
 
     // === Errors ===
 

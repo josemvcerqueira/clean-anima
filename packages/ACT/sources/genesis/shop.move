@@ -15,11 +15,10 @@ module act::genesis_shop {
         table_vec::{Self, TableVec},
         table::{Self, Table},
     };
+    use animalib::access_control::{Admin, AccessControl};
     use act::{
         admin,
         attributes,
-        access_control::{Admin, AccessControl},
-        utils::min
     };
 
     // === Errors ===
@@ -1001,6 +1000,7 @@ module act::genesis_shop {
         rarities
     }
 
+    #[allow(implicit_const_copy)]
     fun make_primary_rarities(): vector<vector<vector<u8>>> {
         let mut rarities = vector[];
         let mut i = 0;
@@ -1012,6 +1012,10 @@ module act::genesis_shop {
         };
 
         rarities
+    }
+
+    fun min(x: u64, y: u64): u64 {
+        if (x > y) y else x
     }
 
     // === Test Functions ===    

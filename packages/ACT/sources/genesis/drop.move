@@ -14,6 +14,7 @@ module act::genesis_drop {
         clock::Clock,
         random::Random,
     };
+    use animalib::access_control::{Admin, AccessControl};
     use act::{
         attributes,
         avatar::{Self, AvatarRegistry},
@@ -21,7 +22,6 @@ module act::genesis_drop {
         cosmetic,
         genesis_shop::{Item, GenesisShop},
         admin,
-        access_control::{AccessControl, Admin},
     };
 
     // === Errors ===

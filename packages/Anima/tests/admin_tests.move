@@ -5,10 +5,9 @@ module anima::admin_tests {
         test_scenario::{Self as ts, Scenario}
     };
 
-    use anima::{
-        admin,
-        access_control::{Admin, AccessControl},
-    };
+    use animalib::access_control::{Admin, AccessControl};
+
+    use anima::admin;
 
     const OWNER: address = @0xBABE;
     const ACCOLADES_ROLE: vector<u8> = b"ACCOLADES_ROLE";

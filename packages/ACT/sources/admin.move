@@ -1,7 +1,7 @@
 module act::admin {
     // === Imports ===
 
-    use act::access_control::{Self, Admin, AccessControl};
+    use animalib::access_control::{Self, Admin, AccessControl};
 
     // === Errors ===
 
