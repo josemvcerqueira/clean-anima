@@ -171,6 +171,79 @@ module act::avatar_tests {
         world.end();
     }  
 
+    #[test]
+    fun test_upgrade() {
+        let mut world = start_world();
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+
+        assert_eq(avatar.upgrades().length(), 0);
+
+        avatar.upgrade(&world.access_control, &world.admin, b"upgrade.png".to_string());
+        avatar.upgrade(&world.access_control, &world.admin, b"upgrade1.png".to_string());
+
+        assert_eq(avatar.upgrades().length(), 2);
+        assert_eq(avatar.upgrades()[0].url(), b"upgrade.png".to_string());
+        assert_eq(avatar.upgrades()[1].url(), b"upgrade1.png".to_string());
+
+        avatar.keep(world.scenario.ctx());
+        world.end();
+    }
+
+    #[test]
+    fun test_upgrade_equipped_weapon() {
+        let mut world = start_world();
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let weapon = new_weapon(world.scenario.ctx());
+
+        assert_eq(weapon.upgrades().length(), 0);
+
+        avatar.equip_minted_weapon(weapon);
+
+        assert_eq(avatar.borrow_equipped_weapon(WEAPON_SLOT.to_string()).upgrades().length(), 0);
+
+        avatar.upgrade_equipped_weapon(
+            &world.access_control, 
+            &world.admin, 
+            WEAPON_SLOT.to_string(), 
+            b"upgrade2.png".to_string()
+        );
+
+        assert_eq(avatar.borrow_equipped_weapon(WEAPON_SLOT.to_string()).upgrades().length(), 1);
+        assert_eq(avatar.borrow_equipped_weapon(WEAPON_SLOT.to_string()).upgrades()[0].url(), b"upgrade2.png".to_string());
+
+        avatar.keep(world.scenario.ctx());
+        world.end();
+    }
+
+    #[test]
+    fun test_upgrade_equipped_cosmetic() {
+        let mut world = start_world();
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let cosmetic = new_cosmetic(world.scenario.ctx());
+
+        assert_eq(cosmetic.upgrades().length(), 0);
+
+        avatar.equip_minted_cosmetic(cosmetic);
+
+        assert_eq(avatar.borrow_equipped_cosmetic(COSMETIC_TYPE.to_string()).upgrades().length(), 0);
+
+        avatar.upgrade_equipped_cosmetic(
+            &world.access_control, 
+            &world.admin, 
+            COSMETIC_TYPE.to_string(), 
+            b"upgrade2.png".to_string()
+        );
+
+        assert_eq(avatar.borrow_equipped_cosmetic(COSMETIC_TYPE.to_string()).upgrades().length(), 1);
+        assert_eq(avatar.borrow_equipped_cosmetic(COSMETIC_TYPE.to_string()).upgrades()[0].url(), b"upgrade2.png".to_string());
+
+        avatar.keep(world.scenario.ctx());
+        world.end();
+    }  
+
     fun start_world(): World {
         let mut scenario = ts::begin(OWNER);
 

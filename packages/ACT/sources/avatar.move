@@ -315,19 +315,6 @@ module act::avatar {
         self.upgrades.push_back(upgrade::new(url));
     }
 
-    public fun upgrade_equipped_cosmetic(
-        self: &mut Avatar, 
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        `type`: String,
-        url: String        
-    ) {
-        admin::assert_upgrades_role(access_control, admin);
-        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
-        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
-        cosmetic.upgrade(access_control, admin, url);   
-    }
-
     public fun upgrade_equipped_weapon(
         self: &mut Avatar, 
         access_control: &AccessControl, 
@@ -339,6 +326,19 @@ module act::avatar {
         assert!(dof::exists_(&self.id, WeaponKey(slot)), EWeaponIsNotEquipped);
         let weapon = dof::borrow_mut<WeaponKey, Weapon>(&mut self.id, WeaponKey(slot)); 
         weapon.upgrade(access_control, admin, url);   
+    }
+
+    public fun upgrade_equipped_cosmetic(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        `type`: String,
+        url: String        
+    ) {
+        admin::assert_upgrades_role(access_control, admin);
+        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
+        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
+        cosmetic.upgrade(access_control, admin, url);   
     }
 
     // === Public-Package Functions ===
