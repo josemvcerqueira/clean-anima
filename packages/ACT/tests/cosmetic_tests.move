@@ -1,5 +1,5 @@
 #[test_only]
-module act::weapon_tests {
+module act::cosmetic_tests {
 
     use std::type_name;
     use sui::{
@@ -16,8 +16,8 @@ module act::weapon_tests {
     use animalib::access_control::{Admin, AccessControl};
     use act::{
         item,
-        weapon::{Self, Equip, Weapon}, 
-        set_up_tests::set_up_admins
+        set_up_tests::set_up_admins,
+        cosmetic::{Self, Equip, Cosmetic}, 
     };
 
     const OWNER: address = @0xBABE;
@@ -35,11 +35,11 @@ module act::weapon_tests {
         kiosk: Kiosk,
         kiosk_cap: KioskOwnerCap,
         access_control: AccessControl,
-        equip_transfer_policy: TransferPolicy<Weapon>,
-        trade_transfer_policy: TransferPolicy<Weapon>,
-        equip_transfer_policy_cap: TransferPolicyCap<Weapon>,
-        trade_transfer_policy_cap: TransferPolicyCap<Weapon>,
-        display: Display<Weapon>,
+        equip_transfer_policy: TransferPolicy<Cosmetic>,
+        trade_transfer_policy: TransferPolicy<Cosmetic>,
+        equip_transfer_policy_cap: TransferPolicyCap<Cosmetic>,
+        trade_transfer_policy_cap: TransferPolicyCap<Cosmetic>,
+        display: Display<Cosmetic>,
         publisher: Publisher
     }
 
@@ -48,7 +48,7 @@ module act::weapon_tests {
         let world = start_world();
 
         assert_eq(world.display.fields().size(), 5);
-        assert_eq(*world.display.fields().get(&b"name".to_string()), b"ACT Weapon: {name}".to_string());
+        assert_eq(*world.display.fields().get(&b"name".to_string()), b"ACT Cosmetic: {name}".to_string());
         assert_eq(*world.display.fields().get(&b"description".to_string()), b"ACT is a fast-paced, high-skill multiplayer FPS".to_string());
         assert_eq(*world.display.fields().get(&b"image_url".to_string()), b"ipfs://{image_url}".to_string());
         assert_eq(*world.display.fields().get(&b"project_url".to_string()), b"https://animalabs.io".to_string());
@@ -71,21 +71,21 @@ module act::weapon_tests {
     fun test_new() {
         let mut world = start_world();
 
-        let weapon = new_weapon(world.scenario.ctx());
+        let cosmetic = new_cosmetic(world.scenario.ctx());
 
-        assert_eq(weapon.name(), b"warglaive of azzinoth".to_string());
-        assert_eq(weapon.image_url(), b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string());
-        assert_eq(weapon.image_hash(), b"image_hash".to_string());
-        assert_eq(weapon.model_url(), b"dual wield sword".to_string());
-        assert_eq(weapon.slot(), b"slot1".to_string());
-        assert_eq(weapon.colour_way(), b"green".to_string());
-        assert_eq(weapon.edition(), b"soulbound".to_string());
-        assert_eq(weapon.manufacturer(), b"Illidan Stormrage".to_string());
-        assert_eq(weapon.rarity(), b"legendary".to_string());
-        assert_eq(weapon.hash(), b"hash".to_string());
-        assert_eq(weapon.wear_rating(), 100);
+        assert_eq(cosmetic.name(), b"cursed vision of sargeras".to_string());
+        assert_eq(cosmetic.image_url(), b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string());
+        assert_eq(cosmetic.image_hash(), b"image_hash".to_string());
+        assert_eq(cosmetic.model_url(), b"head".to_string());
+        assert_eq(cosmetic.type_(), b"leather".to_string());
+        assert_eq(cosmetic.colour_way(), b"red".to_string());
+        assert_eq(cosmetic.edition(), b"soulbound".to_string());
+        assert_eq(cosmetic.manufacturer(), b"Illidan Stormrage".to_string());
+        assert_eq(cosmetic.rarity(), b"epic".to_string());
+        assert_eq(cosmetic.hash(), b"hash".to_string());
+        assert_eq(cosmetic.wear_rating(), 95);
 
-        destroy(weapon);
+        destroy(cosmetic);
         world.end();
     }
 
@@ -93,16 +93,16 @@ module act::weapon_tests {
     fun test_upgrade() {
         let mut world = start_world();
 
-        let mut weapon = new_weapon(world.scenario.ctx());
+        let mut cosmetic = new_cosmetic(world.scenario.ctx());
 
-        assert_eq(weapon.upgrades().length(), 0);
+        assert_eq(cosmetic.upgrades().length(), 0);
 
-        weapon.upgrade(&world.access_control, &world.admin, b"upgrade.png".to_string());
+        cosmetic.upgrade(&world.access_control, &world.admin, b"upgrade.png".to_string());
 
-        assert_eq(weapon.upgrades().length(), 1);
-        assert_eq(weapon.upgrades()[0].url(), b"upgrade.png".to_string());
+        assert_eq(cosmetic.upgrades().length(), 1);
+        assert_eq(cosmetic.upgrades()[0].url(), b"upgrade.png".to_string());
 
-        destroy(weapon);
+        destroy(cosmetic);
         world.end();
     }
 
@@ -110,14 +110,14 @@ module act::weapon_tests {
     fun test_equip() {
         let mut world = start_world();
 
-        let weapon = new_weapon(world.scenario.ctx());
+        let cosmetic = new_cosmetic(world.scenario.ctx());
 
-        let weapon_id = object::id(&weapon);
+        let weapon_id = object::id(&cosmetic);
 
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap, cosmetic);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
@@ -125,7 +125,7 @@ module act::weapon_tests {
 
         assert_eq(dof::exists_(&character.id, WeaponKey {}), false);
 
-        weapon::equip(
+        cosmetic::equip(
             &mut character.id,
             WeaponKey {},
             weapon_id,
@@ -145,21 +145,21 @@ module act::weapon_tests {
     fun test_unequip() {
         let mut world = start_world();
 
-        let weapon = new_weapon(world.scenario.ctx());
+        let cosmetic = new_cosmetic(world.scenario.ctx());
 
-        let weapon_id = object::id(&weapon);
+        let weapon_id = object::id(&cosmetic);
 
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.equip_transfer_policy;
         let trade_transfer_policy = &world.trade_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap, cosmetic);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
         };
 
-        weapon::equip(
+        cosmetic::equip(
             &mut character.id,
             WeaponKey {},
             weapon_id,
@@ -172,7 +172,7 @@ module act::weapon_tests {
         assert_eq(dof::exists_(&character.id, WeaponKey {}), true);
         assert_eq(world.kiosk.has_item(weapon_id), false);
 
-        weapon::unequip(
+        cosmetic::unequip(
             &mut character.id,
             WeaponKey {},
             &mut world.kiosk,
@@ -192,23 +192,23 @@ module act::weapon_tests {
     fun test_equip_error_type_already_equipped() {
         let mut world = start_world();
 
-        let weapon = new_weapon(world.scenario.ctx());
-        let second_weapon =  new_weapon(world.scenario.ctx());
+        let cosmetic = new_cosmetic(world.scenario.ctx());
+        let second_weapon =  new_cosmetic(world.scenario.ctx());
 
-        let weapon_id = object::id(&weapon);
+        let weapon_id = object::id(&cosmetic);
         let second_weapon_id = object::id(&second_weapon);
 
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap, cosmetic);
         world.kiosk.place(kiosk_cap, second_weapon);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
         };
 
-        weapon::equip(
+        cosmetic::equip(
             &mut character.id,
             WeaponKey {},
             weapon_id,
@@ -218,7 +218,7 @@ module act::weapon_tests {
             world.scenario.ctx()
         );
 
-        weapon::equip(
+        cosmetic::equip(
             &mut character.id,
             WeaponKey {},
             second_weapon_id,
@@ -237,18 +237,18 @@ module act::weapon_tests {
     fun test_unequip_error_type_not_equipped() {
         let mut world = start_world();
 
-        let weapon = new_weapon(world.scenario.ctx());
+        let cosmetic = new_cosmetic(world.scenario.ctx());
 
         let kiosk_cap = &world.kiosk_cap;
         let trade_transfer_policy = &world.trade_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap, cosmetic);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
         };
 
-        weapon::unequip(
+        cosmetic::unequip(
             &mut character.id,
             WeaponKey {},
             &mut world.kiosk,
@@ -263,7 +263,7 @@ module act::weapon_tests {
     fun start_world(): World {
         let mut scenario = ts::begin(OWNER);
 
-        weapon::init_for_testing(scenario.ctx());
+        cosmetic::init_for_testing(scenario.ctx());
 
         scenario.next_tx(OWNER);
 
@@ -271,12 +271,12 @@ module act::weapon_tests {
 
         let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
 
-        let display = scenario.take_from_sender<Display<Weapon>>();
+        let display = scenario.take_from_sender<Display<Cosmetic>>();
         let publisher = scenario.take_from_sender<Publisher>();
-        let equip_transfer_policy_cap = scenario.take_from_sender<TransferPolicyCap<Weapon>>();
-        let trade_transfer_policy_cap = scenario.take_from_sender<TransferPolicyCap<Weapon>>();
-        let equip_transfer_policy = scenario.take_shared<TransferPolicy<Weapon>>();
-        let trade_transfer_policy = scenario.take_shared<TransferPolicy<Weapon>>();
+        let equip_transfer_policy_cap = scenario.take_from_sender<TransferPolicyCap<Cosmetic>>();
+        let trade_transfer_policy_cap = scenario.take_from_sender<TransferPolicyCap<Cosmetic>>();
+        let equip_transfer_policy = scenario.take_shared<TransferPolicy<Cosmetic>>();
+        let trade_transfer_policy = scenario.take_shared<TransferPolicy<Cosmetic>>();
 
         World {
             scenario,
@@ -294,19 +294,19 @@ module act::weapon_tests {
         }
     }
 
-    fun new_weapon(ctx: &mut TxContext): Weapon {
-        weapon::new(
-            b"warglaive of azzinoth".to_string(),
-            b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string(),
+    fun new_cosmetic(ctx: &mut TxContext): Cosmetic {
+        cosmetic::new(
+            b"cursed vision of sargeras".to_string(),
+            b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
             b"image_hash".to_string(),
-            b"dual wield sword".to_string(),
-            b"slot1".to_string(),
-            b"green".to_string(),
+            b"head".to_string(),
+            b"leather".to_string(),
+            b"red".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),
-            b"legendary".to_string(),
+            b"epic".to_string(),
             b"hash".to_string(),
-            100,
+            95,
             ctx
         )
     }

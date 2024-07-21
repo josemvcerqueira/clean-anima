@@ -5,27 +5,17 @@
 module act::weapon {
     // === Imports ===
 
-    use std::string::{utf8, String};
+    use std::string::String;
     use sui::{
-        package, 
-        display, 
-        coin,
-        sui::SUI,
-        transfer_policy::{Self, TransferPolicy}, 
-        dynamic_object_field as dof,
+        transfer_policy::TransferPolicy, 
         kiosk::{Kiosk, KioskOwnerCap},
     };
-    use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
     use animalib::access_control::{Admin, AccessControl};
     use act::{
+        item,
         admin,
         upgrade::{Self, Upgrade},
     };
-
-    // === Errors ===
-
-    const EWeaponTypeAlreadyEquipped: u64 = 0;
-    const EWeaponTypeNotEquipped: u64 = 1;
 
     // === Constants ===
 
@@ -59,43 +49,7 @@ module act::weapon {
 
     #[allow(lint(share_owned))]
     fun init(otw: WEAPON, ctx: &mut TxContext) {
-
-        let keys = vector[
-            utf8(b"name"),
-            utf8(b"description"),
-            utf8(b"image_url"),
-            utf8(b"project_url"),
-            utf8(b"creator"),
-        ];
-        let values = vector[
-            utf8(b"ACT Weapon: {name}"),
-            utf8(b"ACT is a fast-paced, high-skill multiplayer FPS"),
-            utf8(b"ipfs://{image_url}"),
-            utf8(b"https://animalabs.io"), // to change with ACT game page
-            utf8(b"Anima Labs"),
-        ];
-
-        let publisher = package::claim(otw, ctx);
-        let mut display = display::new_with_fields<Weapon>(
-            &publisher, keys, values, ctx
-        );
-        display.update_version();
-        transfer::public_transfer(display, ctx.sender());
-
-        // create TransferPolicy for trading
-        let (mut policy, cap) = transfer_policy::new<Weapon>(&publisher, ctx);
-        royalty_rule::add(&mut policy, &cap, 100, 0); // % royalty?
-        kiosk_lock_rule::add(&mut policy, &cap);
-        transfer::public_share_object(policy);
-        transfer::public_transfer(cap, ctx.sender());
-
-        // create TransferPolicy for equipping 
-        let (mut policy, cap) = transfer_policy::new<Weapon>(&publisher, ctx);
-        witness_rule::add<Weapon, Equip>(&mut policy, &cap);
-        transfer::public_share_object(policy);
-        transfer::public_transfer(cap, ctx.sender());
-
-        transfer::public_transfer(publisher, ctx.sender());
+        item::init_state<WEAPON, Equip, Weapon>(otw, b"ACT Weapon: {name}".to_string(), ctx);
     }
 
     public fun upgrade(
@@ -207,19 +161,8 @@ module act::weapon {
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext,
     ): String {
-        assert!(!dof::exists_(uid_mut, key), EWeaponTypeAlreadyEquipped);
-
-        kiosk.list<Weapon>(cap, weapon_id, 0);
-        let coin = coin::zero<SUI>(ctx);
-        let (weapon, mut request) = kiosk.purchase<Weapon>(weapon_id, coin);
-
-        witness_rule::prove(Equip {}, policy, &mut request);
-        policy.confirm_request(request);
-
-        let name = weapon.name();
-
-        dof::add(uid_mut, key, weapon);  
-
+        let name = kiosk.borrow<Weapon>(cap, weapon_id).name;
+        item::equip(uid_mut, key, weapon_id, kiosk, cap, policy, Equip {}, ctx);
         name
     }
 
@@ -230,14 +173,8 @@ module act::weapon {
         cap: &KioskOwnerCap,     
         policy: &TransferPolicy<Weapon>, // trading policy    
     ): String {
-        assert!(dof::exists_(uid_mut, key), EWeaponTypeNotEquipped);
-        let weapon = dof::remove<Key, Weapon>(uid_mut, key);
-
-        let name = weapon.name();
-
-        kiosk.lock(cap, policy, weapon);
-
-        name
+        let weapon_id = item::unequip(uid_mut, key, kiosk, cap, policy);
+        kiosk.borrow<Weapon>(cap, weapon_id).name
     }
 
     // === Private Functions ===

@@ -1,27 +1,17 @@
 module act::cosmetic {
     // === Imports ===
 
-    use std::string::{utf8, String};
+    use std::string::String;
     use sui::{
-        package, 
-        display, 
-        coin,
-        sui::SUI,
-        transfer_policy::{Self, TransferPolicy}, 
-        dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
+        transfer_policy::TransferPolicy, 
     };
-    use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
     use animalib::access_control::{Admin, AccessControl};
     use act::{
+        item,
         admin,
         upgrade::{Self, Upgrade},
     };
-    
-    // === Errors ===
-
-    const ECosmeticTypeAlreadyEquipped: u64 = 0;
-    const ECosmeticTypeNotEquipped: u64 = 1;
 
     // === Constants ===
 
@@ -54,43 +44,7 @@ module act::cosmetic {
 
     #[allow(lint(share_owned))]
     fun init(otw: COSMETIC, ctx: &mut TxContext) {
-        // create Display
-        let keys = vector[
-            utf8(b"name"),
-            utf8(b"description"),
-            utf8(b"image_url"),
-            utf8(b"project_url"),
-            utf8(b"creator"),
-        ];
-        let values = vector[
-            utf8(b"ACT Cosmetic: {name}"),
-            utf8(b"ACT is a fast-paced, high-skill multiplayer FPS"),
-            utf8(b"ipfs://{image_url}"),
-            utf8(b"https://animalabs.io"), // to change with ACT game page
-            utf8(b"Anima Labs"),
-        ];
-
-        let publisher = package::claim(otw, ctx);
-        let mut display = display::new_with_fields<Cosmetic>(
-            &publisher, keys, values, ctx
-        );
-        display.update_version();
-        transfer::public_transfer(display, ctx.sender());
-
-        // create TransferPolicy for trading
-        let (mut policy, cap) = transfer_policy::new<Cosmetic>(&publisher, ctx);
-        royalty_rule::add(&mut policy, &cap, 100, 0); // % royalty?
-        kiosk_lock_rule::add(&mut policy, &cap);
-        transfer::public_share_object(policy);
-        transfer::public_transfer(cap, ctx.sender());
-
-        // create TransferPolicy for equipping 
-        let (mut policy, cap) = transfer_policy::new<Cosmetic>(&publisher, ctx);
-        witness_rule::add<Cosmetic, Equip>(&mut policy, &cap);
-        transfer::public_share_object(policy);
-        transfer::public_transfer(cap, ctx.sender());
-
-        transfer::public_transfer(publisher, ctx.sender());
+        item::init_state<COSMETIC, Equip, Cosmetic>(otw, b"ACT Cosmetic: {name}".to_string(), ctx);
     }
 
 
@@ -198,20 +152,9 @@ module act::cosmetic {
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext,
     ): String {
-        assert!(!dof::exists_(uid_mut, key), ECosmeticTypeAlreadyEquipped);
-
-        kiosk.list<Cosmetic>(cap, cosmetic_id, 0);
-        let coin = coin::zero<SUI>(ctx);
-        let (cosmetic, mut request) = kiosk.purchase<Cosmetic>(cosmetic_id, coin);
-
-        let name = cosmetic.name();
-
-        witness_rule::prove(Equip {}, policy, &mut request);
-        policy.confirm_request(request);
-
-        dof::add(uid_mut, key, cosmetic);
-
-        name  
+        let name = kiosk.borrow<Cosmetic>(cap, cosmetic_id).name;
+        item::equip(uid_mut, key, cosmetic_id, kiosk, cap, policy, Equip {}, ctx);
+        name
     }
 
     public(package) fun unequip<Key: store + copy + drop>(
@@ -221,17 +164,16 @@ module act::cosmetic {
         cap: &KioskOwnerCap,     
         policy: &TransferPolicy<Cosmetic>, // trading policy    
     ): String {
-        assert!(dof::exists_(uid_mut, key), ECosmeticTypeNotEquipped);
-        let cosmetic = dof::remove<Key, Cosmetic>(uid_mut, key);
-
-        let name = cosmetic.name();
-
-        kiosk.lock(cap, policy, cosmetic);
-    
-        name
+        let cosmetic_id = item::unequip(uid_mut, key, kiosk, cap, policy);
+        kiosk.borrow<Cosmetic>(cap, cosmetic_id).name
     }
 
     // === Private Functions ===
 
     // === Test Functions ===
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(COSMETIC {}, ctx);
+    }
 }
