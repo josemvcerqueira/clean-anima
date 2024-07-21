@@ -7,7 +7,10 @@ module act::admin_tests {
 
     use animalib::access_control::{Admin, AccessControl};
 
-    use act::admin;
+    use act::{
+        admin,
+        set_up_tests::set_up_admins
+    };
 
     const OWNER: address = @0xBABE;
     const UPGRADES_ROLE: vector<u8> = b"UPGRADES_ROLE";
@@ -75,13 +78,7 @@ module act::admin_tests {
     public fun start(): World {
         let mut scenario = ts::begin(OWNER);
 
-        admin::init_for_testing(scenario.ctx());
-
-        scenario.next_tx(OWNER);
-
-        let access_control = scenario.take_shared<AccessControl>();
-        let super_admin = scenario.take_from_sender<Admin>();
-        let admin = scenario.take_from_sender<Admin>();
+        let (access_control, super_admin, admin) = set_up_admins(&mut scenario);
 
         World {
             access_control,
