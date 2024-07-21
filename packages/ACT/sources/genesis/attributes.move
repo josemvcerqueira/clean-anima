@@ -2,7 +2,7 @@
 module act::attributes {
     // === Imports ===
 
-    use std::string::{utf8, String};
+    use std::string::String;
     use sui::vec_map::{Self, VecMap};
 
     // === Errors ===
@@ -45,13 +45,13 @@ module act::attributes {
         let cosmetic_types = cosmetic_types(); 
         let len = cosmetic_types.length();
         while (len > i) {
-            attributes.insert(cosmetic_types[i], utf8(b""));
+            attributes.insert(cosmetic_types[i], b"".to_string());
             i = i + 1;
         };
         // Default weapons
-        attributes.insert(primary(), utf8(b""));
-        attributes.insert(secondary(), utf8(b""));
-        attributes.insert(tertiary(), utf8(b""));
+        attributes.insert(primary(), b"".to_string());
+        attributes.insert(secondary(), b"".to_string());
+        attributes.insert(tertiary(), b"".to_string());
 
         attributes
     }
@@ -68,77 +68,77 @@ module act::attributes {
 
     public fun cosmetic_types(): vector<String> {
         vector[
-            utf8(HELM),
-            utf8(UPPER_TORSO),
-            utf8(CHESTPIECE),
-            utf8(BACKPIECE),
-            utf8(LEFT_ARM),
-            utf8(RIGHT_ARM),
-            utf8(LEFT_BRACER),
-            utf8(RIGHT_BRACER),
-            utf8(LEFT_GLOVE),
-            utf8(RIGHT_GLOVE),
-            utf8(LEFT_PAULDRON),
-            utf8(RIGHT_PAULDRON),
-            utf8(LEGS),
-            utf8(ACCESSORY),
-            utf8(SHINS),
-            utf8(BOOTS),
+            HELM.to_string(),
+            UPPER_TORSO.to_string(),
+            CHESTPIECE.to_string(),
+            BACKPIECE.to_string(),
+            LEFT_ARM.to_string(),
+            RIGHT_ARM.to_string(),
+            LEFT_BRACER.to_string(),
+            RIGHT_BRACER.to_string(),
+            LEFT_GLOVE.to_string(),
+            RIGHT_GLOVE.to_string(),
+            LEFT_PAULDRON.to_string(),
+            RIGHT_PAULDRON.to_string(),
+            LEGS.to_string(),
+            ACCESSORY.to_string(),
+            SHINS.to_string(),
+            BOOTS.to_string(),
         ]
     }
 
     public fun weapon_types(): vector<String> {
         vector[
-            utf8(PRIMARY),
-            utf8(SECONDARY),
-            utf8(TERTIARY),
+            PRIMARY.to_string(),
+            SECONDARY.to_string(),
+            TERTIARY.to_string(),
         ]
     }
 
     public fun types(): vector<String> {
         vector[
-            utf8(HELM),
-            utf8(UPPER_TORSO),
-            utf8(CHESTPIECE),
-            utf8(BACKPIECE),
-            utf8(LEFT_ARM),
-            utf8(RIGHT_ARM),
-            utf8(LEFT_BRACER),
-            utf8(RIGHT_BRACER),
-            utf8(LEFT_GLOVE),
-            utf8(RIGHT_GLOVE),
-            utf8(LEFT_PAULDRON),
-            utf8(RIGHT_PAULDRON),
-            utf8(LEGS),
-            utf8(ACCESSORY),
-            utf8(SHINS),
-            utf8(BOOTS),
-            utf8(PRIMARY),
-            utf8(SECONDARY),
-            utf8(TERTIARY),
+            HELM.to_string(),
+            UPPER_TORSO.to_string(),
+            CHESTPIECE.to_string(),
+            BACKPIECE.to_string(),
+            LEFT_ARM.to_string(),
+            RIGHT_ARM.to_string(),
+            LEFT_BRACER.to_string(),
+            RIGHT_BRACER.to_string(),
+            LEFT_GLOVE.to_string(),
+            RIGHT_GLOVE.to_string(),
+            LEFT_PAULDRON.to_string(),
+            RIGHT_PAULDRON.to_string(),
+            LEGS.to_string(),
+            ACCESSORY.to_string(),
+            SHINS.to_string(),
+            BOOTS.to_string(),
+            PRIMARY.to_string(),
+            SECONDARY.to_string(),
+            TERTIARY.to_string(),
         ]        
     }
 
-    public fun helm(): String { utf8(HELM) }
-    public fun chestpiece(): String { utf8(CHESTPIECE) }
-    public fun backpiece(): String { utf8(BACKPIECE) }
-    public fun upper_torso(): String { utf8(UPPER_TORSO) }
-    public fun right_pauldron(): String { utf8(RIGHT_PAULDRON) }
-    public fun left_pauldron(): String { utf8(LEFT_PAULDRON) }
-    public fun right_arm(): String { utf8(RIGHT_ARM) }
-    public fun left_arm(): String { utf8(LEFT_ARM) }
-    public fun right_glove(): String { utf8(RIGHT_GLOVE) }
-    public fun left_glove(): String { utf8(LEFT_GLOVE) }
-    public fun right_bracer(): String { utf8(RIGHT_BRACER) }
-    public fun left_bracer(): String { utf8(LEFT_BRACER) }
-    public fun legs(): String { utf8(LEGS) }
-    public fun shins(): String { utf8(SHINS) }
-    public fun boots(): String { utf8(BOOTS) }
-    public fun accessory(): String { utf8(ACCESSORY) }
+    public fun helm(): String { HELM.to_string() }
+    public fun chestpiece(): String { CHESTPIECE.to_string() }
+    public fun backpiece(): String { BACKPIECE.to_string() }
+    public fun upper_torso(): String { UPPER_TORSO.to_string() }
+    public fun right_pauldron(): String { RIGHT_PAULDRON.to_string() }
+    public fun left_pauldron(): String { LEFT_PAULDRON.to_string() }
+    public fun right_arm(): String { RIGHT_ARM.to_string() }
+    public fun left_arm(): String { LEFT_ARM.to_string() }
+    public fun right_glove(): String { RIGHT_GLOVE.to_string() }
+    public fun left_glove(): String { LEFT_GLOVE.to_string() }
+    public fun right_bracer(): String { RIGHT_BRACER.to_string() }
+    public fun left_bracer(): String { LEFT_BRACER.to_string() }
+    public fun legs(): String { LEGS.to_string() }
+    public fun shins(): String { SHINS.to_string() }
+    public fun boots(): String { BOOTS.to_string() }
+    public fun accessory(): String { ACCESSORY.to_string() }
 
-    public fun primary(): String { utf8(PRIMARY) }
-    public fun secondary(): String { utf8(SECONDARY) }
-    public fun tertiary(): String { utf8(TERTIARY) }
+    public fun primary(): String { PRIMARY.to_string() }
+    public fun secondary(): String { SECONDARY.to_string() }
+    public fun tertiary(): String { TERTIARY.to_string() }
 
     // === Admin Functions ===
 
