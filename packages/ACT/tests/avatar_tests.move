@@ -10,6 +10,7 @@ module act::avatar_tests {
     };
     use animalib::access_control::{Admin, AccessControl};
     use act::{
+        attributes,
         weapon::{Self, Weapon},
         cosmetic::{Self, Cosmetic}, 
         set_up_tests::set_up_admins,
@@ -17,8 +18,6 @@ module act::avatar_tests {
     };
 
     const OWNER: address = @0xBABE;
-    const WEAPON_SLOT: vector<u8> = b"Dual Wield Sword";
-    const COSMETIC_TYPE: vector<u8> = b"Head";
 
     public struct World {
         scenario: Scenario,
@@ -83,11 +82,11 @@ module act::avatar_tests {
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
         let weapon = new_weapon(world.scenario.ctx());
 
-        assert_eq(avatar.has_weapon(WEAPON_SLOT.to_string()), false);
+        assert_eq(avatar.has_weapon(attributes::primary()), false);
 
         avatar.equip_minted_weapon(weapon);
 
-        assert_eq(avatar.has_weapon(WEAPON_SLOT.to_string()), true);
+        assert_eq(avatar.has_weapon(attributes::primary()), true);
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -100,11 +99,11 @@ module act::avatar_tests {
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
         let cosmetic = new_cosmetic(world.scenario.ctx());
 
-        assert_eq(avatar.has_cosmetic(COSMETIC_TYPE.to_string()), false);
+        assert_eq(avatar.has_cosmetic(attributes::helm()), false);
 
         avatar.equip_minted_cosmetic(cosmetic);
 
-        assert_eq(avatar.has_cosmetic(COSMETIC_TYPE.to_string()), true);
+        assert_eq(avatar.has_cosmetic(attributes::helm()), true);
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -124,17 +123,17 @@ module act::avatar_tests {
         avatar.equip_minted_weapon(weapon);
 
         assert_eq(world.kiosk.has_item(weapon_id), false);
-        assert_eq(avatar.has_weapon(WEAPON_SLOT.to_string()), true);
+        assert_eq(avatar.has_weapon(attributes::primary()), true);
 
         avatar.unequip_weapon(
-            WEAPON_SLOT.to_string(), 
+            attributes::primary(), 
             &mut world.kiosk, 
             kiosk_cap, 
             policy
         );
 
         assert_eq(world.kiosk.has_item(weapon_id), true);
-        assert_eq(avatar.has_weapon(WEAPON_SLOT.to_string()), false);
+        assert_eq(avatar.has_weapon(attributes::primary()), false);
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -155,16 +154,16 @@ module act::avatar_tests {
 
         avatar.equip_minted_cosmetic(cosmetic);
 
-        assert_eq(avatar.has_cosmetic(COSMETIC_TYPE.to_string()), true);
+        assert_eq(avatar.has_cosmetic(attributes::helm()), true);
 
         avatar.unequip_cosmetic(
-            COSMETIC_TYPE.to_string(), 
+            attributes::helm(), 
             &mut world.kiosk, 
             kiosk_cap, 
             policy
         );
         
-        assert_eq(avatar.has_cosmetic(COSMETIC_TYPE.to_string()), false);
+        assert_eq(avatar.has_cosmetic(attributes::helm()), false);
         assert_eq(world.kiosk.has_item(cosmetic_id), true);
 
         avatar.keep(world.scenario.ctx());
@@ -201,17 +200,17 @@ module act::avatar_tests {
 
         avatar.equip_minted_weapon(weapon);
 
-        assert_eq(avatar.borrow_equipped_weapon(WEAPON_SLOT.to_string()).upgrades().length(), 0);
+        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).upgrades().length(), 0);
 
         avatar.upgrade_equipped_weapon(
             &world.access_control, 
             &world.admin, 
-            WEAPON_SLOT.to_string(), 
+            attributes::primary(), 
             b"upgrade2.png".to_string()
         );
 
-        assert_eq(avatar.borrow_equipped_weapon(WEAPON_SLOT.to_string()).upgrades().length(), 1);
-        assert_eq(avatar.borrow_equipped_weapon(WEAPON_SLOT.to_string()).upgrades()[0].url(), b"upgrade2.png".to_string());
+        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).upgrades().length(), 1);
+        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).upgrades()[0].url(), b"upgrade2.png".to_string());
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -228,17 +227,17 @@ module act::avatar_tests {
 
         avatar.equip_minted_cosmetic(cosmetic);
 
-        assert_eq(avatar.borrow_equipped_cosmetic(COSMETIC_TYPE.to_string()).upgrades().length(), 0);
+        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).upgrades().length(), 0);
 
         avatar.upgrade_equipped_cosmetic(
             &world.access_control, 
             &world.admin, 
-            COSMETIC_TYPE.to_string(), 
+            attributes::helm(), 
             b"upgrade2.png".to_string()
         );
 
-        assert_eq(avatar.borrow_equipped_cosmetic(COSMETIC_TYPE.to_string()).upgrades().length(), 1);
-        assert_eq(avatar.borrow_equipped_cosmetic(COSMETIC_TYPE.to_string()).upgrades()[0].url(), b"upgrade2.png".to_string());
+        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).upgrades().length(), 1);
+        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).upgrades()[0].url(), b"upgrade2.png".to_string());
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -315,7 +314,7 @@ module act::avatar_tests {
             b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string(),
             b"image_hash".to_string(),
             b"dual wield sword".to_string(),
-            WEAPON_SLOT.to_string(),
+            attributes::primary(),
             b"green".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),
@@ -332,7 +331,7 @@ module act::avatar_tests {
             b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
             b"image_hash".to_string(),
             b"head".to_string(),
-            COSMETIC_TYPE.to_string(),
+            attributes::helm(),
             b"red".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),

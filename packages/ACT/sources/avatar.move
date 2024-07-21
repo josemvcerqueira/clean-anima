@@ -153,7 +153,7 @@ module act::avatar {
     public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
         assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
 
-        let cosmetic_val = self.get_mut_attribute(weapon.slot());
+        let cosmetic_val = self.attributes.get_mut(&weapon.slot());
         *cosmetic_val = weapon.name();
 
         dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon)  
@@ -163,7 +163,7 @@ module act::avatar {
     public fun equip_minted_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
         assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.type_())), ECosmeticSlotAlreadyEquipped);
 
-        let cosmetic_val = self.get_mut_attribute(cosmetic.type_());
+        let cosmetic_val = self.attributes.get_mut(&cosmetic.type_());
         *cosmetic_val = cosmetic.name();
 
         dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic)  
@@ -188,7 +188,7 @@ module act::avatar {
             ctx
         );
 
-        let weapon_val = self.get_mut_attribute(weapon_slot);
+        let weapon_val = self.attributes.get_mut(&weapon_slot);
         *weapon_val = weapon_name;
     }
 
@@ -211,7 +211,7 @@ module act::avatar {
             ctx
         );
 
-        let cosmetic_val = self.get_mut_attribute(cosmetic_type);
+        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
         *cosmetic_val = cosmetic_name;
     }
 
@@ -222,7 +222,7 @@ module act::avatar {
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // trading policy
     ) {
-        let weapon_val = self.get_mut_attribute(weapon_slot);
+        let weapon_val = self.attributes.get_mut(&weapon_slot);
         *weapon_val = b"".to_string();
 
         weapon::unequip(
@@ -241,7 +241,7 @@ module act::avatar {
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // trading policy
     ) {
-        let cosmetic_val = self.get_mut_attribute(cosmetic_type);
+        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
         *cosmetic_val = b"".to_string();
 
         cosmetic::unequip(
@@ -345,15 +345,6 @@ module act::avatar {
 
     public(package) fun transfer(self: Avatar, recipient: address) {
         transfer::transfer(self, recipient);
-    }
-
-    // === Private Functions ===
-
-    fun get_mut_attribute(avatar: &mut Avatar, key: String): &mut String {
-        if (!avatar.attributes.contains(&key))
-            avatar.attributes.insert(key, b"".to_string());
-
-        avatar.attributes.get_mut(&key)
     }
 
     // === Test Functions === 
