@@ -70,6 +70,9 @@ module act::avatar_tests {
         assert_eq(avatar.avatar_url(), b"avatar_url".to_string());
         assert_eq(avatar.avatar_hash(), b"avatar_hash".to_string());
         assert_eq(avatar.edition(), b"avatar_edition".to_string());
+        //@ dev 16 cosmetics + 3 weapons
+        assert_eq(avatar.attributes().size(), 19);
+        assert_eq(avatar.attributes().keys(), attributes::new().keys());
 
         avatar.keep(world.scenario.ctx());
         world.end();
