@@ -10,7 +10,7 @@
 module act::genesis_shop {
     // === Imports ===
 
-    use std::string::{utf8, String};
+    use std::string::String;
     use sui::{
         table_vec::{Self, TableVec},
         table::{Self, Table},
@@ -21,12 +21,11 @@ module act::genesis_shop {
         attributes,
     };
 
-    // === Errors ===
-
     // === Constants ===
 
-    const GENISIS_AMOUNT: u64 = 6_0000;
+    const GENISIS_AMOUNT: u64 = 6_000;
     const COSMETIC_SET_SIZE: u64 = 8;
+    const PRECISION: u64 = 10000;
 
     // Rarities
     const COSMETICS_RARITIES: vector<vector<u8>> = vector[
@@ -790,31 +789,27 @@ module act::genesis_shop {
         table::add(&mut genesis_shop.items, attributes::tertiary(), items);
     }
 
-    // === Public-View Functions ===
+    // === Public-Package Functions ===
 
-    public fun kinds(self: &Item): vector<String> {
+    public(package) fun kinds(self: &Item): vector<String> {
         self.kinds
     }
 
-    public fun name(self: &Item): String {
+    public(package) fun name(self: &Item): String {
         self.name
     }
 
-    public fun colour_way(self: &Item): String {
+    public(package) fun colour_way(self: &Item): String {
         self.colour_way
     }
 
-    public fun manufacturer(self: &Item): String {
+    public(package) fun manufacturer(self: &Item): String {
         self.manufacturer
     }
 
-    public fun rarity(self: &Item): String {
+    public(package) fun rarity(self: &Item): String {
         self.rarity
     }
-
-    // === Admin Functions ===
-
-    // === Public-Package Functions ===\
 
     public(package) fun borrow_item_mut(self: &mut GenesisShop, name: String): &mut TableVec<Item> {
         table::borrow_mut(&mut self.items, name)
@@ -858,8 +853,9 @@ module act::genesis_shop {
             let mut j = 0;
 
             while (chances_len > j) {
-
-                let num_of_items = min(chances[j], remaining);
+                
+                let num_of_items = mul_div(chances[j], precision, PRECISION);
+                let num_of_items = min(num_of_items, remaining);
                 remaining = remaining - num_of_items;
 
                 let mut k = 0;
@@ -867,11 +863,11 @@ module act::genesis_shop {
                 while (num_of_items > k) {
                     items.push_back(Item {
                         is_cosmetic,
-                        name: utf8(name),
+                        name: name.to_string(),
                         kinds,
-                        colour_way: utf8(colour_ways[j]),
-                        manufacturer: utf8(manufacturer),
-                        rarity: utf8(rarity[j])
+                        colour_way: colour_ways[j].to_string(),
+                        manufacturer: manufacturer.to_string(),
+                        rarity: rarity[j].to_string()
                     });
 
                     k = k + 1;
@@ -913,8 +909,9 @@ module act::genesis_shop {
             let mut j = 0;
 
             while (chances_len > j) {
-
-                let num_of_items = min(chances[j], remaining);
+                
+                let num_of_items = mul_div(chances[j], precision, PRECISION);
+                let num_of_items = min(num_of_items, remaining);
                 remaining = remaining - num_of_items;
 
                 let mut k = 0;
@@ -922,11 +919,11 @@ module act::genesis_shop {
                 while (num_of_items > k) {
                     items.push_back(Item {
                         is_cosmetic: false,
-                        name: utf8(name),
+                        name: name.to_string(),
                         kinds,
-                        colour_way: utf8(colour_ways[j]),
-                        manufacturer: utf8(manufacturer),
-                        rarity: utf8(rarity[j])
+                        colour_way: colour_ways[j].to_string(),
+                        manufacturer: manufacturer.to_string(),
+                        rarity: rarity[j].to_string()
                     });
 
                     k = k + 1;
@@ -964,7 +961,8 @@ module act::genesis_shop {
             let chance = chances[i];
             let colour_ways = colour_ways[i];
 
-            let num_of_items = min(chance, remaining);
+            let num_of_items = mul_div(chance, precision, PRECISION);
+            let num_of_items = min(num_of_items, remaining);
             remaining = remaining - num_of_items;
 
             let mut k = 0;
@@ -972,11 +970,11 @@ module act::genesis_shop {
             while (num_of_items > k) {
                 items.push_back(Item {
                     is_cosmetic: false,
-                    name: utf8(name),
+                    name: name.to_string(),
                     kinds,
-                    colour_way: utf8(colour_ways),
-                    manufacturer: utf8(manufacturer),
-                    rarity: utf8(rarity)
+                    colour_way: colour_ways.to_string(),
+                    manufacturer: manufacturer.to_string(),
+                    rarity: rarity.to_string()
                 });
 
                 k = k + 1;
@@ -1014,9 +1012,23 @@ module act::genesis_shop {
         rarities
     }
 
+    fun mul_div(x: u64, y: u64, z: u64): u64 {
+        ((x as u256) * (y as u256) / (z as u256) as u64)
+    }
+
     fun min(x: u64, y: u64): u64 {
         if (x > y) y else x
     }
 
     // === Test Functions ===    
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(ctx);
+    }
+
+    #[test_only]
+    public fun borrow_mut(self: &mut GenesisShop): &mut Table<String, TableVec<Item>> {
+        &mut self.items
+    }
 }
