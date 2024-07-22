@@ -36,9 +36,9 @@ module act::attributes {
 
     // === Method Aliases ===
 
-    // === Public-Mutative Functions ===
+    // === Public Package Functions ===
 
-    public fun new(): VecMap<String, String> {
+    public(package) fun new(): VecMap<String, String> {
         let mut attributes = vec_map::empty();
         // Default cosmetics
         let mut i = 0;
@@ -56,17 +56,15 @@ module act::attributes {
         attributes
     }
 
-    public fun assert_is_valid_cosmetic(str: &String) {
+    public(package) fun assert_is_valid_cosmetic(str: &String) {
         assert!(cosmetic_types().contains(str), EInvalidAttribute);
     }
 
-    public fun assert_is_valid_weapon(str: &String) {
+    public(package) fun assert_is_valid_weapon(str: &String) {
         assert!(weapon_types().contains(str), EInvalidAttribute);
     }
 
-    // === Public-View Functions ===
-
-    public fun cosmetic_types(): vector<String> {
+    public(package) fun cosmetic_types(): vector<String> {
         vector[
             HELM.to_string(),
             UPPER_TORSO.to_string(),
@@ -87,7 +85,7 @@ module act::attributes {
         ]
     }
 
-    public fun weapon_types(): vector<String> {
+    public(package) fun weapon_types(): vector<String> {
         vector[
             PRIMARY.to_string(),
             SECONDARY.to_string(),
@@ -95,7 +93,7 @@ module act::attributes {
         ]
     }
 
-    public fun types(): vector<String> {
+    public(package) fun types(): vector<String> {
         vector[
             HELM.to_string(),
             UPPER_TORSO.to_string(),
@@ -119,26 +117,26 @@ module act::attributes {
         ]        
     }
 
-    public fun helm(): String { HELM.to_string() }
-    public fun chestpiece(): String { CHESTPIECE.to_string() }
-    public fun backpiece(): String { BACKPIECE.to_string() }
-    public fun upper_torso(): String { UPPER_TORSO.to_string() }
-    public fun right_pauldron(): String { RIGHT_PAULDRON.to_string() }
-    public fun left_pauldron(): String { LEFT_PAULDRON.to_string() }
-    public fun right_arm(): String { RIGHT_ARM.to_string() }
-    public fun left_arm(): String { LEFT_ARM.to_string() }
-    public fun right_glove(): String { RIGHT_GLOVE.to_string() }
-    public fun left_glove(): String { LEFT_GLOVE.to_string() }
-    public fun right_bracer(): String { RIGHT_BRACER.to_string() }
-    public fun left_bracer(): String { LEFT_BRACER.to_string() }
-    public fun legs(): String { LEGS.to_string() }
-    public fun shins(): String { SHINS.to_string() }
-    public fun boots(): String { BOOTS.to_string() }
-    public fun accessory(): String { ACCESSORY.to_string() }
+    public(package) fun helm(): String { HELM.to_string() }
+    public(package) fun chestpiece(): String { CHESTPIECE.to_string() }
+    public(package) fun backpiece(): String { BACKPIECE.to_string() }
+    public(package) fun upper_torso(): String { UPPER_TORSO.to_string() }
+    public(package) fun right_pauldron(): String { RIGHT_PAULDRON.to_string() }
+    public(package) fun left_pauldron(): String { LEFT_PAULDRON.to_string() }
+    public(package) fun right_arm(): String { RIGHT_ARM.to_string() }
+    public(package) fun left_arm(): String { LEFT_ARM.to_string() }
+    public(package) fun right_glove(): String { RIGHT_GLOVE.to_string() }
+    public(package) fun left_glove(): String { LEFT_GLOVE.to_string() }
+    public(package) fun right_bracer(): String { RIGHT_BRACER.to_string() }
+    public(package) fun left_bracer(): String { LEFT_BRACER.to_string() }
+    public(package) fun legs(): String { LEGS.to_string() }
+    public(package) fun shins(): String { SHINS.to_string() }
+    public(package) fun boots(): String { BOOTS.to_string() }
+    public(package) fun accessory(): String { ACCESSORY.to_string() }
 
-    public fun primary(): String { PRIMARY.to_string() }
-    public fun secondary(): String { SECONDARY.to_string() }
-    public fun tertiary(): String { TERTIARY.to_string() }
+    public(package) fun primary(): String { PRIMARY.to_string() }
+    public(package) fun secondary(): String { SECONDARY.to_string() }
+    public(package) fun tertiary(): String { TERTIARY.to_string() }
 
     // === Admin Functions ===
 

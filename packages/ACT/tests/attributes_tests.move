@@ -1,5 +1,7 @@
 #[test_only]
 module act::attributes_tests {
+
+    use std::string::String;
     
     use sui::{
         test_utils::assert_eq,
@@ -37,6 +39,104 @@ module act::attributes_tests {
 
         assert_eq(attr.size(), attributes::types().length());
         assert_eq(keys, attributes::types());
-        assert_eq(values, vector[]);
+        assert_eq(values, new_empty_values());
     }
+
+    #[test]
+    fun test_assert_is_valid_cosmetic() {
+        attributes::assert_is_valid_cosmetic(&HELM.to_string());
+        attributes::assert_is_valid_cosmetic(&UPPER_TORSO.to_string());
+        attributes::assert_is_valid_cosmetic(&CHESTPIECE.to_string());
+        attributes::assert_is_valid_cosmetic(&BACKPIECE.to_string());
+        attributes::assert_is_valid_cosmetic(&LEFT_ARM.to_string());
+        attributes::assert_is_valid_cosmetic(&RIGHT_ARM.to_string());
+        attributes::assert_is_valid_cosmetic(&LEFT_BRACER.to_string());
+        attributes::assert_is_valid_cosmetic(&RIGHT_BRACER.to_string());
+        attributes::assert_is_valid_cosmetic(&LEFT_GLOVE.to_string());
+        attributes::assert_is_valid_cosmetic(&RIGHT_GLOVE.to_string());
+        attributes::assert_is_valid_cosmetic(&LEFT_PAULDRON.to_string());
+        attributes::assert_is_valid_cosmetic(&RIGHT_PAULDRON.to_string());
+        attributes::assert_is_valid_cosmetic(&LEGS.to_string());
+        attributes::assert_is_valid_cosmetic(&ACCESSORY.to_string());
+        attributes::assert_is_valid_cosmetic(&SHINS.to_string());
+        attributes::assert_is_valid_cosmetic(&BOOTS.to_string());
+    }
+
+    #[test]
+    fun test_assert_is_valid_weapon() {
+        attributes::assert_is_valid_weapon(&PRIMARY.to_string());
+        attributes::assert_is_valid_weapon(&SECONDARY.to_string());
+        attributes::assert_is_valid_weapon(&TERTIARY.to_string());
+    }
+
+    #[test]
+    fun test_cosmetic_types() {
+        assert_eq(attributes::cosmetic_types(), 
+        vector[
+                HELM.to_string(),
+                UPPER_TORSO.to_string(),
+                CHESTPIECE.to_string(),
+                BACKPIECE.to_string(),
+                LEFT_ARM.to_string(),
+                RIGHT_ARM.to_string(),
+                LEFT_BRACER.to_string(),
+                RIGHT_BRACER.to_string(),
+                LEFT_GLOVE.to_string(),
+                RIGHT_GLOVE.to_string(),
+                LEFT_PAULDRON.to_string(),
+                RIGHT_PAULDRON.to_string(),
+                LEGS.to_string(),
+                ACCESSORY.to_string(),
+                SHINS.to_string(),
+                BOOTS.to_string(),  
+            ]
+        );
+    }
+
+    #[test]
+    fun test_weapon_types() {
+        assert_eq(attributes::weapon_types(), 
+        vector[
+                PRIMARY.to_string(),
+                SECONDARY.to_string(),
+                TERTIARY.to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fun test_constants() {
+        assert_eq(attributes::helm(), HELM.to_string());
+        assert_eq(attributes::chestpiece(), CHESTPIECE.to_string());
+        assert_eq(attributes::backpiece(), BACKPIECE.to_string());
+        assert_eq(attributes::upper_torso(), UPPER_TORSO.to_string());
+        assert_eq(attributes::right_pauldron(), RIGHT_PAULDRON.to_string());
+        assert_eq(attributes::left_pauldron(), LEFT_PAULDRON.to_string());
+        assert_eq(attributes::right_arm(), RIGHT_ARM.to_string());
+        assert_eq(attributes::left_arm(), LEFT_ARM.to_string());
+        assert_eq(attributes::right_glove(), RIGHT_GLOVE.to_string());
+        assert_eq(attributes::left_glove(), LEFT_GLOVE.to_string());
+        assert_eq(attributes::right_bracer(), RIGHT_BRACER.to_string());
+        assert_eq(attributes::left_bracer(), LEFT_BRACER.to_string());
+        assert_eq(attributes::legs(), LEGS.to_string());
+        assert_eq(attributes::shins(), SHINS.to_string());
+        assert_eq(attributes::boots(), BOOTS.to_string());
+        assert_eq(attributes::accessory(), ACCESSORY.to_string());
+
+        assert_eq(attributes::primary(), PRIMARY.to_string());
+        assert_eq(attributes::secondary(), SECONDARY.to_string());
+        assert_eq(attributes::tertiary(), TERTIARY.to_string());
+    }
+
+    fun new_empty_values(): vector<String> {
+        let mut data = vector[];
+
+        let mut i = 0;
+        while (19 > i) {
+            data.push_back(b"".to_string());
+            i = i + 1;
+        };
+
+        data
+    } 
 }
