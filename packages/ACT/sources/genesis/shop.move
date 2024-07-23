@@ -279,7 +279,7 @@ module act::genesis_shop {
 
     // Legs
     const LEGS_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const LEGS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -290,7 +290,7 @@ module act::genesis_shop {
 
     // Accessory
     const ACCESSORY_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const ACCESSORY_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -410,7 +410,6 @@ module act::genesis_shop {
             HELM_MANUFACTURERS, 
             make_cosmetic_rarities(),
             HELM_CHANCES, 
-            GENISIS_AMOUNT, 
             ctx
         );
 
@@ -432,7 +431,6 @@ module act::genesis_shop {
             CHESTPIECE_MANUFACTURERS, 
             make_cosmetic_rarities(),
             CHESTPIECE_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -454,7 +452,6 @@ module act::genesis_shop {
             UPPER_TORSO_MANUFACTURERS, 
             make_cosmetic_rarities(),
             UPPER_TORSO_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -476,7 +473,6 @@ module act::genesis_shop {
             ARM_MANUFACTURERS, 
             make_cosmetic_rarities(),
             ARM_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -498,7 +494,6 @@ module act::genesis_shop {
             ARM_MANUFACTURERS, 
             make_cosmetic_rarities(),
             ARM_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -520,7 +515,6 @@ module act::genesis_shop {
             BRACER_MANUFACTURERS, 
             make_cosmetic_rarities(),
             BRACER_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -542,7 +536,6 @@ module act::genesis_shop {
             BRACER_MANUFACTURERS, 
             make_cosmetic_rarities(),
             BRACER_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -564,7 +557,6 @@ module act::genesis_shop {
             GLOVE_MANUFACTURERS, 
             make_cosmetic_rarities(),
             GLOVE_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -586,7 +578,6 @@ module act::genesis_shop {
             GLOVE_MANUFACTURERS, 
             make_cosmetic_rarities(),
             GLOVE_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -608,7 +599,6 @@ module act::genesis_shop {
             PAULDRON_MANUFACTURERS, 
             make_cosmetic_rarities(),
             PAULDRON_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -630,7 +620,6 @@ module act::genesis_shop {
             PAULDRON_MANUFACTURERS, 
             make_cosmetic_rarities(),
             PAULDRON_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -652,7 +641,6 @@ module act::genesis_shop {
             LEGS_MANUFACTURERS, 
             make_cosmetic_rarities(),
             LEGS_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -674,7 +662,6 @@ module act::genesis_shop {
             ACCESSORY_MANUFACTURERS, 
             make_cosmetic_rarities(),
             ACCESSORY_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -696,7 +683,6 @@ module act::genesis_shop {
             SHINS_MANUFACTURERS, 
             make_cosmetic_rarities(),
             SHINS_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -718,7 +704,6 @@ module act::genesis_shop {
             BOOTS_MANUFACTURERS, 
             make_cosmetic_rarities(),
             BOOTS_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -740,7 +725,6 @@ module act::genesis_shop {
             PRIMARY_MANUFACTURERS, 
             make_primary_rarities(),
             PRIMARY_CHANCES, 
-            GENISIS_AMOUNT, 
             ctx
         );
 
@@ -834,11 +818,10 @@ module act::genesis_shop {
         manufacturers: vector<vector<u8>>,
         rarities:vector<vector<vector<u8>>>,
         chances: vector<vector<u64>>,
-        precision: u64,
         ctx: &mut TxContext
     ): TableVec<Item> {
         let mut i = 0;        
-        let mut remaining = precision;
+        let mut remaining = GENISIS_AMOUNT;
         let mut items = table_vec::empty(ctx);
         let names_len = names.length();
         
@@ -854,7 +837,7 @@ module act::genesis_shop {
 
             while (chances_len > j) {
                 
-                let num_of_items = mul_div(chances[j], precision, PRECISION);
+                let num_of_items = mul_div(chances[j], GENISIS_AMOUNT, PRECISION);
                 let num_of_items = min(num_of_items, remaining);
                 remaining = remaining - num_of_items;
 
