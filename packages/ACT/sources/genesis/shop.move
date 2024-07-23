@@ -198,7 +198,7 @@ module act::genesis_shop {
         FANG_MK_IV,
     ];
     const UPPER_TORSO_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const UPPER_TORSO_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
@@ -262,9 +262,9 @@ module act::genesis_shop {
     
     // Pauldron
     const PAULDRON_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20 , 35, 60, 60, 20]
+        vector[800, 200, 400, 300, 400, 800, 800, 300],
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[600, 100, 350, 200, 350, 600, 600, 200]
     ];
     const PAULDRON_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
