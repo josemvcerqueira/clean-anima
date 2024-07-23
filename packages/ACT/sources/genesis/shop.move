@@ -131,7 +131,7 @@ module act::genesis_shop {
     const TALON: vector<u8> = b"Talon";
     const RENEGADE: vector<u8> = b"Renegade";
     const RAPTOR: vector<u8> = b"Raptor";
-    const TWELVE_GAUGE: vector<u8> = b"12 Guage";
+    const VALENTINE_12: vector<u8> = b"Valenti 12";
     const ENFORCER: vector<u8> = b"Enforcer";
     const WHISPER_9MM: vector<u8> = b"Whisper 9mm";
     const WAKIZASHI: vector<u8> = b"Wakizashi";
@@ -324,8 +324,8 @@ module act::genesis_shop {
 
     // Primary Weapon
     const PRIMARY_CHANCES: vector<vector<u64>> = vector[
-        vector[364, 260, 364, 260, 364, 364, 364, 260],
-        vector[308, 220, 308, 220, 308, 308, 308, 220],
+        vector[365, 260, 365, 260, 365, 365, 365, 260],
+        vector[309, 220, 309, 220, 309, 309, 309, 220],
         vector[364, 260, 364, 260, 364, 364, 364, 260],
         vector[364, 260, 364, 260, 364, 364, 364, 260],
     ];
@@ -333,7 +333,7 @@ module act::genesis_shop {
         TALON,
         RENEGADE,
         RAPTOR,
-        TWELVE_GAUGE,
+        VALENTINE_12,
     ];
     const PRIMARY_MANUFACTURERS: vector<vector<u8>> = vector[
         FENRIR,
@@ -344,8 +344,8 @@ module act::genesis_shop {
 
     // Secondary Weapon
     const SECONDARY_CHANCES: vector<vector<u64>> = vector[
-        vector[5, 5, 5, 4, 5, 5, 5, 2],
-        vector[8, 8, 8, 8, 8, 8, 8, 8],
+        vector[500, 500, 500, 400, 500, 500, 500, 200],
+        vector[800, 800, 800, 800, 800, 800, 800, 800],
     ];
     const SECONDARY_NAMES: vector<vector<u8>> = vector[
         ENFORCER,
@@ -357,7 +357,7 @@ module act::genesis_shop {
     ];  
 
     // Tertiary Weapon
-    const TERTIARY_CHANCES: vector<u64> = vector[25, 25, 40, 10];
+    const TERTIARY_CHANCES: vector<u64> = vector[2500, 2500, 4000, 1000];
     const TERTIARY_NAMES: vector<vector<u8>> = vector[
         WAKIZASHI,
         KARAMBIT,
@@ -879,7 +879,6 @@ module act::genesis_shop {
         let mut remaining = precision;
         let mut items = table_vec::empty(ctx);
         let names_len = names.length();
-        let chances_len = chances.length();
         
         while (names_len > i) {
 
@@ -888,6 +887,7 @@ module act::genesis_shop {
             let rarity = rarities[i];
             let chances = chances[i];
             let colour_ways = colour_ways[i];
+            let chances_len = chances.length();
 
             let mut j = 0;
 
