@@ -251,7 +251,7 @@ module act::genesis_shop {
 
     // Glove
     const GLOVE_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const GLOVE_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
