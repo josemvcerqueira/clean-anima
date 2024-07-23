@@ -234,9 +234,9 @@ module act::genesis_shop {
 
     // BRACER
     const BRACER_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20, 35, 60, 60, 20]
+        vector[800, 200, 400, 300, 400, 800, 800, 300],
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[600, 100, 350, 200, 350, 600, 600, 200]
     ];
     const BRACER_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
