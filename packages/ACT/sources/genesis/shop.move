@@ -211,9 +211,9 @@ module act::genesis_shop {
         NEO_SHOGUNATE
     ];
     const CHESTPIECE_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20, 35, 60, 60, 20]
+        vector[800, 200, 400, 300, 400, 800, 800, 300],
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[600, 100, 350, 200, 350, 600, 600, 200]
     ];
     const CHESTPIECE_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
@@ -417,28 +417,6 @@ module act::genesis_shop {
         table::add(&mut genesis_shop.items, attributes::helm(), items);
     }
 
-    public fun add_upper_torso(
-        genesis_shop: &mut GenesisShop,
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        ctx: &mut TxContext
-    ) {
-        admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            UPPER_TORSO_NAMES, 
-            vector[attributes::upper_torso()],
-            COSMETICS_COLOUR_WAY,
-            UPPER_TORSO_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            UPPER_TORSO_CHANCES,
-            GENISIS_AMOUNT,
-            ctx
-        );
-
-        table::add(&mut genesis_shop.items, attributes::upper_torso(), items);
-    }
-
     public fun add_chestpiece(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
@@ -459,6 +437,28 @@ module act::genesis_shop {
         );
 
         table::add(&mut genesis_shop.items, attributes::chestpiece(), items);
+    }
+
+    public fun add_upper_torso(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ) {
+        admin::assert_genesis_minter_role(access_control, admin);
+        let items = build(
+            true,
+            UPPER_TORSO_NAMES, 
+            vector[attributes::upper_torso()],
+            COSMETICS_COLOUR_WAY,
+            UPPER_TORSO_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            UPPER_TORSO_CHANCES,
+            GENISIS_AMOUNT,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::upper_torso(), items);
     }
 
     public fun add_left_arm(
@@ -841,7 +841,6 @@ module act::genesis_shop {
         let mut remaining = precision;
         let mut items = table_vec::empty(ctx);
         let names_len = names.length();
-        let chances_len = chances.length();
         
         while (names_len > i) {
 
@@ -849,6 +848,7 @@ module act::genesis_shop {
             let manufacturer = manufacturers[i];
             let rarity = rarities[i];
             let chances = chances[i];
+            let chances_len = chances.length();
 
             let mut j = 0;
 

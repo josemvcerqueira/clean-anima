@@ -137,6 +137,83 @@ module act::genesis_shop_tests {
         world.end();
     }
 
+    #[test]
+    fun test_add_chestpiece() {
+        let mut world = start_world();
+
+        let admin = &world.admin;
+        let access_control = &world.access_control;
+
+        // Shop is empty
+        assert_eq(world.genesis_shop.borrow_mut().length(), 0);
+
+        world.genesis_shop.add_chestpiece(access_control, admin, world.scenario.ctx());
+
+        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::chestpiece()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece()).length(), TOTAL_ITEMS);
+
+        //  6000 * 2% = 120 items === index 119
+        let mut index = 0;
+        let rarity = vector[b"Ultra Rare", b"Mythic", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare"];
+
+        let colour_way = vector[b"Vesper", b"Hikari", b"Volt", b"Blood Ivory", b"Red Damascus", b"Forest", b"Dusk", b"Viceroy"];
+
+        let chances = vector[
+            479, // 8%
+            120,  // 2%
+            240,  // 4%
+            180,  // 3%
+            240,  // 4%
+            480, // 8%
+            480, // 8%
+            180,  // 3%
+        ];
+
+        let mut i = 0;
+        
+        while (chances.length() > i) {
+            index = index + chances[i];
+            test_gang_mk_iv_chestpieces(&mut world, index, rarity[i], colour_way[i]);
+
+            i  = i + 1;
+        };
+
+        let chances = vector[
+            360, // 6%
+            60,  // 1%
+            210, // 3.5%
+            120,  // 2%
+            210, // 3.5%
+            360, // 6%
+            360, // 6%
+            120,  // 2%
+        ];
+
+        let mut i = 0;
+        
+        while (chances.length() > i) {
+            index = index + chances[i];
+            test_helios_chestpieces(&mut world, index, rarity[i], colour_way[i]);
+
+            i  = i + 1;
+        };
+
+        let mut i = 0;
+        
+        while (chances.length() > i) {
+            index = index + chances[i];
+            test_neo_shogunate_chestpieces(&mut world, index, rarity[i], colour_way[i]);
+
+            i  = i + 1;
+        };
+
+        // last item is length - 1
+        assert_eq(index, TOTAL_ITEMS - 1);
+
+        world.end();
+    }
+
     fun test_biodome_helms(world: &mut World, index: u64, rarity: vector<u8>, colour_way: vector<u8>) {
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::helm())[index].rarity(), rarity.to_string());
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::helm())[index].colour_way(), colour_way.to_string());
@@ -191,6 +268,27 @@ module act::genesis_shop_tests {
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::helm())[index].colour_way(), colour_way.to_string());
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::helm())[index].manufacturer(), b"Roots Robotics".to_string());
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::helm())[index].name(), b"Baha-2000".to_string());
+    }
+
+    fun test_gang_mk_iv_chestpieces(world: &mut World, index: u64, rarity: vector<u8>, colour_way: vector<u8>) {
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].rarity(), rarity.to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].colour_way(), colour_way.to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].manufacturer(), b"ExoTech Solutions".to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].name(), b"Fang MK IV".to_string());
+    }
+
+    fun test_helios_chestpieces(world: &mut World, index: u64, rarity: vector<u8>, colour_way: vector<u8>) {
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].rarity(), rarity.to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].colour_way(), colour_way.to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].manufacturer(), b"Zenith Aerospace".to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].name(), b"Helios".to_string());
+    }
+
+    fun test_neo_shogunate_chestpieces(world: &mut World, index: u64, rarity: vector<u8>, colour_way: vector<u8>) {
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].rarity(), rarity.to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].colour_way(), colour_way.to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].manufacturer(), b"Obsidian Dynamics".to_string());
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::chestpiece())[index].name(), b"Neo-Shogunate".to_string());
     }
 
     public struct World {
