@@ -1,7 +1,7 @@
 module anima::admin {
     // === Imports ===
 
-    use anima::access_control::{Self, Admin, AccessControl};
+    use animalib::access_control::{Self, Admin, AccessControl};
 
     // === Errors ===
 
@@ -52,4 +52,9 @@ module anima::admin {
     // === Private Functions ===
 
     // === Test Functions ===
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(ctx);
+    }
 }

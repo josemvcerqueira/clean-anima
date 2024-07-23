@@ -15,7 +15,7 @@
 module act::avatar {
     // === Imports ===
 
-    use std::string::{utf8, String};
+    use std::string::String;
     use sui::{
         package, 
         display,
@@ -25,12 +25,12 @@ module act::avatar {
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
     };
+    use animalib::access_control::{Admin, AccessControl};
     use act::{
         attributes,
         admin,
         upgrade::{Self, Upgrade},
         weapon::{Self, Weapon}, 
-        access_control::{Admin, AccessControl},
         cosmetic::{Self, Cosmetic}
     };
 
@@ -91,18 +91,18 @@ module act::avatar {
         transfer::share_object(avatar_registry);
 
         let keys = vector[
-            utf8(b"name"),
-            utf8(b"description"),
-            utf8(b"image_url"),
-            utf8(b"project_url"),
-            utf8(b"creator"),
+            b"name".to_string(),
+            b"description".to_string(),
+            b"image_url".to_string(),
+            b"project_url".to_string(),
+            b"creator".to_string(),
         ];
         let values = vector[
-            utf8(b"ACT Avatar: {alias}"),
-            utf8(b"ACT is a fast-paced, high-skill multiplayer FPS"),
-            utf8(b"ipfs://{image_url}"),
-            utf8(b"https://animalabs.io"), // to change with ACT game page
-            utf8(b"Anima Labs"),
+            b"ACT Avatar: {alias}".to_string(),
+            b"ACT is a fast-paced, high-skill multiplayer FPS".to_string(),
+            b"ipfs://{image_url}".to_string(),
+            b"https://animalabs.io".to_string(), // to change with ACT game page
+            b"Anima Labs".to_string(),
         ];
 
         let publisher = package::claim(otw, ctx);
@@ -115,8 +115,8 @@ module act::avatar {
         transfer::public_transfer(display, ctx.sender());
     }
 
-    public fun create(
-        registry: &mut AvatarRegistry,
+    public fun new(
+        registry: &mut AvatarRegistry, 
         image_url: String,
         image_hash: String,
         model_url: String,
@@ -124,18 +124,28 @@ module act::avatar {
         avatar_hash: String,
         edition: String,
         ctx: &mut TxContext
-    ) {
-        let avatar = new(
-            registry,
+    ): Avatar {
+        // One Avatar per user
+        registry.assert_no_avatar(ctx.sender());
+        
+        let avatar = Avatar {
+            id: object::new(ctx),
             image_url,
             image_hash,
             model_url,
             avatar_url,
             avatar_hash,
             edition,
-            ctx
-        );
+            upgrades: vector[],
+            attributes: attributes::new(),
+        };
 
+        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
+
+        avatar
+    }
+
+    public fun keep(avatar: Avatar, ctx: &mut TxContext) {
         transfer::transfer(avatar, ctx.sender());
     }
 
@@ -168,9 +178,7 @@ module act::avatar {
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext
     ) {
-        let weapon_val = self.attributes.get_mut(&weapon_slot);
-
-        *weapon_val = weapon::equip(
+        let weapon_name = weapon::equip(
             &mut self.id, 
             WeaponKey(weapon_slot), 
             weapon_id, 
@@ -179,6 +187,9 @@ module act::avatar {
             policy,
             ctx
         );
+
+        let weapon_val = self.attributes.get_mut(&weapon_slot);
+        *weapon_val = weapon_name;
     }
 
     public fun equip_cosmetic(
@@ -190,9 +201,7 @@ module act::avatar {
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext
     ) {
-        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
-
-        *cosmetic_val = cosmetic::equip(
+        let cosmetic_name = cosmetic::equip(
             &mut self.id, 
             CosmeticKey(cosmetic_type), 
             cosmetic_id, 
@@ -201,6 +210,9 @@ module act::avatar {
             policy,
             ctx
         );
+
+        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
+        *cosmetic_val = cosmetic_name;
     }
 
     public fun unequip_weapon(
@@ -211,7 +223,7 @@ module act::avatar {
         policy: &TransferPolicy<Weapon>, // trading policy
     ) {
         let weapon_val = self.attributes.get_mut(&weapon_slot);
-        *weapon_val = utf8(b"");
+        *weapon_val = b"".to_string();
 
         weapon::unequip(
             &mut self.id, 
@@ -230,7 +242,7 @@ module act::avatar {
         policy: &TransferPolicy<Cosmetic>, // trading policy
     ) {
         let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
-        *cosmetic_val = utf8(b"");
+        *cosmetic_val = b"".to_string();
 
         cosmetic::unequip(
             &mut self.id, 
@@ -275,12 +287,20 @@ module act::avatar {
         &self.attributes
     }
 
+    public fun has_weapon(self: &Avatar, slot: String): bool {
+        dof::exists_(&self.id, WeaponKey(slot))
+    }
+
+    public fun has_cosmetic(self: &Avatar, type_: String): bool {
+        dof::exists_(&self.id, CosmeticKey(type_))
+    }
+
     public fun assert_no_avatar(self: &AvatarRegistry, addr: address) {
         assert!(!self.accounts.contains(addr), EAlreadyMintedAnAvatar);
     }
 
     public fun assert_has_avatar(self: &AvatarRegistry, addr: address) {
-        assert!(!self.accounts.contains(addr), ENeedToMintAnAvatar);
+        assert!(self.accounts.contains(addr), ENeedToMintAnAvatar);
     }
 
     // === Admin Functions ===
@@ -293,19 +313,6 @@ module act::avatar {
     ) {
         admin::assert_upgrades_role(access_control, admin);
         self.upgrades.push_back(upgrade::new(url));
-    }
-
-    public fun upgrade_equipped_cosmetic(
-        self: &mut Avatar, 
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        `type`: String,
-        url: String        
-    ) {
-        admin::assert_upgrades_role(access_control, admin);
-        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
-        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
-        cosmetic.upgrade(access_control, admin, url);   
     }
 
     public fun upgrade_equipped_weapon(
@@ -321,43 +328,45 @@ module act::avatar {
         weapon.upgrade(access_control, admin, url);   
     }
 
-    // === Public-Package Functions ===
-
-    public(package) fun new(
-        registry: &mut AvatarRegistry, 
-        image_url: String,
-        image_hash: String,
-        model_url: String,
-        avatar_url: String,
-        avatar_hash: String,
-        edition: String,
-        ctx: &mut TxContext
-    ): Avatar {
-        // One Avatar per user
-        registry.assert_no_avatar(ctx.sender());
-        
-        let avatar = Avatar {
-            id: object::new(ctx),
-            image_url,
-            image_hash,
-            model_url,
-            avatar_url,
-            avatar_hash,
-            edition,
-            upgrades: vector[],
-            attributes: attributes::new(),
-        };
-
-        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
-
-        avatar
+    public fun upgrade_equipped_cosmetic(
+        self: &mut Avatar, 
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        `type`: String,
+        url: String        
+    ) {
+        admin::assert_upgrades_role(access_control, admin);
+        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
+        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
+        cosmetic.upgrade(access_control, admin, url);   
     }
+
+    // === Public-Package Functions ===
 
     public(package) fun transfer(self: Avatar, recipient: address) {
         transfer::transfer(self, recipient);
     }
 
-    // === Private Functions ===
-
     // === Test Functions === 
+    
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(AVATAR {}, ctx);
+    }
+
+    #[test_only]
+    public fun borrow_equipped_cosmetic(
+        self: &Avatar, 
+        `type`: String,       
+    ): &Cosmetic {
+        dof::borrow<CosmeticKey, Cosmetic>(&self.id, CosmeticKey(`type`))
+    }
+
+    #[test_only]
+    public fun borrow_equipped_weapon(
+        self: &Avatar, 
+        slot: String,   
+    ): &Weapon {
+        dof::borrow<WeaponKey, Weapon>(&self.id, WeaponKey(slot))
+    }
 }        

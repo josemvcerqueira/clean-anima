@@ -6,7 +6,7 @@ edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet", override = true }
-ACT = { local = "../ACT" }
+AnimaLib = { local = "../AnimaLib" }
 
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
 # Revision can be a branch, a tag, and a commit hash.
@@ -22,6 +22,7 @@ ACT = { local = "../ACT" }
 [addresses]
 anima = "0x0"
 act = "0x39eace67af11d8ded99f0fccca47c59b5c2582e2e48353da211aa6d7cf4b5ecc"
+animalib = "0x2dfbe84752305de6e87a2372739438f3c67f1e7f3a07f1dad69f650a9d2c2d1e"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.

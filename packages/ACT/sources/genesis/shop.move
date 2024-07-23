@@ -10,24 +10,22 @@
 module act::genesis_shop {
     // === Imports ===
 
-    use std::string::{utf8, String};
+    use std::string::String;
     use sui::{
         table_vec::{Self, TableVec},
         table::{Self, Table},
     };
+    use animalib::access_control::{Admin, AccessControl};
     use act::{
         admin,
         attributes,
-        access_control::{Admin, AccessControl},
-        utils::min
     };
-
-    // === Errors ===
 
     // === Constants ===
 
-    const GENISIS_AMOUNT: u64 = 6_0000;
+    const GENISIS_AMOUNT: u64 = 6_000;
     const COSMETIC_SET_SIZE: u64 = 8;
+    const PRECISION: u64 = 10000;
 
     // Rarities
     const COSMETICS_RARITIES: vector<vector<u8>> = vector[
@@ -133,7 +131,7 @@ module act::genesis_shop {
     const TALON: vector<u8> = b"Talon";
     const RENEGADE: vector<u8> = b"Renegade";
     const RAPTOR: vector<u8> = b"Raptor";
-    const TWELVE_GAUGE: vector<u8> = b"12 Guage";
+    const VALENTINE_12: vector<u8> = b"Valenti 12";
     const ENFORCER: vector<u8> = b"Enforcer";
     const WHISPER_9MM: vector<u8> = b"Whisper 9mm";
     const WAKIZASHI: vector<u8> = b"Wakizashi";
@@ -200,7 +198,7 @@ module act::genesis_shop {
         FANG_MK_IV,
     ];
     const UPPER_TORSO_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const UPPER_TORSO_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
@@ -213,9 +211,9 @@ module act::genesis_shop {
         NEO_SHOGUNATE
     ];
     const CHESTPIECE_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20, 35, 60, 60, 20]
+        vector[800, 200, 400, 300, 400, 800, 800, 300],
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[600, 100, 350, 200, 350, 600, 600, 200]
     ];
     const CHESTPIECE_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
@@ -225,7 +223,7 @@ module act::genesis_shop {
 
     // Arm
     const ARM_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const ARM_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -236,9 +234,9 @@ module act::genesis_shop {
 
     // BRACER
     const BRACER_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20, 35, 60, 60, 20]
+        vector[800, 200, 400, 300, 400, 800, 800, 300],
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[600, 100, 350, 200, 350, 600, 600, 200]
     ];
     const BRACER_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -253,7 +251,7 @@ module act::genesis_shop {
 
     // Glove
     const GLOVE_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const GLOVE_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -264,9 +262,9 @@ module act::genesis_shop {
     
     // Pauldron
     const PAULDRON_CHANCES: vector<vector<u64>> = vector[
-        vector[80, 20, 40, 30, 40, 80, 80, 30],
-        vector[60, 10, 35, 20, 35, 60, 60, 20],
-        vector[60, 10, 35, 20 , 35, 60, 60, 20]
+        vector[800, 200, 400, 300, 400, 800, 800, 300],
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[600, 100, 350, 200, 350, 600, 600, 200]
     ];
     const PAULDRON_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -281,7 +279,7 @@ module act::genesis_shop {
 
     // Legs
     const LEGS_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const LEGS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -292,7 +290,7 @@ module act::genesis_shop {
 
     // Accessory
     const ACCESSORY_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const ACCESSORY_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -303,7 +301,7 @@ module act::genesis_shop {
 
     // Shins
     const SHINS_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const SHINS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -314,7 +312,7 @@ module act::genesis_shop {
 
     // Boots
     const BOOTS_CHANCES: vector<vector<u64>> = vector[
-        vector[200, 50, 95, 80, 95, 200, 200, 80]
+        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
     ];
     const BOOTS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -326,8 +324,8 @@ module act::genesis_shop {
 
     // Primary Weapon
     const PRIMARY_CHANCES: vector<vector<u64>> = vector[
-        vector[364, 260, 364, 260, 364, 364, 364, 260],
-        vector[308, 220, 308, 220, 308, 308, 308, 220],
+        vector[365, 260, 365, 260, 365, 365, 365, 260],
+        vector[309, 220, 309, 220, 309, 309, 309, 220],
         vector[364, 260, 364, 260, 364, 364, 364, 260],
         vector[364, 260, 364, 260, 364, 364, 364, 260],
     ];
@@ -335,7 +333,7 @@ module act::genesis_shop {
         TALON,
         RENEGADE,
         RAPTOR,
-        TWELVE_GAUGE,
+        VALENTINE_12,
     ];
     const PRIMARY_MANUFACTURERS: vector<vector<u8>> = vector[
         FENRIR,
@@ -346,8 +344,8 @@ module act::genesis_shop {
 
     // Secondary Weapon
     const SECONDARY_CHANCES: vector<vector<u64>> = vector[
-        vector[5, 5, 5, 4, 5, 5, 5, 2],
-        vector[8, 8, 8, 8, 8, 8, 8, 8],
+        vector[500, 500, 500, 400, 500, 500, 500, 200],
+        vector[800, 800, 800, 800, 800, 800, 800, 800],
     ];
     const SECONDARY_NAMES: vector<vector<u8>> = vector[
         ENFORCER,
@@ -359,7 +357,7 @@ module act::genesis_shop {
     ];  
 
     // Tertiary Weapon
-    const TERTIARY_CHANCES: vector<u64> = vector[25, 25, 40, 10];
+    const TERTIARY_CHANCES: vector<u64> = vector[2500, 2500, 4000, 1000];
     const TERTIARY_NAMES: vector<vector<u8>> = vector[
         WAKIZASHI,
         KARAMBIT,
@@ -412,33 +410,10 @@ module act::genesis_shop {
             HELM_MANUFACTURERS, 
             make_cosmetic_rarities(),
             HELM_CHANCES, 
-            GENISIS_AMOUNT, 
             ctx
         );
 
         table::add(&mut genesis_shop.items, attributes::helm(), items);
-    }
-
-    public fun add_upper_torso(
-        genesis_shop: &mut GenesisShop,
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        ctx: &mut TxContext
-    ) {
-        admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            UPPER_TORSO_NAMES, 
-            vector[attributes::upper_torso()],
-            COSMETICS_COLOUR_WAY,
-            UPPER_TORSO_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            UPPER_TORSO_CHANCES,
-            GENISIS_AMOUNT,
-            ctx
-        );
-
-        table::add(&mut genesis_shop.items, attributes::upper_torso(), items);
     }
 
     public fun add_chestpiece(
@@ -456,11 +431,31 @@ module act::genesis_shop {
             CHESTPIECE_MANUFACTURERS, 
             make_cosmetic_rarities(),
             CHESTPIECE_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
         table::add(&mut genesis_shop.items, attributes::chestpiece(), items);
+    }
+
+    public fun add_upper_torso(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ) {
+        admin::assert_genesis_minter_role(access_control, admin);
+        let items = build(
+            true,
+            UPPER_TORSO_NAMES, 
+            vector[attributes::upper_torso()],
+            COSMETICS_COLOUR_WAY,
+            UPPER_TORSO_MANUFACTURERS, 
+            make_cosmetic_rarities(),
+            UPPER_TORSO_CHANCES,
+            ctx
+        );
+
+        table::add(&mut genesis_shop.items, attributes::upper_torso(), items);
     }
 
     public fun add_left_arm(
@@ -478,7 +473,6 @@ module act::genesis_shop {
             ARM_MANUFACTURERS, 
             make_cosmetic_rarities(),
             ARM_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -500,7 +494,6 @@ module act::genesis_shop {
             ARM_MANUFACTURERS, 
             make_cosmetic_rarities(),
             ARM_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -522,7 +515,6 @@ module act::genesis_shop {
             BRACER_MANUFACTURERS, 
             make_cosmetic_rarities(),
             BRACER_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -544,7 +536,6 @@ module act::genesis_shop {
             BRACER_MANUFACTURERS, 
             make_cosmetic_rarities(),
             BRACER_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -566,7 +557,6 @@ module act::genesis_shop {
             GLOVE_MANUFACTURERS, 
             make_cosmetic_rarities(),
             GLOVE_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -588,7 +578,6 @@ module act::genesis_shop {
             GLOVE_MANUFACTURERS, 
             make_cosmetic_rarities(),
             GLOVE_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -610,7 +599,6 @@ module act::genesis_shop {
             PAULDRON_MANUFACTURERS, 
             make_cosmetic_rarities(),
             PAULDRON_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -632,7 +620,6 @@ module act::genesis_shop {
             PAULDRON_MANUFACTURERS, 
             make_cosmetic_rarities(),
             PAULDRON_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -654,7 +641,6 @@ module act::genesis_shop {
             LEGS_MANUFACTURERS, 
             make_cosmetic_rarities(),
             LEGS_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -676,7 +662,6 @@ module act::genesis_shop {
             ACCESSORY_MANUFACTURERS, 
             make_cosmetic_rarities(),
             ACCESSORY_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -698,7 +683,6 @@ module act::genesis_shop {
             SHINS_MANUFACTURERS, 
             make_cosmetic_rarities(),
             SHINS_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -720,7 +704,6 @@ module act::genesis_shop {
             BOOTS_MANUFACTURERS, 
             make_cosmetic_rarities(),
             BOOTS_CHANCES,
-            GENISIS_AMOUNT,
             ctx
         );
 
@@ -742,7 +725,6 @@ module act::genesis_shop {
             PRIMARY_MANUFACTURERS, 
             make_primary_rarities(),
             PRIMARY_CHANCES, 
-            GENISIS_AMOUNT, 
             ctx
         );
 
@@ -791,31 +773,27 @@ module act::genesis_shop {
         table::add(&mut genesis_shop.items, attributes::tertiary(), items);
     }
 
-    // === Public-View Functions ===
+    // === Public-Package Functions ===
 
-    public fun kinds(self: &Item): vector<String> {
+    public(package) fun kinds(self: &Item): vector<String> {
         self.kinds
     }
 
-    public fun name(self: &Item): String {
+    public(package) fun name(self: &Item): String {
         self.name
     }
 
-    public fun colour_way(self: &Item): String {
+    public(package) fun colour_way(self: &Item): String {
         self.colour_way
     }
 
-    public fun manufacturer(self: &Item): String {
+    public(package) fun manufacturer(self: &Item): String {
         self.manufacturer
     }
 
-    public fun rarity(self: &Item): String {
+    public(package) fun rarity(self: &Item): String {
         self.rarity
     }
-
-    // === Admin Functions ===
-
-    // === Public-Package Functions ===\
 
     public(package) fun borrow_item_mut(self: &mut GenesisShop, name: String): &mut TableVec<Item> {
         table::borrow_mut(&mut self.items, name)
@@ -840,14 +818,12 @@ module act::genesis_shop {
         manufacturers: vector<vector<u8>>,
         rarities:vector<vector<vector<u8>>>,
         chances: vector<vector<u64>>,
-        precision: u64,
         ctx: &mut TxContext
     ): TableVec<Item> {
         let mut i = 0;        
-        let mut remaining = precision;
+        let mut remaining = GENISIS_AMOUNT;
         let mut items = table_vec::empty(ctx);
         let names_len = names.length();
-        let chances_len = chances.length();
         
         while (names_len > i) {
 
@@ -855,12 +831,14 @@ module act::genesis_shop {
             let manufacturer = manufacturers[i];
             let rarity = rarities[i];
             let chances = chances[i];
+            let chances_len = chances.length();
 
             let mut j = 0;
 
             while (chances_len > j) {
-
-                let num_of_items = min(chances[j], remaining);
+                
+                let num_of_items = mul_div(chances[j], GENISIS_AMOUNT, PRECISION);
+                let num_of_items = min(num_of_items, remaining);
                 remaining = remaining - num_of_items;
 
                 let mut k = 0;
@@ -868,11 +846,11 @@ module act::genesis_shop {
                 while (num_of_items > k) {
                     items.push_back(Item {
                         is_cosmetic,
-                        name: utf8(name),
+                        name: name.to_string(),
                         kinds,
-                        colour_way: utf8(colour_ways[j]),
-                        manufacturer: utf8(manufacturer),
-                        rarity: utf8(rarity[j])
+                        colour_way: colour_ways[j].to_string(),
+                        manufacturer: manufacturer.to_string(),
+                        rarity: rarity[j].to_string()
                     });
 
                     k = k + 1;
@@ -901,7 +879,6 @@ module act::genesis_shop {
         let mut remaining = precision;
         let mut items = table_vec::empty(ctx);
         let names_len = names.length();
-        let chances_len = chances.length();
         
         while (names_len > i) {
 
@@ -910,12 +887,14 @@ module act::genesis_shop {
             let rarity = rarities[i];
             let chances = chances[i];
             let colour_ways = colour_ways[i];
+            let chances_len = chances.length();
 
             let mut j = 0;
 
             while (chances_len > j) {
-
-                let num_of_items = min(chances[j], remaining);
+                
+                let num_of_items = mul_div(chances[j], precision, PRECISION);
+                let num_of_items = min(num_of_items, remaining);
                 remaining = remaining - num_of_items;
 
                 let mut k = 0;
@@ -923,11 +902,11 @@ module act::genesis_shop {
                 while (num_of_items > k) {
                     items.push_back(Item {
                         is_cosmetic: false,
-                        name: utf8(name),
+                        name: name.to_string(),
                         kinds,
-                        colour_way: utf8(colour_ways[j]),
-                        manufacturer: utf8(manufacturer),
-                        rarity: utf8(rarity[j])
+                        colour_way: colour_ways[j].to_string(),
+                        manufacturer: manufacturer.to_string(),
+                        rarity: rarity[j].to_string()
                     });
 
                     k = k + 1;
@@ -965,7 +944,8 @@ module act::genesis_shop {
             let chance = chances[i];
             let colour_ways = colour_ways[i];
 
-            let num_of_items = min(chance, remaining);
+            let num_of_items = mul_div(chance, precision, PRECISION);
+            let num_of_items = min(num_of_items, remaining);
             remaining = remaining - num_of_items;
 
             let mut k = 0;
@@ -973,11 +953,11 @@ module act::genesis_shop {
             while (num_of_items > k) {
                 items.push_back(Item {
                     is_cosmetic: false,
-                    name: utf8(name),
+                    name: name.to_string(),
                     kinds,
-                    colour_way: utf8(colour_ways),
-                    manufacturer: utf8(manufacturer),
-                    rarity: utf8(rarity)
+                    colour_way: colour_ways.to_string(),
+                    manufacturer: manufacturer.to_string(),
+                    rarity: rarity.to_string()
                 });
 
                 k = k + 1;
@@ -1001,6 +981,7 @@ module act::genesis_shop {
         rarities
     }
 
+    #[allow(implicit_const_copy)]
     fun make_primary_rarities(): vector<vector<vector<u8>>> {
         let mut rarities = vector[];
         let mut i = 0;
@@ -1014,5 +995,23 @@ module act::genesis_shop {
         rarities
     }
 
+    fun mul_div(x: u64, y: u64, z: u64): u64 {
+        ((x as u256) * (y as u256) / (z as u256) as u64)
+    }
+
+    fun min(x: u64, y: u64): u64 {
+        if (x > y) y else x
+    }
+
     // === Test Functions ===    
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(ctx);
+    }
+
+    #[test_only]
+    public fun borrow_mut(self: &mut GenesisShop): &mut Table<String, TableVec<Item>> {
+        &mut self.items
+    }
 }

@@ -3,4 +3,6 @@ build
 .DS_Store
 node_modules
 dist
-.env
+.env 
+.trace
+.coverage_map.*
