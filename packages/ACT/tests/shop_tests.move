@@ -277,10 +277,13 @@ module act::genesis_shop_tests {
         assert_eq(world.genesis_shop.borrow_mut().length(), 0);
 
         world.genesis_shop.add_left_pauldron(access_control, admin, world.scenario.ctx());
+        world.genesis_shop.add_right_pauldron(access_control, admin, world.scenario.ctx());
 
-        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+        assert_eq(world.genesis_shop.borrow_mut().length(), 2);
         assert_eq(world.genesis_shop.borrow_mut().contains(attributes::left_pauldron()), true);
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::left_pauldron()).length(), TOTAL_ITEMS);
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::right_pauldron()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::right_pauldron()).length(), TOTAL_ITEMS);
 
         //  6000 * 2% = 120 items === index 119
         let mut index = 0;
@@ -304,6 +307,12 @@ module act::genesis_shop_tests {
         while (chances.length() > i) {
             index = index + chances[i];
             let item = world.genesis_shop.borrow_mut().borrow(attributes::left_pauldron())[index];
+            assert_eq(item.rarity(), rarity[i].to_string());
+            assert_eq(item.colour_way(), colour_way[i].to_string());
+            assert_eq(item.manufacturer(), b"ExoTech Solutions".to_string());
+            assert_eq(item.name(), b"Fang MK IV".to_string());
+
+            let item = world.genesis_shop.borrow_mut().borrow(attributes::right_pauldron())[index];
             assert_eq(item.rarity(), rarity[i].to_string());
             assert_eq(item.colour_way(), colour_way[i].to_string());
             assert_eq(item.manufacturer(), b"ExoTech Solutions".to_string());
@@ -333,6 +342,12 @@ module act::genesis_shop_tests {
             assert_eq(item.manufacturer(), b"Zenith Aerospace".to_string());
             assert_eq(item.name(), b"Helios".to_string());
 
+            let item = world.genesis_shop.borrow_mut().borrow(attributes::right_pauldron())[index];
+            assert_eq(item.rarity(), rarity[i].to_string());
+            assert_eq(item.colour_way(), colour_way[i].to_string());
+            assert_eq(item.manufacturer(), b"Zenith Aerospace".to_string());
+            assert_eq(item.name(), b"Helios".to_string());
+
             i  = i + 1;
         };
 
@@ -341,6 +356,12 @@ module act::genesis_shop_tests {
         while (chances.length() > i) {
             index = index + chances[i];
             let item = world.genesis_shop.borrow_mut().borrow(attributes::left_pauldron())[index];
+            assert_eq(item.rarity(), rarity[i].to_string());
+            assert_eq(item.colour_way(), colour_way[i].to_string());
+            assert_eq(item.manufacturer(), b"Obsidian Dynamics".to_string());
+            assert_eq(item.name(), b"Neo-Shogunate".to_string());
+
+            let item = world.genesis_shop.borrow_mut().borrow(attributes::right_pauldron())[index];
             assert_eq(item.rarity(), rarity[i].to_string());
             assert_eq(item.colour_way(), colour_way[i].to_string());
             assert_eq(item.manufacturer(), b"Obsidian Dynamics".to_string());
