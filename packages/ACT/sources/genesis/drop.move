@@ -108,15 +108,15 @@ module act::genesis_drop {
                 let items = genesis_shop.borrow_item_mut(attributes.pop_back());
                 let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
                 let item = items.swap_remove(index);
-                let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+                let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
 
-                if (is_cosmetic) {
+                if (equipment != b"Primary".to_string() && equipment != b"Secondary".to_string() && equipment != b"Tertiary".to_string()) {
                     let cosmetic = cosmetic::new(
                         name,
                         utf8(b""),
                         utf8(b""),
                         utf8(b""),
-                        kinds[0],
+                        equipment,
                         colour_way,
                         utf8(b"Genesis"),
                         manufacturer,
@@ -132,7 +132,7 @@ module act::genesis_drop {
                         utf8(b""),
                         utf8(b""),
                         utf8(b""),
-                        kinds[0],
+                        equipment,
                         colour_way,
                         utf8(b"Genesis"),
                         manufacturer,
@@ -202,15 +202,15 @@ module act::genesis_drop {
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
-            let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+            let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
 
-            if (is_cosmetic) {
+            if (equipment != b"Primary".to_string() && equipment != b"Secondary".to_string() && equipment != b"Tertiary".to_string()) {
                 let cosmetic = cosmetic::new(
                     name,
                     utf8(b""),
                     utf8(b""),
                     utf8(b""),
-                    kinds[0],
+                    equipment,
                     colour_way,
                     utf8(b"Genesis"),
                     manufacturer,
@@ -226,7 +226,7 @@ module act::genesis_drop {
                     utf8(b""),
                     utf8(b""),
                     utf8(b""),
-                    kinds[0],
+                    equipment,
                     colour_way,
                     utf8(b"Genesis"),
                     manufacturer,
