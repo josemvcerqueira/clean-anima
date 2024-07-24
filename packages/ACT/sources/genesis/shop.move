@@ -442,6 +442,10 @@ module act::genesis_shop {
         let last_name_idx = builder.names.length() - 1;
         // while (builder.names.length() > i) {
 
+        if (last_name_idx == 0) {
+            return; // when names has been emptied it means the whole shop has been filled but we can't know exactly when exactly
+        };
+
             let name = builder.names[last_name_idx];
             let manufacturer = builder.manufacturers[last_name_idx];
             let rarity = if (name == b"Tertiary") { 
