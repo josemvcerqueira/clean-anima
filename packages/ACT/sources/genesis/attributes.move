@@ -24,6 +24,7 @@ module act::attributes {
     const LEFT_PAULDRON: vector<u8> = b"Left Pauldron";
     const RIGHT_PAULDRON: vector<u8> = b"Right Pauldron";
     const LEGS: vector<u8> = b"Legs";
+    const BELT: vector<u8> = b"Belt";
     const ACCESSORY: vector<u8> = b"Accessory";
     const SHINS: vector<u8> = b"Shins";
     const BOOTS: vector<u8> = b"Boots";
@@ -79,6 +80,7 @@ module act::attributes {
             LEFT_PAULDRON.to_string(),
             RIGHT_PAULDRON.to_string(),
             LEGS.to_string(),
+            BELT.to_string(),
             ACCESSORY.to_string(),
             SHINS.to_string(),
             BOOTS.to_string(),
@@ -108,6 +110,7 @@ module act::attributes {
             LEFT_PAULDRON.to_string(),
             RIGHT_PAULDRON.to_string(),
             LEGS.to_string(),
+            BELT.to_string(),
             ACCESSORY.to_string(),
             SHINS.to_string(),
             BOOTS.to_string(),
@@ -130,6 +133,7 @@ module act::attributes {
     public(package) fun right_bracer(): String { RIGHT_BRACER.to_string() }
     public(package) fun left_bracer(): String { LEFT_BRACER.to_string() }
     public(package) fun legs(): String { LEGS.to_string() }
+    public(package) fun belt(): String { BELT.to_string() }
     public(package) fun shins(): String { SHINS.to_string() }
     public(package) fun boots(): String { BOOTS.to_string() }
     public(package) fun accessory(): String { ACCESSORY.to_string() }

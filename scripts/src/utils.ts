@@ -14,7 +14,7 @@ export const keypair = Ed25519Keypair.fromSecretKey(Uint8Array.from(Buffer.from(
 
 export const client = new SuiClient({ url: getFullnodeUrl("testnet") });
 
-const createdData = fs.readFileSync('./created.json', 'utf8');
+const createdData = fs.readFileSync('./src/data/created.json', 'utf8');
 const parsed: IObjectInfo[] = JSON.parse(createdData);
 const typeToId = new Map(parsed.map(item => [item.type, item.id]));
 

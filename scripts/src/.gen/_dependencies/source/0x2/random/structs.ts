@@ -1,7 +1,7 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, Vector, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {UID} from "../object/structs";
 import {Versioned} from "../versioned/structs";
 import {bcs, fromB64} from "@mysten/bcs";
@@ -9,27 +9,27 @@ import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Random =============================== */
 
-export function isRandom(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::random::Random`; }
+export function isRandom(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::random::Random`; }
 
 export interface RandomFields { id: ToField<UID>; inner: ToField<Versioned> }
 
 export type RandomReified = Reified< Random, RandomFields >;
 
-export class Random implements StructClass { static readonly $typeName = `${PKG_V20}::random::Random`; static readonly $numTypeParams = 0;
+export class Random implements StructClass { static readonly $typeName = `${PKG_V21}::random::Random`; static readonly $numTypeParams = 0;
 
  readonly $typeName = Random.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::random::Random`;
+ readonly $fullTypeName: `${typeof PKG_V21}::random::Random`;
 
  readonly $typeArgs: [];
 
  readonly id: ToField<UID>; readonly inner: ToField<Versioned>
 
- private constructor(typeArgs: [], fields: RandomFields, ) { this.$fullTypeName = composeSuiType( Random.$typeName, ...typeArgs ) as `${typeof PKG_V20}::random::Random`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: RandomFields, ) { this.$fullTypeName = composeSuiType( Random.$typeName, ...typeArgs ) as `${typeof PKG_V21}::random::Random`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.inner = fields.inner; }
 
- static reified( ): RandomReified { return { typeName: Random.$typeName, fullTypeName: composeSuiType( Random.$typeName, ...[] ) as `${typeof PKG_V20}::random::Random`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Random.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Random.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Random.fromBcs( data, ), bcs: Random.bcs, fromJSONField: (field: any) => Random.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Random.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Random.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Random.fetch( client, id, ), new: ( fields: RandomFields, ) => { return new Random( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): RandomReified { return { typeName: Random.$typeName, fullTypeName: composeSuiType( Random.$typeName, ...[] ) as `${typeof PKG_V21}::random::Random`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Random.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Random.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Random.fromBcs( data, ), bcs: Random.bcs, fromJSONField: (field: any) => Random.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Random.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Random.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Random.fetch( client, id, ), new: ( fields: RandomFields, ) => { return new Random( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Random.reified() }
 
@@ -74,27 +74,27 @@ export class Random implements StructClass { static readonly $typeName = `${PKG_
 
 /* ============================== RandomGenerator =============================== */
 
-export function isRandomGenerator(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::random::RandomGenerator`; }
+export function isRandomGenerator(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::random::RandomGenerator`; }
 
 export interface RandomGeneratorFields { seed: ToField<Vector<"u8">>; counter: ToField<"u16">; buffer: ToField<Vector<"u8">> }
 
 export type RandomGeneratorReified = Reified< RandomGenerator, RandomGeneratorFields >;
 
-export class RandomGenerator implements StructClass { static readonly $typeName = `${PKG_V20}::random::RandomGenerator`; static readonly $numTypeParams = 0;
+export class RandomGenerator implements StructClass { static readonly $typeName = `${PKG_V21}::random::RandomGenerator`; static readonly $numTypeParams = 0;
 
  readonly $typeName = RandomGenerator.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::random::RandomGenerator`;
+ readonly $fullTypeName: `${typeof PKG_V21}::random::RandomGenerator`;
 
  readonly $typeArgs: [];
 
  readonly seed: ToField<Vector<"u8">>; readonly counter: ToField<"u16">; readonly buffer: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: RandomGeneratorFields, ) { this.$fullTypeName = composeSuiType( RandomGenerator.$typeName, ...typeArgs ) as `${typeof PKG_V20}::random::RandomGenerator`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: RandomGeneratorFields, ) { this.$fullTypeName = composeSuiType( RandomGenerator.$typeName, ...typeArgs ) as `${typeof PKG_V21}::random::RandomGenerator`; this.$typeArgs = typeArgs;
 
  this.seed = fields.seed;; this.counter = fields.counter;; this.buffer = fields.buffer; }
 
- static reified( ): RandomGeneratorReified { return { typeName: RandomGenerator.$typeName, fullTypeName: composeSuiType( RandomGenerator.$typeName, ...[] ) as `${typeof PKG_V20}::random::RandomGenerator`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => RandomGenerator.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => RandomGenerator.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => RandomGenerator.fromBcs( data, ), bcs: RandomGenerator.bcs, fromJSONField: (field: any) => RandomGenerator.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => RandomGenerator.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => RandomGenerator.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => RandomGenerator.fetch( client, id, ), new: ( fields: RandomGeneratorFields, ) => { return new RandomGenerator( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): RandomGeneratorReified { return { typeName: RandomGenerator.$typeName, fullTypeName: composeSuiType( RandomGenerator.$typeName, ...[] ) as `${typeof PKG_V21}::random::RandomGenerator`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => RandomGenerator.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => RandomGenerator.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => RandomGenerator.fromBcs( data, ), bcs: RandomGenerator.bcs, fromJSONField: (field: any) => RandomGenerator.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => RandomGenerator.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => RandomGenerator.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => RandomGenerator.fetch( client, id, ), new: ( fields: RandomGeneratorFields, ) => { return new RandomGenerator( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return RandomGenerator.reified() }
 
@@ -139,27 +139,27 @@ export class RandomGenerator implements StructClass { static readonly $typeName 
 
 /* ============================== RandomInner =============================== */
 
-export function isRandomInner(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::random::RandomInner`; }
+export function isRandomInner(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::random::RandomInner`; }
 
 export interface RandomInnerFields { version: ToField<"u64">; epoch: ToField<"u64">; randomnessRound: ToField<"u64">; randomBytes: ToField<Vector<"u8">> }
 
 export type RandomInnerReified = Reified< RandomInner, RandomInnerFields >;
 
-export class RandomInner implements StructClass { static readonly $typeName = `${PKG_V20}::random::RandomInner`; static readonly $numTypeParams = 0;
+export class RandomInner implements StructClass { static readonly $typeName = `${PKG_V21}::random::RandomInner`; static readonly $numTypeParams = 0;
 
  readonly $typeName = RandomInner.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::random::RandomInner`;
+ readonly $fullTypeName: `${typeof PKG_V21}::random::RandomInner`;
 
  readonly $typeArgs: [];
 
  readonly version: ToField<"u64">; readonly epoch: ToField<"u64">; readonly randomnessRound: ToField<"u64">; readonly randomBytes: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: RandomInnerFields, ) { this.$fullTypeName = composeSuiType( RandomInner.$typeName, ...typeArgs ) as `${typeof PKG_V20}::random::RandomInner`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: RandomInnerFields, ) { this.$fullTypeName = composeSuiType( RandomInner.$typeName, ...typeArgs ) as `${typeof PKG_V21}::random::RandomInner`; this.$typeArgs = typeArgs;
 
  this.version = fields.version;; this.epoch = fields.epoch;; this.randomnessRound = fields.randomnessRound;; this.randomBytes = fields.randomBytes; }
 
- static reified( ): RandomInnerReified { return { typeName: RandomInner.$typeName, fullTypeName: composeSuiType( RandomInner.$typeName, ...[] ) as `${typeof PKG_V20}::random::RandomInner`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => RandomInner.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => RandomInner.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => RandomInner.fromBcs( data, ), bcs: RandomInner.bcs, fromJSONField: (field: any) => RandomInner.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => RandomInner.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => RandomInner.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => RandomInner.fetch( client, id, ), new: ( fields: RandomInnerFields, ) => { return new RandomInner( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): RandomInnerReified { return { typeName: RandomInner.$typeName, fullTypeName: composeSuiType( RandomInner.$typeName, ...[] ) as `${typeof PKG_V21}::random::RandomInner`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => RandomInner.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => RandomInner.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => RandomInner.fromBcs( data, ), bcs: RandomInner.bcs, fromJSONField: (field: any) => RandomInner.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => RandomInner.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => RandomInner.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => RandomInner.fetch( client, id, ), new: ( fields: RandomInnerFields, ) => { return new RandomInner( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return RandomInner.reified() }
 

@@ -1,0 +1,114 @@
+[
+  {
+    "type": "package::UpgradeCap",
+    "id": "0x031bade16c2d73c02b8a4b76a7a672707891da25b98fd69b953620a173f00680"
+  },
+  {
+    "type": "display::Display<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::weapon::Weapon>",
+    "id": "0x04c65377c17189c407bc99b50e7d40fe0265c5a96bc2f88149dc51cc27026815"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::weapon::Weapon>",
+    "id": "0x0687f597a349b94425a64b362a03437b561716b79389df452b44828b86b37330"
+  },
+  {
+    "type": "access_control::Admin",
+    "id": "0x0c0540fbb32a7b51d0b357b4befe76995ea8fee91352f28eee545e0221b96e05"
+  },
+  {
+    "type": "access_control::Admin",
+    "id": "0x0eddfb9d772c1196a1a484343b99528cfb8ad3056cb1da0873d6f7456d34d0bd"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::cosmetic::Cosmetic>",
+    "id": "0x0f7eba69938f59a8d148d96ea84e909ef8e43f43150364b7c464ee1b21ed1017"
+  },
+  {
+    "type": "access_control::AccessControl",
+    "id": "0x1281d8f320fec25d741b79c5dd38ba66bf802e062f4977b305eccace6d1237dd"
+  },
+  {
+    "type": "display::Display<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::avatar::Avatar>",
+    "id": "0x1b38ac6491f53930b5c985d43d4347a876648f34513fe30f4b1c9eaacb2e6ba7"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Config>",
+    "id": "0x1c090511c1c2bc7b86f5c48c0dcc5afbdf43051ca021720defc30ff133a860a9"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::witness_rule::Rule<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::cosmetic::Equip>>, bool>",
+    "id": "0x20c47789407021d5655c972e316a69293f455faf91f4e4767bdd95b49bae670c"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Config>",
+    "id": "0x369cac07d92520326fa4f959f74044fc0d943a7f5e24671129e804b56eaee008"
+  },
+  {
+    "type": "package::Publisher",
+    "id": "0x3e911e724994bae2f946454463379976f0502168ba994b58233e3a30f08e852b"
+  },
+  {
+    "type": "display::Display<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::cosmetic::Cosmetic>",
+    "id": "0x4c034f83e9ecf7c68cb4b20f0d039d328d1b4fac01b0cd783848b23be25645d6"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::weapon::Weapon>",
+    "id": "0x4e0cf68be18764cfaa852ba9f35544eefbd125e85b08c6a29f61b29643aafcd4"
+  },
+  {
+    "type": "package_id",
+    "id": "0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e"
+  },
+  {
+    "type": "avatar::AvatarRegistry",
+    "id": "0x5b62bb0d9cb5fcdac35278f011949c7c210a348ff4667539628a10ffbef1443b"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::weapon::Weapon>",
+    "id": "0x75e03dd4aa2f91fabc2b3c0d9b040680be4afb6893e3dfbd5c17e33e6aa5ab15"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::cosmetic::Cosmetic>",
+    "id": "0x8b9d55f82d5e63b5a5225ae144e1feb6eb06dcc42c838329f5dbb53406c62451"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::witness_rule::Rule<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::weapon::Equip>>, bool>",
+    "id": "0x93118e1693ca51b573a03475c20a1f65693df76e51ec49eae5a105c3d0dfe15e"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Config>",
+    "id": "0xaa8dabf57afd51b34ef18d607d678ff3be529e819975b95734db59cadaf99a39"
+  },
+  {
+    "type": "genesis_shop::GenesisShop",
+    "id": "0xbd1b157612f9edfe06634987c4993e5b698fce414b0a8d45a2e10db5e1006ccc"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Config>",
+    "id": "0xcf84497307e13633967fd80c3430dfb970ff300e7bcb281ece31ba7e640b55f5"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::cosmetic::Cosmetic>",
+    "id": "0xd816d97a4c67e0717621a1a9430f713fd566953febfad8c46cd02b8e7d964acb"
+  },
+  {
+    "type": "genesis_drop::Sale",
+    "id": "0xdba9fddea8cb612a76622be28e500bf79e51804aac01d52bba08e811ff98b709"
+  },
+  {
+    "type": "package::Publisher",
+    "id": "0xddf53d55619ab92412e4bcec9e0787e271c5e92e64e3a2f68c107432a9996ed7"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::weapon::Weapon>",
+    "id": "0xe760c17b493b5ffece06815b04b136c88bb05a3a12bddf2f71c88ef8d2deccfa"
+  },
+  {
+    "type": "package::Publisher",
+    "id": "0xeaed015576558f90fce531e9f2d871246606a697a3bf07c63234e000a061bba4"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x5054564f5e0c149a3162e2867c2a2e179e048a1e81f9937f03b77b6086816d4e::cosmetic::Cosmetic>",
+    "id": "0xedd6979009bf503db75e36d3ce7332a0b65e5616b0ada6bacd2f96b834890298"
+  }
+]

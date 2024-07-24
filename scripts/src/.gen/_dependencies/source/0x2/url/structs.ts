@@ -1,33 +1,33 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {String} from "../../0x1/ascii/structs";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Url =============================== */
 
-export function isUrl(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::url::Url`; }
+export function isUrl(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::url::Url`; }
 
 export interface UrlFields { url: ToField<String> }
 
 export type UrlReified = Reified< Url, UrlFields >;
 
-export class Url implements StructClass { static readonly $typeName = `${PKG_V20}::url::Url`; static readonly $numTypeParams = 0;
+export class Url implements StructClass { static readonly $typeName = `${PKG_V21}::url::Url`; static readonly $numTypeParams = 0;
 
  readonly $typeName = Url.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::url::Url`;
+ readonly $fullTypeName: `${typeof PKG_V21}::url::Url`;
 
  readonly $typeArgs: [];
 
  readonly url: ToField<String>
 
- private constructor(typeArgs: [], fields: UrlFields, ) { this.$fullTypeName = composeSuiType( Url.$typeName, ...typeArgs ) as `${typeof PKG_V20}::url::Url`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: UrlFields, ) { this.$fullTypeName = composeSuiType( Url.$typeName, ...typeArgs ) as `${typeof PKG_V21}::url::Url`; this.$typeArgs = typeArgs;
 
  this.url = fields.url; }
 
- static reified( ): UrlReified { return { typeName: Url.$typeName, fullTypeName: composeSuiType( Url.$typeName, ...[] ) as `${typeof PKG_V20}::url::Url`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Url.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Url.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Url.fromBcs( data, ), bcs: Url.bcs, fromJSONField: (field: any) => Url.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Url.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Url.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Url.fetch( client, id, ), new: ( fields: UrlFields, ) => { return new Url( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): UrlReified { return { typeName: Url.$typeName, fullTypeName: composeSuiType( Url.$typeName, ...[] ) as `${typeof PKG_V21}::url::Url`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Url.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Url.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Url.fromBcs( data, ), bcs: Url.bcs, fromJSONField: (field: any) => Url.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Url.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Url.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Url.fetch( client, id, ), new: ( fields: UrlFields, ) => { return new Url( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Url.reified() }
 

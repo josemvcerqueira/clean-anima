@@ -1,33 +1,33 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {UID} from "../object/structs";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Clock =============================== */
 
-export function isClock(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::clock::Clock`; }
+export function isClock(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::clock::Clock`; }
 
 export interface ClockFields { id: ToField<UID>; timestampMs: ToField<"u64"> }
 
 export type ClockReified = Reified< Clock, ClockFields >;
 
-export class Clock implements StructClass { static readonly $typeName = `${PKG_V20}::clock::Clock`; static readonly $numTypeParams = 0;
+export class Clock implements StructClass { static readonly $typeName = `${PKG_V21}::clock::Clock`; static readonly $numTypeParams = 0;
 
  readonly $typeName = Clock.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::clock::Clock`;
+ readonly $fullTypeName: `${typeof PKG_V21}::clock::Clock`;
 
  readonly $typeArgs: [];
 
  readonly id: ToField<UID>; readonly timestampMs: ToField<"u64">
 
- private constructor(typeArgs: [], fields: ClockFields, ) { this.$fullTypeName = composeSuiType( Clock.$typeName, ...typeArgs ) as `${typeof PKG_V20}::clock::Clock`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ClockFields, ) { this.$fullTypeName = composeSuiType( Clock.$typeName, ...typeArgs ) as `${typeof PKG_V21}::clock::Clock`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.timestampMs = fields.timestampMs; }
 
- static reified( ): ClockReified { return { typeName: Clock.$typeName, fullTypeName: composeSuiType( Clock.$typeName, ...[] ) as `${typeof PKG_V20}::clock::Clock`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Clock.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Clock.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Clock.fromBcs( data, ), bcs: Clock.bcs, fromJSONField: (field: any) => Clock.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Clock.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Clock.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Clock.fetch( client, id, ), new: ( fields: ClockFields, ) => { return new Clock( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ClockReified { return { typeName: Clock.$typeName, fullTypeName: composeSuiType( Clock.$typeName, ...[] ) as `${typeof PKG_V21}::clock::Clock`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Clock.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Clock.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Clock.fromBcs( data, ), bcs: Clock.bcs, fromJSONField: (field: any) => Clock.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Clock.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Clock.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Clock.fetch( client, id, ), new: ( fields: ClockFields, ) => { return new Clock( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Clock.reified() }
 

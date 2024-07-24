@@ -1,34 +1,34 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {String} from "../../0x1/string/structs";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {UID} from "../object/structs";
 import {bcs, fromB64, fromHEX, toHEX} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== VerifiedIssuer =============================== */
 
-export function isVerifiedIssuer(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::zklogin_verified_issuer::VerifiedIssuer`; }
+export function isVerifiedIssuer(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::zklogin_verified_issuer::VerifiedIssuer`; }
 
 export interface VerifiedIssuerFields { id: ToField<UID>; owner: ToField<"address">; issuer: ToField<String> }
 
 export type VerifiedIssuerReified = Reified< VerifiedIssuer, VerifiedIssuerFields >;
 
-export class VerifiedIssuer implements StructClass { static readonly $typeName = `${PKG_V20}::zklogin_verified_issuer::VerifiedIssuer`; static readonly $numTypeParams = 0;
+export class VerifiedIssuer implements StructClass { static readonly $typeName = `${PKG_V21}::zklogin_verified_issuer::VerifiedIssuer`; static readonly $numTypeParams = 0;
 
  readonly $typeName = VerifiedIssuer.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::zklogin_verified_issuer::VerifiedIssuer`;
+ readonly $fullTypeName: `${typeof PKG_V21}::zklogin_verified_issuer::VerifiedIssuer`;
 
  readonly $typeArgs: [];
 
  readonly id: ToField<UID>; readonly owner: ToField<"address">; readonly issuer: ToField<String>
 
- private constructor(typeArgs: [], fields: VerifiedIssuerFields, ) { this.$fullTypeName = composeSuiType( VerifiedIssuer.$typeName, ...typeArgs ) as `${typeof PKG_V20}::zklogin_verified_issuer::VerifiedIssuer`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: VerifiedIssuerFields, ) { this.$fullTypeName = composeSuiType( VerifiedIssuer.$typeName, ...typeArgs ) as `${typeof PKG_V21}::zklogin_verified_issuer::VerifiedIssuer`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.owner = fields.owner;; this.issuer = fields.issuer; }
 
- static reified( ): VerifiedIssuerReified { return { typeName: VerifiedIssuer.$typeName, fullTypeName: composeSuiType( VerifiedIssuer.$typeName, ...[] ) as `${typeof PKG_V20}::zklogin_verified_issuer::VerifiedIssuer`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => VerifiedIssuer.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VerifiedIssuer.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => VerifiedIssuer.fromBcs( data, ), bcs: VerifiedIssuer.bcs, fromJSONField: (field: any) => VerifiedIssuer.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => VerifiedIssuer.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => VerifiedIssuer.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => VerifiedIssuer.fetch( client, id, ), new: ( fields: VerifiedIssuerFields, ) => { return new VerifiedIssuer( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): VerifiedIssuerReified { return { typeName: VerifiedIssuer.$typeName, fullTypeName: composeSuiType( VerifiedIssuer.$typeName, ...[] ) as `${typeof PKG_V21}::zklogin_verified_issuer::VerifiedIssuer`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => VerifiedIssuer.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VerifiedIssuer.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => VerifiedIssuer.fromBcs( data, ), bcs: VerifiedIssuer.bcs, fromJSONField: (field: any) => VerifiedIssuer.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => VerifiedIssuer.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => VerifiedIssuer.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => VerifiedIssuer.fetch( client, id, ), new: ( fields: VerifiedIssuerFields, ) => { return new VerifiedIssuer( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return VerifiedIssuer.reified() }
 

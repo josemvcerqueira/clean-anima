@@ -1,32 +1,32 @@
 import {PhantomReified, PhantomToTypeStr, PhantomTypeArgument, Reified, StructClass, ToField, ToPhantomTypeArgument, ToTypeStr, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Balance =============================== */
 
-export function isBalance(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V20}::balance::Balance` + '<'); }
+export function isBalance(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V21}::balance::Balance` + '<'); }
 
 export interface BalanceFields<T extends PhantomTypeArgument> { value: ToField<"u64"> }
 
 export type BalanceReified<T extends PhantomTypeArgument> = Reified< Balance<T>, BalanceFields<T> >;
 
-export class Balance<T extends PhantomTypeArgument> implements StructClass { static readonly $typeName = `${PKG_V20}::balance::Balance`; static readonly $numTypeParams = 1;
+export class Balance<T extends PhantomTypeArgument> implements StructClass { static readonly $typeName = `${PKG_V21}::balance::Balance`; static readonly $numTypeParams = 1;
 
  readonly $typeName = Balance.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::balance::Balance<${PhantomToTypeStr<T>}>`;
+ readonly $fullTypeName: `${typeof PKG_V21}::balance::Balance<${PhantomToTypeStr<T>}>`;
 
  readonly $typeArgs: [PhantomToTypeStr<T>];
 
  readonly value: ToField<"u64">
 
- private constructor(typeArgs: [PhantomToTypeStr<T>], fields: BalanceFields<T>, ) { this.$fullTypeName = composeSuiType( Balance.$typeName, ...typeArgs ) as `${typeof PKG_V20}::balance::Balance<${PhantomToTypeStr<T>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [PhantomToTypeStr<T>], fields: BalanceFields<T>, ) { this.$fullTypeName = composeSuiType( Balance.$typeName, ...typeArgs ) as `${typeof PKG_V21}::balance::Balance<${PhantomToTypeStr<T>}>`; this.$typeArgs = typeArgs;
 
  this.value = fields.value; }
 
- static reified<T extends PhantomReified<PhantomTypeArgument>>( T: T ): BalanceReified<ToPhantomTypeArgument<T>> { return { typeName: Balance.$typeName, fullTypeName: composeSuiType( Balance.$typeName, ...[extractType(T)] ) as `${typeof PKG_V20}::balance::Balance<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Balance.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Balance.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Balance.fromBcs( T, data, ), bcs: Balance.bcs, fromJSONField: (field: any) => Balance.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Balance.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Balance.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Balance.fetch( client, T, id, ), new: ( fields: BalanceFields<ToPhantomTypeArgument<T>>, ) => { return new Balance( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends PhantomReified<PhantomTypeArgument>>( T: T ): BalanceReified<ToPhantomTypeArgument<T>> { return { typeName: Balance.$typeName, fullTypeName: composeSuiType( Balance.$typeName, ...[extractType(T)] ) as `${typeof PKG_V21}::balance::Balance<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Balance.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Balance.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Balance.fromBcs( T, data, ), bcs: Balance.bcs, fromJSONField: (field: any) => Balance.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Balance.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Balance.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Balance.fetch( client, T, id, ), new: ( fields: BalanceFields<ToPhantomTypeArgument<T>>, ) => { return new Balance( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Balance.reified }
 
@@ -71,27 +71,27 @@ export class Balance<T extends PhantomTypeArgument> implements StructClass { sta
 
 /* ============================== Supply =============================== */
 
-export function isSupply(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V20}::balance::Supply` + '<'); }
+export function isSupply(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V21}::balance::Supply` + '<'); }
 
 export interface SupplyFields<T extends PhantomTypeArgument> { value: ToField<"u64"> }
 
 export type SupplyReified<T extends PhantomTypeArgument> = Reified< Supply<T>, SupplyFields<T> >;
 
-export class Supply<T extends PhantomTypeArgument> implements StructClass { static readonly $typeName = `${PKG_V20}::balance::Supply`; static readonly $numTypeParams = 1;
+export class Supply<T extends PhantomTypeArgument> implements StructClass { static readonly $typeName = `${PKG_V21}::balance::Supply`; static readonly $numTypeParams = 1;
 
  readonly $typeName = Supply.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::balance::Supply<${PhantomToTypeStr<T>}>`;
+ readonly $fullTypeName: `${typeof PKG_V21}::balance::Supply<${PhantomToTypeStr<T>}>`;
 
  readonly $typeArgs: [PhantomToTypeStr<T>];
 
  readonly value: ToField<"u64">
 
- private constructor(typeArgs: [PhantomToTypeStr<T>], fields: SupplyFields<T>, ) { this.$fullTypeName = composeSuiType( Supply.$typeName, ...typeArgs ) as `${typeof PKG_V20}::balance::Supply<${PhantomToTypeStr<T>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [PhantomToTypeStr<T>], fields: SupplyFields<T>, ) { this.$fullTypeName = composeSuiType( Supply.$typeName, ...typeArgs ) as `${typeof PKG_V21}::balance::Supply<${PhantomToTypeStr<T>}>`; this.$typeArgs = typeArgs;
 
  this.value = fields.value; }
 
- static reified<T extends PhantomReified<PhantomTypeArgument>>( T: T ): SupplyReified<ToPhantomTypeArgument<T>> { return { typeName: Supply.$typeName, fullTypeName: composeSuiType( Supply.$typeName, ...[extractType(T)] ) as `${typeof PKG_V20}::balance::Supply<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Supply.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Supply.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Supply.fromBcs( T, data, ), bcs: Supply.bcs, fromJSONField: (field: any) => Supply.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Supply.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Supply.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Supply.fetch( client, T, id, ), new: ( fields: SupplyFields<ToPhantomTypeArgument<T>>, ) => { return new Supply( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends PhantomReified<PhantomTypeArgument>>( T: T ): SupplyReified<ToPhantomTypeArgument<T>> { return { typeName: Supply.$typeName, fullTypeName: composeSuiType( Supply.$typeName, ...[extractType(T)] ) as `${typeof PKG_V21}::balance::Supply<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Supply.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Supply.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Supply.fromBcs( T, data, ), bcs: Supply.bcs, fromJSONField: (field: any) => Supply.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Supply.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Supply.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Supply.fetch( client, T, id, ), new: ( fields: SupplyFields<ToPhantomTypeArgument<T>>, ) => { return new Supply( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Supply.reified }
 

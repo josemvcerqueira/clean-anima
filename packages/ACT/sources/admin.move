@@ -19,22 +19,23 @@ module act::admin {
 
     // === Public-Mutative Functions ===
 
+    // TODO: move and modify
     #[allow(lint(share_owned))]
     fun init(ctx: &mut TxContext) {
         let (mut access_control, super_admin) = access_control::new(ctx);
 
-        let admin = access_control.new_admin(ctx);
+        // let admin = access_control.new_admin(ctx);
 
         super_admin.add(&mut access_control, UPGRADES_ROLE);
         super_admin.add(&mut access_control, REPUTATION_ROLE);
         super_admin.add(&mut access_control, GENESIS_MINTER_ROLE);
 
-        super_admin.grant(&mut access_control, UPGRADES_ROLE, admin.addy());
-        super_admin.grant(&mut access_control, REPUTATION_ROLE, admin.addy());
-        super_admin.grant(&mut access_control, GENESIS_MINTER_ROLE, admin.addy());
+        super_admin.grant(&mut access_control, UPGRADES_ROLE, super_admin.addy());
+        super_admin.grant(&mut access_control, REPUTATION_ROLE, super_admin.addy());
+        super_admin.grant(&mut access_control, GENESIS_MINTER_ROLE, super_admin.addy());
 
         transfer::public_share_object(access_control);
-        transfer::public_transfer(admin, ctx.sender());
+        // transfer::public_transfer(admin, ctx.sender());
         transfer::public_transfer(super_admin, ctx.sender());
     }
 

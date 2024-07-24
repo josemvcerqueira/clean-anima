@@ -1,33 +1,33 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, Vector, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V7} from "../index";
+import {PKG_V8} from "../index";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Char =============================== */
 
-export function isChar(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V7}::ascii::Char`; }
+export function isChar(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V8}::ascii::Char`; }
 
 export interface CharFields { byte: ToField<"u8"> }
 
 export type CharReified = Reified< Char, CharFields >;
 
-export class Char implements StructClass { static readonly $typeName = `${PKG_V7}::ascii::Char`; static readonly $numTypeParams = 0;
+export class Char implements StructClass { static readonly $typeName = `${PKG_V8}::ascii::Char`; static readonly $numTypeParams = 0;
 
  readonly $typeName = Char.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V7}::ascii::Char`;
+ readonly $fullTypeName: `${typeof PKG_V8}::ascii::Char`;
 
  readonly $typeArgs: [];
 
  readonly byte: ToField<"u8">
 
- private constructor(typeArgs: [], fields: CharFields, ) { this.$fullTypeName = composeSuiType( Char.$typeName, ...typeArgs ) as `${typeof PKG_V7}::ascii::Char`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: CharFields, ) { this.$fullTypeName = composeSuiType( Char.$typeName, ...typeArgs ) as `${typeof PKG_V8}::ascii::Char`; this.$typeArgs = typeArgs;
 
  this.byte = fields.byte; }
 
- static reified( ): CharReified { return { typeName: Char.$typeName, fullTypeName: composeSuiType( Char.$typeName, ...[] ) as `${typeof PKG_V7}::ascii::Char`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Char.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Char.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Char.fromBcs( data, ), bcs: Char.bcs, fromJSONField: (field: any) => Char.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Char.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Char.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Char.fetch( client, id, ), new: ( fields: CharFields, ) => { return new Char( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): CharReified { return { typeName: Char.$typeName, fullTypeName: composeSuiType( Char.$typeName, ...[] ) as `${typeof PKG_V8}::ascii::Char`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Char.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Char.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Char.fromBcs( data, ), bcs: Char.bcs, fromJSONField: (field: any) => Char.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Char.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Char.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Char.fetch( client, id, ), new: ( fields: CharFields, ) => { return new Char( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Char.reified() }
 
@@ -72,27 +72,27 @@ export class Char implements StructClass { static readonly $typeName = `${PKG_V7
 
 /* ============================== String =============================== */
 
-export function isString(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V7}::ascii::String`; }
+export function isString(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V8}::ascii::String`; }
 
 export interface StringFields { bytes: ToField<Vector<"u8">> }
 
 export type StringReified = Reified< String, StringFields >;
 
-export class String implements StructClass { static readonly $typeName = `${PKG_V7}::ascii::String`; static readonly $numTypeParams = 0;
+export class String implements StructClass { static readonly $typeName = `${PKG_V8}::ascii::String`; static readonly $numTypeParams = 0;
 
  readonly $typeName = String.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V7}::ascii::String`;
+ readonly $fullTypeName: `${typeof PKG_V8}::ascii::String`;
 
  readonly $typeArgs: [];
 
  readonly bytes: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: StringFields, ) { this.$fullTypeName = composeSuiType( String.$typeName, ...typeArgs ) as `${typeof PKG_V7}::ascii::String`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: StringFields, ) { this.$fullTypeName = composeSuiType( String.$typeName, ...typeArgs ) as `${typeof PKG_V8}::ascii::String`; this.$typeArgs = typeArgs;
 
  this.bytes = fields.bytes; }
 
- static reified( ): StringReified { return { typeName: String.$typeName, fullTypeName: composeSuiType( String.$typeName, ...[] ) as `${typeof PKG_V7}::ascii::String`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => String.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => String.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => String.fromBcs( data, ), bcs: String.bcs, fromJSONField: (field: any) => String.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => String.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => String.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => String.fetch( client, id, ), new: ( fields: StringFields, ) => { return new String( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): StringReified { return { typeName: String.$typeName, fullTypeName: composeSuiType( String.$typeName, ...[] ) as `${typeof PKG_V8}::ascii::String`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => String.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => String.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => String.fromBcs( data, ), bcs: String.bcs, fromJSONField: (field: any) => String.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => String.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => String.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => String.fetch( client, id, ), new: ( fields: StringFields, ) => { return new String( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return String.reified() }
 

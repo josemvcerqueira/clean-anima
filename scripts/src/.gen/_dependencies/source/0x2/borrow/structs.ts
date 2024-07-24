@@ -1,34 +1,34 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {Option} from "../../0x1/option/structs";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {ID} from "../object/structs";
 import {BcsType, bcs, fromB64, fromHEX, toHEX} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Borrow =============================== */
 
-export function isBorrow(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::borrow::Borrow`; }
+export function isBorrow(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::borrow::Borrow`; }
 
 export interface BorrowFields { ref: ToField<"address">; obj: ToField<ID> }
 
 export type BorrowReified = Reified< Borrow, BorrowFields >;
 
-export class Borrow implements StructClass { static readonly $typeName = `${PKG_V20}::borrow::Borrow`; static readonly $numTypeParams = 0;
+export class Borrow implements StructClass { static readonly $typeName = `${PKG_V21}::borrow::Borrow`; static readonly $numTypeParams = 0;
 
  readonly $typeName = Borrow.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::borrow::Borrow`;
+ readonly $fullTypeName: `${typeof PKG_V21}::borrow::Borrow`;
 
  readonly $typeArgs: [];
 
  readonly ref: ToField<"address">; readonly obj: ToField<ID>
 
- private constructor(typeArgs: [], fields: BorrowFields, ) { this.$fullTypeName = composeSuiType( Borrow.$typeName, ...typeArgs ) as `${typeof PKG_V20}::borrow::Borrow`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: BorrowFields, ) { this.$fullTypeName = composeSuiType( Borrow.$typeName, ...typeArgs ) as `${typeof PKG_V21}::borrow::Borrow`; this.$typeArgs = typeArgs;
 
  this.ref = fields.ref;; this.obj = fields.obj; }
 
- static reified( ): BorrowReified { return { typeName: Borrow.$typeName, fullTypeName: composeSuiType( Borrow.$typeName, ...[] ) as `${typeof PKG_V20}::borrow::Borrow`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Borrow.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Borrow.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Borrow.fromBcs( data, ), bcs: Borrow.bcs, fromJSONField: (field: any) => Borrow.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Borrow.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Borrow.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Borrow.fetch( client, id, ), new: ( fields: BorrowFields, ) => { return new Borrow( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): BorrowReified { return { typeName: Borrow.$typeName, fullTypeName: composeSuiType( Borrow.$typeName, ...[] ) as `${typeof PKG_V21}::borrow::Borrow`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Borrow.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Borrow.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Borrow.fromBcs( data, ), bcs: Borrow.bcs, fromJSONField: (field: any) => Borrow.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Borrow.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Borrow.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Borrow.fetch( client, id, ), new: ( fields: BorrowFields, ) => { return new Borrow( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Borrow.reified() }
 
@@ -73,27 +73,27 @@ export class Borrow implements StructClass { static readonly $typeName = `${PKG_
 
 /* ============================== Referent =============================== */
 
-export function isReferent(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V20}::borrow::Referent` + '<'); }
+export function isReferent(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V21}::borrow::Referent` + '<'); }
 
 export interface ReferentFields<T extends TypeArgument> { id: ToField<"address">; value: ToField<Option<T>> }
 
 export type ReferentReified<T extends TypeArgument> = Reified< Referent<T>, ReferentFields<T> >;
 
-export class Referent<T extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V20}::borrow::Referent`; static readonly $numTypeParams = 1;
+export class Referent<T extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V21}::borrow::Referent`; static readonly $numTypeParams = 1;
 
  readonly $typeName = Referent.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::borrow::Referent<${ToTypeStr<T>}>`;
+ readonly $fullTypeName: `${typeof PKG_V21}::borrow::Referent<${ToTypeStr<T>}>`;
 
  readonly $typeArgs: [ToTypeStr<T>];
 
  readonly id: ToField<"address">; readonly value: ToField<Option<T>>
 
- private constructor(typeArgs: [ToTypeStr<T>], fields: ReferentFields<T>, ) { this.$fullTypeName = composeSuiType( Referent.$typeName, ...typeArgs ) as `${typeof PKG_V20}::borrow::Referent<${ToTypeStr<T>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<T>], fields: ReferentFields<T>, ) { this.$fullTypeName = composeSuiType( Referent.$typeName, ...typeArgs ) as `${typeof PKG_V21}::borrow::Referent<${ToTypeStr<T>}>`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.value = fields.value; }
 
- static reified<T extends Reified<TypeArgument, any>>( T: T ): ReferentReified<ToTypeArgument<T>> { return { typeName: Referent.$typeName, fullTypeName: composeSuiType( Referent.$typeName, ...[extractType(T)] ) as `${typeof PKG_V20}::borrow::Referent<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Referent.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Referent.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Referent.fromBcs( T, data, ), bcs: Referent.bcs(toBcs(T)), fromJSONField: (field: any) => Referent.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Referent.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Referent.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Referent.fetch( client, T, id, ), new: ( fields: ReferentFields<ToTypeArgument<T>>, ) => { return new Referent( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends Reified<TypeArgument, any>>( T: T ): ReferentReified<ToTypeArgument<T>> { return { typeName: Referent.$typeName, fullTypeName: composeSuiType( Referent.$typeName, ...[extractType(T)] ) as `${typeof PKG_V21}::borrow::Referent<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Referent.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Referent.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Referent.fromBcs( T, data, ), bcs: Referent.bcs(toBcs(T)), fromJSONField: (field: any) => Referent.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Referent.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Referent.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Referent.fetch( client, T, id, ), new: ( fields: ReferentFields<ToTypeArgument<T>>, ) => { return new Referent( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Referent.reified }
 
