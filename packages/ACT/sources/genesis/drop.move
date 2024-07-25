@@ -79,7 +79,7 @@ module act::genesis_drop {
             start_times: vector::empty(),
             prices: vector::empty(),
             max_mints: vector::empty(),
-            drops_left: 6000,
+            drops_left: 3000,
         });
     } 
 

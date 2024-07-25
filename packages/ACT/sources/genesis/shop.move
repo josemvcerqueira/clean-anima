@@ -9,7 +9,7 @@
 */
 module act::genesis_shop {
     // === Imports ===
-
+use std::debug::print;
     use std::string::String;
     use sui::{
         table_vec::{Self, TableVec},
@@ -28,7 +28,7 @@ module act::genesis_shop {
 
     // === Constants ===
 
-    const GENESIS_AMOUNT: u64 = 6_000;
+    const GENESIS_AMOUNT: u64 = 3000;
     const PRECISION: u64 = 10000; 
 
     // === Structs ===

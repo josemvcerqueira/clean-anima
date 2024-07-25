@@ -1,5 +1,6 @@
 #[test_only]
 module act::genesis_shop_tests {
+    use std::debug::print;
     use sui::{
         test_utils::{assert_eq, destroy},
         test_scenario::{Self as ts, Scenario},
@@ -12,7 +13,7 @@ module act::genesis_shop_tests {
     };
 
     const OWNER: address = @0xBABE;
-    const TOTAL_ITEMS: u64 = 6_000;
+    const TOTAL_ITEMS: u64 = 3000;
 
     // #[test]
     // fun test_add_primary() {
@@ -302,16 +303,7 @@ module act::genesis_shop_tests {
 
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
-        let chances = vector[
-            164,
-            165,
-            165,
-            165,
-            165,
-            165,
-            45,
-            165,
-        ];
+        let chances = vector[81, 83, 82, 83, 82, 83, 22, 83];
 
         let mut i = 0;
         
@@ -322,16 +314,7 @@ module act::genesis_shop_tests {
             i  = i + 1;
         };
 
-        let chances = vector[
-            165,
-            165,
-            165,
-            165,
-            165,
-            165,
-            45,
-            165,
-        ];
+        let chances = vector[82, 83, 82, 83, 82, 83, 22, 83];
 
         let mut i = 0;
         
@@ -405,14 +388,14 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
         let chances = vector[
-            119,
-            360,
-            360,
-            210,
-            120, 
-            210,
-            60,
-            360
+            59,
+            180,
+            180,
+            105,
+            60, 
+            105,
+            30,
+            180
         ];
 
         let mut i = 0;
@@ -429,14 +412,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            120,
-            360,
-            360,
-            210,
-            120, 
-            210,
             60,
-            360
+            180,
+            180,
+            105,
+            60, 
+            105,
+            30,
+            180
         ];
 
         let mut i = 0;
@@ -453,14 +436,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            180,
-            480,
-            480,
+            90,
             240,
-            180,
             240,
             120,
-            480
+            90,
+            120,
+            60,
+            240
         ];
 
         let mut i = 0;
@@ -516,14 +499,14 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
         let chances = vector[
-            119,
-            360,
-            360,
-            210,
-            120,
-            210,
+            59,
+            180,
+            180,
+            105,
             60,
-            360
+            105,
+            30,
+            180
         ];
 
         let mut i = 0;
@@ -546,14 +529,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            120,
-            360,
-            360,
-            210,
-            120,
-            210,
             60,
-            360
+            180,
+            180,
+            105,
+            60,
+            105,
+            30,
+            180
         ];
 
         let mut i = 0;
@@ -576,14 +559,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            180,
-            480,
-            480,
+            90,
             240,
-            180,
             240,
             120,
-            480
+            90,
+            120,
+            60,
+            240
         ];
 
         let mut i = 0;
@@ -646,14 +629,14 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
         let chances = vector[
-            119,
-            360,
-            360,
-            210,
-            120,
-            210,
+            59,
+            180,
+            180,
+            105,
             60,
-            360
+            105,
+            30,
+            180
         ];
 
         let mut i = 0;
@@ -676,14 +659,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            120,
-            360,
-            360,
-            210,
-            120,
-            210,
             60,
-            360
+            180,
+            180,
+            105,
+            60,
+            105,
+            30,
+            180
         ];
 
         let mut i = 0;
@@ -706,14 +689,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            180,
-            480,
-            480,
+            90,
             240,
-            180,
             240,
             120,
-            480
+            90,
+            120,
+            60,
+            240
         ];
 
         let mut i = 0;
@@ -772,10 +755,10 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Digital Winter", b"Dusk", b"Blood Ivory", b"Volt", b"Hikari"];
 
         let chances = vector[
-            719, 
-            720,
-            720,
-            720,
+            359, 
+            360,
+            360,
+            360,
         ];
 
         let mut i = 0;
@@ -792,11 +775,11 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            720,
-            720,
-            720,
-            720,
-            240
+            360,
+            360,
+            360,
+            360,
+            120
         ];
 
         let mut i = 0;
@@ -855,7 +838,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            5999
+            2999
         ];
 
         let mut i = 0;
@@ -922,7 +905,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            5999
+            2999
         ];
 
         let mut i = 0;
@@ -989,7 +972,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            5999
+            2999
         ];
 
         let mut i = 0;
@@ -1051,7 +1034,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            5999
+            2999
         ];
 
         let mut i = 0;
