@@ -31,35 +31,13 @@ module act::assets {
 
     const PRIMARY_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
-        b"Mythic",
-        b"Ultra Rare",
-        b"Mythic",
         b"Ultra Rare",
         b"Ultra Rare",
         b"Ultra Rare",
-        b"Mythic",
     ];
-    const SECONDARY_RARITIES: vector<vector<vector<u8>>> = vector[
-        vector[
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Mythic",
-        ],
-        vector[
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-        ],
+    const SECONDARY_RARITIES: vector<vector<u8>> = vector[
+        b"Ultra Rare",
+        b"Ultra Rare",
     ];
     const TERTIARY_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
@@ -68,7 +46,7 @@ module act::assets {
         b"Mythic",
     ];
 
-    // Coloour ways
+    // Colour ways
     const COSMETICS_COLOUR_WAYS: vector<vector<u8>> = vector[
         b"Vesper",
         b"Hikari",
@@ -97,31 +75,18 @@ module act::assets {
         b"Dusk",
     ];
 
-    const SECONDARY_COLOUR_WAYS: vector<vector<vector<u8>>> = vector[
-        vector[
-            b"Vesper",
-            b"Hikari",
-            b"Volt",
-            b"Blood Ivory",
-            b"Red Damascus",
-            b"Forest",
-            b"Dusk",
-            b"JK's"
-        ],
-        vector[
-            b"Vesper",
-            b"Hikari",
-            b"Volt",
-            b"Blood Ivory",
-            b"Red Damascus",
-            b"Forest",
-            b"Dusk",
-            b"Viceroy"
-        ]
+    const PRIMARY_COLOUR_WAYS: vector<vector<u8>> = vector[
+        b"Gunmetal",
+        b"Gunmetal",
+        b"Gunmetal",
+        b"Gunmetal",
+    ];
+    const SECONDARY_COLOUR_WAYS: vector<vector<u8>> = vector[
+        b"Gunmetal",
+        b"Gunmetal",
     ];
     const TERTIARY_COLOUR_WAYS: vector<vector<u8>> = vector[
         b"K1TSUN3",
-        b"Volt",
         b"Viceroy",
         b"Future",
     ];
@@ -137,11 +102,10 @@ module act::assets {
     const TALON: vector<u8> = b"Talon";
     const RENEGADE: vector<u8> = b"Renegade";
     const RAPTOR: vector<u8> = b"Raptor";
-    const VALENTINE_12: vector<u8> = b"Valenti 12";
+    const VALENTI_12: vector<u8> = b"Valenti 12";
     const ENFORCER: vector<u8> = b"Enforcer";
     const WHISPER_9MM: vector<u8> = b"Whisper 9mm";
     const WAKIZASHI: vector<u8> = b"Wakizashi";
-    const KARAMBIT: vector<u8> = b"Karambit";
     const SCALPER: vector<u8> = b"Scalper";
     const NEO_KATANA: vector<u8> = b"Neo-Katana";
 
@@ -159,7 +123,6 @@ module act::assets {
     const LIBERTY: vector<u8> = b"Liberty Arms Corporation";
     const PRECISIONE: vector<u8> = b"Precisione Milano";
     const RYUJIN: vector<u8> = b"Ryujin Industrial";
-    const KAGE: vector<u8> = b"Kage Blade Foundry";
     const ECLIPSE: vector<u8> = b"Eclipse Steel Forging LTD";
     const HYPERBLADE: vector<u8> = b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION";
 
@@ -322,16 +285,16 @@ module act::assets {
 
     // Primary Weapon
     const PRIMARY_CHANCES: vector<vector<u64>> = vector[
-        vector[365, 260, 365, 260, 365, 365, 365, 260],
-        vector[309, 220, 309, 220, 309, 309, 309, 220],
-        vector[364, 260, 364, 260, 364, 364, 364, 260],
-        vector[364, 260, 364, 260, 364, 364, 364, 260],
+        vector[1000],
+        vector[3000],
+        vector[3000],
+        vector[3000],
     ];
     const PRIMARY_NAMES: vector<vector<u8>> = vector[
         TALON,
         RENEGADE,
         RAPTOR,
-        VALENTINE_12,
+        VALENTI_12,
     ];
     const PRIMARY_MANUFACTURERS: vector<vector<u8>> = vector[
         FENRIR,
@@ -342,8 +305,8 @@ module act::assets {
 
     // Secondary Weapon
     const SECONDARY_CHANCES: vector<vector<u64>> = vector[
-        vector[500, 500, 500, 400, 500, 500, 500, 200],
-        vector[800, 800, 800, 800, 800, 800, 800, 800],
+        vector[7000],
+        vector[3000],
     ];
     const SECONDARY_NAMES: vector<vector<u8>> = vector[
         ENFORCER,
@@ -355,16 +318,18 @@ module act::assets {
     ];  
 
     // Tertiary Weapon
-    const TERTIARY_CHANCES: vector<u64> = vector[2500, 2500, 4000, 1000];
+    const TERTIARY_CHANCES: vector<vector<u64>> = vector[
+        vector[4000], 
+        vector[4000], 
+        vector[2000],
+    ];
     const TERTIARY_NAMES: vector<vector<u8>> = vector[
         WAKIZASHI,
-        KARAMBIT,
         SCALPER,
         NEO_KATANA,
     ];
     const TERTIARY_MANUFACTURERS: vector<vector<u8>> = vector[
         RYUJIN,
-        KAGE,
         ECLIPSE,
         HYPERBLADE
     ]; 
@@ -543,7 +508,7 @@ module act::assets {
         TERTIARY_NAMES
     }
 
-    public(package) fun tertiary_chances(): vector<u64> {
+    public(package) fun tertiary_chances(): vector<vector<u64>> {
         TERTIARY_CHANCES
     }
 
@@ -579,13 +544,19 @@ module act::assets {
         BOOTS_COLOUR_WAYS
     }
 
-    public(package) fun secondary_colour_ways(): vector<vector<vector<u8>>> {
+    public(package) fun primary_colour_ways(): vector<vector<u8>> {
+        PRIMARY_COLOUR_WAYS
+    }
+
+    public(package) fun secondary_colour_ways(): vector<vector<u8>> {
         SECONDARY_COLOUR_WAYS
     }
 
     public(package) fun tertiary_colour_ways(): vector<vector<u8>> {
         TERTIARY_COLOUR_WAYS
     }
+
+    // rarities
 
     public(package) fun cosmetic_rarities(): vector<vector<u8>> {
         COSMETICS_RARITIES
@@ -599,21 +570,11 @@ module act::assets {
         BOOTS_RARITIES
     }
 
-    #[allow(implicit_const_copy)]
-    public(package) fun primary_rarities(): vector<vector<vector<u8>>> {
-        let mut rarities = vector[];
-        let mut i = 0;
-        let len = PRIMARY_NAMES.length();
-
-        while (len > i) {
-            rarities.push_back(PRIMARY_RARITIES);
-            i = i + 1;
-        };
-
-        rarities
+    public(package) fun primary_rarities(): vector<vector<u8>> {
+        PRIMARY_RARITIES
     }
 
-    public(package) fun secondary_rarities(): vector<vector<vector<u8>>> {
+    public(package) fun secondary_rarities(): vector<vector<u8>> {
         SECONDARY_RARITIES
     }
 

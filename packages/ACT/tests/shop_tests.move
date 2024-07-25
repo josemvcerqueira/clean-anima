@@ -852,7 +852,7 @@ module act::genesis_shop_tests {
         let mut index = 0;
         let rarity = vector[b"Ultra Rare"];
 
-        let colour_way = vector[b"Osbidian"];
+        let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
             5999
@@ -919,7 +919,7 @@ module act::genesis_shop_tests {
         let mut index = 0;
         let rarity = vector[b"Ultra Rare"];
 
-        let colour_way = vector[b"Osbidian"];
+        let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
             5999
@@ -986,7 +986,7 @@ module act::genesis_shop_tests {
         let mut index = 0;
         let rarity = vector[b"Ultra Rare"];
 
-        let colour_way = vector[b"Osbidian"];
+        let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
             5999
@@ -1048,7 +1048,7 @@ module act::genesis_shop_tests {
         let mut index = 0;
         let rarity = vector[b"Ultra Rare"];
 
-        let colour_way = vector[b"Osbidian"];
+        let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
             5999

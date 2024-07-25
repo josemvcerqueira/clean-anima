@@ -100,7 +100,7 @@ module act::genesis_shop {
         new_builder(
             attributes::upper_torso(),
             assets::upper_torso_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::upper_torso_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::upper_torso_chances(),
@@ -142,7 +142,7 @@ module act::genesis_shop {
         new_builder(
             attributes::left_arm(),
             assets::arm_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::arm_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::arm_chances(),
@@ -162,7 +162,7 @@ module act::genesis_shop {
         new_builder(
             attributes::right_arm(),
             assets::arm_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::arm_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::arm_chances(),
@@ -222,7 +222,7 @@ module act::genesis_shop {
         new_builder(
             attributes::left_glove(),
             assets::glove_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::glove_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::glove_chances(),
@@ -242,7 +242,7 @@ module act::genesis_shop {
         new_builder(
             attributes::right_glove(),
             assets::glove_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::glove_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::glove_chances(),
@@ -322,7 +322,7 @@ module act::genesis_shop {
         new_builder(
             attributes::belt(),
             assets::belt_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::belt_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::belt_chances(),
@@ -342,7 +342,7 @@ module act::genesis_shop {
         new_builder(
             attributes::shins(),
             assets::shins_names(), 
-            vector[b"Osbidian"],
+            vector[b"Obsidian"],
             assets::shins_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::shins_chances(),
@@ -370,65 +370,65 @@ module act::genesis_shop {
         )
     }
 
-    // public fun add_primary(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin,  
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::primary(), table_vec::empty(ctx));
+    public fun add_primary(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::primary(), table_vec::empty(ctx));
 
-    //     new_builder(
-    //         attributes::primary(),
-    //         assets::primary_names(), 
-    //         vector[assets::cosmetic_colour_ways()], // same
-    //         assets::primary_manufacturers(), 
-    //         assets::primary_rarities(),
-    //         assets::primary_chances(), 
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::primary(),
+            assets::primary_names(), 
+            assets::primary_colour_ways(), // same
+            assets::primary_manufacturers(), 
+            assets::primary_rarities(),
+            assets::primary_chances(), 
+            ctx
+        )
+    }
 
-    // public fun add_secondary(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin,  
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::secondary(), table_vec::empty(ctx));
+    public fun add_secondary(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::secondary(), table_vec::empty(ctx));
 
-    //     new_builder(
-    //         attributes::secondary(),
-    //         assets::secondary_names(), 
-    //         assets::secondary_colour_ways(),
-    //         assets::secondary_manufacturers(), 
-    //         assets::secondary_rarities(),
-    //         assets::secondary_chances(), 
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::secondary(),
+            assets::secondary_names(), 
+            assets::secondary_colour_ways(),
+            assets::secondary_manufacturers(), 
+            assets::secondary_rarities(),
+            assets::secondary_chances(), 
+            ctx
+        )
+    }
 
-    // public fun add_tertiary(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin,  
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::tertiary(), table_vec::empty(ctx));
+    public fun add_tertiary(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::tertiary(), table_vec::empty(ctx));
         
-    //     new_builder(
-    //         attributes::tertiary(),
-    //         assets::tertiary_names(), 
-    //         vector[assets::tertiary_colour_ways()],
-    //         assets::tertiary_manufacturers(), 
-    //         vector[assets::tertiary_rarities()],
-    //         vector[assets::tertiary_chances()], 
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::tertiary(),
+            assets::tertiary_names(), 
+            assets::tertiary_colour_ways(),
+            assets::tertiary_manufacturers(), 
+            assets::tertiary_rarities(),
+            assets::tertiary_chances(), 
+            ctx
+        )
+    }
 
     public fun keep(builder: Builder, ctx: &mut TxContext) {
         transfer::transfer(builder, ctx.sender());
