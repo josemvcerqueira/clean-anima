@@ -11,6 +11,15 @@ module act::assets {
         b"Ultra Rare",
         b"Ultra Rare",
     ];
+
+    const LEGS_RARITIES: vector<vector<u8>> = vector[
+        b"Mythic",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+    ]; 
+
     const PRIMARY_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
         b"Mythic",
@@ -61,6 +70,15 @@ module act::assets {
         b"Dusk",
         b"Viceroy"
     ];
+
+    const LEGS_COLOUR_WAYS: vector<vector<u8>> = vector[
+        b"Hikari",
+        b"Volt",
+        b"Blood Ivory",
+        b"Dusk",
+        b"Digital Winter",
+    ];
+
     const SECONDARY_COLOUR_WAYS: vector<vector<vector<u8>>> = vector[
         vector[
             b"Vesper",
@@ -236,13 +254,18 @@ module act::assets {
 
     // Legs
     const LEGS_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[400, 1200, 1200, 1200, 1200],
+        vector[0, 1200, 1200, 1200, 1200]
     ];
+    
     const LEGS_NAMES: vector<vector<u8>> = vector[
+        HELIOS,
         FANG_MK_IV
     ];
+
     const LEGS_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
+        EXO
     ];
 
     // Belt
@@ -540,6 +563,14 @@ module act::assets {
 
     public(package) fun cosmetic_rarities(): vector<vector<u8>> {
         COSMETICS_RARITIES
+    }
+
+    public(package) fun legs_colour_ways(): vector<vector<u8>> {
+        LEGS_COLOUR_WAYS
+    }
+
+    public(package) fun leg_rarities(): vector<vector<u8>> {
+        LEGS_RARITIES
     }
 
     #[allow(implicit_const_copy)]

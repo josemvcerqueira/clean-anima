@@ -1,6 +1,5 @@
 #[test_only]
 module act::genesis_shop_tests {
-    use std::debug::print;
     use sui::{
         test_utils::{assert_eq, destroy},
         test_scenario::{Self as ts, Scenario},
@@ -915,56 +914,81 @@ module act::genesis_shop_tests {
         world.end();
     }
 
-    // #[test]
-    // fun test_add_legs() {
-    //     let mut world = start_world();
+    #[test]
+    fun test_add_legs() {
+        let mut world = start_world();
 
-    //     let admin = &world.admin;
-    //     let access_control = &world.access_control;
+        let admin = &world.super_admin;
+        let access_control = &world.access_control;
 
-    //     // Shop is empty
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 0);
+        // Shop is empty
+        assert_eq(world.genesis_shop.borrow_mut().length(), 0);
 
-    //     world.genesis_shop.add_legs(access_control, admin, world.scenario.ctx());
+        let mut builder = world.genesis_shop.add_legs(access_control, admin, world.scenario.ctx());
 
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 1);
-    //     assert_eq(world.genesis_shop.borrow_mut().contains(attributes::legs()), true);
-    //     assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::legs()).length(), TOTAL_ITEMS);
+        let mut i = 0;
 
-    //     let mut index = 0;
-    //     let rarity = vector[b"Ultra Rare", b"Mythic", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare"];
+        while ((TOTAL_ITEMS + 10) > i) {
+            world.genesis_shop.new_item(&mut builder);
+            i = i + 1;
+        };
 
-    //     let colour_way = vector[b"Vesper", b"Hikari", b"Volt", b"Blood Ivory", b"Red Damascus", b"Forest", b"Dusk", b"Viceroy"];
+        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::legs()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::legs()).length(), TOTAL_ITEMS);
 
-    //     let chances = vector[
-    //         1199, // 20%
-    //         300, // 5%
-    //         570, // 9.5% 
-    //         480, // 8%
-    //         570, // 9.5% 
-    //         1200, // 20%
-    //         1200, // 20%
-    //         480, // 8%
-    //     ];
+        let mut index = 0;
+        let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Mythic"];
 
-    //     let mut i = 0;
+        let colour_way = vector[b"Digital Winter", b"Dusk", b"Blood Ivory", b"Volt", b"Hikari"];
+
+        let chances = vector[
+            719, 
+            720,
+            720,
+            720,
+        ];
+
+        let mut i = 0;
         
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::legs())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"ExoTech Solutions".to_string());
-    //         assert_eq(item.name(), b"Fang MK IV".to_string());
+        while (chances.length() > i) {
+            index = index + chances[i];
+            let item = world.genesis_shop.borrow_mut().borrow(attributes::legs())[index];
+            assert_eq(item.rarity(), rarity[i].to_string());
+            assert_eq(item.colour_way(), colour_way[i].to_string());
+            assert_eq(item.manufacturer(), b"ExoTech Solutions".to_string());
+            assert_eq(item.name(), b"Fang MK IV".to_string());
 
-    //         i  = i + 1;
-    //     };
+            i  = i + 1;
+        };
 
-    //     // last item is length - 1
-    //     assert_eq(index, TOTAL_ITEMS - 1);
+        let chances = vector[
+            720,
+            720,
+            720,
+            720,
+            240
+        ];
 
-    //     world.end();
-    // }
+        let mut i = 0;
+        
+        while (chances.length() > i) {
+            index = index + chances[i];
+            let item = world.genesis_shop.borrow_mut().borrow(attributes::legs())[index];
+            assert_eq(item.rarity(), rarity[i].to_string());
+            assert_eq(item.colour_way(), colour_way[i].to_string());
+            assert_eq(item.manufacturer(), b"ExoTech Solutions".to_string());
+            assert_eq(item.name(), b"Helios".to_string());
+
+            i  = i + 1;
+        };
+
+        // last item is length - 1
+        assert_eq(index, TOTAL_ITEMS - 1);
+
+        builder.keep(world.scenario.ctx());
+        world.end();
+    }
 
     // #[test]
     // fun test_add_shins() {

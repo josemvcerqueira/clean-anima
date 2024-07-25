@@ -288,25 +288,25 @@ module act::genesis_shop {
         )
     }
 
-    // public fun add_legs(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin,  
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::legs(), table_vec::empty(ctx));
+    public fun add_legs(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,  
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::legs(), table_vec::empty(ctx));
 
-    //     new_builder(
-    //         attributes::legs(),
-    //         assets::legs_names(), 
-    //         vector[assets::cosmetic_colour_ways()],
-    //         assets::legs_manufacturers(), 
-    //         assets::cosmetic_rarities(),
-    //         assets::legs_chances(),
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::legs(),
+            assets::legs_names(), 
+            assets::legs_colour_ways(),
+            assets::legs_manufacturers(), 
+            assets::leg_rarities(),
+            assets::legs_chances(),
+            ctx
+        )
+    }
 
     // public fun add_belt(
     //     genesis_shop: &mut GenesisShop,
@@ -432,18 +432,6 @@ module act::genesis_shop {
         transfer::transfer(builder, ctx.sender());
     }
 
-    // public struct Builder has key {
-    //     id: UID,
-    //     equipment: String,
-    //     // each of those are popped when chances_len reach 0
-    //     names: vector<vector<u8>>,
-    //     colour_ways: vector<vector<vector<u8>>>,
-    //     manufacturers: vector<vector<u8>>,
-    //     rarities:vector<vector<vector<u8>>>,
-    //     // never modified because used for each name 
-    //     quantities: vector<vector<u64>>
-    // }
-
     public fun new_item(
         genesis_shop: &mut GenesisShop,
         builder: &mut Builder,
@@ -460,6 +448,18 @@ module act::genesis_shop {
         let len = quantities.length() -1;
 
         let quantity = &mut quantities[len];
+
+        if (*quantity == 0) {
+            quantities.pop_back();
+
+            if (quantities.length() == 0) {
+                 builder.quantities.pop_back();
+                 builder.manufacturers.pop_back();
+                 builder.names.pop_back();
+            };
+            return
+        };
+
         *quantity = *quantity - 1;
 
         let rarity = builder.rarities[len];
