@@ -135,7 +135,13 @@ module act::assets {
         HELIOS,
         BAHA_2000
     ];
-    const HELM_CHANCES: vector<u64> = vector[275, 75, 275, 275, 275, 275, 275, 275];
+    const HELM_CHANCES: vector<vector<u64>> = vector[
+        vector[275, 75, 275, 275, 275, 275, 275, 275],
+        vector[275, 75, 275, 275, 275, 275, 275, 275],
+        vector[275, 75, 275, 275, 275, 275, 275, 275],
+        vector[275, 75, 275, 275, 275, 275, 275, 275],
+        vector[275, 75, 275, 275, 275, 275, 275, 275]
+    ];
     const HELM_MANUFACTURERS: vector<vector<u8>> = vector[
         OBSIDIAN,
         EXO,
@@ -328,7 +334,7 @@ module act::assets {
         HELM_NAMES
     }
 
-    public(package) fun helm_chances(): vector<u64> {
+    public(package) fun helm_chances(): vector<vector<u64>> {
         HELM_CHANCES
     }
 

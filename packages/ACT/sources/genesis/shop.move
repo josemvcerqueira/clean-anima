@@ -28,7 +28,6 @@ module act::genesis_shop {
 
     const GENESIS_AMOUNT: u64 = 6_000;
     const PRECISION: u64 = 10000; 
-    const SAFE_AMOUNT: u64 = 500;
 
     // === Structs ===
 
@@ -107,25 +106,25 @@ module act::genesis_shop {
     //     )
     // }
 
-    // public fun add_chestpiece(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin, 
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::chestpiece(), table_vec::empty(ctx));
+    public fun add_chestpiece(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::chestpiece(), table_vec::empty(ctx));
 
-    //     new_builder(
-    //         attributes::chestpiece(),
-    //         assets::chestpiece_names(), 
-    //         vector[assets::cosmetic_colour_ways()],
-    //         assets::chestpiece_manufacturers(), 
-    //         assets::cosmetic_rarities(),
-    //         assets::chestpiece_chances(),
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::chestpiece(),
+            assets::chestpiece_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::chestpiece_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::chestpiece_chances(),
+            ctx
+        )
+    }
 
     // // backpiece has no nft atm
 
@@ -539,7 +538,7 @@ module act::genesis_shop {
         colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
         rarities: vector<vector<u8>>,
-        chances: vector<u64>,
+        chances: vector<vector<u64>>,
         ctx: &mut TxContext
     ): Builder {
         Builder { 
@@ -549,7 +548,7 @@ module act::genesis_shop {
             colour_ways, 
             manufacturers, 
             rarities, 
-            quantities: names.map!(|_x| chances.map!(|chance| mul_div(chance, GENESIS_AMOUNT, PRECISION))), 
+            quantities: chances.map!(|x| x.map!(|chance| mul_div(chance, GENESIS_AMOUNT, PRECISION))), 
         }
     }
 
