@@ -20,6 +20,15 @@ module act::assets {
         b"Ultra Rare",
     ]; 
 
+    const BOOTS_RARITIES: vector<vector<u8>> = vector[
+        b"Ultra Rare",
+        b"Mythic",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Ultra Rare",
+    ]; 
+
     const PRIMARY_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
         b"Mythic",
@@ -77,6 +86,15 @@ module act::assets {
         b"Blood Ivory",
         b"Dusk",
         b"Digital Winter",
+    ];
+
+    const BOOTS_COLOUR_WAYS: vector<vector<u8>> = vector[
+        b"Vesper",
+        b"Hikari",
+        b"Volt",
+        b"Blood Ivory",
+        b"Red Damascus",
+        b"Dusk",
     ];
 
     const SECONDARY_COLOUR_WAYS: vector<vector<vector<u8>>> = vector[
@@ -173,7 +191,7 @@ module act::assets {
         FANG_MK_IV,
     ];
     const UPPER_TORSO_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[10000]
     ];
     const UPPER_TORSO_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
@@ -198,7 +216,7 @@ module act::assets {
 
     // Arm
     const ARM_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[10000]
     ];
     const ARM_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -226,7 +244,7 @@ module act::assets {
 
     // Glove
     const GLOVE_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[10000]
     ];
     const GLOVE_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -270,7 +288,7 @@ module act::assets {
 
     // Belt
     const BELT_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[10000]
     ];
     const BELT_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -281,7 +299,7 @@ module act::assets {
 
     // Shins
     const SHINS_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[10000]
     ];
     const SHINS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -292,7 +310,7 @@ module act::assets {
 
     // Boots
     const BOOTS_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
+        vector[2000, 500, 950, 800, 950, 2000]
     ];
     const BOOTS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -553,6 +571,14 @@ module act::assets {
         COSMETICS_COLOUR_WAYS
     }
 
+    public(package) fun legs_colour_ways(): vector<vector<u8>> {
+        LEGS_COLOUR_WAYS
+    }
+
+    public(package) fun boots_colour_ways(): vector<vector<u8>> {
+        BOOTS_COLOUR_WAYS
+    }
+
     public(package) fun secondary_colour_ways(): vector<vector<vector<u8>>> {
         SECONDARY_COLOUR_WAYS
     }
@@ -565,12 +591,12 @@ module act::assets {
         COSMETICS_RARITIES
     }
 
-    public(package) fun legs_colour_ways(): vector<vector<u8>> {
-        LEGS_COLOUR_WAYS
-    }
-
     public(package) fun leg_rarities(): vector<vector<u8>> {
         LEGS_RARITIES
+    }
+
+    public(package) fun boots_rarities(): vector<vector<u8>> {
+        BOOTS_RARITIES
     }
 
     #[allow(implicit_const_copy)]
