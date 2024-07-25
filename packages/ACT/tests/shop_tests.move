@@ -15,271 +15,165 @@ module act::genesis_shop_tests {
     const OWNER: address = @0xBABE;
     const TOTAL_ITEMS: u64 = 3000;
 
-    // #[test]
-    // fun test_add_primary() {
-    //     let mut world = start_world();
+    #[test]
+    fun test_add_primary() {
+        let mut world = start_world();
 
-    //     let admin = &world.super_admin;
-    //     let access_control = &world.access_control;
+        let admin = &world.admin;
+        let access_control = &world.access_control;
 
-    //     // Shop is empty
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 0);
+        // Shop is empty
+        assert_eq(world.genesis_shop.borrow_mut().length(), 0);
 
-    //     let mut primary_builder = world.genesis_shop.add_primary(access_control, admin, world.scenario.ctx());
+        let mut builder = world.genesis_shop.add_primary(access_control, admin, world.scenario.ctx());
 
-    //     let mut i = 0;
+        let mut i = 0;
 
-    //     while (TOTAL_ITEMS > i) {
-    //         world.genesis_shop.new_item(&mut primary_builder);
-    //         i = i + 1;
-    //     };
+        while (TOTAL_ITEMS > i) {
+            world.genesis_shop.new_item(&mut builder);
+            i = i + 1;
+        };
 
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 1);
-    //     assert_eq(world.genesis_shop.borrow_mut().contains(attributes::primary()), true);
-    //     assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::primary()).length(), TOTAL_ITEMS);
+        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::primary()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::primary()).length(), TOTAL_ITEMS);
 
-    //     let mut index = 0;
-    //     let rarity = vector[b"Ultra Rare", b"Mythic", b"Ultra Rare", b"Mythic", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Mythic"];
-
-    //     let colour_way = vector[b"Vesper", b"Hikari", b"Volt", b"Blood Ivory", b"Red Damascus", b"Forest", b"Dusk", b"Viceroy"];
-
-    //     let chances = vector[
-    //         218,  
-    //         156, 
-    //         219,
-    //         156,
-    //         219,
-    //         219,
-    //         219,
-    //         156,
-    //     ];
-
-    //     let mut i = 0;
+        let mut index = 0;
         
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"Fenrir Arms".to_string());
-    //         assert_eq(item.name(), b"Talon".to_string());
+        index = index + 899;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Gunmetal".to_string());
+        assert_eq(item.manufacturer(), b"Valenti".to_string());
+        assert_eq(item.name(), b"Valenti 12".to_string());
 
-    //         i  = i + 1;
-    //     };
+        index = index + 900;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Gunmetal".to_string());
+        assert_eq(item.manufacturer(), b"Aegis Tactical".to_string());
+        assert_eq(item.name(), b"Raptor".to_string());
 
-    //     let chances = vector[
-    //         185,
-    //         132,
-    //         185,
-    //         132,
-    //         185,
-    //         185,
-    //         185,
-    //         132,
-    //     ];
+        index = index + 900;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Gunmetal".to_string());
+        assert_eq(item.manufacturer(), b"Voloslav Industrial".to_string());
+        assert_eq(item.name(), b"Renegade".to_string());
 
-    //     let mut i = 0;
+        index = index + 300;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Gunmetal".to_string());
+        assert_eq(item.manufacturer(), b"Fenrir Arms".to_string());
+        assert_eq(item.name(), b"Talon".to_string());
+
+        // last item is length - 1
+        assert_eq(index, TOTAL_ITEMS - 1);
+        builder.keep(world.scenario.ctx());
+        world.end();
+    }
+
+    #[test]
+    fun test_add_secondary() {
+        let mut world = start_world();
+
+        let admin = &world.admin;
+        let access_control = &world.access_control;
+
+        // Shop is empty
+        assert_eq(world.genesis_shop.borrow_mut().length(), 0);
+
+        let mut builder = world.genesis_shop.add_secondary(access_control, admin, world.scenario.ctx());
+
+        let mut i = 0;
+
+        while (TOTAL_ITEMS > i) {
+            world.genesis_shop.new_item(&mut builder);
+            i = i + 1;
+        };
+
+        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::secondary()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::secondary()).length(), TOTAL_ITEMS);
+
+        let mut index = 0;
+
+        index = index + 899;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Gunmetal".to_string());
+        assert_eq(item.manufacturer(), b"Precisione Milano".to_string());
+        assert_eq(item.name(), b"Whisper 9mm".to_string());
+
+        index = index + 2100;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Gunmetal".to_string());
+        assert_eq(item.manufacturer(), b"Liberty Arms Corporation".to_string());
+        assert_eq(item.name(), b"Enforcer".to_string());
+        // last item is length - 1
+        assert_eq(index, TOTAL_ITEMS - 1);
+        builder.keep(world.scenario.ctx());
+        world.end();
+    }
+
+    #[test]
+    fun test_add_tertiary() {
+        let mut world = start_world();
+
+        let admin = &world.admin;
+        let access_control = &world.access_control;
+
+        // Shop is empty
+        assert_eq(world.genesis_shop.borrow_mut().length(), 0);
+
+        let mut builder = world.genesis_shop.add_tertiary(access_control, admin, world.scenario.ctx());
+
+        let mut i = 0;
+
+        while (TOTAL_ITEMS > i) {
+            world.genesis_shop.new_item(&mut builder);
+            i = i + 1;
+        };
+
+        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::tertiary()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::tertiary()).length(), TOTAL_ITEMS);
+
+        let mut index = 0;
+
+        index = index + 599;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
+        assert_eq(item.rarity(), b"Mythic".to_string());
+        assert_eq(item.colour_way(), b"Future".to_string());
+        assert_eq(item.manufacturer(), b"ハイパーブレード CORPORATION".to_string());
+        assert_eq(item.name(), b"Neo-Katana".to_string());
+
+        index = index + 1200;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"Viceroy".to_string());
+        assert_eq(item.manufacturer(), b"Eclipse Steel Forging LTD".to_string());
+        assert_eq(item.name(), b"Scalper".to_string());
         
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"Voloslav Industrial".to_string());
-    //         assert_eq(item.name(), b"Renegade".to_string());
-
-    //         i  = i + 1;
-    //     };
-
-    //     let chances = vector[
-    //         218,  
-    //         156, 
-    //         218,
-    //         156,
-    //         218,
-    //         218,
-    //         218,
-    //         156,
-    //     ];
-
-    //     let mut i = 0;
-        
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"Aegis Tactical".to_string());
-    //         assert_eq(item.name(), b"Raptor".to_string());
-
-    //         i  = i + 1;
-    //     };
-
-    //     let chances = vector[
-    //         218,  
-    //         156, 
-    //         218,
-    //         156,
-    //         218,
-    //         218,
-    //         218,
-    //         156,
-    //     ];
-
-    //     let mut i = 0;
-        
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"Valenti".to_string());
-    //         assert_eq(item.name(), b"Valenti 12".to_string());
-
-    //         i  = i + 1;
-    //     };
-
-    //     // last item is length - 1
-    //     assert_eq(index, TOTAL_ITEMS - 1);
-    //     primary_builder.keep(world.scenario.ctx());
-    //     world.end();
-    // }
-
-    // #[test]
-    // fun test_add_secondary() {
-    //     let mut world = start_world();
-
-    //     let admin = &world.admin;
-    //     let access_control = &world.access_control;
-
-    //     // Shop is empty
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 0);
-
-    //     world.genesis_shop.add_secondary(access_control, admin, world.scenario.ctx());
-
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 1);
-    //     assert_eq(world.genesis_shop.borrow_mut().contains(attributes::secondary()), true);
-    //     assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::secondary()).length(), TOTAL_ITEMS);
-
-    //     let mut index = 0;
-    //     let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Mythic"];
-
-    //     let colour_way = vector[b"Vesper", b"Hikari", b"Volt", b"Blood Ivory", b"Red Damascus", b"Forest", b"Dusk", b"JK's"];
-
-    //     let chances = vector[
-    //         299,  
-    //         300,
-    //         300,
-    //         240,
-    //         300,
-    //         300,
-    //         300,
-    //         120
-    //     ];
-
-    //     let mut i = 0;
-        
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"Liberty Arms Corporation".to_string());
-    //         assert_eq(item.name(), b"Enforcer".to_string());
-
-    //         i  = i + 1;
-    //     };
-
-    //     let chances = vector[
-    //         480,
-    //         480,
-    //         480,
-    //         480,
-    //         480,
-    //         480,
-    //         480,
-    //         480
-    //     ];
-
-    //     let colour_way = vector[b"Vesper", b"Hikari", b"Volt", b"Blood Ivory", b"Red Damascus", b"Forest", b"Dusk", b"Viceroy"];
-
-    //     let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare"];
-
-    //     let mut i = 0;
-        
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), b"Precisione Milano".to_string());
-    //         assert_eq(item.name(), b"Whisper 9mm".to_string());
-
-    //         i  = i + 1;
-    //     };
-
-    //     // last item is length - 1
-    //     assert_eq(index, TOTAL_ITEMS - 1);
-
-    //     world.end();
-    // }
-
-    // #[test]
-    // fun test_add_tertiary() {
-    //     let mut world = start_world();
-
-    //     let admin = &world.admin;
-    //     let access_control = &world.access_control;
-
-    //     // Shop is empty
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 0);
-
-    //     world.genesis_shop.add_tertiary(access_control, admin, world.scenario.ctx());
-
-    //     assert_eq(world.genesis_shop.borrow_mut().length(), 1);
-    //     assert_eq(world.genesis_shop.borrow_mut().contains(attributes::tertiary()), true);
-    //     assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::tertiary()).length(), TOTAL_ITEMS);
-
-    //     let mut index = 0;
-    //     let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Mythic"];
-
-    //     let colour_way = vector[b"K1TSUN3", b"Volt", b"Viceroy", b"Future"];
-
-    //     let chances = vector[
-    //         1499,
-    //         1500,
-    //         2400,
-    //         600
-    //     ];
-
-    //     let names = vector[b"Wakizashi", b"Karambit", b"Scalper", b"Neo-Katana"];
-
-    //     let manufacturers = vector[b"Ryujin Industrial", b"Kage Blade Foundry", b"Eclipse Steel Forging LTD", b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION"];
-
-    //     let mut i = 0;
-        
-    //     while (chances.length() > i) {
-    //         index = index + chances[i];
-    //         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-    //         assert_eq(item.rarity(), rarity[i].to_string());
-    //         assert_eq(item.colour_way(), colour_way[i].to_string());
-    //         assert_eq(item.manufacturer(), manufacturers[i].to_string());
-    //         assert_eq(item.name(), names[i].to_string());
-
-    //         i  = i + 1;
-    //     };
-
-    //     // last item is length - 1
-    //     assert_eq(index, TOTAL_ITEMS - 1);
-
-    //     world.end();
-    // }
+        index = index + 1200;
+        let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.colour_way(), b"K1TSUN3".to_string());
+        assert_eq(item.manufacturer(), b"Ryujin Industrial".to_string());
+        assert_eq(item.name(), b"Wakizashi".to_string());
+        // last item is length - 1
+        assert_eq(index, TOTAL_ITEMS - 1);
+        builder.keep(world.scenario.ctx());
+        world.end();
+    }
 
     #[test]
     fun test_add_helm() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -363,7 +257,7 @@ module act::genesis_shop_tests {
     fun test_add_chestpiece() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -470,7 +364,7 @@ module act::genesis_shop_tests {
     fun test_add_pauldrons() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -600,7 +494,7 @@ module act::genesis_shop_tests {
     fun test_add_bracer() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -730,7 +624,7 @@ module act::genesis_shop_tests {
     fun test_add_legs() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -740,7 +634,7 @@ module act::genesis_shop_tests {
 
         let mut i = 0;
 
-        while ((TOTAL_ITEMS + 10) > i) {
+        while ((TOTAL_ITEMS) > i) {
             world.genesis_shop.new_item(&mut builder);
             i = i + 1;
         };
@@ -806,7 +700,7 @@ module act::genesis_shop_tests {
     fun test_gloves() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -872,7 +766,7 @@ module act::genesis_shop_tests {
     fun test_arms() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -940,7 +834,7 @@ module act::genesis_shop_tests {
     fun test_belt_shins() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -1007,7 +901,7 @@ module act::genesis_shop_tests {
     fun test_upper_torso() {
         let mut world = start_world();
 
-        let admin = &world.super_admin;
+        let admin = &world.admin;
         let access_control = &world.access_control;
 
         // Shop is empty
@@ -1100,7 +994,7 @@ module act::genesis_shop_tests {
 
     public struct World {
         scenario: Scenario,
-        super_admin: Admin,
+        admin: Admin,
         access_control: AccessControl,
         genesis_shop: GenesisShop
     }
@@ -1112,13 +1006,13 @@ module act::genesis_shop_tests {
 
         scenario.next_tx(OWNER);
 
-        let (access_control, super_admin) = set_up_admins(&mut scenario);
+        let (access_control, admin) = set_up_admins(&mut scenario);
         let genesis_shop = scenario.take_shared<GenesisShop>();
 
         World {
             scenario,
             access_control,
-            super_admin,
+            admin,
             genesis_shop
         }
     }

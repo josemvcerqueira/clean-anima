@@ -42,7 +42,6 @@ module act::assets {
     const TERTIARY_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
         b"Ultra Rare",
-        b"Ultra Rare",
         b"Mythic",
     ];
 
@@ -124,7 +123,8 @@ module act::assets {
     const PRECISIONE: vector<u8> = b"Precisione Milano";
     const RYUJIN: vector<u8> = b"Ryujin Industrial";
     const ECLIPSE: vector<u8> = b"Eclipse Steel Forging LTD";
-    const HYPERBLADE: vector<u8> = b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION";
+    // const HYPERBLADE: vector<u8> = b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION";
+    const HYPERBLADE: vector<u8> = b"ハイパーブレード CORPORATION";
 
     // Helms
     const HELM_NAMES: vector<vector<u8>> = vector[

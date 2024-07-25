@@ -451,21 +451,34 @@ use std::debug::print;
 
         let quantity = &mut quantities[len];
 
-        if (*quantity == 0) {
-            quantities.pop_back();
+        // if (*quantity == 0) {
+        //     quantities.pop_back();
 
-            if (quantities.length() == 0) {
-                builder.quantities.pop_back();
-                builder.manufacturers.pop_back();
-                builder.names.pop_back();
-            };
-            return
+        //     if (quantities.length() == 0) {
+        //         builder.quantities.pop_back();
+        //         builder.manufacturers.pop_back();
+        //         builder.names.pop_back();
+                
+        //         if (builder.equipment == attributes::tertiary()) {
+        //             builder.rarities.pop_back();
+        //             builder.colour_ways.pop_back();
+        //         }
+        //     };
+        //     return
+        // };
+
+        if (quantity != 0) *quantity = *quantity - 1;
+
+        let mut rarity = b"";
+        let mut colour = b"";
+        if (builder.equipment == attributes::tertiary()) {
+            let last_idx = builder.rarities.length() - 1;
+            rarity = builder.rarities[last_idx];
+            colour = builder.colour_ways[last_idx];
+        } else {
+            rarity = builder.rarities[len];
+            colour = builder.colour_ways[len];
         };
-
-        *quantity = *quantity - 1;
-
-        let rarity = builder.rarities[len];
-        let colour = builder.colour_ways[len];
 
         let item = Item {
             name: name.to_string(),
@@ -484,6 +497,11 @@ use std::debug::print;
                 builder.quantities.pop_back();
                 builder.manufacturers.pop_back();
                 builder.names.pop_back();
+                
+                if (builder.equipment == attributes::tertiary()) {
+                    builder.rarities.pop_back();
+                    builder.colour_ways.pop_back();
+                }
             }
         };
 
