@@ -221,7 +221,7 @@ module act::assets {
     const PAULDRON_CHANCES: vector<vector<u64>> = vector[
         vector[800, 200, 400, 300, 400, 800, 800, 300],
         vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200]
+        vector[600, 100, 350, 200, 350, 600, 600, 200],
     ];
     const PAULDRON_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,

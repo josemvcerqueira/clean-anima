@@ -248,45 +248,45 @@ module act::genesis_shop {
     //     )
     // }
 
-    // public fun add_left_pauldron(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin,
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::left_pauldron(), table_vec::empty(ctx));
+    public fun add_left_pauldron(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::left_pauldron(), table_vec::empty(ctx));
 
-    //     new_builder(
-    //         attributes::left_pauldron(),
-    //         assets::pauldrons_names(), 
-    //         vector[assets::cosmetic_colour_ways()],
-    //         assets::pauldrons_manufacturers(), 
-    //         assets::cosmetic_rarities(),
-    //         assets::pauldrons_chances(),
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::left_pauldron(),
+            assets::pauldrons_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::pauldrons_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::pauldrons_chances(),
+            ctx
+        )
+    }
 
-    // public fun add_right_pauldron(
-    //     genesis_shop: &mut GenesisShop,
-    //     access_control: &AccessControl, 
-    //     admin: &Admin,
-    //     ctx: &mut TxContext
-    // ): Builder {
-    //     admin::assert_genesis_minter_role(access_control, admin);
-    //     table::add(&mut genesis_shop.items, attributes::right_pauldron(), table_vec::empty(ctx));
+    public fun add_right_pauldron(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin,
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        table::add(&mut genesis_shop.items, attributes::right_pauldron(), table_vec::empty(ctx));
 
-    //     new_builder(
-    //         attributes::right_pauldron(),
-    //         assets::pauldrons_names(), 
-    //         vector[assets::cosmetic_colour_ways()],
-    //         assets::pauldrons_manufacturers(), 
-    //         assets::cosmetic_rarities(),
-    //         assets::pauldrons_chances(),
-    //         ctx
-    //     )
-    // }
+        new_builder(
+            attributes::right_pauldron(),
+            assets::pauldrons_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::pauldrons_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::pauldrons_chances(),
+            ctx
+        )
+    }
 
     // public fun add_legs(
     //     genesis_shop: &mut GenesisShop,
