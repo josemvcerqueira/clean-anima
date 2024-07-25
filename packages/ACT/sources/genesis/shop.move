@@ -15,9 +15,11 @@ module act::genesis_shop {
         table_vec::{Self, TableVec},
         table::{Self, Table},
     };
-    use animalib::access_control::{Admin, AccessControl};
-    use act::{
+    use animalib::{
+        access_control::{Admin, AccessControl},
         admin,
+    };
+    use act::{
         attributes,
         assets,
     };
@@ -453,9 +455,9 @@ module act::genesis_shop {
             quantities.pop_back();
 
             if (quantities.length() == 0) {
-                 builder.quantities.pop_back();
-                 builder.manufacturers.pop_back();
-                 builder.names.pop_back();
+                builder.quantities.pop_back();
+                builder.manufacturers.pop_back();
+                builder.names.pop_back();
             };
             return
         };
@@ -479,9 +481,9 @@ module act::genesis_shop {
             quantities.pop_back();
 
             if (quantities.length() == 0) {
-                 builder.quantities.pop_back();
-                 builder.manufacturers.pop_back();
-                 builder.names.pop_back();
+                builder.quantities.pop_back();
+                builder.manufacturers.pop_back();
+                builder.names.pop_back();
             }
         };
 

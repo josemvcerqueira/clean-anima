@@ -4,8 +4,10 @@ module act::set_up_tests {
     use sui::{
         test_scenario::Scenario
     };
-    use act::admin;
-    use animalib::access_control::{Admin, AccessControl};
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
 
     public fun set_up_admins(scenario: &mut Scenario): (AccessControl, Admin) {
         admin::init_for_testing(scenario.ctx());

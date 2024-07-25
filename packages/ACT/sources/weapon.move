@@ -10,10 +10,12 @@ module act::weapon {
         transfer_policy::TransferPolicy, 
         kiosk::{Kiosk, KioskOwnerCap},
     };
-    use animalib::access_control::{Admin, AccessControl};
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
     use act::{
         item,
-        admin,
         upgrade::{Self, Upgrade},
     };
 

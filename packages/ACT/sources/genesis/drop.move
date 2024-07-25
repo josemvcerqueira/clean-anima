@@ -14,14 +14,16 @@ module act::genesis_drop {
         clock::Clock,
         random::Random,
     };
-    use animalib::access_control::{Admin, AccessControl};
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
     use act::{
         attributes,
         avatar::{Self, AvatarRegistry},
         weapon,
         cosmetic,
         genesis_shop::{Item, GenesisShop},
-        admin,
     };
 
     // === Errors ===
