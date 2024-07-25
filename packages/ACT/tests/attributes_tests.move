@@ -23,6 +23,7 @@ module act::attributes_tests {
     const LEFT_PAULDRON: vector<u8> = b"Left Pauldron";
     const RIGHT_PAULDRON: vector<u8> = b"Right Pauldron";
     const LEGS: vector<u8> = b"Legs";
+    const BELT: vector<u8> = b"Belt";
     const ACCESSORY: vector<u8> = b"Accessory";
     const SHINS: vector<u8> = b"Shins";
     const BOOTS: vector<u8> = b"Boots";
@@ -86,6 +87,7 @@ module act::attributes_tests {
                 LEFT_PAULDRON.to_string(),
                 RIGHT_PAULDRON.to_string(),
                 LEGS.to_string(),
+                BELT.to_string(),
                 ACCESSORY.to_string(),
                 SHINS.to_string(),
                 BOOTS.to_string(),  
@@ -132,7 +134,7 @@ module act::attributes_tests {
         let mut data = vector[];
 
         let mut i = 0;
-        while (19 > i) {
+        while (20 > i) {
             data.push_back(b"".to_string());
             i = i + 1;
         };

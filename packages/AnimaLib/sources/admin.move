@@ -37,8 +37,8 @@ module animalib::admin {
         super_admin.grant(&mut access_control, GENESIS_MINTER_ROLE, admin.addy());
 
         transfer::public_share_object(access_control);
-        transfer::public_transfer(admin, ctx.sender());
         transfer::public_transfer(super_admin, ctx.sender());
+        transfer::public_transfer(admin, ctx.sender());
     }
 
     // === Public-View Functions ===   
