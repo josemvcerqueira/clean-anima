@@ -30,7 +30,6 @@ module act::weapon_tests {
 
     public struct World {
         scenario: Scenario,
-        admin: Admin,
         super_admin: Admin,
         kiosk: Kiosk,
         kiosk_cap: KioskOwnerCap,
@@ -97,7 +96,7 @@ module act::weapon_tests {
 
         assert_eq(weapon.upgrades().length(), 0);
 
-        weapon.upgrade(&world.access_control, &world.admin, b"upgrade.png".to_string());
+        weapon.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
 
         assert_eq(weapon.upgrades().length(), 1);
         assert_eq(weapon.upgrades()[0].url(), b"upgrade.png".to_string());
@@ -267,7 +266,7 @@ module act::weapon_tests {
 
         scenario.next_tx(OWNER);
 
-        let (access_control, super_admin, admin) = set_up_admins(&mut scenario);
+        let (access_control, super_admin) = set_up_admins(&mut scenario);
 
         let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
 
@@ -290,7 +289,6 @@ module act::weapon_tests {
             equip_transfer_policy,
             access_control,
             super_admin,
-            admin
         }
     }
 

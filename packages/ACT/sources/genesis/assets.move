@@ -1,7 +1,5 @@
 module act::assets {
 
-    const COSMETIC_SET_SIZE: u64 = 8;
-
     // Rarities
     const COSMETICS_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
@@ -59,7 +57,7 @@ module act::assets {
         b"Volt",
         b"Blood Ivory",
         b"Red Damascus",
-        b"Forest",
+        b"Digital Winter",
         b"Dusk",
         b"Viceroy"
     ];
@@ -93,13 +91,10 @@ module act::assets {
     ];
 
     // Names
-    const BIODOME: vector<u8> = b"Biodome";
     const SK_VIPER: vector<u8> = b"SK-Viper";
     const FANG_MK_IV: vector<u8> = b"Fang MK IV";
-    const SCOUT: vector<u8> = b"Scout";
     const SPECTRE_09: vector<u8> = b"Spectre-09";
     const HELIOS: vector<u8> = b"Helios";
-    const JUGGERNAUT: vector<u8> = b"Juggernaut";
     const BAHA_2000: vector<u8> = b"Baha-2000";
     const NEO_SHOGUNATE: vector<u8> = b"Neo-Shogunate";
 
@@ -115,13 +110,10 @@ module act::assets {
     const NEO_KATANA: vector<u8> = b"Neo-Katana";
 
     // Manufacturers
-    const ASTRAL: vector<u8> = b"Astral Exploration Technologies";
     const OBSIDIAN: vector<u8> = b"Obsidian Dynamics";
     const EXO: vector<u8> = b"ExoTech Solutions";
-    const STRATO: vector<u8> = b"StratoTech Industries";
     const PHALANX: vector<u8> = b"Phalanx Defence Corp";
     const ZENITH: vector<u8> = b"Zenith Aerospace";
-    const OMEGA: vector<u8> = b"Omega Tactical Systems";
     const ROOTS: vector<u8> = b"Roots Robotics";
 
     const FENRIR: vector<u8> = b"Fenrir Arms";
@@ -137,34 +129,18 @@ module act::assets {
 
     // Helms
     const HELM_NAMES: vector<vector<u8>> = vector[
-        BIODOME,
         SK_VIPER,
         FANG_MK_IV,
-        SCOUT,
         SPECTRE_09,
         HELIOS,
-        JUGGERNAUT,
         BAHA_2000
     ];
-    const HELM_BASE_CHANCES: vector<u64> = vector[200, 100, 150, 125, 150, 200, 200, 125];
-    const HELM_CHANCES: vector<vector<u64>> = vector[
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES
-    ];
+    const HELM_CHANCES: vector<u64> = vector[275, 75, 275, 275, 275, 275, 275, 275];
     const HELM_MANUFACTURERS: vector<vector<u8>> = vector[
-        ASTRAL,
         OBSIDIAN,
         EXO,
-        STRATO,
         PHALANX,
         ZENITH,
-        OMEGA,
         ROOTS
     ];
 
@@ -352,7 +328,7 @@ module act::assets {
         HELM_NAMES
     }
 
-    public(package) fun helm_chances(): vector<vector<u64>> {
+    public(package) fun helm_chances(): vector<u64> {
         HELM_CHANCES
     }
 
@@ -556,16 +532,8 @@ module act::assets {
         TERTIARY_COLOUR_WAYS
     }
 
-    public(package) fun cosmetic_rarities(): vector<vector<vector<u8>>> {
-        let mut rarities = vector[];
-        let mut i = 0;
-
-        while (COSMETIC_SET_SIZE > i) {
-            rarities.push_back(COSMETICS_RARITIES);
-            i = i + 1;
-        };
-
-        rarities
+    public(package) fun cosmetic_rarities(): vector<vector<u8>> {
+        COSMETICS_RARITIES
     }
 
     #[allow(implicit_const_copy)]

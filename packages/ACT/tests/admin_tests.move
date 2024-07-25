@@ -21,17 +21,17 @@ module act::admin_tests {
     fun test_init() {
         let world = start();
 
-        assert_eq(world.super_admin.has_role(&world.access_control, UPGRADES_ROLE), false);
-        assert_eq(world.super_admin.has_role(&world.access_control, REPUTATION_ROLE), false);
-        assert_eq(world.super_admin.has_role(&world.access_control, GENESIS_MINTER_ROLE), false);
+        assert_eq(world.super_admin.has_role(&world.access_control, UPGRADES_ROLE), true);
+        assert_eq(world.super_admin.has_role(&world.access_control, REPUTATION_ROLE), true);
+        assert_eq(world.super_admin.has_role(&world.access_control, GENESIS_MINTER_ROLE), true);
 
         assert_eq(world.access_control.contains(UPGRADES_ROLE), true);
         assert_eq(world.access_control.contains(REPUTATION_ROLE), true);
         assert_eq(world.access_control.contains(GENESIS_MINTER_ROLE), true);
 
-        admin::assert_upgrades_role(&world.access_control, &world.admin);
-        admin::assert_reputation_role(&world.access_control, &world.admin);
-        admin::assert_genesis_minter_role(&world.access_control, &world.admin);
+        admin::assert_upgrades_role(&world.access_control, &world.super_admin);
+        admin::assert_reputation_role(&world.access_control, &world.super_admin);
+        admin::assert_genesis_minter_role(&world.access_control, &world.super_admin);
 
         world.end();
     }
@@ -69,7 +69,6 @@ module act::admin_tests {
     // === Set Up ===
 
     public struct World {
-        admin: Admin,
         super_admin: Admin,
         access_control: AccessControl,
         scenario: Scenario
@@ -78,12 +77,11 @@ module act::admin_tests {
     public fun start(): World {
         let mut scenario = ts::begin(OWNER);
 
-        let (access_control, super_admin, admin) = set_up_admins(&mut scenario);
+        let (access_control, super_admin) = set_up_admins(&mut scenario);
 
         World {
             access_control,
-            super_admin,
-            admin, 
+            super_admin, 
             scenario
         }
     }

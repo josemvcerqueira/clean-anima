@@ -21,7 +21,6 @@ module act::avatar_tests {
 
     public struct World {
         scenario: Scenario,
-        admin: Admin,
         super_admin: Admin,
         kiosk: Kiosk,
         avatar_registry: AvatarRegistry,
@@ -181,8 +180,8 @@ module act::avatar_tests {
 
         assert_eq(avatar.upgrades().length(), 0);
 
-        avatar.upgrade(&world.access_control, &world.admin, b"upgrade.png".to_string());
-        avatar.upgrade(&world.access_control, &world.admin, b"upgrade1.png".to_string());
+        avatar.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
+        avatar.upgrade(&world.access_control, &world.super_admin, b"upgrade1.png".to_string());
 
         assert_eq(avatar.upgrades().length(), 2);
         assert_eq(avatar.upgrades()[0].url(), b"upgrade.png".to_string());
@@ -207,7 +206,7 @@ module act::avatar_tests {
 
         avatar.upgrade_equipped_weapon(
             &world.access_control, 
-            &world.admin, 
+            &world.super_admin, 
             attributes::primary(), 
             b"upgrade2.png".to_string()
         );
@@ -234,7 +233,7 @@ module act::avatar_tests {
 
         avatar.upgrade_equipped_cosmetic(
             &world.access_control, 
-            &world.admin, 
+            &world.super_admin, 
             attributes::helm(), 
             b"upgrade2.png".to_string()
         );
@@ -255,7 +254,7 @@ module act::avatar_tests {
 
         scenario.next_tx(OWNER);
 
-        let (access_control, super_admin, admin) = set_up_admins(&mut scenario);
+        let (access_control, super_admin) = set_up_admins(&mut scenario);
 
         let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
 
@@ -294,7 +293,6 @@ module act::avatar_tests {
             cosmetic_equip_transfer_policy,
             access_control,
             super_admin,
-            admin
         }
     }
 

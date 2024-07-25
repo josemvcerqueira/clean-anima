@@ -1,6 +1,6 @@
 module act::admin {
     // === Imports ===
-
+    use std::debug::print;
     use animalib::access_control::{Self, Admin, AccessControl};
 
     // === Errors ===
@@ -23,8 +23,6 @@ module act::admin {
     #[allow(lint(share_owned))]
     fun init(ctx: &mut TxContext) {
         let (mut access_control, super_admin) = access_control::new(ctx);
-
-        // let admin = access_control.new_admin(ctx);
 
         super_admin.add(&mut access_control, UPGRADES_ROLE);
         super_admin.add(&mut access_control, REPUTATION_ROLE);

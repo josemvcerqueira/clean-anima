@@ -7,7 +7,7 @@ module act::set_up_tests {
     use act::admin;
     use animalib::access_control::{Admin, AccessControl};
 
-    public fun set_up_admins(scenario: &mut Scenario): (AccessControl, Admin, Admin) {
+    public fun set_up_admins(scenario: &mut Scenario): (AccessControl, Admin) {
         admin::init_for_testing(scenario.ctx());
 
         let sender = scenario.ctx().sender();
@@ -15,9 +15,8 @@ module act::set_up_tests {
         scenario.next_tx(sender);
 
         let super_admin = scenario.take_from_sender<Admin>();
-        let admin = scenario.take_from_sender<Admin>();
         let access_control  = scenario.take_shared<AccessControl>();
 
-        (access_control, super_admin, admin)
+        (access_control, super_admin)
     }
 }
