@@ -75,7 +75,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::helm(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::helm(), table_vec::empty(ctx));
 
         new_builder(
             attributes::helm(),
@@ -84,6 +84,7 @@ module act::genesis_shop {
             assets::helm_manufacturers(), 
             assets::cosmetic_rarities(),
             assets::helm_chances(), 
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -95,7 +96,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::upper_torso(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::upper_torso(), table_vec::empty(ctx));
 
         new_builder(
             attributes::upper_torso(),
@@ -104,6 +105,7 @@ module act::genesis_shop {
             assets::upper_torso_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::upper_torso_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -115,7 +117,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::chestpiece(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::chestpiece(), table_vec::empty(ctx));
 
         new_builder(
             attributes::chestpiece(),
@@ -124,6 +126,7 @@ module act::genesis_shop {
             assets::chestpiece_manufacturers(), 
             assets::cosmetic_rarities(),
             assets::chestpiece_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -137,7 +140,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::left_arm(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::left_arm(), table_vec::empty(ctx));
 
         new_builder(
             attributes::left_arm(),
@@ -146,6 +149,7 @@ module act::genesis_shop {
             assets::arm_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::arm_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -157,7 +161,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::right_arm(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::right_arm(), table_vec::empty(ctx));
 
         new_builder(
             attributes::right_arm(),
@@ -166,6 +170,7 @@ module act::genesis_shop {
             assets::arm_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::arm_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -177,7 +182,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::left_bracer(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::left_bracer(), table_vec::empty(ctx));
 
         new_builder(
             attributes::left_bracer(),
@@ -186,6 +191,7 @@ module act::genesis_shop {
             assets::bracer_manufacturers(), 
             assets::cosmetic_rarities(),
             assets::bracer_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -197,7 +203,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::right_bracer(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::right_bracer(), table_vec::empty(ctx));
 
         new_builder(
             attributes::right_bracer(),
@@ -206,6 +212,7 @@ module act::genesis_shop {
             assets::bracer_manufacturers(), 
             assets::cosmetic_rarities(),
             assets::bracer_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -217,7 +224,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::left_glove(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::left_glove(), table_vec::empty(ctx));
 
         new_builder(
             attributes::left_glove(),
@@ -226,6 +233,7 @@ module act::genesis_shop {
             assets::glove_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::glove_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -237,7 +245,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::right_glove(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::right_glove(), table_vec::empty(ctx));
 
         new_builder(
             attributes::right_glove(),
@@ -246,6 +254,7 @@ module act::genesis_shop {
             assets::glove_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::glove_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -257,7 +266,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::left_pauldron(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::left_pauldron(), table_vec::empty(ctx));
 
         new_builder(
             attributes::left_pauldron(),
@@ -266,6 +275,7 @@ module act::genesis_shop {
             assets::pauldrons_manufacturers(), 
             assets::cosmetic_rarities(),
             assets::pauldrons_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -277,7 +287,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::right_pauldron(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::right_pauldron(), table_vec::empty(ctx));
 
         new_builder(
             attributes::right_pauldron(),
@@ -286,6 +296,7 @@ module act::genesis_shop {
             assets::pauldrons_manufacturers(), 
             assets::cosmetic_rarities(),
             assets::pauldrons_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -297,7 +308,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::legs(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::legs(), table_vec::empty(ctx));
 
         new_builder(
             attributes::legs(),
@@ -306,6 +317,7 @@ module act::genesis_shop {
             assets::legs_manufacturers(), 
             assets::leg_rarities(),
             assets::legs_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -317,7 +329,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::belt(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::belt(), table_vec::empty(ctx));
 
         new_builder(
             attributes::belt(),
@@ -326,6 +338,7 @@ module act::genesis_shop {
             assets::belt_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::belt_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -337,7 +350,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::shins(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::shins(), table_vec::empty(ctx));
 
         new_builder(
             attributes::shins(),
@@ -346,6 +359,7 @@ module act::genesis_shop {
             assets::shins_manufacturers(), 
             vector[b"Ultra Rare"],
             assets::shins_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -357,7 +371,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::boots(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::boots(), table_vec::empty(ctx));
 
         new_builder(
             attributes::boots(),
@@ -366,6 +380,7 @@ module act::genesis_shop {
             assets::boots_manufacturers(), 
             assets::boots_rarities(),
             assets::boots_chances(),
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -377,7 +392,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::primary(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::primary(), table_vec::empty(ctx));
 
         new_builder(
             attributes::primary(),
@@ -386,6 +401,7 @@ module act::genesis_shop {
             assets::primary_manufacturers(), 
             assets::primary_rarities(),
             assets::primary_chances(), 
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -397,7 +413,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::secondary(), table_vec::empty(ctx));
+        genesis_shop.items.add(attributes::secondary(), table_vec::empty(ctx));
 
         new_builder(
             attributes::secondary(),
@@ -406,6 +422,7 @@ module act::genesis_shop {
             assets::secondary_manufacturers(), 
             assets::secondary_rarities(),
             assets::secondary_chances(), 
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -417,7 +434,7 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        table::add(&mut genesis_shop.items, attributes::tertiary(), table_vec::empty(ctx));
+        genesis_shop.items.add( attributes::tertiary(), table_vec::empty(ctx));
         
         new_builder(
             attributes::tertiary(),
@@ -426,6 +443,7 @@ module act::genesis_shop {
             assets::tertiary_manufacturers(), 
             assets::tertiary_rarities(),
             assets::tertiary_chances(), 
+            GENESIS_AMOUNT,
             ctx
         )
     }
@@ -559,6 +577,7 @@ module act::genesis_shop {
         manufacturers: vector<vector<u8>>,
         rarities: vector<vector<u8>>,
         chances: vector<vector<u64>>,
+        total_amount: u64,
         ctx: &mut TxContext
     ): Builder {
         Builder { 
@@ -568,7 +587,7 @@ module act::genesis_shop {
             colour_ways, 
             manufacturers, 
             rarities, 
-            quantities: chances.map!(|x| x.map!(|chance| mul_div(chance, GENESIS_AMOUNT, PRECISION))), 
+            quantities: chances.map!(|x| x.map!(|chance| mul_div(chance, total_amount, PRECISION))), 
         }
     }
 
@@ -586,5 +605,30 @@ module act::genesis_shop {
     #[test_only]
     public fun borrow_mut(self: &mut GenesisShop): &mut Table<String, TableVec<Item>> {
         &mut self.items
+    }
+
+    #[test_only]
+    public fun new_builder_for_testing(
+        self: &mut GenesisShop,
+        equipment: String,
+        names: vector<vector<u8>>,
+        colour_ways: vector<vector<u8>>,
+        manufacturers: vector<vector<u8>>,
+        rarities: vector<vector<u8>>,
+        chances: vector<vector<u64>>,
+        total_amount: u64,
+        ctx: &mut TxContext
+    ): Builder  {
+        self.items.add(equipment, table_vec::empty(ctx));
+        new_builder(
+            equipment,
+            names,
+            colour_ways,
+            manufacturers,
+            rarities,
+            chances,
+            total_amount,
+            ctx
+        )
     }
 }
