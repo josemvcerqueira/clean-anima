@@ -1,6 +1,5 @@
 #[test_only]
 module act::genesis_shop_tests {
-    use std::debug::print;
     use sui::{
         test_utils::{assert_eq, destroy},
         test_scenario::{Self as ts, Scenario},

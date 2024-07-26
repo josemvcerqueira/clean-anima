@@ -9,7 +9,7 @@
 */
 module act::genesis_shop {
     // === Imports ===
-use std::debug::print;
+
     use std::string::String;
     use sui::{
         table_vec::{Self, TableVec},

@@ -347,4 +347,34 @@ module act::genesis_drop {
     }
 
     // === Test Functions ===
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(ctx);
+    }
+
+    #[test_only]
+    public fun active(self: &Sale): bool {
+        self.active
+    }
+
+    #[test_only]
+    public fun start_times(self: &Sale): vector<u64> {
+        self.start_times
+    }
+
+    #[test_only]
+    public fun prices(self: &Sale): vector<u64> {
+        self.prices
+    }
+
+    #[test_only]
+    public fun max_mints(self: &Sale): vector<u64> {
+        self.prices
+    }
+
+    #[test_only]
+    public fun drops_left(self: &Sale): u64 {
+        self.drops_left
+    }
 }
