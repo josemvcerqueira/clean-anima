@@ -153,9 +153,7 @@ module act::genesis_drop_tests {
             let genesis_shop = &mut world.genesis_shop;
             let kiosk = &mut world.kiosk;
 
-            let genesis_pass = vector[
-                genesis_drop::new_genesis_pass(WHITELIST_PHASE, ctx)
-            ];
+            let genesis_pass = vector[];
 
             world.sale.mint_to_kiosk(
                 genesis_shop, 
