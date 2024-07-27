@@ -22,7 +22,7 @@ module act::assets {
 
     const BOOTS_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
-        b"Mythic",
+        b"Ultra Rare",
         b"Ultra Rare",
         b"Ultra Rare",
         b"Ultra Rare",
@@ -273,7 +273,7 @@ module act::assets {
 
     // Boots
     const BOOTS_CHANCES: vector<vector<u64>> = vector[
-        vector[1900, 5, 1900, 1900, 1900, 1900]
+        vector[1900, 500, 1900, 1900, 1900, 1900]
     ];
     const BOOTS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV

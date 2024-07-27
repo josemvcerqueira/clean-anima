@@ -120,6 +120,29 @@ module act::attributes {
         ]        
     }
 
+    // @dev There is no backpiece nor accessory in the genesis mint
+    public(package) fun genesis_mint_types(): vector<String> {
+        vector[
+            HELM.to_string(),
+            UPPER_TORSO.to_string(),
+            CHESTPIECE.to_string(),
+            LEFT_ARM.to_string(),
+            RIGHT_ARM.to_string(),
+            LEFT_BRACER.to_string(),
+            RIGHT_BRACER.to_string(),
+            LEFT_GLOVE.to_string(),
+            RIGHT_GLOVE.to_string(),
+            LEFT_PAULDRON.to_string(),
+            RIGHT_PAULDRON.to_string(),
+            LEGS.to_string(),
+            SHINS.to_string(),
+            BOOTS.to_string(),
+            PRIMARY.to_string(),
+            SECONDARY.to_string(),
+            TERTIARY.to_string(),
+        ]        
+    }
+
     public(package) fun helm(): String { HELM.to_string() }
     public(package) fun chestpiece(): String { CHESTPIECE.to_string() }
     public(package) fun backpiece(): String { BACKPIECE.to_string() }

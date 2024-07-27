@@ -1,6 +1,7 @@
 #[test_only]
 module act::genesis_drop_tests {
     use sui::{
+        coin::mint_for_testing,
         clock::{Self, Clock},
         random::{Self, Random},
         test_utils::{assert_eq, destroy},
@@ -33,10 +34,12 @@ module act::genesis_drop_tests {
 
     const OWNER: address = @0x0;
     const TOTAL_ITEMS: u64 = 10;
+    const FREE_MINT_PHASE: u64 = 0;
+    const WHITELIST_PHASE: u64 = 1;
 
     #[test]
     fun test_init() {
-        let mut world = start_world();
+        let world = start_world();
 
         assert_eq(world.sale.active(), true);
         assert_eq(world.sale.start_times(), vector[]);
@@ -44,12 +47,140 @@ module act::genesis_drop_tests {
         assert_eq(world.sale.max_mints(), vector[]);
         assert_eq(world.sale.drops_left(), 3000);
 
+        world.end();
+    }
+
+    #[test]
+    fun test_mint_to_kiosk() {
+        let mut world = start_world();
+
         world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        {        // Now we can do the free mint phase - index 0.
+            world.clock.set_for_testing(8);
+
+            let sale = &world.sale;
+            let avatar_registry = &world.avatar_registry;
+            let genesis_pass = vector[
+                genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+            ];
+            let cap = &world.kiosk_cap;
+            let quantity = 3;
+            let random = &world.random;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            assert_eq(kiosk.item_count(), 0);
+            assert_eq(sale.drops_left(), TOTAL_ITEMS);
+
+            world.sale.mint_to_kiosk(
+                genesis_shop, 
+                avatar_registry, 
+                genesis_pass, 
+                kiosk, 
+                cap, 
+                mint_for_testing(10 * quantity, ctx), 
+                quantity, 
+                random, 
+                clock, 
+                ctx
+            );
+
+            assert_eq(kiosk.item_count(), 17 * 3);
+            assert_eq(world.sale.drops_left(), TOTAL_ITEMS - quantity);
+        };
+
+        {
+            // === PHASE 1 ===
+
+            world.clock.set_for_testing(15);
+
+            let avatar_registry = &world.avatar_registry;
+            let cap = &world.kiosk_cap;
+            let quantity = 3;
+            let random = &world.random;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            let genesis_pass = vector[
+                genesis_drop::new_genesis_pass(WHITELIST_PHASE, ctx)
+            ];
+
+            world.sale.mint_to_kiosk(
+                genesis_shop, 
+                avatar_registry, 
+                genesis_pass, 
+                kiosk, 
+                cap, 
+                mint_for_testing(25 * quantity, ctx), 
+                quantity, 
+                random, 
+                clock, 
+                ctx
+            );
+
+            assert_eq(kiosk.item_count(), 17 * 6);
+            assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 6);
+        };
+
+        {
+            // === PHASE 2 ===
+
+            world.clock.set_for_testing(21);
+
+            let avatar_registry = &world.avatar_registry;
+            let cap = &world.kiosk_cap;
+            let quantity = 4;
+            let random = &world.random;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            let genesis_pass = vector[
+                genesis_drop::new_genesis_pass(WHITELIST_PHASE, ctx)
+            ];
+
+            world.sale.mint_to_kiosk(
+                genesis_shop, 
+                avatar_registry, 
+                genesis_pass, 
+                kiosk, 
+                cap, 
+                mint_for_testing(50 * quantity, ctx), 
+                quantity, 
+                random, 
+                clock, 
+                ctx
+            );
+
+            assert_eq(kiosk.item_count(), 17 * 10);
+            assert_eq(world.sale.drops_left(), 0);
+        };
 
         world.end();
     }
 
     fun add_genesis_shop(world: &mut World) {
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_drops_left(access_control, admin_cap, TOTAL_ITEMS);
 
         let mut primary = new_builder_for_testing(
             &mut world.genesis_shop,
@@ -254,6 +385,18 @@ module act::genesis_drop_tests {
             world.scenario.ctx()            
         );
 
+        let mut boots = new_builder_for_testing(
+            &mut world.genesis_shop,
+            attributes::boots(),
+            assets::boots_names(), 
+            assets::boots_colour_ways(),
+            assets::boots_manufacturers(), 
+            assets::boots_rarities(),
+            assets::boots_chances(),
+            TOTAL_ITEMS,
+            world.scenario.ctx()            
+        );
+
         let mut i = 0;
 
         while (TOTAL_ITEMS > i) {
@@ -275,9 +418,12 @@ module act::genesis_drop_tests {
             world.genesis_shop.new_item(&mut shins); 
             world.genesis_shop.new_item(&mut upper_torso);
             world.genesis_shop.new_item(&mut legs);   
+            world.genesis_shop.new_item(&mut boots);
 
             i = i + 1;
         };
+
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::boots()).length(), 10);
 
         destroy(primary);
         destroy(secondary);
@@ -296,6 +442,7 @@ module act::genesis_drop_tests {
         destroy(belt);
         destroy(shins);
         destroy(upper_torso);
+        destroy(boots);
     }
  
     fun start_world(): World {

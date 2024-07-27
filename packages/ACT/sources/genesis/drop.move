@@ -4,6 +4,7 @@
 /// passes are the whitelist object that will be airdropped to the users and destroyed upon mint
 
 module act::genesis_drop {
+    use std::debug::print;
     use std::{
         string::{utf8, String},
     };
@@ -40,6 +41,7 @@ module act::genesis_drop {
     // === Constants ===
 
     const WEAR_RATING_MAX: u64 = 1_000_000_000;
+    const MIN_WEAPON_WEAR_RATING: u64 = 930_000_000;
 
     // === Structs ===
 
@@ -85,7 +87,7 @@ module act::genesis_drop {
 
     // mint equipments to the kiosk
     entry fun mint_to_kiosk(
-        sale: &Sale, 
+        sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
@@ -102,17 +104,19 @@ module act::genesis_drop {
         transfer::public_transfer(coin, @treasury);
 
         let mut gen = random.new_generator(ctx);
+        sale.drops_left = sale.drops_left - quantity;
 
         while (quantity > 0) {
-            let mut attributes = attributes::types();
-
+            let mut attributes = attributes::genesis_mint_types();
             while (!attributes.is_empty()) {
-                let items = genesis_shop.borrow_item_mut(attributes.pop_back());
+                let x = attributes.pop_back();
+                let items = genesis_shop.borrow_item_mut(x);
+
                 let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
                 let item = items.swap_remove(index);
                 let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
 
-                if (equipment != b"Primary".to_string() && equipment != b"Secondary".to_string() && equipment != b"Tertiary".to_string()) {
+                if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                     let cosmetic = cosmetic::new(
                         name,
                         utf8(b""),
@@ -234,7 +238,7 @@ module act::genesis_drop {
                     manufacturer,
                     rarity,
                     utf8(b""),
-                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
                     ctx
                 );
                 avatar.equip_minted_weapon(weapon);
@@ -289,6 +293,16 @@ module act::genesis_drop {
         sale.start_times = start_times;
     }
 
+    public fun set_max_mints(
+        sale: &mut Sale, 
+        access_control: &AccessControl, 
+        admin: &Admin,
+        max_mints: vector
+    <u64>) {
+        admin::assert_genesis_minter_role(access_control, admin);
+        sale.max_mints = max_mints;
+    }
+
     public fun set_prices(
         sale: &mut Sale, 
         access_control: &AccessControl, 
@@ -319,8 +333,13 @@ module act::genesis_drop {
         assert!(pass.length() < 2, EInvalidPass);
         // current phase
         let mut phase = 0;
-        while (now <= sale.start_times[phase]) {
-            phase = phase + 1;
+        let mut i = 0;
+
+        while (sale.start_times.length() > i) {
+            if (now > sale.start_times[i]) {
+                phase = phase + 1;
+            };
+            i = i + 1;
         };
         phase = phase - 1;
         
@@ -333,7 +352,7 @@ module act::genesis_drop {
         };
         pass.destroy_empty();
         // check price and quantity
-        assert!(amount == sale.prices[phase], EWrongCoinValue);
+        assert!(amount == sale.prices[phase] * quantity, EWrongCoinValue);
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);
     }
 
@@ -376,5 +395,13 @@ module act::genesis_drop {
     #[test_only]
     public fun drops_left(self: &Sale): u64 {
         self.drops_left
+    }
+
+    #[test_only]
+    public fun new_genesis_pass(phase: u64, ctx: &mut TxContext): GenesisPass {
+        GenesisPass {
+            id: object::new(ctx),
+            phase
+        }
     }
 }

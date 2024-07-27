@@ -469,22 +469,6 @@ module act::genesis_shop {
 
         let quantity = &mut quantities[len];
 
-        // if (*quantity == 0) {
-        //     quantities.pop_back();
-
-        //     if (quantities.length() == 0) {
-        //         builder.quantities.pop_back();
-        //         builder.manufacturers.pop_back();
-        //         builder.names.pop_back();
-                
-        //         if (builder.equipment == attributes::tertiary()) {
-        //             builder.rarities.pop_back();
-        //             builder.colour_ways.pop_back();
-        //         }
-        //     };
-        //     return
-        // };
-
         if (quantity != 0) *quantity = *quantity - 1;
 
         let mut rarity = b"";
@@ -608,6 +592,12 @@ module act::genesis_shop {
     }
 
     #[test_only]
+    fun mul_div_up(x: u64, y: u64, z: u64): u64 {
+        let r = mul_div(x, y, z);
+        r + if ((x * y) % z > 0) 1 else 0
+    }
+
+    #[test_only]
     public fun new_builder_for_testing(
         self: &mut GenesisShop,
         equipment: String,
@@ -620,15 +610,14 @@ module act::genesis_shop {
         ctx: &mut TxContext
     ): Builder  {
         self.items.add(equipment, table_vec::empty(ctx));
-        new_builder(
-            equipment,
-            names,
-            colour_ways,
-            manufacturers,
-            rarities,
-            chances,
-            total_amount,
-            ctx
-        )
+        Builder { 
+            id: object::new(ctx), 
+            equipment, 
+            names, 
+            colour_ways, 
+            manufacturers, 
+            rarities, 
+            quantities: chances.map!(|x| x.map!(|chance| mul_div_up(chance, total_amount, PRECISION))), 
+        }
     }
 }

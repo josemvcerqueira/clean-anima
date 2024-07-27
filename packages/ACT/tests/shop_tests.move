@@ -951,6 +951,59 @@ module act::genesis_shop_tests {
         world.end();
     }
 
+    #[test]
+    fun test_add_boots() {
+        let mut world = start_world();
+
+        let admin = &world.admin;
+        let access_control = &world.access_control;
+
+        // Shop is empty
+        assert_eq(world.genesis_shop.borrow_mut().length(), 0);
+
+        let mut boots_builder = world.genesis_shop.add_boots(access_control, admin, world.scenario.ctx());
+
+        let mut i = 0;
+
+        while (TOTAL_ITEMS > i) {
+            world.genesis_shop.new_item(&mut boots_builder);
+
+            i = i + 1;
+        };
+
+        assert_eq(world.genesis_shop.borrow_mut().length(), 1);
+
+        assert_eq(world.genesis_shop.borrow_mut().contains(attributes::boots()), true);
+        assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::boots()).length(), TOTAL_ITEMS);
+
+        let mut index = 0;
+        let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare"];
+
+        let colour_way = vector[b"Dusk", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
+
+        let chances = vector[569, 570, 570, 570, 150, 570];
+
+        let mut i = 0;
+        
+        while (chances.length() > i) {
+            index = index + chances[i];
+            let item = world.genesis_shop.borrow_mut().borrow(attributes::boots())[index];
+            assert_eq(item.rarity(), rarity[i].to_string());
+            assert_eq(item.colour_way(), colour_way[i].to_string());
+            assert_eq(item.manufacturer(), b"ExoTech Solutions".to_string());
+            assert_eq(item.name(), b"Fang MK IV".to_string());
+
+            i  = i + 1;
+        };
+
+        // last item is length - 1
+        assert_eq(index, TOTAL_ITEMS - 1);
+
+        boots_builder.keep(world.scenario.ctx());
+
+        world.end();
+    }
+
     fun test_baha_2000_helms(world: &mut World, index: u64, rarity: vector<u8>, colour_way: vector<u8>) {
         let item = world.genesis_shop.borrow_mut().borrow(attributes::helm())[index];
         assert_eq(item.rarity(), rarity.to_string());
