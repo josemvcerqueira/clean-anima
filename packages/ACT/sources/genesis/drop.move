@@ -4,7 +4,7 @@
 /// passes are the whitelist object that will be airdropped to the users and destroyed upon mint
 
 module act::genesis_drop {
-    use std::debug::print;
+
     use std::{
         string::{utf8, String},
     };
@@ -144,7 +144,7 @@ module act::genesis_drop {
                         manufacturer,
                         rarity,
                         utf8(b""),
-                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                        gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
                         ctx
                     );
                     kiosk.place(cap, weapon);
@@ -156,7 +156,7 @@ module act::genesis_drop {
 
     // mint equipments to a ticket for generating the Avatar
     entry fun mint_to_ticket(
-        sale: &Sale, 
+        sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
@@ -165,11 +165,13 @@ module act::genesis_drop {
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
-        registry.assert_has_avatar(ctx.sender());
+        registry.assert_no_avatar(ctx.sender());
         assert_can_mint(sale, pass, coin.value(), 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
-        let mut attributes = attributes::types();
+        sale.drops_left = sale.drops_left - 1;
+
+        let mut attributes = attributes::genesis_mint_types();
         let mut gen = random.new_generator(ctx);
         let mut drop = vector::empty();
 
@@ -184,9 +186,9 @@ module act::genesis_drop {
             AvatarTicket {
                 id: object::new(ctx),
                 drop: drop,
-                image_url: utf8(b""),
-                image_hash: utf8(b""),
-                model_url: utf8(b""),
+                image_url: utf8(b"TODO"),
+                image_hash: utf8(b"TODO"),
+                model_url: utf8(b"TODO"),
             },
             ctx.sender() 
         );
@@ -210,7 +212,7 @@ module act::genesis_drop {
             let item = drop.pop_back();
             let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
 
-            if (equipment != b"Primary".to_string() && equipment != b"Secondary".to_string() && equipment != b"Tertiary".to_string()) {
+            if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                 let cosmetic = cosmetic::new(
                     name,
                     utf8(b""),
@@ -395,6 +397,11 @@ module act::genesis_drop {
     #[test_only]
     public fun drops_left(self: &Sale): u64 {
         self.drops_left
+    }
+
+    #[test_only]
+    public fun drop(self: &AvatarTicket): vector<Item> {
+        self.drop
     }
 
     #[test_only]

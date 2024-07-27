@@ -1,5 +1,6 @@
 #[test_only]
 module act::genesis_drop_tests {
+
     use sui::{
         coin::mint_for_testing,
         clock::{Self, Clock},
@@ -13,8 +14,8 @@ module act::genesis_drop_tests {
         assets,
         attributes,
         set_up_tests::set_up_admins,
-        genesis_drop::{Self, Sale},
         avatar::{Self, AvatarRegistry, Avatar},
+        genesis_drop::{Self, Sale, AvatarTicket},
         genesis_shop::{Self, new_builder_for_testing, GenesisShop}, 
     };
 
@@ -33,6 +34,7 @@ module act::genesis_drop_tests {
     }
 
     const OWNER: address = @0x0;
+    const ALICE: address = @0xa11c3;
     const TOTAL_ITEMS: u64 = 10;
     const FREE_MINT_PHASE: u64 = 0;
     const WHITELIST_PHASE: u64 = 1;
@@ -172,6 +174,76 @@ module act::genesis_drop_tests {
             assert_eq(world.sale.drops_left(), 0);
         };
 
+        world.end();
+    }
+
+    #[test]
+    fun test_mint_to_ticket_and_avatar() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        world.scenario.next_tx(ALICE);
+
+        {        // Now we can do the free mint phase - index 0.
+            world.clock.set_for_testing(8);
+
+            let sale = &world.sale;
+            let avatar_registry = &world.avatar_registry;
+            let genesis_pass = vector[
+                genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+            ];
+            let random = &world.random;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+
+            assert_eq(sale.drops_left(), TOTAL_ITEMS);
+
+            world.sale.mint_to_ticket(
+                genesis_shop, 
+                avatar_registry, 
+                genesis_pass, 
+                mint_for_testing(10, ctx), 
+                random, 
+                clock, 
+                ctx
+            );
+
+            assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
+        };
+
+        world.scenario.next_tx(ALICE);
+
+        let avatar_ticket = world.scenario.take_from_sender<AvatarTicket>();
+
+        assert_eq(avatar_ticket.drop().length(), 17);
+
+
+        {
+            let random = &world.random;
+            let avatar_registry = &mut world.avatar_registry;
+
+            avatar_ticket.mint_to_avatar(avatar_registry, random, world.scenario.ctx());
+
+        };
+
+        world.scenario.next_tx(ALICE);
+
+        let avatar = world.scenario.take_from_sender<Avatar>();
+
+        // all avatar attr vlaues are filled so equipped all items
+        assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
+        
+        destroy(avatar);
         world.end();
     }
 
