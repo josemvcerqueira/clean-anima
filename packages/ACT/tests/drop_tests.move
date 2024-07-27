@@ -242,8 +242,9 @@ module act::genesis_drop_tests {
 
         // all avatar attr vlaues are filled so equipped all items
         assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
-        
-        destroy(avatar);
+
+        assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
+        destroy(avatar);    
         world.end();
     }
 
