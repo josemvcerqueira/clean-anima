@@ -31,14 +31,13 @@ module act::weapon {
         id: UID,
         name: String,
         image_url: String,
-        image_hash: String,
         model_url: String,
+        texture_url: String,
         slot: String,
         colour_way: String,
         edition: String,
         manufacturer: String,
         rarity: String,
-        hash: String,
         wear_rating: u64,
         kill_count: u64,  
         upgrades: vector<Upgrade>
@@ -78,12 +77,12 @@ module act::weapon {
         self.image_url
     }
 
-    public fun image_hash(self: &Weapon): String {
-        self.image_hash
-    }
-
     public fun model_url(self: &Weapon): String {
         self.model_url
+    }
+
+    public fun texture_url(self: &Weapon): String {
+        self.texture_url
     }
 
     public fun kill_count(self: &Weapon): u64 {
@@ -110,10 +109,6 @@ module act::weapon {
         self.manufacturer
     }
 
-    public fun hash(self: &Weapon): String {
-        self.hash
-    }
-
     public fun upgrades(self: &Weapon): &vector<Upgrade> {
         &self.upgrades
     }
@@ -125,14 +120,13 @@ module act::weapon {
     public(package) fun new(
         name: String,
         image_url: String,
-        image_hash: String,
         model_url: String,
+        texture_url: String,
         slot: String,
         colour_way: String,
         edition: String,
         manufacturer: String,
         rarity: String,
-        hash: String,
         wear_rating: u64,
         ctx: &mut TxContext,
     ): Weapon {
@@ -140,14 +134,13 @@ module act::weapon {
             id: object::new(ctx),
             name,
             image_url,
-            image_hash,
             model_url,
+            texture_url,
             slot,
             colour_way,
             edition,
             manufacturer,
             rarity,
-            hash,
             wear_rating,
             kill_count: 0,
             upgrades: vector::empty(),

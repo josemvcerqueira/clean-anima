@@ -27,14 +27,13 @@ module act::cosmetic {
         id: UID,
         name: String,
         image_url: String,
-        image_hash: String,
         model_url: String,
+        texture_url: String,
         `type`: String, 
         colour_way: String,
         edition: String,
         manufacturer: String,
         rarity: String,
-        hash: String,
         wear_rating: u64, // [0,1] scaled to 1B
         upgrades: vector<Upgrade>
         // TODO: see how to manage the secondary image
@@ -74,12 +73,12 @@ module act::cosmetic {
         self.image_url
     }
 
-    public fun image_hash(self: &Cosmetic): String {
-        self.image_hash
-    }
-
     public fun model_url(self: &Cosmetic): String {
         self.model_url
+    }
+
+    public fun texture_url(self: &Cosmetic): String {
+        self.texture_url
     }
 
     public fun edition(self: &Cosmetic): String {
@@ -102,10 +101,6 @@ module act::cosmetic {
         self.manufacturer
     }
 
-    public fun hash(self: &Cosmetic): String {
-        self.hash
-    }
-
     public fun upgrades(self: &Cosmetic): &vector<Upgrade> {
         &self.upgrades
     }
@@ -117,14 +112,13 @@ module act::cosmetic {
     public(package) fun new(
         name: String,
         image_url: String,
-        image_hash: String,
         model_url: String,
+        texture_url: String,
         `type`: String, 
         colour_way: String,
         edition: String,
         manufacturer: String,
         rarity: String,
-        hash: String,
         wear_rating: u64, // [0,1] scaled to 1B
         ctx: &mut TxContext
     ): Cosmetic {
@@ -132,14 +126,13 @@ module act::cosmetic {
             id: object::new(ctx),
             name,
             image_url,
-            image_hash,
             model_url,
+            texture_url,
             `type`,
             colour_way,
             edition,
             manufacturer,
             rarity,
-            hash,
             wear_rating,
             upgrades: vector[]
         }   

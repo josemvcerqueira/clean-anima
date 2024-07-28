@@ -74,14 +74,13 @@ module act::weapon_tests {
 
         assert_eq(weapon.name(), b"warglaive of azzinoth".to_string());
         assert_eq(weapon.image_url(), b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string());
-        assert_eq(weapon.image_hash(), b"image_hash".to_string());
         assert_eq(weapon.model_url(), b"dual wield sword".to_string());
+        assert_eq(weapon.texture_url(), b"texture".to_string());
         assert_eq(weapon.slot(), b"slot1".to_string());
         assert_eq(weapon.colour_way(), b"green".to_string());
         assert_eq(weapon.edition(), b"soulbound".to_string());
         assert_eq(weapon.manufacturer(), b"Illidan Stormrage".to_string());
         assert_eq(weapon.rarity(), b"legendary".to_string());
-        assert_eq(weapon.hash(), b"hash".to_string());
         assert_eq(weapon.wear_rating(), 100);
 
         destroy(weapon);
@@ -296,14 +295,13 @@ module act::weapon_tests {
         weapon::new(
             b"warglaive of azzinoth".to_string(),
             b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string(),
-            b"image_hash".to_string(),
             b"dual wield sword".to_string(),
+            b"texture".to_string(),
             b"slot1".to_string(),
             b"green".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),
             b"legendary".to_string(),
-            b"hash".to_string(),
             100,
             ctx
         )

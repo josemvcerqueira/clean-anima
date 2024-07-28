@@ -313,14 +313,13 @@ module act::avatar_tests {
         weapon::new(
             b"warglaive of azzinoth".to_string(),
             b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string(),
-            b"image_hash".to_string(),
             b"dual wield sword".to_string(),
+            b"texture".to_string(),
             attributes::primary(),
             b"green".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),
             b"legendary".to_string(),
-            b"hash".to_string(),
             100,
             ctx
         )
@@ -330,14 +329,13 @@ module act::avatar_tests {
         cosmetic::new(
             b"cursed vision of sargeras".to_string(),
             b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
-            b"image_hash".to_string(),
             b"head".to_string(),
+            b"texture".to_string(),
             attributes::helm(),
             b"red".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),
             b"epic".to_string(),
-            b"hash".to_string(),
             95,
             ctx
         )

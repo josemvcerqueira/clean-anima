@@ -22,6 +22,7 @@ module act::genesis_shop {
     use act::{
         attributes,
         assets,
+        uris,
     };
 
     const EBuilderNotEmpty: u64 = 1;
@@ -57,7 +58,10 @@ module act::genesis_shop {
         equipment: String,
         colour_way: String,
         manufacturer: String,
-        rarity: String
+        rarity: String,
+        image_url: String,
+        model_url: String,
+        texture_url: String,
     }
 
     // === Method Aliases ===
@@ -482,12 +486,31 @@ module act::genesis_shop {
             colour = builder.colour_ways[len];
         };
 
+        let (image_url, model_url, texture_url) = if (builder.equipment == attributes::primary() || builder.equipment == attributes::secondary() || builder.equipment == attributes::tertiary()) {
+            uris::get_weapon(name)
+        } else if (builder.equipment == attributes::helm()) {
+            uris::get_helm(name, colour)
+        } else if (builder.equipment == attributes::chestpiece()) {
+            uris::get_chestpiece(name, colour)
+        } else if (builder.equipment == attributes::left_pauldron()) {
+            uris::get_left_pauldron(name, colour)
+        } else if (builder.equipment == attributes::right_pauldron()) {
+            uris::get_right_pauldron(name, colour)
+        } else if (builder.equipment == attributes::left_bracer()) {
+            uris::get_left_bracer(name, colour)
+        } else if (builder.equipment == attributes::right_bracer()) {
+            uris::get_right_bracer(name, colour)
+        } else { uris::get_other(name, builder.equipment.into_bytes(), colour) };
+
         let item = Item {
             name: name.to_string(),
             equipment: builder.equipment,
             colour_way: colour.to_string(),
             manufacturer: manufacturer.to_string(),
-            rarity: rarity.to_string()
+            rarity: rarity.to_string(),
+            image_url: image_url.to_string(),
+            model_url: model_url.to_string(),
+            texture_url: texture_url.to_string()
         };
 
         genesis_shop.items.borrow_mut(builder.equipment).push_back(item);
@@ -547,9 +570,9 @@ module act::genesis_shop {
         self.items.length() == 18 // 19 equipments - backpiece
     }
 
-    public(package) fun unpack(item: Item): (String, String, String, String, String) {
-        let Item { name, equipment, colour_way, manufacturer, rarity } = item;
-        (name, equipment, colour_way, manufacturer, rarity)
+    public(package) fun unpack(item: Item): (String, String, String, String, String, String, String, String) {
+        let Item { name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url } = item;
+        (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url)
     }
 
     // === Private Functions ===

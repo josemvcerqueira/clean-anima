@@ -74,14 +74,13 @@ module act::cosmetic_tests {
 
         assert_eq(cosmetic.name(), b"cursed vision of sargeras".to_string());
         assert_eq(cosmetic.image_url(), b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string());
-        assert_eq(cosmetic.image_hash(), b"image_hash".to_string());
         assert_eq(cosmetic.model_url(), b"head".to_string());
+        assert_eq(cosmetic.texture_url(), b"texture".to_string());
         assert_eq(cosmetic.type_(), b"leather".to_string());
         assert_eq(cosmetic.colour_way(), b"red".to_string());
         assert_eq(cosmetic.edition(), b"soulbound".to_string());
         assert_eq(cosmetic.manufacturer(), b"Illidan Stormrage".to_string());
         assert_eq(cosmetic.rarity(), b"epic".to_string());
-        assert_eq(cosmetic.hash(), b"hash".to_string());
         assert_eq(cosmetic.wear_rating(), 95);
 
         destroy(cosmetic);
@@ -296,14 +295,13 @@ module act::cosmetic_tests {
         cosmetic::new(
             b"cursed vision of sargeras".to_string(),
             b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
-            b"image_hash".to_string(),
             b"head".to_string(),
+            b"texture".to_string(),
             b"leather".to_string(),
             b"red".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),
             b"epic".to_string(),
-            b"hash".to_string(),
             95,
             ctx
         )

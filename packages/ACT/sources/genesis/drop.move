@@ -68,8 +68,8 @@ module act::genesis_drop {
         drop: vector<Item>,
         // following fields are to be added between mint_to_ticket and mint_to_avatar
         image_url: String, 
-        image_hash: String,
         model_url: String, 
+        texture_url: String,
     }
 
     // === Public mutative Functions ===
@@ -114,20 +114,19 @@ module act::genesis_drop {
 
                 let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
                 let item = items.swap_remove(index);
-                let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
+                let (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
                 if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                     let cosmetic = cosmetic::new(
                         name,
-                        utf8(b""),
-                        utf8(b""),
-                        utf8(b""),
+                        image_url,
+                        model_url,
+                        texture_url,
                         equipment,
                         colour_way,
                         utf8(b"Genesis"),
                         manufacturer,
                         rarity,
-                        utf8(b""),
                         gen.generate_u64_in_range(0, WEAR_RATING_MAX),
                         ctx
                     );
@@ -135,15 +134,14 @@ module act::genesis_drop {
                 } else {
                     let weapon = weapon::new(
                         name,
-                        utf8(b""),
-                        utf8(b""),
-                        utf8(b""),
+                        image_url,
+                        model_url,
+                        texture_url,
                         equipment,
                         colour_way,
                         utf8(b"Genesis"),
                         manufacturer,
                         rarity,
-                        utf8(b""),
                         gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
                         ctx
                     );
@@ -187,8 +185,8 @@ module act::genesis_drop {
                 id: object::new(ctx),
                 drop: drop,
                 image_url: utf8(b"TODO"),
-                image_hash: utf8(b"TODO"),
                 model_url: utf8(b"TODO"),
+                texture_url: utf8(b"TODO"),
             },
             ctx.sender() 
         );
@@ -202,28 +200,27 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         assert_valid_ticket(&ticket);
-        let AvatarTicket { id, mut drop, image_url, image_hash, model_url } = ticket;
+        let AvatarTicket { id, mut drop, image_url, model_url, texture_url } = ticket;
         id.delete();
         // TODO: set avatar_url avatar_hash
-        let mut avatar = avatar::new(registry, image_url, image_hash, model_url, utf8(b""), utf8(b""), utf8(b"Genesis"), ctx);
+        let mut avatar = avatar::new(registry, image_url, model_url, texture_url, utf8(b""), utf8(b""), utf8(b"Genesis"), ctx);
         let mut gen = random.new_generator(ctx);
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
-            let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
+            let (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
             if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                 let cosmetic = cosmetic::new(
                     name,
-                    utf8(b""),
-                    utf8(b""),
-                    utf8(b""),
+                    image_url,
+                    model_url,
+                    texture_url,
                     equipment,
                     colour_way,
                     utf8(b"Genesis"),
                     manufacturer,
                     rarity,
-                    utf8(b""),
                     gen.generate_u64_in_range(0, WEAR_RATING_MAX),
                     ctx
                 );
@@ -231,15 +228,14 @@ module act::genesis_drop {
             } else {
                 let weapon = weapon::new(
                     name,
-                    utf8(b""),
-                    utf8(b""),
-                    utf8(b""),
+                    image_url,
+                    model_url,
+                    texture_url,
                     equipment,
                     colour_way,
                     utf8(b"Genesis"),
                     manufacturer,
                     rarity,
-                    utf8(b""),
                     gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
                     ctx
                 );
@@ -361,8 +357,8 @@ module act::genesis_drop {
     fun assert_valid_ticket(ticket: &AvatarTicket) {
         assert!(
             !ticket.image_url.is_empty() &&
-            !ticket.image_hash.is_empty() &&
-            !ticket.model_url.is_empty(),
+            !ticket.model_url.is_empty() &&
+            !ticket.texture_url.is_empty(),
             EInvalidTicket
         );
     }
@@ -418,8 +414,8 @@ module act::genesis_drop {
             id: object::new(ctx),
             drop: vector[],
             image_url: b"".to_string(),
-            image_hash: b"".to_string(),
             model_url: b"".to_string(),
+            texture_url: b"".to_string(),
         }
     }
 }
