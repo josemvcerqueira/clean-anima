@@ -202,8 +202,8 @@ module act::genesis_drop {
         assert_valid_ticket(&ticket);
         let AvatarTicket { id, mut drop, image_url, model_url, texture_url } = ticket;
         id.delete();
-        // TODO: set avatar_url avatar_hash
-        let mut avatar = avatar::new(registry, image_url, model_url, texture_url, utf8(b""), utf8(b""), utf8(b"Genesis"), ctx);
+        let mut avatar = avatar::new(registry, image_url, model_url, ctx);
+        avatar.set_genesis_edition();
         let mut gen = random.new_generator(ctx);
 
         while (!drop.is_empty()) {

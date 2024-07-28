@@ -924,10 +924,6 @@ module act::genesis_drop_tests {
             &mut avatar_registry, 
             b"image_url".to_string(),
             b"image_hash".to_string(),
-            b"model_url".to_string(),
-            b"avatar_url".to_string(),
-            b"avatar_hash".to_string(),
-            b"edition".to_string(),
             scenario.ctx()
         );
 

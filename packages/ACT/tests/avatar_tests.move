@@ -65,10 +65,7 @@ module act::avatar_tests {
 
         assert_eq(avatar.image_url(), b"avatar_image.png".to_string());
         assert_eq(avatar.image_hash(), b"avatar_image_hash".to_string());
-        assert_eq(avatar.model_url(), b"avatar_model".to_string());
-        assert_eq(avatar.avatar_url(), b"avatar_url".to_string());
-        assert_eq(avatar.avatar_hash(), b"avatar_hash".to_string());
-        assert_eq(avatar.edition(), b"avatar_edition".to_string());
+        assert_eq(avatar.edition(), b"Standard".to_string());
         //@ dev 16 cosmetics + 3 weapons
         assert_eq(avatar.attributes().size(), 20);
         assert_eq(avatar.attributes().keys(), attributes::new().keys());
@@ -301,10 +298,6 @@ module act::avatar_tests {
             registry,
             b"avatar_image.png".to_string(),
             b"avatar_image_hash".to_string(),
-            b"avatar_model".to_string(),
-            b"avatar_url".to_string(),
-            b"avatar_hash".to_string(),
-            b"avatar_edition".to_string(),
             ctx
         )
     }

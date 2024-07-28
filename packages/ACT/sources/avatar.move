@@ -71,9 +71,9 @@ module act::avatar {
         id: UID,
         image_url: String,
         image_hash: String,
-        model_url: String,
-        avatar_url: String,
-        avatar_hash: String,
+        avatar_image: String,
+        avatar_model: String,
+        avatar_texture: String,
         edition: String,
         upgrades: vector<Upgrade>,
         attributes: VecMap<String, String>
@@ -121,10 +121,6 @@ module act::avatar {
         registry: &mut AvatarRegistry, 
         image_url: String,
         image_hash: String,
-        model_url: String,
-        avatar_url: String,
-        avatar_hash: String,
-        edition: String,
         ctx: &mut TxContext
     ): Avatar {
         // One Avatar per user
@@ -134,10 +130,10 @@ module act::avatar {
             id: object::new(ctx),
             image_url,
             image_hash,
-            model_url,
-            avatar_url,
-            avatar_hash,
-            edition,
+            avatar_image: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
+            avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
+            avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
+            edition: b"Standard".to_string(),
             upgrades: vector[],
             attributes: attributes::new(),
         };
@@ -265,16 +261,16 @@ module act::avatar {
         self.image_hash
     }
 
-    public fun model_url(self: &Avatar): String {
-        self.model_url
+    public fun avatar_image(self: &Avatar): String {
+        self.avatar_image
     }    
 
-    public fun avatar_url(self: &Avatar): String {
-        self.avatar_url
+    public fun avatar_model(self: &Avatar): String {
+        self.avatar_model
     }    
 
-    public fun avatar_hash(self: &Avatar): String {
-        self.avatar_hash
+    public fun avatar_texture(self: &Avatar): String {
+        self.avatar_texture
     }    
 
     public fun edition(self: &Avatar): String {
@@ -347,6 +343,10 @@ module act::avatar {
 
     public(package) fun transfer(self: Avatar, recipient: address) {
         transfer::transfer(self, recipient);
+    }
+
+    public(package) fun set_genesis_edition(self: &mut Avatar) {
+        self.edition = b"Genesis".to_string();
     }
 
     // === Test Functions === 
