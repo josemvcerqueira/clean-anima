@@ -162,10 +162,12 @@ module act::weapon {
         cap: &KioskOwnerCap,         
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext,
-    ): String {
-        let name = kiosk.borrow<Weapon>(cap, weapon_id).name;
+    ): (String, String) {
+        let weapon = kiosk.borrow<Weapon>(cap, weapon_id);
+        let name = weapon.name;
+        let slot = weapon.slot;
         item::equip(uid_mut, key, weapon_id, kiosk, cap, policy, Equip {}, ctx);
-        name
+        (name, slot)
     }
 
     public(package) fun unequip<Key: store + copy + drop>(

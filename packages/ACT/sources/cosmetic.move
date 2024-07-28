@@ -153,10 +153,12 @@ module act::cosmetic {
         cap: &KioskOwnerCap,         
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext,
-    ): String {
-        let name = kiosk.borrow<Cosmetic>(cap, cosmetic_id).name;
+    ): (String, String) {
+        let cosmetic = kiosk.borrow<Cosmetic>(cap, cosmetic_id);
+        let name = cosmetic.name;
+        let type_ = cosmetic.`type`;
         item::equip(uid_mut, key, cosmetic_id, kiosk, cap, policy, Equip {}, ctx);
-        name
+        (name, type_)
     }
 
     public(package) fun unequip<Key: store + copy + drop>(
