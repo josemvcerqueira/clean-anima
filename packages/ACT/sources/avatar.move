@@ -25,10 +25,12 @@ module act::avatar {
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
     };
-    use animalib::access_control::{Admin, AccessControl};
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
     use act::{
         attributes,
-        admin,
         upgrade::{Self, Upgrade},
         weapon::{Self, Weapon}, 
         cosmetic::{Self, Cosmetic}

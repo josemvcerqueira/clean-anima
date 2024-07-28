@@ -1,33 +1,33 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, Vector, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== BCS =============================== */
 
-export function isBCS(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::bcs::BCS`; }
+export function isBCS(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::bcs::BCS`; }
 
 export interface BCSFields { bytes: ToField<Vector<"u8">> }
 
 export type BCSReified = Reified< BCS, BCSFields >;
 
-export class BCS implements StructClass { static readonly $typeName = `${PKG_V20}::bcs::BCS`; static readonly $numTypeParams = 0;
+export class BCS implements StructClass { static readonly $typeName = `${PKG_V21}::bcs::BCS`; static readonly $numTypeParams = 0;
 
  readonly $typeName = BCS.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::bcs::BCS`;
+ readonly $fullTypeName: `${typeof PKG_V21}::bcs::BCS`;
 
  readonly $typeArgs: [];
 
  readonly bytes: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: BCSFields, ) { this.$fullTypeName = composeSuiType( BCS.$typeName, ...typeArgs ) as `${typeof PKG_V20}::bcs::BCS`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: BCSFields, ) { this.$fullTypeName = composeSuiType( BCS.$typeName, ...typeArgs ) as `${typeof PKG_V21}::bcs::BCS`; this.$typeArgs = typeArgs;
 
  this.bytes = fields.bytes; }
 
- static reified( ): BCSReified { return { typeName: BCS.$typeName, fullTypeName: composeSuiType( BCS.$typeName, ...[] ) as `${typeof PKG_V20}::bcs::BCS`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => BCS.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => BCS.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => BCS.fromBcs( data, ), bcs: BCS.bcs, fromJSONField: (field: any) => BCS.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => BCS.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => BCS.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => BCS.fetch( client, id, ), new: ( fields: BCSFields, ) => { return new BCS( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): BCSReified { return { typeName: BCS.$typeName, fullTypeName: composeSuiType( BCS.$typeName, ...[] ) as `${typeof PKG_V21}::bcs::BCS`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => BCS.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => BCS.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => BCS.fromBcs( data, ), bcs: BCS.bcs, fromJSONField: (field: any) => BCS.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => BCS.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => BCS.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => BCS.fetch( client, id, ), new: ( fields: BCSFields, ) => { return new BCS( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return BCS.reified() }
 

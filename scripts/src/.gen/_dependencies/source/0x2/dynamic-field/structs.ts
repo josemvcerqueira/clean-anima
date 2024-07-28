@@ -1,33 +1,33 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {UID} from "../object/structs";
 import {BcsType, bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== Field =============================== */
 
-export function isField(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V20}::dynamic_field::Field` + '<'); }
+export function isField(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V21}::dynamic_field::Field` + '<'); }
 
 export interface FieldFields<Name extends TypeArgument, Value extends TypeArgument> { id: ToField<UID>; name: ToField<Name>; value: ToField<Value> }
 
 export type FieldReified<Name extends TypeArgument, Value extends TypeArgument> = Reified< Field<Name, Value>, FieldFields<Name, Value> >;
 
-export class Field<Name extends TypeArgument, Value extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V20}::dynamic_field::Field`; static readonly $numTypeParams = 2;
+export class Field<Name extends TypeArgument, Value extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V21}::dynamic_field::Field`; static readonly $numTypeParams = 2;
 
  readonly $typeName = Field.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::dynamic_field::Field<${ToTypeStr<Name>}, ${ToTypeStr<Value>}>`;
+ readonly $fullTypeName: `${typeof PKG_V21}::dynamic_field::Field<${ToTypeStr<Name>}, ${ToTypeStr<Value>}>`;
 
  readonly $typeArgs: [ToTypeStr<Name>, ToTypeStr<Value>];
 
  readonly id: ToField<UID>; readonly name: ToField<Name>; readonly value: ToField<Value>
 
- private constructor(typeArgs: [ToTypeStr<Name>, ToTypeStr<Value>], fields: FieldFields<Name, Value>, ) { this.$fullTypeName = composeSuiType( Field.$typeName, ...typeArgs ) as `${typeof PKG_V20}::dynamic_field::Field<${ToTypeStr<Name>}, ${ToTypeStr<Value>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<Name>, ToTypeStr<Value>], fields: FieldFields<Name, Value>, ) { this.$fullTypeName = composeSuiType( Field.$typeName, ...typeArgs ) as `${typeof PKG_V21}::dynamic_field::Field<${ToTypeStr<Name>}, ${ToTypeStr<Value>}>`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.name = fields.name;; this.value = fields.value; }
 
- static reified<Name extends Reified<TypeArgument, any>, Value extends Reified<TypeArgument, any>>( Name: Name, Value: Value ): FieldReified<ToTypeArgument<Name>, ToTypeArgument<Value>> { return { typeName: Field.$typeName, fullTypeName: composeSuiType( Field.$typeName, ...[extractType(Name), extractType(Value)] ) as `${typeof PKG_V20}::dynamic_field::Field<${ToTypeStr<ToTypeArgument<Name>>}, ${ToTypeStr<ToTypeArgument<Value>>}>`, typeArgs: [ extractType(Name), extractType(Value) ] as [ToTypeStr<ToTypeArgument<Name>>, ToTypeStr<ToTypeArgument<Value>>], reifiedTypeArgs: [Name, Value], fromFields: (fields: Record<string, any>) => Field.fromFields( [Name, Value], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Field.fromFieldsWithTypes( [Name, Value], item, ), fromBcs: (data: Uint8Array) => Field.fromBcs( [Name, Value], data, ), bcs: Field.bcs(toBcs(Name), toBcs(Value)), fromJSONField: (field: any) => Field.fromJSONField( [Name, Value], field, ), fromJSON: (json: Record<string, any>) => Field.fromJSON( [Name, Value], json, ), fromSuiParsedData: (content: SuiParsedData) => Field.fromSuiParsedData( [Name, Value], content, ), fetch: async (client: SuiClient, id: string) => Field.fetch( client, [Name, Value], id, ), new: ( fields: FieldFields<ToTypeArgument<Name>, ToTypeArgument<Value>>, ) => { return new Field( [extractType(Name), extractType(Value)], fields ) }, kind: "StructClassReified", } }
+ static reified<Name extends Reified<TypeArgument, any>, Value extends Reified<TypeArgument, any>>( Name: Name, Value: Value ): FieldReified<ToTypeArgument<Name>, ToTypeArgument<Value>> { return { typeName: Field.$typeName, fullTypeName: composeSuiType( Field.$typeName, ...[extractType(Name), extractType(Value)] ) as `${typeof PKG_V21}::dynamic_field::Field<${ToTypeStr<ToTypeArgument<Name>>}, ${ToTypeStr<ToTypeArgument<Value>>}>`, typeArgs: [ extractType(Name), extractType(Value) ] as [ToTypeStr<ToTypeArgument<Name>>, ToTypeStr<ToTypeArgument<Value>>], reifiedTypeArgs: [Name, Value], fromFields: (fields: Record<string, any>) => Field.fromFields( [Name, Value], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Field.fromFieldsWithTypes( [Name, Value], item, ), fromBcs: (data: Uint8Array) => Field.fromBcs( [Name, Value], data, ), bcs: Field.bcs(toBcs(Name), toBcs(Value)), fromJSONField: (field: any) => Field.fromJSONField( [Name, Value], field, ), fromJSON: (json: Record<string, any>) => Field.fromJSON( [Name, Value], json, ), fromSuiParsedData: (content: SuiParsedData) => Field.fromSuiParsedData( [Name, Value], content, ), fetch: async (client: SuiClient, id: string) => Field.fetch( client, [Name, Value], id, ), new: ( fields: FieldFields<ToTypeArgument<Name>, ToTypeArgument<Value>>, ) => { return new Field( [extractType(Name), extractType(Value)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Field.reified }
 

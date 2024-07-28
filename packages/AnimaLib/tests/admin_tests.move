@@ -1,13 +1,10 @@
-module anima::admin_tests {
-    
+module animalib::admin_tests {
     use sui::{
         test_utils::{assert_eq, destroy},
         test_scenario::{Self as ts, Scenario}
     };
-
     use animalib::access_control::{Admin, AccessControl};
-
-    use anima::admin;
+    use animalib::admin;
 
     const OWNER: address = @0xBABE;
     const ACCOLADES_ROLE: vector<u8> = b"ACCOLADES_ROLE";

@@ -30,7 +30,6 @@ module act::cosmetic_tests {
 
     public struct World {
         scenario: Scenario,
-        admin: Admin,
         super_admin: Admin,
         kiosk: Kiosk,
         kiosk_cap: KioskOwnerCap,
@@ -97,7 +96,7 @@ module act::cosmetic_tests {
 
         assert_eq(cosmetic.upgrades().length(), 0);
 
-        cosmetic.upgrade(&world.access_control, &world.admin, b"upgrade.png".to_string());
+        cosmetic.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
 
         assert_eq(cosmetic.upgrades().length(), 1);
         assert_eq(cosmetic.upgrades()[0].url(), b"upgrade.png".to_string());
@@ -267,7 +266,7 @@ module act::cosmetic_tests {
 
         scenario.next_tx(OWNER);
 
-        let (access_control, super_admin, admin) = set_up_admins(&mut scenario);
+        let (access_control, super_admin) = set_up_admins(&mut scenario);
 
         let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
 
@@ -289,8 +288,7 @@ module act::cosmetic_tests {
             trade_transfer_policy,
             equip_transfer_policy,
             access_control,
-            super_admin,
-            admin
+            super_admin
         }
     }
 

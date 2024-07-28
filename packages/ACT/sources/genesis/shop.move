@@ -15,373 +15,46 @@ module act::genesis_shop {
         table_vec::{Self, TableVec},
         table::{Self, Table},
     };
-    use animalib::access_control::{Admin, AccessControl};
-    use act::{
+    use animalib::{
+        access_control::{Admin, AccessControl},
         admin,
-        attributes,
     };
+    use act::{
+        attributes,
+        assets,
+    };
+
+    const EBuilderNotEmpty: u64 = 1;
 
     // === Constants ===
 
-    const GENISIS_AMOUNT: u64 = 6_000;
-    const COSMETIC_SET_SIZE: u64 = 8;
-    const PRECISION: u64 = 10000;
-
-    // Rarities
-    const COSMETICS_RARITIES: vector<vector<u8>> = vector[
-        b"Ultra Rare",
-        b"Mythic",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-    ];
-    const PRIMARY_RARITIES: vector<vector<u8>> = vector[
-        b"Ultra Rare",
-        b"Mythic",
-        b"Ultra Rare",
-        b"Mythic",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Mythic",
-    ];
-    const SECONDARY_RARITIES: vector<vector<vector<u8>>> = vector[
-        vector[
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Mythic",
-        ],
-        vector[
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-            b"Ultra Rare",
-        ],
-    ];
-    const TERTIARY_RARITIES: vector<vector<u8>> = vector[
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Mythic",
-    ];
-
-    // Coloour ways
-    const COSMETICS_COLOUR_WAY: vector<vector<u8>> = vector[
-        b"Vesper",
-        b"Hikari",
-        b"Volt",
-        b"Blood Ivory",
-        b"Red Damascus",
-        b"Forest",
-        b"Dusk",
-        b"Viceroy"
-    ];
-    const SECONDARY_COLOUR_WAY: vector<vector<vector<u8>>> = vector[
-        vector[
-            b"Vesper",
-            b"Hikari",
-            b"Volt",
-            b"Blood Ivory",
-            b"Red Damascus",
-            b"Forest",
-            b"Dusk",
-            b"JK's"
-        ],
-        vector[
-            b"Vesper",
-            b"Hikari",
-            b"Volt",
-            b"Blood Ivory",
-            b"Red Damascus",
-            b"Forest",
-            b"Dusk",
-            b"Viceroy"
-        ]
-    ];
-    const TERTIARY_COLOUR_WAY: vector<vector<u8>> = vector[
-        b"K1TSUN3",
-        b"Volt",
-        b"Viceroy",
-        b"Future",
-    ];
-
-    // Names
-    const BIODOME: vector<u8> = b"Biodome";
-    const SK_VIPER: vector<u8> = b"SK-Viper";
-    const FANG_MK_IV: vector<u8> = b"Fang MK IV";
-    const SCOUT: vector<u8> = b"Scout";
-    const SPECTRE_09: vector<u8> = b"Spectre-09";
-    const HELIOS: vector<u8> = b"Helios";
-    const JUGGERNAUT: vector<u8> = b"Juggernaut";
-    const BAHA_2000: vector<u8> = b"Baha-2000";
-    const NEO_SHOGUNATE: vector<u8> = b"Neo-Shogunate";
-
-    const TALON: vector<u8> = b"Talon";
-    const RENEGADE: vector<u8> = b"Renegade";
-    const RAPTOR: vector<u8> = b"Raptor";
-    const VALENTINE_12: vector<u8> = b"Valenti 12";
-    const ENFORCER: vector<u8> = b"Enforcer";
-    const WHISPER_9MM: vector<u8> = b"Whisper 9mm";
-    const WAKIZASHI: vector<u8> = b"Wakizashi";
-    const KARAMBIT: vector<u8> = b"Karambit";
-    const SCALPER: vector<u8> = b"Scalper";
-    const NEO_KATANA: vector<u8> = b"Neo-Katana";
-
-    // Manufacturers
-    const ASTRAL: vector<u8> = b"Astral Exploration Technologies";
-    const OBSIDIAN: vector<u8> = b"Obsidian Dynamics";
-    const EXO: vector<u8> = b"ExoTech Solutions";
-    const STRATO: vector<u8> = b"StratoTech Industries";
-    const PHALANX: vector<u8> = b"Phalanx Defence Corp";
-    const ZENITH: vector<u8> = b"Zenith Aerospace";
-    const OMEGA: vector<u8> = b"Omega Tactical Systems";
-    const ROOTS: vector<u8> = b"Roots Robotics";
-
-    const FENRIR: vector<u8> = b"Fenrir Arms";
-    const VOLOSLAV: vector<u8> = b"Voloslav Industrial";
-    const AEGIS: vector<u8> = b"Aegis Tactical";
-    const VALENTI: vector<u8> = b"Valenti";
-    const LIBERTY: vector<u8> = b"Liberty Arms Corporation";
-    const PRECISIONE: vector<u8> = b"Precisione Milano";
-    const RYUJIN: vector<u8> = b"Ryujin Industrial";
-    const KAGE: vector<u8> = b"Kage Blade Foundry";
-    const ECLIPSE: vector<u8> = b"Eclipse Steel Forging LTD";
-    const HYPERBLADE: vector<u8> = b"\xe3\x83\x8f\xe3\x82\xa4\xe3\x83\x91\xe3\x83\xbc\xe3\x83\x96\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x89 CORPORATION";
-
-    // Helms
-    const HELM_NAMES: vector<vector<u8>> = vector[
-        BIODOME,
-        SK_VIPER,
-        FANG_MK_IV,
-        SCOUT,
-        SPECTRE_09,
-        HELIOS,
-        JUGGERNAUT,
-        BAHA_2000
-    ];
-    const HELM_BASE_CHANCES: vector<u64> = vector[200, 100, 150, 125, 150, 200, 200, 125];
-    const HELM_CHANCES: vector<vector<u64>> = vector[
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES, 
-        HELM_BASE_CHANCES
-    ];
-    const HELM_MANUFACTURERS: vector<vector<u8>> = vector[
-        ASTRAL,
-        OBSIDIAN,
-        EXO,
-        STRATO,
-        PHALANX,
-        ZENITH,
-        OMEGA,
-        ROOTS
-    ];
-
-    // Upper torso
-    const UPPER_TORSO_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-    ];
-    const UPPER_TORSO_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const UPPER_TORSO_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-
-    // Chestpiece
-    const CHESTPIECE_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-        HELIOS,
-        NEO_SHOGUNATE
-    ];
-    const CHESTPIECE_CHANCES: vector<vector<u64>> = vector[
-        vector[800, 200, 400, 300, 400, 800, 800, 300],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200]
-    ];
-    const CHESTPIECE_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-        ZENITH,
-        OBSIDIAN
-    ];
-
-    // Arm
-    const ARM_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const ARM_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-    ];
-    const ARM_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-
-    // BRACER
-    const BRACER_CHANCES: vector<vector<u64>> = vector[
-        vector[800, 200, 400, 300, 400, 800, 800, 300],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200]
-    ];
-    const BRACER_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-        HELIOS,
-        NEO_SHOGUNATE
-    ];
-    const BRACER_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-        ZENITH,
-        OBSIDIAN
-    ];
-
-    // Glove
-    const GLOVE_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const GLOVE_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-    ];
-    const GLOVE_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-    
-    // Pauldron
-    const PAULDRON_CHANCES: vector<vector<u64>> = vector[
-        vector[800, 200, 400, 300, 400, 800, 800, 300],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200]
-    ];
-    const PAULDRON_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV,
-        HELIOS,
-        NEO_SHOGUNATE
-    ];
-    const PAULDRON_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-        ZENITH,
-        OBSIDIAN
-    ];
-
-    // Legs
-    const LEGS_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const LEGS_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV
-    ];
-    const LEGS_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-
-    // Accessory
-    const ACCESSORY_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const ACCESSORY_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV
-    ];
-    const ACCESSORY_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];  
-
-    // Shins
-    const SHINS_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const SHINS_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV
-    ];
-    const SHINS_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];
-
-    // Boots
-    const BOOTS_CHANCES: vector<vector<u64>> = vector[
-        vector[2000, 500, 950, 800, 950, 2000, 2000, 800]
-    ];
-    const BOOTS_NAMES: vector<vector<u8>> = vector[
-        FANG_MK_IV
-    ];
-    const BOOTS_MANUFACTURERS: vector<vector<u8>> = vector[
-        EXO,
-    ];    
-
-
-    // Primary Weapon
-    const PRIMARY_CHANCES: vector<vector<u64>> = vector[
-        vector[365, 260, 365, 260, 365, 365, 365, 260],
-        vector[309, 220, 309, 220, 309, 309, 309, 220],
-        vector[364, 260, 364, 260, 364, 364, 364, 260],
-        vector[364, 260, 364, 260, 364, 364, 364, 260],
-    ];
-    const PRIMARY_NAMES: vector<vector<u8>> = vector[
-        TALON,
-        RENEGADE,
-        RAPTOR,
-        VALENTINE_12,
-    ];
-    const PRIMARY_MANUFACTURERS: vector<vector<u8>> = vector[
-        FENRIR,
-        VOLOSLAV,
-        AEGIS,
-        VALENTI,
-    ];  
-
-    // Secondary Weapon
-    const SECONDARY_CHANCES: vector<vector<u64>> = vector[
-        vector[500, 500, 500, 400, 500, 500, 500, 200],
-        vector[800, 800, 800, 800, 800, 800, 800, 800],
-    ];
-    const SECONDARY_NAMES: vector<vector<u8>> = vector[
-        ENFORCER,
-        WHISPER_9MM,
-    ];
-    const SECONDARY_MANUFACTURERS: vector<vector<u8>> = vector[
-        LIBERTY,
-        PRECISIONE
-    ];  
-
-    // Tertiary Weapon
-    const TERTIARY_CHANCES: vector<u64> = vector[2500, 2500, 4000, 1000];
-    const TERTIARY_NAMES: vector<vector<u8>> = vector[
-        WAKIZASHI,
-        KARAMBIT,
-        SCALPER,
-        NEO_KATANA,
-    ];
-    const TERTIARY_MANUFACTURERS: vector<vector<u8>> = vector[
-        RYUJIN,
-        KAGE,
-        ECLIPSE,
-        HYPERBLADE
-    ];  
+    const GENESIS_AMOUNT: u64 = 3000;
+    const PRECISION: u64 = 10000; 
 
     // === Structs ===
 
+    // temporary shared object to build the shops
+    public struct Builder has key {
+        id: UID,
+        equipment: String,
+        // each of those are popped when chances_len reach 0
+        names: vector<vector<u8>>,
+        colour_ways: vector<vector<u8>>,
+        manufacturers: vector<vector<u8>>,
+        rarities: vector<vector<u8>>,
+        // never modified because used for each name 
+        quantities: vector<vector<u64>>
+    }
+
     public struct GenesisShop has key {
         id: UID,
+        // equipment -> Item 
         items: Table<String, TableVec<Item>>
     }
 
     public struct Item has store, copy, drop {
         name: String,
-        kinds: vector<String>,
-        is_cosmetic: bool,
+        equipment: String,
         colour_way: String,
         manufacturer: String,
         rarity: String
@@ -400,41 +73,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin, 
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            HELM_NAMES, 
-            vector[attributes::helm()],
-            COSMETICS_COLOUR_WAY,
-            HELM_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            HELM_CHANCES, 
+        genesis_shop.items.add( attributes::helm(), table_vec::empty(ctx));
+
+        new_builder(
+            attributes::helm(),
+            assets::helm_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::helm_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::helm_chances(), 
+            GENESIS_AMOUNT,
             ctx
-        );
-
-        table::add(&mut genesis_shop.items, attributes::helm(), items);
-    }
-
-    public fun add_chestpiece(
-        genesis_shop: &mut GenesisShop,
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        ctx: &mut TxContext
-    ) {
-        admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            CHESTPIECE_NAMES, 
-            vector[attributes::chestpiece()],
-            COSMETICS_COLOUR_WAY,
-            CHESTPIECE_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            CHESTPIECE_CHANCES,
-            ctx
-        );
-
-        table::add(&mut genesis_shop.items, attributes::chestpiece(), items);
+        )
     }
 
     public fun add_upper_torso(
@@ -442,41 +94,64 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin, 
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            UPPER_TORSO_NAMES, 
-            vector[attributes::upper_torso()],
-            COSMETICS_COLOUR_WAY,
-            UPPER_TORSO_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            UPPER_TORSO_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add( attributes::upper_torso(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::upper_torso(), items);
+        new_builder(
+            attributes::upper_torso(),
+            assets::upper_torso_names(), 
+            vector[b"Obsidian"],
+            assets::upper_torso_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::upper_torso_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
+
+    public fun add_chestpiece(
+        genesis_shop: &mut GenesisShop,
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        ctx: &mut TxContext
+    ): Builder {
+        admin::assert_genesis_minter_role(access_control, admin);
+        genesis_shop.items.add(attributes::chestpiece(), table_vec::empty(ctx));
+
+        new_builder(
+            attributes::chestpiece(),
+            assets::chestpiece_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::chestpiece_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::chestpiece_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
+    }
+
+    // backpiece has no nft atm
 
     public fun add_left_arm(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,        
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            ARM_NAMES, 
-            vector[attributes::left_arm()],
-            COSMETICS_COLOUR_WAY,
-            ARM_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            ARM_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add( attributes::left_arm(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::left_arm(), items);
+        new_builder(
+            attributes::left_arm(),
+            assets::arm_names(), 
+            vector[b"Obsidian"],
+            assets::arm_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::arm_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_right_arm(
@@ -484,20 +159,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,        
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            ARM_NAMES, 
-            vector[attributes::right_arm()],
-            COSMETICS_COLOUR_WAY,
-            ARM_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            ARM_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add( attributes::right_arm(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::right_arm(), items);
+        new_builder(
+            attributes::right_arm(),
+            assets::arm_names(), 
+            vector[b"Obsidian"],
+            assets::arm_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::arm_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_left_bracer(
@@ -505,20 +180,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            BRACER_NAMES, 
-            vector[attributes::left_bracer()],
-            COSMETICS_COLOUR_WAY,
-            BRACER_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            BRACER_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::left_bracer(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::left_bracer(), items);
+        new_builder(
+            attributes::left_bracer(),
+            assets::bracer_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::bracer_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::bracer_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_right_bracer(
@@ -526,20 +201,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            BRACER_NAMES, 
-            vector[attributes::right_bracer()],
-            COSMETICS_COLOUR_WAY,
-            BRACER_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            BRACER_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::right_bracer(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::right_bracer(), items);
+        new_builder(
+            attributes::right_bracer(),
+            assets::bracer_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::bracer_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::bracer_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_left_glove(
@@ -547,20 +222,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            GLOVE_NAMES, 
-            vector[attributes::left_glove()],
-            COSMETICS_COLOUR_WAY,
-            GLOVE_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            GLOVE_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::left_glove(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::left_glove(), items);
+        new_builder(
+            attributes::left_glove(),
+            assets::glove_names(), 
+            vector[b"Obsidian"],
+            assets::glove_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::glove_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_right_glove(
@@ -568,20 +243,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            GLOVE_NAMES, 
-            vector[attributes::right_glove()],
-            COSMETICS_COLOUR_WAY,
-            GLOVE_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            GLOVE_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::right_glove(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::right_glove(), items);
+        new_builder(
+            attributes::right_glove(),
+            assets::glove_names(), 
+            vector[b"Obsidian"],
+            assets::glove_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::glove_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_left_pauldron(
@@ -589,20 +264,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            PAULDRON_NAMES, 
-            vector[attributes::left_pauldron()],
-            COSMETICS_COLOUR_WAY,
-            PAULDRON_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            PAULDRON_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::left_pauldron(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::left_pauldron(), items);
+        new_builder(
+            attributes::left_pauldron(),
+            assets::pauldrons_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::pauldrons_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::pauldrons_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_right_pauldron(
@@ -610,20 +285,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            PAULDRON_NAMES, 
-            vector[attributes::right_pauldron()],
-            COSMETICS_COLOUR_WAY,
-            PAULDRON_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            PAULDRON_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::right_pauldron(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::right_pauldron(), items);
+        new_builder(
+            attributes::right_pauldron(),
+            assets::pauldrons_names(), 
+            assets::cosmetic_colour_ways(),
+            assets::pauldrons_manufacturers(), 
+            assets::cosmetic_rarities(),
+            assets::pauldrons_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_legs(
@@ -631,41 +306,41 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            LEGS_NAMES, 
-            vector[attributes::legs()],
-            COSMETICS_COLOUR_WAY,
-            LEGS_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            LEGS_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::legs(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::legs(), items);
+        new_builder(
+            attributes::legs(),
+            assets::legs_names(), 
+            assets::legs_colour_ways(),
+            assets::legs_manufacturers(), 
+            assets::leg_rarities(),
+            assets::legs_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
-    public fun add_accessory(
+    public fun add_belt(
         genesis_shop: &mut GenesisShop,
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            ACCESSORY_NAMES, 
-            vector[attributes::accessory()],
-            COSMETICS_COLOUR_WAY,
-            ACCESSORY_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            ACCESSORY_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add( attributes::belt(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::accessory(), items);
+        new_builder(
+            attributes::belt(),
+            assets::belt_names(), 
+            vector[b"Obsidian"],
+            assets::belt_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::belt_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_shins(
@@ -673,20 +348,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            SHINS_NAMES, 
-            vector[attributes::shins()],
-            COSMETICS_COLOUR_WAY,
-            SHINS_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            SHINS_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::shins(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::shins(), items);
+        new_builder(
+            attributes::shins(),
+            assets::shins_names(), 
+            vector[b"Obsidian"],
+            assets::shins_manufacturers(), 
+            vector[b"Ultra Rare"],
+            assets::shins_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_boots(
@@ -694,20 +369,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            true,
-            BOOTS_NAMES, 
-            vector[attributes::boots()],
-            COSMETICS_COLOUR_WAY,
-            BOOTS_MANUFACTURERS, 
-            make_cosmetic_rarities(),
-            BOOTS_CHANCES,
-            ctx
-        );
+        genesis_shop.items.add(attributes::boots(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::boots(), items);
+        new_builder(
+            attributes::boots(),
+            assets::boots_names(), 
+            assets::boots_colour_ways(),
+            assets::boots_manufacturers(), 
+            assets::boots_rarities(),
+            assets::boots_chances(),
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_primary(
@@ -715,20 +390,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build(
-            false,
-            PRIMARY_NAMES, 
-            vector[attributes::primary()],
-            COSMETICS_COLOUR_WAY, // same
-            PRIMARY_MANUFACTURERS, 
-            make_primary_rarities(),
-            PRIMARY_CHANCES, 
-            ctx
-        );
+        genesis_shop.items.add( attributes::primary(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::primary(), items);
+        new_builder(
+            attributes::primary(),
+            assets::primary_names(), 
+            assets::primary_colour_ways(), // same
+            assets::primary_manufacturers(), 
+            assets::primary_rarities(),
+            assets::primary_chances(), 
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_secondary(
@@ -736,20 +411,20 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build_secondary(
-            SECONDARY_NAMES, 
-            vector[attributes::secondary()],
-            SECONDARY_COLOUR_WAY,
-            SECONDARY_MANUFACTURERS, 
-            SECONDARY_RARITIES,
-            SECONDARY_CHANCES, 
-            GENISIS_AMOUNT, 
-            ctx
-        );
+        genesis_shop.items.add(attributes::secondary(), table_vec::empty(ctx));
 
-        table::add(&mut genesis_shop.items, attributes::secondary(), items);
+        new_builder(
+            attributes::secondary(),
+            assets::secondary_names(), 
+            assets::secondary_colour_ways(),
+            assets::secondary_manufacturers(), 
+            assets::secondary_rarities(),
+            assets::secondary_chances(), 
+            GENESIS_AMOUNT,
+            ctx
+        )
     }
 
     public fun add_tertiary(
@@ -757,26 +432,95 @@ module act::genesis_shop {
         access_control: &AccessControl, 
         admin: &Admin,  
         ctx: &mut TxContext
-    ) {
+    ): Builder {
         admin::assert_genesis_minter_role(access_control, admin);
-        let items = build_tertiary(
-            TERTIARY_NAMES, 
-            vector[attributes::tertiary()],
-            TERTIARY_COLOUR_WAY,
-            TERTIARY_MANUFACTURERS, 
-            TERTIARY_RARITIES,
-            TERTIARY_CHANCES, 
-            GENISIS_AMOUNT, 
+        genesis_shop.items.add( attributes::tertiary(), table_vec::empty(ctx));
+        
+        new_builder(
+            attributes::tertiary(),
+            assets::tertiary_names(), 
+            assets::tertiary_colour_ways(),
+            assets::tertiary_manufacturers(), 
+            assets::tertiary_rarities(),
+            assets::tertiary_chances(), 
+            GENESIS_AMOUNT,
             ctx
-        );
-
-        table::add(&mut genesis_shop.items, attributes::tertiary(), items);
+        )
     }
+
+    public fun keep(builder: Builder, ctx: &mut TxContext) {
+        transfer::transfer(builder, ctx.sender());
+    }
+
+    public fun new_item(
+        genesis_shop: &mut GenesisShop,
+        builder: &mut Builder,
+    ) {
+
+        let quantities_len = builder.quantities.length();
+
+        if (quantities_len == 0) return;
+
+        let quantities = &mut builder.quantities[quantities_len -1];
+        let name = builder.names[quantities_len -1];
+        let manufacturer = builder.manufacturers[quantities_len -1];
+
+        let len = quantities.length() -1;
+
+        let quantity = &mut quantities[len];
+
+        if (quantity != 0) *quantity = *quantity - 1;
+
+        let mut rarity = b"";
+        let mut colour = b"";
+        if (builder.equipment == attributes::tertiary()) {
+            let last_idx = builder.rarities.length() - 1;
+            rarity = builder.rarities[last_idx];
+            colour = builder.colour_ways[last_idx];
+        } else {
+            rarity = builder.rarities[len];
+            colour = builder.colour_ways[len];
+        };
+
+        let item = Item {
+            name: name.to_string(),
+            equipment: builder.equipment,
+            colour_way: colour.to_string(),
+            manufacturer: manufacturer.to_string(),
+            rarity: rarity.to_string()
+        };
+
+        genesis_shop.items.borrow_mut(builder.equipment).push_back(item);
+
+        if (*quantity == 0) {
+            quantities.pop_back();
+
+            if (quantities.length() == 0) {
+                builder.quantities.pop_back();
+                builder.manufacturers.pop_back();
+                builder.names.pop_back();
+                
+                if (builder.equipment == attributes::tertiary()) {
+                    builder.rarities.pop_back();
+                    builder.colour_ways.pop_back();
+                }
+            }
+        };
+
+    }
+
+    // when names has been emptied it means the whole shop has been filled
+    public fun destroy_builder(builder: Builder) {
+        let Builder { id, names, .. } = builder;
+        id.delete();
+        assert!(names.is_empty(), EBuilderNotEmpty);
+    }
+
 
     // === Public-Package Functions ===
 
-    public(package) fun kinds(self: &Item): vector<String> {
-        self.kinds
+    public(package) fun equipment(self: &Item): String {
+        self.equipment
     }
 
     public(package) fun name(self: &Item): String {
@@ -803,204 +547,36 @@ module act::genesis_shop {
         self.items.length() == 18 // 19 equipments - backpiece
     }
 
-    public(package) fun unpack(item: Item): (String, vector<String>, String, String, String, bool) {
-        let Item { name, kinds, colour_way, manufacturer, rarity, is_cosmetic } = item;
-        (name, kinds, colour_way, manufacturer, rarity, is_cosmetic)
+    public(package) fun unpack(item: Item): (String, String, String, String, String) {
+        let Item { name, equipment, colour_way, manufacturer, rarity } = item;
+        (name, equipment, colour_way, manufacturer, rarity)
     }
 
     // === Private Functions ===
 
-    fun build(
-        is_cosmetic: bool,
+    fun new_builder(
+        equipment: String,
         names: vector<vector<u8>>,
-        kinds: vector<String>,
-        colour_ways: vector<vector<u8>>,
-        manufacturers: vector<vector<u8>>,
-        rarities:vector<vector<vector<u8>>>,
-        chances: vector<vector<u64>>,
-        ctx: &mut TxContext
-    ): TableVec<Item> {
-        let mut i = 0;        
-        let mut remaining = GENISIS_AMOUNT;
-        let mut items = table_vec::empty(ctx);
-        let names_len = names.length();
-        
-        while (names_len > i) {
-
-            let name = names[i];
-            let manufacturer = manufacturers[i];
-            let rarity = rarities[i];
-            let chances = chances[i];
-            let chances_len = chances.length();
-
-            let mut j = 0;
-
-            while (chances_len > j) {
-                
-                let num_of_items = mul_div(chances[j], GENISIS_AMOUNT, PRECISION);
-                let num_of_items = min(num_of_items, remaining);
-                remaining = remaining - num_of_items;
-
-                let mut k = 0;
-
-                while (num_of_items > k) {
-                    items.push_back(Item {
-                        is_cosmetic,
-                        name: name.to_string(),
-                        kinds,
-                        colour_way: colour_ways[j].to_string(),
-                        manufacturer: manufacturer.to_string(),
-                        rarity: rarity[j].to_string()
-                    });
-
-                    k = k + 1;
-                };
-
-                j = j + 1;
-            };
-
-            i = i + 1;
-        };
-
-        items
-    }
-
-    fun build_secondary(
-        names: vector<vector<u8>>,
-        kinds: vector<String>,
-        colour_ways: vector<vector<vector<u8>>>,
-        manufacturers: vector<vector<u8>>,
-        rarities:vector<vector<vector<u8>>>,
-        chances: vector<vector<u64>>,
-        precision: u64,
-        ctx: &mut TxContext
-    ): TableVec<Item> {
-        let mut i = 0;        
-        let mut remaining = precision;
-        let mut items = table_vec::empty(ctx);
-        let names_len = names.length();
-        
-        while (names_len > i) {
-
-            let name = names[i];
-            let manufacturer = manufacturers[i];
-            let rarity = rarities[i];
-            let chances = chances[i];
-            let colour_ways = colour_ways[i];
-            let chances_len = chances.length();
-
-            let mut j = 0;
-
-            while (chances_len > j) {
-                
-                let num_of_items = mul_div(chances[j], precision, PRECISION);
-                let num_of_items = min(num_of_items, remaining);
-                remaining = remaining - num_of_items;
-
-                let mut k = 0;
-
-                while (num_of_items > k) {
-                    items.push_back(Item {
-                        is_cosmetic: false,
-                        name: name.to_string(),
-                        kinds,
-                        colour_way: colour_ways[j].to_string(),
-                        manufacturer: manufacturer.to_string(),
-                        rarity: rarity[j].to_string()
-                    });
-
-                    k = k + 1;
-                };
-
-                j = j + 1;
-            };
-
-            i = i + 1;
-        };
-
-        items
-    }
-
-    fun build_tertiary(
-        names: vector<vector<u8>>,
-        kinds: vector<String>,
         colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
         rarities: vector<vector<u8>>,
-        chances: vector<u64>,
-        precision: u64,
+        chances: vector<vector<u64>>,
+        total_amount: u64,
         ctx: &mut TxContext
-    ): TableVec<Item> {
-        let mut i = 0;        
-        let mut remaining = precision;
-        let mut items = table_vec::empty(ctx);
-        let names_len = names.length();
-        
-        while (names_len > i) {
-
-            let name = names[i];
-            let manufacturer = manufacturers[i];
-            let rarity = rarities[i];
-            let chance = chances[i];
-            let colour_ways = colour_ways[i];
-
-            let num_of_items = mul_div(chance, precision, PRECISION);
-            let num_of_items = min(num_of_items, remaining);
-            remaining = remaining - num_of_items;
-
-            let mut k = 0;
-
-            while (num_of_items > k) {
-                items.push_back(Item {
-                    is_cosmetic: false,
-                    name: name.to_string(),
-                    kinds,
-                    colour_way: colour_ways.to_string(),
-                    manufacturer: manufacturer.to_string(),
-                    rarity: rarity.to_string()
-                });
-
-                k = k + 1;
-            };
-
-            i = i + 1;
-        };
-
-        items
-    }
-
-    fun make_cosmetic_rarities(): vector<vector<vector<u8>>> {
-        let mut rarities = vector[];
-        let mut i = 0;
-
-        while (COSMETIC_SET_SIZE > i) {
-            rarities.push_back(COSMETICS_RARITIES);
-            i = i + 1;
-        };
-
-        rarities
-    }
-
-    #[allow(implicit_const_copy)]
-    fun make_primary_rarities(): vector<vector<vector<u8>>> {
-        let mut rarities = vector[];
-        let mut i = 0;
-        let len = PRIMARY_NAMES.length();
-
-        while (len > i) {
-            rarities.push_back(PRIMARY_RARITIES);
-            i = i + 1;
-        };
-
-        rarities
+    ): Builder {
+        Builder { 
+            id: object::new(ctx), 
+            equipment, 
+            names, 
+            colour_ways, 
+            manufacturers, 
+            rarities, 
+            quantities: chances.map!(|x| x.map!(|chance| mul_div(chance, total_amount, PRECISION))), 
+        }
     }
 
     fun mul_div(x: u64, y: u64, z: u64): u64 {
         ((x as u256) * (y as u256) / (z as u256) as u64)
-    }
-
-    fun min(x: u64, y: u64): u64 {
-        if (x > y) y else x
     }
 
     // === Test Functions ===    
@@ -1013,5 +589,35 @@ module act::genesis_shop {
     #[test_only]
     public fun borrow_mut(self: &mut GenesisShop): &mut Table<String, TableVec<Item>> {
         &mut self.items
+    }
+
+    #[test_only]
+    fun mul_div_up(x: u64, y: u64, z: u64): u64 {
+        let r = mul_div(x, y, z);
+        r + if ((x * y) % z > 0) 1 else 0
+    }
+
+    #[test_only]
+    public fun new_builder_for_testing(
+        self: &mut GenesisShop,
+        equipment: String,
+        names: vector<vector<u8>>,
+        colour_ways: vector<vector<u8>>,
+        manufacturers: vector<vector<u8>>,
+        rarities: vector<vector<u8>>,
+        chances: vector<vector<u64>>,
+        total_amount: u64,
+        ctx: &mut TxContext
+    ): Builder  {
+        self.items.add(equipment, table_vec::empty(ctx));
+        Builder { 
+            id: object::new(ctx), 
+            equipment, 
+            names, 
+            colour_ways, 
+            manufacturers, 
+            rarities, 
+            quantities: chances.map!(|x| x.map!(|chance| mul_div_up(chance, total_amount, PRECISION))), 
+        }
     }
 }

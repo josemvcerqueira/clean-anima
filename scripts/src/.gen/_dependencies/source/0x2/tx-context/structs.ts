@@ -1,33 +1,33 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, Vector, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {bcs, fromB64, fromHEX, toHEX} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== TxContext =============================== */
 
-export function isTxContext(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::tx_context::TxContext`; }
+export function isTxContext(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::tx_context::TxContext`; }
 
 export interface TxContextFields { sender: ToField<"address">; txHash: ToField<Vector<"u8">>; epoch: ToField<"u64">; epochTimestampMs: ToField<"u64">; idsCreated: ToField<"u64"> }
 
 export type TxContextReified = Reified< TxContext, TxContextFields >;
 
-export class TxContext implements StructClass { static readonly $typeName = `${PKG_V20}::tx_context::TxContext`; static readonly $numTypeParams = 0;
+export class TxContext implements StructClass { static readonly $typeName = `${PKG_V21}::tx_context::TxContext`; static readonly $numTypeParams = 0;
 
  readonly $typeName = TxContext.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::tx_context::TxContext`;
+ readonly $fullTypeName: `${typeof PKG_V21}::tx_context::TxContext`;
 
  readonly $typeArgs: [];
 
  readonly sender: ToField<"address">; readonly txHash: ToField<Vector<"u8">>; readonly epoch: ToField<"u64">; readonly epochTimestampMs: ToField<"u64">; readonly idsCreated: ToField<"u64">
 
- private constructor(typeArgs: [], fields: TxContextFields, ) { this.$fullTypeName = composeSuiType( TxContext.$typeName, ...typeArgs ) as `${typeof PKG_V20}::tx_context::TxContext`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: TxContextFields, ) { this.$fullTypeName = composeSuiType( TxContext.$typeName, ...typeArgs ) as `${typeof PKG_V21}::tx_context::TxContext`; this.$typeArgs = typeArgs;
 
  this.sender = fields.sender;; this.txHash = fields.txHash;; this.epoch = fields.epoch;; this.epochTimestampMs = fields.epochTimestampMs;; this.idsCreated = fields.idsCreated; }
 
- static reified( ): TxContextReified { return { typeName: TxContext.$typeName, fullTypeName: composeSuiType( TxContext.$typeName, ...[] ) as `${typeof PKG_V20}::tx_context::TxContext`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => TxContext.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => TxContext.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => TxContext.fromBcs( data, ), bcs: TxContext.bcs, fromJSONField: (field: any) => TxContext.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => TxContext.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => TxContext.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => TxContext.fetch( client, id, ), new: ( fields: TxContextFields, ) => { return new TxContext( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): TxContextReified { return { typeName: TxContext.$typeName, fullTypeName: composeSuiType( TxContext.$typeName, ...[] ) as `${typeof PKG_V21}::tx_context::TxContext`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => TxContext.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => TxContext.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => TxContext.fromBcs( data, ), bcs: TxContext.bcs, fromJSONField: (field: any) => TxContext.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => TxContext.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => TxContext.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => TxContext.fetch( client, id, ), new: ( fields: TxContextFields, ) => { return new TxContext( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return TxContext.reified() }
 

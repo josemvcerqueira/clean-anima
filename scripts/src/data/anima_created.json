@@ -1,0 +1,26 @@
+[
+  {
+    "type": "access_control::AccessControl",
+    "id": "0x4ca68953f180272484cfb31011a9cb4b115ca33f2249eaac2e856b638227c40e"
+  },
+  {
+    "type": "access_control::Admin",
+    "id": "0x729fc8e4a3c31b958cb93f500c6636d8726ccccfab6192ff5ec71ed426c59c62"
+  },
+  {
+    "type": "package::UpgradeCap",
+    "id": "0x9fe5bf16881d001ed212dff6df72e2912a341245c3057e8ede4e202cae638cc1"
+  },
+  {
+    "type": "access_control::Admin",
+    "id": "0xa045e50fd3ae8009c6626f86ece57fadad459f7000b010fdc9620b1f1fe3c16a"
+  },
+  {
+    "type": "account::Registry",
+    "id": "0xa298fa602d795e79b29fd48daf6479c356b5892dbae6a5f023ee7de685114b00"
+  },
+  {
+    "type": "package_id",
+    "id": "0xf833b73d652171fcffd9fc5e9099c77a39d734742c832b97d08b047cd5d1716e"
+  }
+]

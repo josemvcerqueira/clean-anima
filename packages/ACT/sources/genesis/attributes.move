@@ -24,6 +24,7 @@ module act::attributes {
     const LEFT_PAULDRON: vector<u8> = b"Left Pauldron";
     const RIGHT_PAULDRON: vector<u8> = b"Right Pauldron";
     const LEGS: vector<u8> = b"Legs";
+    const BELT: vector<u8> = b"Belt";
     const ACCESSORY: vector<u8> = b"Accessory";
     const SHINS: vector<u8> = b"Shins";
     const BOOTS: vector<u8> = b"Boots";
@@ -79,6 +80,7 @@ module act::attributes {
             LEFT_PAULDRON.to_string(),
             RIGHT_PAULDRON.to_string(),
             LEGS.to_string(),
+            BELT.to_string(),
             ACCESSORY.to_string(),
             SHINS.to_string(),
             BOOTS.to_string(),
@@ -108,7 +110,31 @@ module act::attributes {
             LEFT_PAULDRON.to_string(),
             RIGHT_PAULDRON.to_string(),
             LEGS.to_string(),
+            BELT.to_string(),
             ACCESSORY.to_string(),
+            SHINS.to_string(),
+            BOOTS.to_string(),
+            PRIMARY.to_string(),
+            SECONDARY.to_string(),
+            TERTIARY.to_string(),
+        ]        
+    }
+
+    // @dev There is no backpiece nor accessory in the genesis mint
+    public(package) fun genesis_mint_types(): vector<String> {
+        vector[
+            HELM.to_string(),
+            UPPER_TORSO.to_string(),
+            CHESTPIECE.to_string(),
+            LEFT_ARM.to_string(),
+            RIGHT_ARM.to_string(),
+            LEFT_BRACER.to_string(),
+            RIGHT_BRACER.to_string(),
+            LEFT_GLOVE.to_string(),
+            RIGHT_GLOVE.to_string(),
+            LEFT_PAULDRON.to_string(),
+            RIGHT_PAULDRON.to_string(),
+            LEGS.to_string(),
             SHINS.to_string(),
             BOOTS.to_string(),
             PRIMARY.to_string(),
@@ -130,6 +156,7 @@ module act::attributes {
     public(package) fun right_bracer(): String { RIGHT_BRACER.to_string() }
     public(package) fun left_bracer(): String { LEFT_BRACER.to_string() }
     public(package) fun legs(): String { LEGS.to_string() }
+    public(package) fun belt(): String { BELT.to_string() }
     public(package) fun shins(): String { SHINS.to_string() }
     public(package) fun boots(): String { BOOTS.to_string() }
     public(package) fun accessory(): String { ACCESSORY.to_string() }

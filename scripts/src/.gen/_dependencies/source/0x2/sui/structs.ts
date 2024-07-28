@@ -1,32 +1,32 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== SUI =============================== */
 
-export function isSUI(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V20}::sui::SUI`; }
+export function isSUI(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::sui::SUI`; }
 
 export interface SUIFields { dummyField: ToField<"bool"> }
 
 export type SUIReified = Reified< SUI, SUIFields >;
 
-export class SUI implements StructClass { static readonly $typeName = `${PKG_V20}::sui::SUI`; static readonly $numTypeParams = 0;
+export class SUI implements StructClass { static readonly $typeName = `${PKG_V21}::sui::SUI`; static readonly $numTypeParams = 0;
 
  readonly $typeName = SUI.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::sui::SUI`;
+ readonly $fullTypeName: `${typeof PKG_V21}::sui::SUI`;
 
  readonly $typeArgs: [];
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: SUIFields, ) { this.$fullTypeName = composeSuiType( SUI.$typeName, ...typeArgs ) as `${typeof PKG_V20}::sui::SUI`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: SUIFields, ) { this.$fullTypeName = composeSuiType( SUI.$typeName, ...typeArgs ) as `${typeof PKG_V21}::sui::SUI`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): SUIReified { return { typeName: SUI.$typeName, fullTypeName: composeSuiType( SUI.$typeName, ...[] ) as `${typeof PKG_V20}::sui::SUI`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => SUI.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => SUI.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => SUI.fromBcs( data, ), bcs: SUI.bcs, fromJSONField: (field: any) => SUI.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => SUI.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => SUI.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => SUI.fetch( client, id, ), new: ( fields: SUIFields, ) => { return new SUI( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): SUIReified { return { typeName: SUI.$typeName, fullTypeName: composeSuiType( SUI.$typeName, ...[] ) as `${typeof PKG_V21}::sui::SUI`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => SUI.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => SUI.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => SUI.fromBcs( data, ), bcs: SUI.bcs, fromJSONField: (field: any) => SUI.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => SUI.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => SUI.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => SUI.fetch( client, id, ), new: ( fields: SUIFields, ) => { return new SUI( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return SUI.reified() }
 

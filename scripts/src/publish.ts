@@ -8,10 +8,10 @@ import { client, keypair, IObjectInfo, getId } from './utils.js';
 	
 	const { execSync } = require('child_process');
 	const { modules, dependencies } = JSON.parse(
-	execSync(`${process.env.CLI_PATH!} move build --dump-bytecode-as-base64 --path ${process.env.PACKAGE_PATH!}`, {
-		encoding: 'utf-8',
-	}),
-	);
+	execSync(
+		`${process.env.CLI_PATH!} move build --dump-bytecode-as-base64 --path ${process.env.ACT_PACKAGE_PATH!}`, 
+		{ encoding: 'utf-8' }
+	));
 
 	console.log("publishing...")
 

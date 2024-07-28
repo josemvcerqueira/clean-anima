@@ -1,32 +1,32 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V7} from "../index";
+import {PKG_V8} from "../index";
 import {bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== FixedPoint32 =============================== */
 
-export function isFixedPoint32(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V7}::fixed_point32::FixedPoint32`; }
+export function isFixedPoint32(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V8}::fixed_point32::FixedPoint32`; }
 
 export interface FixedPoint32Fields { value: ToField<"u64"> }
 
 export type FixedPoint32Reified = Reified< FixedPoint32, FixedPoint32Fields >;
 
-export class FixedPoint32 implements StructClass { static readonly $typeName = `${PKG_V7}::fixed_point32::FixedPoint32`; static readonly $numTypeParams = 0;
+export class FixedPoint32 implements StructClass { static readonly $typeName = `${PKG_V8}::fixed_point32::FixedPoint32`; static readonly $numTypeParams = 0;
 
  readonly $typeName = FixedPoint32.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V7}::fixed_point32::FixedPoint32`;
+ readonly $fullTypeName: `${typeof PKG_V8}::fixed_point32::FixedPoint32`;
 
  readonly $typeArgs: [];
 
  readonly value: ToField<"u64">
 
- private constructor(typeArgs: [], fields: FixedPoint32Fields, ) { this.$fullTypeName = composeSuiType( FixedPoint32.$typeName, ...typeArgs ) as `${typeof PKG_V7}::fixed_point32::FixedPoint32`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: FixedPoint32Fields, ) { this.$fullTypeName = composeSuiType( FixedPoint32.$typeName, ...typeArgs ) as `${typeof PKG_V8}::fixed_point32::FixedPoint32`; this.$typeArgs = typeArgs;
 
  this.value = fields.value; }
 
- static reified( ): FixedPoint32Reified { return { typeName: FixedPoint32.$typeName, fullTypeName: composeSuiType( FixedPoint32.$typeName, ...[] ) as `${typeof PKG_V7}::fixed_point32::FixedPoint32`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => FixedPoint32.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => FixedPoint32.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => FixedPoint32.fromBcs( data, ), bcs: FixedPoint32.bcs, fromJSONField: (field: any) => FixedPoint32.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => FixedPoint32.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => FixedPoint32.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => FixedPoint32.fetch( client, id, ), new: ( fields: FixedPoint32Fields, ) => { return new FixedPoint32( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): FixedPoint32Reified { return { typeName: FixedPoint32.$typeName, fullTypeName: composeSuiType( FixedPoint32.$typeName, ...[] ) as `${typeof PKG_V8}::fixed_point32::FixedPoint32`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => FixedPoint32.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => FixedPoint32.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => FixedPoint32.fromBcs( data, ), bcs: FixedPoint32.bcs, fromJSONField: (field: any) => FixedPoint32.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => FixedPoint32.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => FixedPoint32.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => FixedPoint32.fetch( client, id, ), new: ( fields: FixedPoint32Fields, ) => { return new FixedPoint32( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return FixedPoint32.reified() }
 

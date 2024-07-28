@@ -2,25 +2,16 @@
 
 [move]
 version = 2
-manifest_digest = "04FAC214CAB8E343B249F964EF2B7A637ECEAD70F0F9B551B88B8D5FA08D9A4B"
+manifest_digest = "0DC6DEFCD7D94E270C42011ED4562E0B924381EE5CD04737B336C39EA9182079"
 deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
 dependencies = [
-  { name = "ACT" },
+  { name = "AnimaLib" },
   { name = "Sui" },
 ]
 
 [[move.package]]
-name = "ACT"
-source = { local = "../ACT" }
-
-dependencies = [
-  { name = "Kiosk" },
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "Kiosk"
-source = { git = "https://github.com/MystenLabs/apps.git", rev = "testnet", subdir = "kiosk" }
+name = "AnimaLib"
+source = { local = "../AnimaLib" }
 
 dependencies = [
   { name = "Sui" },
@@ -39,6 +30,14 @@ dependencies = [
 ]
 
 [move.toolchain-version]
-compiler-version = "1.29.0"
+compiler-version = "1.29.2"
 edition = "2024.beta"
 flavor = "sui"
+
+[env]
+
+[env.testnet]
+chain-id = "4c78adac"
+original-published-id = "0x5c57d03353aa45e67354aa849eff080758d6e6e5ea1b5356dc47449238a6f9c6"
+latest-published-id = "0x5c57d03353aa45e67354aa849eff080758d6e6e5ea1b5356dc47449238a6f9c6"
+published-version = "1"

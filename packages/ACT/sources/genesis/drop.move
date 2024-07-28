@@ -4,6 +4,7 @@
 /// passes are the whitelist object that will be airdropped to the users and destroyed upon mint
 
 module act::genesis_drop {
+
     use std::{
         string::{utf8, String},
     };
@@ -14,14 +15,16 @@ module act::genesis_drop {
         clock::Clock,
         random::Random,
     };
-    use animalib::access_control::{Admin, AccessControl};
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
     use act::{
         attributes,
         avatar::{Self, AvatarRegistry},
         weapon,
         cosmetic,
         genesis_shop::{Item, GenesisShop},
-        admin,
     };
 
     // === Errors ===
@@ -38,6 +41,7 @@ module act::genesis_drop {
     // === Constants ===
 
     const WEAR_RATING_MAX: u64 = 1_000_000_000;
+    const MIN_WEAPON_WEAR_RATING: u64 = 930_000_000;
 
     // === Structs ===
 
@@ -77,13 +81,13 @@ module act::genesis_drop {
             start_times: vector::empty(),
             prices: vector::empty(),
             max_mints: vector::empty(),
-            drops_left: 6000,
+            drops_left: 3000,
         });
     } 
 
     // mint equipments to the kiosk
     entry fun mint_to_kiosk(
-        sale: &Sale, 
+        sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
@@ -100,23 +104,25 @@ module act::genesis_drop {
         transfer::public_transfer(coin, @treasury);
 
         let mut gen = random.new_generator(ctx);
+        sale.drops_left = sale.drops_left - quantity;
 
         while (quantity > 0) {
-            let mut attributes = attributes::types();
-
+            let mut attributes = attributes::genesis_mint_types();
             while (!attributes.is_empty()) {
-                let items = genesis_shop.borrow_item_mut(attributes.pop_back());
+                let x = attributes.pop_back();
+                let items = genesis_shop.borrow_item_mut(x);
+
                 let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
                 let item = items.swap_remove(index);
-                let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+                let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
 
-                if (is_cosmetic) {
+                if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                     let cosmetic = cosmetic::new(
                         name,
                         utf8(b""),
                         utf8(b""),
                         utf8(b""),
-                        kinds[0],
+                        equipment,
                         colour_way,
                         utf8(b"Genesis"),
                         manufacturer,
@@ -132,13 +138,13 @@ module act::genesis_drop {
                         utf8(b""),
                         utf8(b""),
                         utf8(b""),
-                        kinds[0],
+                        equipment,
                         colour_way,
                         utf8(b"Genesis"),
                         manufacturer,
                         rarity,
                         utf8(b""),
-                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                        gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
                         ctx
                     );
                     kiosk.place(cap, weapon);
@@ -150,7 +156,7 @@ module act::genesis_drop {
 
     // mint equipments to a ticket for generating the Avatar
     entry fun mint_to_ticket(
-        sale: &Sale, 
+        sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
@@ -159,11 +165,13 @@ module act::genesis_drop {
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
-        registry.assert_has_avatar(ctx.sender());
+        registry.assert_no_avatar(ctx.sender());
         assert_can_mint(sale, pass, coin.value(), 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
-        let mut attributes = attributes::types();
+        sale.drops_left = sale.drops_left - 1;
+
+        let mut attributes = attributes::genesis_mint_types();
         let mut gen = random.new_generator(ctx);
         let mut drop = vector::empty();
 
@@ -178,9 +186,9 @@ module act::genesis_drop {
             AvatarTicket {
                 id: object::new(ctx),
                 drop: drop,
-                image_url: utf8(b""),
-                image_hash: utf8(b""),
-                model_url: utf8(b""),
+                image_url: utf8(b"TODO"),
+                image_hash: utf8(b"TODO"),
+                model_url: utf8(b"TODO"),
             },
             ctx.sender() 
         );
@@ -202,15 +210,15 @@ module act::genesis_drop {
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
-            let (name, kinds, colour_way, manufacturer, rarity, is_cosmetic) = item.unpack();
+            let (name, equipment, colour_way, manufacturer, rarity) = item.unpack();
 
-            if (is_cosmetic) {
+            if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                 let cosmetic = cosmetic::new(
                     name,
                     utf8(b""),
                     utf8(b""),
                     utf8(b""),
-                    kinds[0],
+                    equipment,
                     colour_way,
                     utf8(b"Genesis"),
                     manufacturer,
@@ -226,13 +234,13 @@ module act::genesis_drop {
                     utf8(b""),
                     utf8(b""),
                     utf8(b""),
-                    kinds[0],
+                    equipment,
                     colour_way,
                     utf8(b"Genesis"),
                     manufacturer,
                     rarity,
                     utf8(b""),
-                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
                     ctx
                 );
                 avatar.equip_minted_weapon(weapon);
@@ -287,6 +295,16 @@ module act::genesis_drop {
         sale.start_times = start_times;
     }
 
+    public fun set_max_mints(
+        sale: &mut Sale, 
+        access_control: &AccessControl, 
+        admin: &Admin,
+        max_mints: vector
+    <u64>) {
+        admin::assert_genesis_minter_role(access_control, admin);
+        sale.max_mints = max_mints;
+    }
+
     public fun set_prices(
         sale: &mut Sale, 
         access_control: &AccessControl, 
@@ -317,8 +335,13 @@ module act::genesis_drop {
         assert!(pass.length() < 2, EInvalidPass);
         // current phase
         let mut phase = 0;
-        while (now <= sale.start_times[phase]) {
-            phase = phase + 1;
+        let mut i = 0;
+
+        while (sale.start_times.length() > i) {
+            if (now > sale.start_times[i]) {
+                phase = phase + 1;
+            };
+            i = i + 1;
         };
         phase = phase - 1;
         
@@ -331,7 +354,7 @@ module act::genesis_drop {
         };
         pass.destroy_empty();
         // check price and quantity
-        assert!(amount == sale.prices[phase], EWrongCoinValue);
+        assert!(amount == sale.prices[phase] * quantity, EWrongCoinValue);
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);
     }
 
@@ -345,4 +368,58 @@ module act::genesis_drop {
     }
 
     // === Test Functions ===
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(ctx);
+    }
+
+    #[test_only]
+    public fun active(self: &Sale): bool {
+        self.active
+    }
+
+    #[test_only]
+    public fun start_times(self: &Sale): vector<u64> {
+        self.start_times
+    }
+
+    #[test_only]
+    public fun prices(self: &Sale): vector<u64> {
+        self.prices
+    }
+
+    #[test_only]
+    public fun max_mints(self: &Sale): vector<u64> {
+        self.prices
+    }
+
+    #[test_only]
+    public fun drops_left(self: &Sale): u64 {
+        self.drops_left
+    }
+
+    #[test_only]
+    public fun drop(self: &AvatarTicket): vector<Item> {
+        self.drop
+    }
+
+    #[test_only]
+    public fun new_genesis_pass(phase: u64, ctx: &mut TxContext): GenesisPass {
+        GenesisPass {
+            id: object::new(ctx),
+            phase
+        }
+    }
+
+    #[test_only]
+    public fun new_empty_avatar_ticket(ctx: &mut TxContext): AvatarTicket {
+        AvatarTicket {
+            id: object::new(ctx),
+            drop: vector[],
+            image_url: b"".to_string(),
+            image_hash: b"".to_string(),
+            model_url: b"".to_string(),
+        }
+    }
 }

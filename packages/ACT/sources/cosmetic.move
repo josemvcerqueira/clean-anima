@@ -6,10 +6,12 @@ module act::cosmetic {
         kiosk::{Kiosk, KioskOwnerCap},
         transfer_policy::TransferPolicy, 
     };
-    use animalib::access_control::{Admin, AccessControl};
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
     use act::{
         item,
-        admin,
         upgrade::{Self, Upgrade},
     };
 

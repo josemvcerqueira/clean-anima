@@ -1,4 +1,4 @@
-module anima::admin {
+module animalib::admin {
     // === Imports ===
 
     use animalib::access_control::{Self, Admin, AccessControl};
@@ -11,6 +11,8 @@ module anima::admin {
 
     const ACCOLADES_ROLE: vector<u8> = b"ACCOLADES_ROLE";
     const REPUTATION_ROLE: vector<u8> = b"REPUTATION_ROLE";
+    const UPGRADES_ROLE: vector<u8> = b"UPGRADES_ROLE";
+    const GENESIS_MINTER_ROLE: vector<u8> = b"GENESIS_MINTER_ROLE";
 
     // === Structs ===
 
@@ -26,13 +28,17 @@ module anima::admin {
 
         super_admin.add(&mut access_control, ACCOLADES_ROLE);
         super_admin.add(&mut access_control, REPUTATION_ROLE);
+        super_admin.add(&mut access_control, UPGRADES_ROLE);
+        super_admin.add(&mut access_control, GENESIS_MINTER_ROLE);
 
         super_admin.grant(&mut access_control, ACCOLADES_ROLE, admin.addy());
         super_admin.grant(&mut access_control, REPUTATION_ROLE, admin.addy());
+        super_admin.grant(&mut access_control, UPGRADES_ROLE, admin.addy());
+        super_admin.grant(&mut access_control, GENESIS_MINTER_ROLE, admin.addy());
 
         transfer::public_share_object(access_control);
-        transfer::public_transfer(admin, ctx.sender());
         transfer::public_transfer(super_admin, ctx.sender());
+        transfer::public_transfer(admin, ctx.sender());
     }
 
     // === Public-View Functions ===   
@@ -43,6 +49,14 @@ module anima::admin {
 
     public fun assert_reputation_role(access_control: &AccessControl, admin: &Admin) {
         assert!(admin.has_role(access_control, REPUTATION_ROLE), EInvalidRole);
+    }
+
+    public fun assert_upgrades_role(access_control: &AccessControl, admin: &Admin) {
+        assert!(admin.has_role(access_control, UPGRADES_ROLE), EInvalidRole);
+    }
+
+    public fun assert_genesis_minter_role(access_control: &AccessControl, admin: &Admin) {
+        assert!(admin.has_role(access_control, GENESIS_MINTER_ROLE), EInvalidRole);
     }
 
     // === Admin Functions ===

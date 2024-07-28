@@ -1,33 +1,33 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeArgument, ToTypeStr, TypeArgument, Vector, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V20} from "../index";
+import {PKG_V21} from "../index";
 import {BcsType, bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 /* ============================== VecSet =============================== */
 
-export function isVecSet(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V20}::vec_set::VecSet` + '<'); }
+export function isVecSet(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V21}::vec_set::VecSet` + '<'); }
 
 export interface VecSetFields<K extends TypeArgument> { contents: ToField<Vector<K>> }
 
 export type VecSetReified<K extends TypeArgument> = Reified< VecSet<K>, VecSetFields<K> >;
 
-export class VecSet<K extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V20}::vec_set::VecSet`; static readonly $numTypeParams = 1;
+export class VecSet<K extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V21}::vec_set::VecSet`; static readonly $numTypeParams = 1;
 
  readonly $typeName = VecSet.$typeName;
 
- readonly $fullTypeName: `${typeof PKG_V20}::vec_set::VecSet<${ToTypeStr<K>}>`;
+ readonly $fullTypeName: `${typeof PKG_V21}::vec_set::VecSet<${ToTypeStr<K>}>`;
 
  readonly $typeArgs: [ToTypeStr<K>];
 
  readonly contents: ToField<Vector<K>>
 
- private constructor(typeArgs: [ToTypeStr<K>], fields: VecSetFields<K>, ) { this.$fullTypeName = composeSuiType( VecSet.$typeName, ...typeArgs ) as `${typeof PKG_V20}::vec_set::VecSet<${ToTypeStr<K>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<K>], fields: VecSetFields<K>, ) { this.$fullTypeName = composeSuiType( VecSet.$typeName, ...typeArgs ) as `${typeof PKG_V21}::vec_set::VecSet<${ToTypeStr<K>}>`; this.$typeArgs = typeArgs;
 
  this.contents = fields.contents; }
 
- static reified<K extends Reified<TypeArgument, any>>( K: K ): VecSetReified<ToTypeArgument<K>> { return { typeName: VecSet.$typeName, fullTypeName: composeSuiType( VecSet.$typeName, ...[extractType(K)] ) as `${typeof PKG_V20}::vec_set::VecSet<${ToTypeStr<ToTypeArgument<K>>}>`, typeArgs: [ extractType(K) ] as [ToTypeStr<ToTypeArgument<K>>], reifiedTypeArgs: [K], fromFields: (fields: Record<string, any>) => VecSet.fromFields( K, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VecSet.fromFieldsWithTypes( K, item, ), fromBcs: (data: Uint8Array) => VecSet.fromBcs( K, data, ), bcs: VecSet.bcs(toBcs(K)), fromJSONField: (field: any) => VecSet.fromJSONField( K, field, ), fromJSON: (json: Record<string, any>) => VecSet.fromJSON( K, json, ), fromSuiParsedData: (content: SuiParsedData) => VecSet.fromSuiParsedData( K, content, ), fetch: async (client: SuiClient, id: string) => VecSet.fetch( client, K, id, ), new: ( fields: VecSetFields<ToTypeArgument<K>>, ) => { return new VecSet( [extractType(K)], fields ) }, kind: "StructClassReified", } }
+ static reified<K extends Reified<TypeArgument, any>>( K: K ): VecSetReified<ToTypeArgument<K>> { return { typeName: VecSet.$typeName, fullTypeName: composeSuiType( VecSet.$typeName, ...[extractType(K)] ) as `${typeof PKG_V21}::vec_set::VecSet<${ToTypeStr<ToTypeArgument<K>>}>`, typeArgs: [ extractType(K) ] as [ToTypeStr<ToTypeArgument<K>>], reifiedTypeArgs: [K], fromFields: (fields: Record<string, any>) => VecSet.fromFields( K, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VecSet.fromFieldsWithTypes( K, item, ), fromBcs: (data: Uint8Array) => VecSet.fromBcs( K, data, ), bcs: VecSet.bcs(toBcs(K)), fromJSONField: (field: any) => VecSet.fromJSONField( K, field, ), fromJSON: (json: Record<string, any>) => VecSet.fromJSON( K, json, ), fromSuiParsedData: (content: SuiParsedData) => VecSet.fromSuiParsedData( K, content, ), fetch: async (client: SuiClient, id: string) => VecSet.fetch( client, K, id, ), new: ( fields: VecSetFields<ToTypeArgument<K>>, ) => { return new VecSet( [extractType(K)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return VecSet.reified }
 

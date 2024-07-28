@@ -3,4 +3,6 @@
 rpc = "https://fullnode.testnet.sui.io:443"
 
 [packages]
-ACT = { local = "../../package" }
+AnimaLib = { local = "../../../packages/AnimaLib" }
+Anima = { local = "../../../packages/Anima" }
+ACT = { local = "../../../packages/ACT" }
