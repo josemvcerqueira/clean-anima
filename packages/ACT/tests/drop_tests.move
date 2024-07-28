@@ -246,6 +246,393 @@ module act::genesis_drop_tests {
         world.end();
     }
 
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::EPublicNotOpen)] 
+    fun test_assert_can_mint_error_public_not_open() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        {   // Now we can do the free mint phase - index 0. 
+            // We do not have a pass.  
+            world.clock.set_for_testing(8);
+
+            let avatar_registry = &world.avatar_registry;
+            let genesis_pass = vector[];
+            let cap = &world.kiosk_cap;
+            let quantity = 3;
+            let random = &world.random;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            world.sale.mint_to_kiosk(
+                genesis_shop, 
+                avatar_registry, 
+                genesis_pass, 
+                kiosk, 
+                cap, 
+                mint_for_testing(10 * quantity, ctx), 
+                quantity, 
+                random, 
+                clock, 
+                ctx
+            );
+        };        
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::EWrongPass)] 
+    fun test_assert_can_mint_error_wrong_pass() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        {   // Free mint phase 
+            world.clock.set_for_testing(8);
+
+            let avatar_registry = &world.avatar_registry;
+            let genesis_pass = vector[
+                genesis_drop::new_genesis_pass(WHITELIST_PHASE, world.scenario.ctx())
+            ];
+            let cap = &world.kiosk_cap;
+            let quantity = 3;
+            let random = &world.random;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            world.sale.mint_to_kiosk(
+                genesis_shop, 
+                avatar_registry, 
+                genesis_pass, 
+                kiosk, 
+                cap, 
+                mint_for_testing(10 * quantity, ctx), 
+                quantity, 
+                random, 
+                clock, 
+                ctx
+            );
+        };        
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::EInvalidTicket)] 
+    fun test_mint_to_avatar_error_invalid_ticket() {
+        let mut world = start_world();
+
+        let random = &world.random;
+        let avatar_registry = &mut world.avatar_registry;
+
+        let avatar_ticket = genesis_drop::new_empty_avatar_ticket(world.scenario.ctx());
+
+        avatar_ticket.mint_to_avatar(avatar_registry, random, world.scenario.ctx());    
+
+        world.end(); 
+    }    
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::ESaleNotActive)] 
+    fun test_assert_can_mint_error_sale_not_active_too_early() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        // starts at 8
+        world.clock.set_for_testing(7);
+
+        let avatar_registry = &world.avatar_registry;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(WHITELIST_PHASE, world.scenario.ctx())
+        ];
+        let cap = &world.kiosk_cap;
+        let quantity = 3;
+        let random = &world.random;
+        let clock = &world.clock;
+        let ctx = world.scenario.ctx();
+        
+        let genesis_shop = &mut world.genesis_shop;
+        let kiosk = &mut world.kiosk;
+
+        world.sale.mint_to_kiosk(
+            genesis_shop, 
+            avatar_registry, 
+            genesis_pass, 
+            kiosk, 
+            cap, 
+            mint_for_testing(10 * quantity, ctx), 
+            quantity, 
+            random, 
+            clock, 
+            ctx
+        );      
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::ESaleNotActive)] 
+    fun test_assert_can_mint_error_sale_not_active_sale_inactive() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+        world.sale.set_active(access_control, admin_cap, false);
+
+        // starts at 8
+        world.clock.set_for_testing(8);
+
+        let avatar_registry = &world.avatar_registry;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(WHITELIST_PHASE, world.scenario.ctx())
+        ];
+        let cap = &world.kiosk_cap;
+        let quantity = 3;
+        let random = &world.random;
+        let clock = &world.clock;
+        let ctx = world.scenario.ctx();
+        
+        let genesis_shop = &mut world.genesis_shop;
+        let kiosk = &mut world.kiosk;
+
+        world.sale.mint_to_kiosk(
+            genesis_shop, 
+            avatar_registry, 
+            genesis_pass, 
+            kiosk, 
+            cap, 
+            mint_for_testing(10 * quantity, ctx), 
+            quantity, 
+            random, 
+            clock, 
+            ctx
+        );      
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::EWrongCoinValue)] 
+    fun test_assert_can_mint_error_wrong_coin_value() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        // starts at 8
+        world.clock.set_for_testing(8);
+
+        let avatar_registry = &world.avatar_registry;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+        ];
+        let cap = &world.kiosk_cap;
+        let quantity = 3;
+        let random = &world.random;
+        let clock = &world.clock;
+        let ctx = world.scenario.ctx();
+        
+        let genesis_shop = &mut world.genesis_shop;
+        let kiosk = &mut world.kiosk;
+
+        world.sale.mint_to_kiosk(
+            genesis_shop, 
+            avatar_registry, 
+            genesis_pass, 
+            kiosk, 
+            cap, 
+            mint_for_testing((10 * quantity) - 1, ctx), 
+            quantity, 
+            random, 
+            clock, 
+            ctx
+        );      
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::ETooManyMints)] 
+    fun test_assert_can_mint_error_too_many_mints() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[2, 3, 4]);
+
+        // starts at 8
+        world.clock.set_for_testing(8);
+
+        let avatar_registry = &world.avatar_registry;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+        ];
+        let cap = &world.kiosk_cap;
+        let quantity = 3;
+        let random = &world.random;
+        let clock = &world.clock;
+        let ctx = world.scenario.ctx();
+        
+        let genesis_shop = &mut world.genesis_shop;
+        let kiosk = &mut world.kiosk;
+
+        world.sale.mint_to_kiosk(
+            genesis_shop, 
+            avatar_registry, 
+            genesis_pass, 
+            kiosk, 
+            cap, 
+            mint_for_testing(10 * quantity, ctx), 
+            quantity, 
+            random, 
+            clock, 
+            ctx
+        );      
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::EInvalidPass)] 
+    fun test_assert_can_mint_error_invalid_pass() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[2, 3, 4]);
+
+        // starts at 8
+        world.clock.set_for_testing(8);
+
+        let avatar_registry = &world.avatar_registry;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx()),
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+        ];
+        let cap = &world.kiosk_cap;
+        let quantity = 3;
+        let random = &world.random;
+        let clock = &world.clock;
+        let ctx = world.scenario.ctx();
+        
+        let genesis_shop = &mut world.genesis_shop;
+        let kiosk = &mut world.kiosk;
+
+        world.sale.mint_to_kiosk(
+            genesis_shop, 
+            avatar_registry, 
+            genesis_pass, 
+            kiosk, 
+            cap, 
+            mint_for_testing(10 * quantity, ctx), 
+            quantity, 
+            random, 
+            clock, 
+            ctx
+        );      
+
+        world.end(); 
+    }
+
+    #[test]
+    #[expected_failure(abort_code = genesis_drop::ENoMoreDrops)] 
+    fun test_assert_can_mint_error_no_more_drops() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[11, 3, 4]);
+
+        // starts at 8
+        world.clock.set_for_testing(8);
+
+        let avatar_registry = &world.avatar_registry;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx()),
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+        ];
+        let cap = &world.kiosk_cap;
+        let quantity = 11;
+        let random = &world.random;
+        let clock = &world.clock;
+        let ctx = world.scenario.ctx();
+        
+        let genesis_shop = &mut world.genesis_shop;
+        let kiosk = &mut world.kiosk;
+
+        world.sale.mint_to_kiosk(
+            genesis_shop, 
+            avatar_registry, 
+            genesis_pass, 
+            kiosk, 
+            cap, 
+            mint_for_testing(11 * quantity, ctx), 
+            quantity, 
+            random, 
+            clock, 
+            ctx
+        );      
+
+        world.end(); 
+    }
+
     fun add_genesis_shop(world: &mut World) {
 
         let admin_cap = &world.super_admin;

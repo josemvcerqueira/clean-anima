@@ -411,4 +411,15 @@ module act::genesis_drop {
             phase
         }
     }
+
+    #[test_only]
+    public fun new_empty_avatar_ticket(ctx: &mut TxContext): AvatarTicket {
+        AvatarTicket {
+            id: object::new(ctx),
+            drop: vector[],
+            image_url: b"".to_string(),
+            image_hash: b"".to_string(),
+            model_url: b"".to_string(),
+        }
+    }
 }
