@@ -41,28 +41,28 @@ module act::genesis_shop_tests {
         
         index = index + 899;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Valenti".to_string());
         assert_eq(item.name(), b"Valenti 12".to_string());
 
         index = index + 900;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Aegis Tactical".to_string());
         assert_eq(item.name(), b"Raptor".to_string());
 
         index = index + 900;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Voloslav Industrial".to_string());
         assert_eq(item.name(), b"Renegade".to_string());
 
         index = index + 300;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Fenrir Arms".to_string());
         assert_eq(item.name(), b"Talon".to_string());
@@ -100,14 +100,14 @@ module act::genesis_shop_tests {
 
         index = index + 899;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Precisione Milano".to_string());
         assert_eq(item.name(), b"Whisper 9mm".to_string());
 
         index = index + 2100;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Liberty Arms Corporation".to_string());
         assert_eq(item.name(), b"Enforcer".to_string());
@@ -144,21 +144,21 @@ module act::genesis_shop_tests {
 
         index = index + 599;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-        assert_eq(item.rarity(), b"Mythic".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Future".to_string());
         assert_eq(item.manufacturer(), b"ハイパーブレード CORPORATION".to_string());
         assert_eq(item.name(), b"Neo-Katana".to_string());
 
         index = index + 1200;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Viceroy".to_string());
         assert_eq(item.manufacturer(), b"Eclipse Steel Forging LTD".to_string());
         assert_eq(item.name(), b"Scalper".to_string());
         
         index = index + 1200;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-        assert_eq(item.rarity(), b"Ultra Rare".to_string());
+        assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"K1TSUN3".to_string());
         assert_eq(item.manufacturer(), b"Ryujin Industrial".to_string());
         assert_eq(item.name(), b"Wakizashi".to_string());

@@ -30,19 +30,19 @@ module act::assets {
     ]; 
 
     const PRIMARY_RARITIES: vector<vector<u8>> = vector[
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Ultra Rare",
+        b"Common",
+        b"Common",
+        b"Common",
+        b"Common",
     ];
     const SECONDARY_RARITIES: vector<vector<u8>> = vector[
-        b"Ultra Rare",
-        b"Ultra Rare",
+        b"Common",
+        b"Common",
     ];
     const TERTIARY_RARITIES: vector<vector<u8>> = vector[
-        b"Ultra Rare",
-        b"Ultra Rare",
-        b"Mythic",
+        b"Common",
+        b"Common",
+        b"Common",
     ];
 
     // Colour ways
