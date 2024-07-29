@@ -1,22 +1,22 @@
 [
   {
-    "type": "access_control::Admin",
-    "id": "0x6909772e0b639fc718330fa4af7781180d4bc53b19322567e171d40e98813fe5"
+    "type": "package::UpgradeCap",
+    "id": "0x021c15452f998987aa51a890076834d665cfb2747336932cf457aa3e3eca682b"
   },
   {
-    "type": "package::UpgradeCap",
-    "id": "0x7bca7d2953e23773dbc68b3d8f3af62f905aea56f8e8ce1f351ce709519bcb30"
+    "type": "access_control::Admin",
+    "id": "0xaa86cc168f1baf7d709bf3163e8368d1517b543617d38b16de955715a96e447f"
+  },
+  {
+    "type": "access_control::Admin",
+    "id": "0x54a26993e6c0f19d0d17b220455bb2d2ebc87141f6b6ea2d6ed143070a977559"
   },
   {
     "type": "access_control::AccessControl",
-    "id": "0xdeac081924d1cf6a79926d1e4529b02a47bc525aac2135ec025e53343cc5d759"
+    "id": "0xd0b815976010dff57380c25fe439f6afa810ffec2e8b6001042fa52176f4418f"
   },
   {
     "type": "package_id",
-    "id": "0xeb5dd3a26fdf5f95b63d60ccd280d40ec3ead1a3d479ede43308835a89f6e152"
-  },
-  {
-    "type": "access_control::Admin",
-    "id": "0xf1be7569948fb075fbea4416875a0acfd0c5a63a0c0e8821ffbc28da9305f34f"
+    "id": "0xf013fc886023ddad5f2470ed24419d81ec2497f03d5981bfdab20848ec73209c"
   }
 ]

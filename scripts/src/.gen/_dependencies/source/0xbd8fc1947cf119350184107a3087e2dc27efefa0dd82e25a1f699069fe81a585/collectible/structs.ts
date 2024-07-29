@@ -12,71 +12,6 @@ import {PKG_V1} from "../index";
 import {BcsType, bcs, fromB64} from "@mysten/bcs";
 import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
-/* ============================== Registry =============================== */
-
-export function isRegistry(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::collectible::Registry`; }
-
-export interface RegistryFields { id: ToField<UID>; publisher: ToField<Publisher> }
-
-export type RegistryReified = Reified< Registry, RegistryFields >;
-
-export class Registry implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::Registry`; static readonly $numTypeParams = 0;
-
- readonly $typeName = Registry.$typeName;
-
- readonly $fullTypeName: `${typeof PKG_V1}::collectible::Registry`;
-
- readonly $typeArgs: [];
-
- readonly id: ToField<UID>; readonly publisher: ToField<Publisher>
-
- private constructor(typeArgs: [], fields: RegistryFields, ) { this.$fullTypeName = composeSuiType( Registry.$typeName, ...typeArgs ) as `${typeof PKG_V1}::collectible::Registry`; this.$typeArgs = typeArgs;
-
- this.id = fields.id;; this.publisher = fields.publisher; }
-
- static reified( ): RegistryReified { return { typeName: Registry.$typeName, fullTypeName: composeSuiType( Registry.$typeName, ...[] ) as `${typeof PKG_V1}::collectible::Registry`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Registry.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Registry.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Registry.fromBcs( data, ), bcs: Registry.bcs, fromJSONField: (field: any) => Registry.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Registry.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Registry.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Registry.fetch( client, id, ), new: ( fields: RegistryFields, ) => { return new Registry( [], fields ) }, kind: "StructClassReified", } }
-
- static get r() { return Registry.reified() }
-
- static phantom( ): PhantomReified<ToTypeStr<Registry>> { return phantom(Registry.reified( )); } static get p() { return Registry.phantom() }
-
- static get bcs() { return bcs.struct("Registry", {
-
- id: UID.bcs, publisher: Publisher.bcs
-
-}) };
-
- static fromFields( fields: Record<string, any> ): Registry { return Registry.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), publisher: decodeFromFields(Publisher.reified(), fields.publisher) } ) }
-
- static fromFieldsWithTypes( item: FieldsWithTypes ): Registry { if (!isRegistry(item.type)) { throw new Error("not a Registry type");
-
- }
-
- return Registry.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), publisher: decodeFromFieldsWithTypes(Publisher.reified(), item.fields.publisher) } ) }
-
- static fromBcs( data: Uint8Array ): Registry { return Registry.fromFields( Registry.bcs.parse(data) ) }
-
- toJSONField() { return {
-
- id: this.id,publisher: this.publisher.toJSONField(),
-
-} }
-
- toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
-
- static fromJSONField( field: any ): Registry { return Registry.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), publisher: decodeFromJSONField(Publisher.reified(), field.publisher) } ) }
-
- static fromJSON( json: Record<string, any> ): Registry { if (json.$typeName !== Registry.$typeName) { throw new Error("not a WithTwoGenerics json object") };
-
- return Registry.fromJSONField( json, ) }
-
- static fromSuiParsedData( content: SuiParsedData ): Registry { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isRegistry(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Registry object`); } return Registry.fromFieldsWithTypes( content ); }
-
- static async fetch( client: SuiClient, id: string ): Promise<Registry> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Registry object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isRegistry(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Registry object`); }
- return Registry.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
-
- }
-
 /* ============================== COLLECTIBLE =============================== */
 
 export function isCOLLECTIBLE(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::collectible::COLLECTIBLE`; }
@@ -338,5 +273,70 @@ export class CollectionTicket<T extends PhantomTypeArgument> implements StructCl
 
  static async fetch<T extends PhantomReified<PhantomTypeArgument>>( client: SuiClient, typeArg: T, id: string ): Promise<CollectionTicket<ToPhantomTypeArgument<T>>> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching CollectionTicket object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isCollectionTicket(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a CollectionTicket object`); }
  return CollectionTicket.fromBcs( typeArg, fromB64(res.data.bcs.bcsBytes) ); }
+
+ }
+
+/* ============================== Registry =============================== */
+
+export function isRegistry(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::collectible::Registry`; }
+
+export interface RegistryFields { id: ToField<UID>; publisher: ToField<Publisher> }
+
+export type RegistryReified = Reified< Registry, RegistryFields >;
+
+export class Registry implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::Registry`; static readonly $numTypeParams = 0;
+
+ readonly $typeName = Registry.$typeName;
+
+ readonly $fullTypeName: `${typeof PKG_V1}::collectible::Registry`;
+
+ readonly $typeArgs: [];
+
+ readonly id: ToField<UID>; readonly publisher: ToField<Publisher>
+
+ private constructor(typeArgs: [], fields: RegistryFields, ) { this.$fullTypeName = composeSuiType( Registry.$typeName, ...typeArgs ) as `${typeof PKG_V1}::collectible::Registry`; this.$typeArgs = typeArgs;
+
+ this.id = fields.id;; this.publisher = fields.publisher; }
+
+ static reified( ): RegistryReified { return { typeName: Registry.$typeName, fullTypeName: composeSuiType( Registry.$typeName, ...[] ) as `${typeof PKG_V1}::collectible::Registry`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Registry.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Registry.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Registry.fromBcs( data, ), bcs: Registry.bcs, fromJSONField: (field: any) => Registry.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Registry.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Registry.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Registry.fetch( client, id, ), new: ( fields: RegistryFields, ) => { return new Registry( [], fields ) }, kind: "StructClassReified", } }
+
+ static get r() { return Registry.reified() }
+
+ static phantom( ): PhantomReified<ToTypeStr<Registry>> { return phantom(Registry.reified( )); } static get p() { return Registry.phantom() }
+
+ static get bcs() { return bcs.struct("Registry", {
+
+ id: UID.bcs, publisher: Publisher.bcs
+
+}) };
+
+ static fromFields( fields: Record<string, any> ): Registry { return Registry.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), publisher: decodeFromFields(Publisher.reified(), fields.publisher) } ) }
+
+ static fromFieldsWithTypes( item: FieldsWithTypes ): Registry { if (!isRegistry(item.type)) { throw new Error("not a Registry type");
+
+ }
+
+ return Registry.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), publisher: decodeFromFieldsWithTypes(Publisher.reified(), item.fields.publisher) } ) }
+
+ static fromBcs( data: Uint8Array ): Registry { return Registry.fromFields( Registry.bcs.parse(data) ) }
+
+ toJSONField() { return {
+
+ id: this.id,publisher: this.publisher.toJSONField(),
+
+} }
+
+ toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
+
+ static fromJSONField( field: any ): Registry { return Registry.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), publisher: decodeFromJSONField(Publisher.reified(), field.publisher) } ) }
+
+ static fromJSON( json: Record<string, any> ): Registry { if (json.$typeName !== Registry.$typeName) { throw new Error("not a WithTwoGenerics json object") };
+
+ return Registry.fromJSONField( json, ) }
+
+ static fromSuiParsedData( content: SuiParsedData ): Registry { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isRegistry(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Registry object`); } return Registry.fromFieldsWithTypes( content ); }
+
+ static async fetch( client: SuiClient, id: string ): Promise<Registry> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Registry object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isRegistry(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Registry object`); }
+ return Registry.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
 
  }

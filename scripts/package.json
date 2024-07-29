@@ -11,7 +11,11 @@
     "publish-act": "bun ./src/publish-act.ts",
     "publish-anima": "bun ./src/publish-anima.ts",
     "prepare-shop": "bun ./src/prepare-shop.ts",
-    "genesis-shop": "bun ./src/genesis-shop.ts"
+    "genesis-shop": "bun ./src/genesis-shop.ts",
+    "sale": "bun ./src/sale.ts",
+    "mint-to-ticket": "bun ./src/mint-to-ticket.ts",
+    "mint-to-avatar": "bun ./src/mint-to-avatar.ts",
+    "mint-to-kiosk": "bun ./src/mint-to-kiosk.ts"
   },
   "dependencies": {
     "@mysten/sui": "^1.2.1",

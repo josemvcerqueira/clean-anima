@@ -10,7 +10,7 @@ export interface IObjectInfo {
 
 dotenv.config();
 
-export const keypair = Ed25519Keypair.fromSecretKey(Uint8Array.from(Buffer.from(process.env.KEY!, "base64")).slice(1));
+export const keypair = Ed25519Keypair.fromSecretKey(Uint8Array.from(Buffer.from(process.env.ANIMA_KEY!, "base64")).slice(1));
 
 export const client = new SuiClient({ url: getFullnodeUrl("testnet") });
 

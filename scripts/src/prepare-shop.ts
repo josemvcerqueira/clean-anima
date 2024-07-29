@@ -7,7 +7,6 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 		shop.addHelm,
 		shop.addUpperTorso,
 		shop.addChestpiece,
-		shop.addBoots,
 		shop.addLeftArm,
 		shop.addRightArm,
 		shop.addLeftBracer,
@@ -34,6 +33,8 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 		console.log("calling...")
 
 		for (let fun of functions) {
+			console.log(fun.name);
+
 			let builderId = "";
 			let j = 0;
 			while (j < 6) {
@@ -74,10 +75,12 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 
 				let status = result.effects?.status.status;
 				if (status === "success") {
-					console.log("tx success");
+					console.log("Items created: " + (j * 500 + 500));
 				} else {
 					console.log(result.effects?.status.error);
 				}
+
+				j++;
 			}
 		}
 
