@@ -20,7 +20,7 @@ module act::avatar {
         package, 
         display,
         table::{Self, Table},
-        vec_map::VecMap,
+        vec_map::{Self, VecMap},
         transfer_policy::TransferPolicy,
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
@@ -70,14 +70,13 @@ module act::avatar {
     public struct Avatar has key {
         id: UID,
         image_url: String,
-        image_hash: String,
         avatar_image: String,
         avatar_model: String,
         avatar_texture: String,
         edition: String,
         upgrades: vector<Upgrade>,
-        attributes: VecMap<String, String>
-        // see how to manage the secondary image
+        attributes: VecMap<String, String>,
+        misc: VecMap<String, String>,
     }
 
     // === Method Aliases ===
@@ -120,7 +119,6 @@ module act::avatar {
     public fun new(
         registry: &mut AvatarRegistry, 
         image_url: String,
-        image_hash: String,
         ctx: &mut TxContext
     ): Avatar {
         // One Avatar per user
@@ -129,13 +127,13 @@ module act::avatar {
         let avatar = Avatar {
             id: object::new(ctx),
             image_url,
-            image_hash,
             avatar_image: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
             avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
             avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
             edition: b"Standard".to_string(),
             upgrades: vector[],
             attributes: attributes::new(),
+            misc: vec_map::empty(),
         };
 
         registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
@@ -257,10 +255,6 @@ module act::avatar {
         self.image_url
     }
 
-    public fun image_hash(self: &Avatar): String {
-        self.image_hash
-    }
-
     public fun avatar_image(self: &Avatar): String {
         self.avatar_image
     }    
@@ -345,8 +339,8 @@ module act::avatar {
         transfer::transfer(self, recipient);
     }
 
-    public(package) fun set_genesis_edition(self: &mut Avatar) {
-        self.edition = b"Genesis".to_string();
+    public(package) fun set_edition(self: &mut Avatar, edition: vector<u8>) {
+        self.edition = edition.to_string();
     }
 
     // === Test Functions === 

@@ -5,6 +5,7 @@ module act::cosmetic {
     use sui::{
         kiosk::{Kiosk, KioskOwnerCap},
         transfer_policy::TransferPolicy, 
+        vec_map::{Self, VecMap},
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -25,6 +26,7 @@ module act::cosmetic {
 
     public struct Cosmetic has key, store {
         id: UID,
+        hash: vector<u8>, // unique id of cosmetic type
         name: String,
         image_url: String,
         model_url: String,
@@ -35,8 +37,8 @@ module act::cosmetic {
         manufacturer: String,
         rarity: String,
         wear_rating: u64, // [0,1] scaled to 1B
-        upgrades: vector<Upgrade>
-        // TODO: see how to manage the secondary image
+        upgrades: vector<Upgrade>,
+        misc: VecMap<String, String>,
     }
 
     // === Method Aliases ===
@@ -63,6 +65,10 @@ module act::cosmetic {
 
     public fun type_(self: &Cosmetic): String {
         self.`type`
+    }
+
+    public fun hash(self: &Cosmetic): vector<u8> {
+        self.hash
     }
 
     public fun name(self: &Cosmetic): String {
@@ -110,6 +116,7 @@ module act::cosmetic {
     // === Public-Package Functions ===
 
     public(package) fun new(
+        hash: vector<u8>,
         name: String,
         image_url: String,
         model_url: String,
@@ -124,6 +131,7 @@ module act::cosmetic {
     ): Cosmetic {
         Cosmetic {
             id: object::new(ctx),
+            hash,
             name,
             image_url,
             model_url,
@@ -134,7 +142,8 @@ module act::cosmetic {
             manufacturer,
             rarity,
             wear_rating,
-            upgrades: vector[]
+            upgrades: vector[],
+            misc: vec_map::empty(),
         }   
     }
 

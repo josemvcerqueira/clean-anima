@@ -6,11 +6,11 @@ module anima::account_tests {
         test_utils::{assert_eq, destroy},
         test_scenario::{Self as ts, Scenario, receiving_ticket_by_id}
     };
-
-    use animalib::access_control::{Admin, AccessControl};
-
-    use anima::{
+    use animalib::{
+        access_control::{Admin, AccessControl},
         admin,
+    };
+    use anima::{
         account::{Self, Registry, Reputation},
     };
 

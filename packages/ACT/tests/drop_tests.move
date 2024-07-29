@@ -1,6 +1,6 @@
 #[test_only]
 module act::genesis_drop_tests {
-
+    use std::debug::print;
     use sui::{
         coin::mint_for_testing,
         clock::{Self, Clock},
@@ -8,6 +8,7 @@ module act::genesis_drop_tests {
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk, KioskOwnerCap},
         test_scenario::{Self as ts, Scenario},
+        hash,
     };
     use animalib::access_control::{Admin, AccessControl};
     use act::{
@@ -38,6 +39,11 @@ module act::genesis_drop_tests {
     const TOTAL_ITEMS: u64 = 10;
     const FREE_MINT_PHASE: u64 = 0;
     const WHITELIST_PHASE: u64 = 1;
+
+    #[test]
+    fun hash_blake2b() {
+        print(&hash::blake2b256(&b"Thouny-test HASH"));
+    }
 
     #[test]
     fun test_init() {
@@ -221,10 +227,11 @@ module act::genesis_drop_tests {
 
         world.scenario.next_tx(ALICE);
 
-        let avatar_ticket = world.scenario.take_from_sender<AvatarTicket>();
+        let mut avatar_ticket = world.scenario.take_from_sender<AvatarTicket>();
 
         assert_eq(avatar_ticket.drop().length(), 17);
 
+        avatar_ticket.generate_image_to_ticket(b"image_url".to_string());
 
         {
             let random = &world.random;
@@ -923,7 +930,6 @@ module act::genesis_drop_tests {
         let avatar = avatar::new(
             &mut avatar_registry, 
             b"image_url".to_string(),
-            b"image_hash".to_string(),
             scenario.ctx()
         );
 

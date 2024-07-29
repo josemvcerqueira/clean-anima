@@ -9,6 +9,7 @@ module act::weapon {
     use sui::{
         transfer_policy::TransferPolicy, 
         kiosk::{Kiosk, KioskOwnerCap},
+        vec_map::{Self, VecMap},
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -29,6 +30,7 @@ module act::weapon {
 
     public struct Weapon has key, store {
         id: UID,
+        hash: vector<u8>, // unique id of weapon type
         name: String,
         image_url: String,
         model_url: String,
@@ -40,8 +42,8 @@ module act::weapon {
         rarity: String,
         wear_rating: u64,
         kill_count: u64,  
-        upgrades: vector<Upgrade>
-        // see how to manage the secondary image
+        upgrades: vector<Upgrade>,
+        misc: VecMap<String, String>,
     }
 
     // === Method Aliases ===
@@ -67,6 +69,10 @@ module act::weapon {
 
     public fun slot(self: &Weapon): String {
         self.slot
+    }
+
+    public fun hash(self: &Weapon): vector<u8> {
+        self.hash
     }
 
     public fun name(self: &Weapon): String {
@@ -118,6 +124,7 @@ module act::weapon {
     // === Public-Package Functions ===
 
     public(package) fun new(
+        hash: vector<u8>,
         name: String,
         image_url: String,
         model_url: String,
@@ -132,6 +139,7 @@ module act::weapon {
     ): Weapon {
         Weapon {
             id: object::new(ctx),
+            hash,
             name,
             image_url,
             model_url,
@@ -144,6 +152,7 @@ module act::weapon {
             wear_rating,
             kill_count: 0,
             upgrades: vector::empty(),
+            misc: vec_map::empty(),
         }
     }
 

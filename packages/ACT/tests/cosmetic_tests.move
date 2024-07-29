@@ -72,6 +72,7 @@ module act::cosmetic_tests {
 
         let cosmetic = new_cosmetic(world.scenario.ctx());
 
+        assert_eq(cosmetic.hash(), b"hash");
         assert_eq(cosmetic.name(), b"cursed vision of sargeras".to_string());
         assert_eq(cosmetic.image_url(), b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string());
         assert_eq(cosmetic.model_url(), b"head".to_string());
@@ -293,6 +294,7 @@ module act::cosmetic_tests {
 
     fun new_cosmetic(ctx: &mut TxContext): Cosmetic {
         cosmetic::new(
+            b"hash",
             b"cursed vision of sargeras".to_string(),
             b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
             b"head".to_string(),

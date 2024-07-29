@@ -14,6 +14,7 @@ module act::genesis_drop {
         sui::SUI,
         clock::Clock,
         random::Random,
+        hash,
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -66,10 +67,8 @@ module act::genesis_drop {
     public struct AvatarTicket has key {
         id: UID,
         drop: vector<Item>,
-        // following fields are to be added between mint_to_ticket and mint_to_avatar
-        image_url: String, 
-        model_url: String, 
-        texture_url: String,
+        // following field is to be added between mint_to_ticket and mint_to_avatar
+        image_url: String,
     }
 
     // === Public mutative Functions ===
@@ -116,8 +115,13 @@ module act::genesis_drop {
                 let item = items.swap_remove(index);
                 let (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
+                let mut hash = hash::blake2b256(name.as_bytes());
+                hash.append(hash::blake2b256(equipment.as_bytes()));
+                hash.append(hash::blake2b256(colour_way.as_bytes()));
+
                 if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                     let cosmetic = cosmetic::new(
+                        hash,
                         name,
                         image_url,
                         model_url,
@@ -133,6 +137,7 @@ module act::genesis_drop {
                     kiosk.place(cap, cosmetic);
                 } else {
                     let weapon = weapon::new(
+                        hash,
                         name,
                         image_url,
                         model_url,
@@ -184,12 +189,17 @@ module act::genesis_drop {
             AvatarTicket {
                 id: object::new(ctx),
                 drop: drop,
-                image_url: utf8(b"TODO"),
-                model_url: utf8(b"TODO"),
-                texture_url: utf8(b"TODO"),
+                image_url: utf8(b""),
             },
             ctx.sender() 
         );
+    }
+
+    entry fun generate_image_to_ticket(
+        ticket: &mut AvatarTicket,
+        image_url: String,
+    ) {
+        ticket.image_url = image_url;
     }
 
     // mint equipments and equip them to the avatar
@@ -200,18 +210,23 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         assert_valid_ticket(&ticket);
-        let AvatarTicket { id, mut drop, image_url, model_url, texture_url } = ticket;
+        let AvatarTicket { id, mut drop, image_url } = ticket;
         id.delete();
-        let mut avatar = avatar::new(registry, image_url, model_url, ctx);
-        avatar.set_genesis_edition();
+        let mut avatar = avatar::new(registry, image_url, ctx);
+        avatar.set_edition(b"Genesis");
         let mut gen = random.new_generator(ctx);
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
             let (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
+            let mut hash = hash::blake2b256(name.as_bytes());
+            hash.append(hash::blake2b256(equipment.as_bytes()));
+            hash.append(hash::blake2b256(colour_way.as_bytes()));
+
             if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                 let cosmetic = cosmetic::new(
+                    hash,
                     name,
                     image_url,
                     model_url,
@@ -227,6 +242,7 @@ module act::genesis_drop {
                 avatar.equip_minted_cosmetic(cosmetic);
             } else {
                 let weapon = weapon::new(
+                    hash,
                     name,
                     image_url,
                     model_url,
@@ -355,12 +371,7 @@ module act::genesis_drop {
     }
 
     fun assert_valid_ticket(ticket: &AvatarTicket) {
-        assert!(
-            !ticket.image_url.is_empty() &&
-            !ticket.model_url.is_empty() &&
-            !ticket.texture_url.is_empty(),
-            EInvalidTicket
-        );
+        assert!(!ticket.image_url.is_empty(), EInvalidTicket);
     }
 
     // === Test Functions ===
@@ -414,8 +425,6 @@ module act::genesis_drop {
             id: object::new(ctx),
             drop: vector[],
             image_url: b"".to_string(),
-            model_url: b"".to_string(),
-            texture_url: b"".to_string(),
         }
     }
 }

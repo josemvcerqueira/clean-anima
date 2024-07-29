@@ -64,7 +64,6 @@ module act::avatar_tests {
         world.avatar_registry.assert_has_avatar(OWNER);
 
         assert_eq(avatar.image_url(), b"avatar_image.png".to_string());
-        assert_eq(avatar.image_hash(), b"avatar_image_hash".to_string());
         assert_eq(avatar.edition(), b"Standard".to_string());
         //@ dev 16 cosmetics + 3 weapons
         assert_eq(avatar.attributes().size(), 20);
@@ -297,13 +296,13 @@ module act::avatar_tests {
         avatar::new(
             registry,
             b"avatar_image.png".to_string(),
-            b"avatar_image_hash".to_string(),
             ctx
         )
     }
 
     fun new_weapon(ctx: &mut TxContext): Weapon {
         weapon::new(
+            b"hash",
             b"warglaive of azzinoth".to_string(),
             b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string(),
             b"dual wield sword".to_string(),
@@ -320,6 +319,7 @@ module act::avatar_tests {
 
     fun new_cosmetic(ctx: &mut TxContext): Cosmetic {
         cosmetic::new(
+            b"hash",
             b"cursed vision of sargeras".to_string(),
             b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
             b"head".to_string(),

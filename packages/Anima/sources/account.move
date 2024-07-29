@@ -15,8 +15,10 @@ module anima::account {
         table_vec::{Self, TableVec},
         transfer::Receiving,
     };
-    use animalib::access_control::{Admin, AccessControl};
-    use anima::admin;
+    use animalib::{
+        access_control::{Admin, AccessControl},
+        admin,
+    };
 
     // === Errors ===
 

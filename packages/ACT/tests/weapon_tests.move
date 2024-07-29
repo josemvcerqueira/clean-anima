@@ -72,6 +72,7 @@ module act::weapon_tests {
 
         let weapon = new_weapon(world.scenario.ctx());
 
+        assert_eq(weapon.hash(), b"hash");
         assert_eq(weapon.name(), b"warglaive of azzinoth".to_string());
         assert_eq(weapon.image_url(), b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string());
         assert_eq(weapon.model_url(), b"dual wield sword".to_string());
@@ -293,6 +294,7 @@ module act::weapon_tests {
 
     fun new_weapon(ctx: &mut TxContext): Weapon {
         weapon::new(
+            b"hash",
             b"warglaive of azzinoth".to_string(),
             b"https://conquestcapped.com/image/cache/catalog/wow/transmogs/legendary-items/warglaives-of-azzinoth-630x400.png".to_string(),
             b"dual wield sword".to_string(),
