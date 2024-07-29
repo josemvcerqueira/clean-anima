@@ -144,21 +144,21 @@ module act::genesis_shop_tests {
 
         index = index + 599;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-        assert_eq(item.rarity(), b"Common".to_string());
+        assert_eq(item.rarity(), b"Mythic".to_string());
         assert_eq(item.colour_way(), b"Future".to_string());
         assert_eq(item.manufacturer(), b"ハイパーブレード CORPORATION".to_string());
         assert_eq(item.name(), b"Neo-Katana".to_string());
 
         index = index + 1200;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-        assert_eq(item.rarity(), b"Common".to_string());
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
         assert_eq(item.colour_way(), b"Viceroy".to_string());
         assert_eq(item.manufacturer(), b"Eclipse Steel Forging LTD".to_string());
         assert_eq(item.name(), b"Scalper".to_string());
         
         index = index + 1200;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
-        assert_eq(item.rarity(), b"Common".to_string());
+        assert_eq(item.rarity(), b"Ultra Rare".to_string());
         assert_eq(item.colour_way(), b"K1TSUN3".to_string());
         assert_eq(item.manufacturer(), b"Ryujin Industrial".to_string());
         assert_eq(item.name(), b"Wakizashi".to_string());

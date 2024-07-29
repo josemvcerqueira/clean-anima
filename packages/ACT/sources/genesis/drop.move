@@ -301,8 +301,8 @@ module act::genesis_drop {
         sale: &mut Sale, 
         access_control: &AccessControl, 
         admin: &Admin,
-        start_times: vector
-    <u64>) {
+        start_times: vector<u64>
+    ) {
         admin::assert_genesis_minter_role(access_control, admin);
         sale.start_times = start_times;
     }
@@ -311,8 +311,8 @@ module act::genesis_drop {
         sale: &mut Sale, 
         access_control: &AccessControl, 
         admin: &Admin,
-        max_mints: vector
-    <u64>) {
+        max_mints: vector<u64>
+    ) {
         admin::assert_genesis_minter_role(access_control, admin);
         sale.max_mints = max_mints;
     }
@@ -321,8 +321,8 @@ module act::genesis_drop {
         sale: &mut Sale, 
         access_control: &AccessControl, 
         admin: &Admin,
-        prices: vector
-    <u64>) {
+        prices: vector<u64>
+    ) {
         admin::assert_genesis_minter_role(access_control, admin);
         sale.prices = prices;
     }

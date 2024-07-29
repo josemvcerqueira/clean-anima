@@ -40,9 +40,9 @@ module act::assets {
         b"Common",
     ];
     const TERTIARY_RARITIES: vector<vector<u8>> = vector[
-        b"Common",
-        b"Common",
-        b"Common",
+        b"Ultra Rare",
+        b"Ultra Rare",
+        b"Mythic",
     ];
 
     // Colour ways
