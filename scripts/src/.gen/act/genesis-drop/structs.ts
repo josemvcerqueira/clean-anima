@@ -12,7 +12,7 @@ import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 export function isAvatarTicket(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::genesis_drop::AvatarTicket`; }
 
-export interface AvatarTicketFields { id: ToField<UID>; drop: ToField<Vector<Item>>; imageUrl: ToField<String>; imageHash: ToField<String>; modelUrl: ToField<String> }
+export interface AvatarTicketFields { id: ToField<UID>; drop: ToField<Vector<Item>>; imageUrl: ToField<String> }
 
 export type AvatarTicketReified = Reified< AvatarTicket, AvatarTicketFields >;
 
@@ -24,11 +24,11 @@ export class AvatarTicket implements StructClass { static readonly $typeName = `
 
  readonly $typeArgs: [];
 
- readonly id: ToField<UID>; readonly drop: ToField<Vector<Item>>; readonly imageUrl: ToField<String>; readonly imageHash: ToField<String>; readonly modelUrl: ToField<String>
+ readonly id: ToField<UID>; readonly drop: ToField<Vector<Item>>; readonly imageUrl: ToField<String>
 
  private constructor(typeArgs: [], fields: AvatarTicketFields, ) { this.$fullTypeName = composeSuiType( AvatarTicket.$typeName, ...typeArgs ) as `${typeof PKG_V1}::genesis_drop::AvatarTicket`; this.$typeArgs = typeArgs;
 
- this.id = fields.id;; this.drop = fields.drop;; this.imageUrl = fields.imageUrl;; this.imageHash = fields.imageHash;; this.modelUrl = fields.modelUrl; }
+ this.id = fields.id;; this.drop = fields.drop;; this.imageUrl = fields.imageUrl; }
 
  static reified( ): AvatarTicketReified { return { typeName: AvatarTicket.$typeName, fullTypeName: composeSuiType( AvatarTicket.$typeName, ...[] ) as `${typeof PKG_V1}::genesis_drop::AvatarTicket`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => AvatarTicket.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => AvatarTicket.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => AvatarTicket.fromBcs( data, ), bcs: AvatarTicket.bcs, fromJSONField: (field: any) => AvatarTicket.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => AvatarTicket.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => AvatarTicket.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => AvatarTicket.fetch( client, id, ), new: ( fields: AvatarTicketFields, ) => { return new AvatarTicket( [], fields ) }, kind: "StructClassReified", } }
 
@@ -38,29 +38,29 @@ export class AvatarTicket implements StructClass { static readonly $typeName = `
 
  static get bcs() { return bcs.struct("AvatarTicket", {
 
- id: UID.bcs, drop: bcs.vector(Item.bcs), image_url: String.bcs, image_hash: String.bcs, model_url: String.bcs
+ id: UID.bcs, drop: bcs.vector(Item.bcs), image_url: String.bcs
 
 }) };
 
- static fromFields( fields: Record<string, any> ): AvatarTicket { return AvatarTicket.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), drop: decodeFromFields(reified.vector(Item.reified()), fields.drop), imageUrl: decodeFromFields(String.reified(), fields.image_url), imageHash: decodeFromFields(String.reified(), fields.image_hash), modelUrl: decodeFromFields(String.reified(), fields.model_url) } ) }
+ static fromFields( fields: Record<string, any> ): AvatarTicket { return AvatarTicket.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), drop: decodeFromFields(reified.vector(Item.reified()), fields.drop), imageUrl: decodeFromFields(String.reified(), fields.image_url) } ) }
 
  static fromFieldsWithTypes( item: FieldsWithTypes ): AvatarTicket { if (!isAvatarTicket(item.type)) { throw new Error("not a AvatarTicket type");
 
  }
 
- return AvatarTicket.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), drop: decodeFromFieldsWithTypes(reified.vector(Item.reified()), item.fields.drop), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url), imageHash: decodeFromFieldsWithTypes(String.reified(), item.fields.image_hash), modelUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.model_url) } ) }
+ return AvatarTicket.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), drop: decodeFromFieldsWithTypes(reified.vector(Item.reified()), item.fields.drop), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url) } ) }
 
  static fromBcs( data: Uint8Array ): AvatarTicket { return AvatarTicket.fromFields( AvatarTicket.bcs.parse(data) ) }
 
  toJSONField() { return {
 
- id: this.id,drop: fieldToJSON<Vector<Item>>(`vector<${Item.$typeName}>`, this.drop),imageUrl: this.imageUrl,imageHash: this.imageHash,modelUrl: this.modelUrl,
+ id: this.id,drop: fieldToJSON<Vector<Item>>(`vector<${Item.$typeName}>`, this.drop),imageUrl: this.imageUrl,
 
 } }
 
  toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
 
- static fromJSONField( field: any ): AvatarTicket { return AvatarTicket.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), drop: decodeFromJSONField(reified.vector(Item.reified()), field.drop), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl), imageHash: decodeFromJSONField(String.reified(), field.imageHash), modelUrl: decodeFromJSONField(String.reified(), field.modelUrl) } ) }
+ static fromJSONField( field: any ): AvatarTicket { return AvatarTicket.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), drop: decodeFromJSONField(reified.vector(Item.reified()), field.drop), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl) } ) }
 
  static fromJSON( json: Record<string, any> ): AvatarTicket { if (json.$typeName !== AvatarTicket.$typeName) { throw new Error("not a WithTwoGenerics json object") };
 

@@ -6,9 +6,9 @@ import {Transaction, TransactionArgument, TransactionObjectInput} from "@mysten/
 
 export function hash( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::hash`, arguments: [ obj(tx, self) ], }) }
 
-export interface NewArgs { name: string | TransactionArgument; imageUrl: string | TransactionArgument; imageHash: string | TransactionArgument; modelUrl: string | TransactionArgument; type: string | TransactionArgument; colourWay: string | TransactionArgument; edition: string | TransactionArgument; manufacturer: string | TransactionArgument; rarity: string | TransactionArgument; hash: string | TransactionArgument; wearRating: bigint | TransactionArgument }
+export interface NewArgs { hash: Array<number | TransactionArgument> | TransactionArgument; name: string | TransactionArgument; imageUrl: string | TransactionArgument; modelUrl: string | TransactionArgument; textureUrl: string | TransactionArgument; type: string | TransactionArgument; colourWay: string | TransactionArgument; edition: string | TransactionArgument; manufacturer: string | TransactionArgument; rarity: string | TransactionArgument; wearRating: bigint | TransactionArgument }
 
-export function new_( tx: Transaction, args: NewArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::new`, arguments: [ pure(tx, args.name, `${String.$typeName}`), pure(tx, args.imageUrl, `${String.$typeName}`), pure(tx, args.imageHash, `${String.$typeName}`), pure(tx, args.modelUrl, `${String.$typeName}`), pure(tx, args.type, `${String.$typeName}`), pure(tx, args.colourWay, `${String.$typeName}`), pure(tx, args.edition, `${String.$typeName}`), pure(tx, args.manufacturer, `${String.$typeName}`), pure(tx, args.rarity, `${String.$typeName}`), pure(tx, args.hash, `${String.$typeName}`), pure(tx, args.wearRating, `u64`) ], }) }
+export function new_( tx: Transaction, args: NewArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::new`, arguments: [ pure(tx, args.hash, `vector<u8>`), pure(tx, args.name, `${String.$typeName}`), pure(tx, args.imageUrl, `${String.$typeName}`), pure(tx, args.modelUrl, `${String.$typeName}`), pure(tx, args.textureUrl, `${String.$typeName}`), pure(tx, args.type, `${String.$typeName}`), pure(tx, args.colourWay, `${String.$typeName}`), pure(tx, args.edition, `${String.$typeName}`), pure(tx, args.manufacturer, `${String.$typeName}`), pure(tx, args.rarity, `${String.$typeName}`), pure(tx, args.wearRating, `u64`) ], }) }
 
 export function name( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::name`, arguments: [ obj(tx, self) ], }) }
 
@@ -32,13 +32,13 @@ export function colourWay( tx: Transaction, self: TransactionObjectInput ) { ret
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::edition`, arguments: [ obj(tx, self) ], }) }
 
-export function imageHash( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::image_hash`, arguments: [ obj(tx, self) ], }) }
-
 export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export function manufacturer( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::manufacturer`, arguments: [ obj(tx, self) ], }) }
 
 export function modelUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::model_url`, arguments: [ obj(tx, self) ], }) }
+
+export function textureUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::texture_url`, arguments: [ obj(tx, self) ], }) }
 
 export function rarity( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::rarity`, arguments: [ obj(tx, self) ], }) }
 

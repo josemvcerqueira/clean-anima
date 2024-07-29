@@ -3,7 +3,7 @@ name = "AnimaLib"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
 # authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
-published-at = "0x4e298d2f57a9fbaed409ca59f82983d7fdefad659212d9d5b1ae1faaca68eb76"
+published-at = "0xeb5dd3a26fdf5f95b63d60ccd280d40ec3ead1a3d479ede43308835a89f6e152"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
@@ -20,7 +20,7 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-animalib = "0x4e298d2f57a9fbaed409ca59f82983d7fdefad659212d9d5b1ae1faaca68eb76"
+animalib = "0xeb5dd3a26fdf5f95b63d60ccd280d40ec3ead1a3d479ede43308835a89f6e152"
 std = "0x1"
 sui = "0x2"
 

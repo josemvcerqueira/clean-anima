@@ -19,6 +19,7 @@ loader.register(avatar.AvatarRegistry);
 loader.register(avatar.CosmeticKey);
 loader.register(avatar.WeaponKey);
 loader.register(genesisShop.Item);
+loader.register(genesisShop.Builder);
 loader.register(genesisShop.GenesisShop);
 loader.register(genesisDrop.AvatarTicket);
 loader.register(genesisDrop.GenesisPass);

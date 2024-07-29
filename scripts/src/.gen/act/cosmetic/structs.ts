@@ -1,6 +1,7 @@
 import * as reified from "../../_framework/reified";
 import {String} from "../../_dependencies/source/0x1/string/structs";
 import {UID} from "../../_dependencies/source/0x2/object/structs";
+import {VecMap} from "../../_dependencies/source/0x2/vec-map/structs";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, Vector, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../_framework/util";
 import {PKG_V1} from "../index";
@@ -142,7 +143,7 @@ export class COSMETIC implements StructClass { static readonly $typeName = `${PK
 
 export function isCosmetic(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::cosmetic::Cosmetic`; }
 
-export interface CosmeticFields { id: ToField<UID>; name: ToField<String>; imageUrl: ToField<String>; imageHash: ToField<String>; modelUrl: ToField<String>; type: ToField<String>; colourWay: ToField<String>; edition: ToField<String>; manufacturer: ToField<String>; rarity: ToField<String>; hash: ToField<String>; wearRating: ToField<"u64">; upgrades: ToField<Vector<Upgrade>> }
+export interface CosmeticFields { id: ToField<UID>; hash: ToField<Vector<"u8">>; name: ToField<String>; imageUrl: ToField<String>; modelUrl: ToField<String>; textureUrl: ToField<String>; type: ToField<String>; colourWay: ToField<String>; edition: ToField<String>; manufacturer: ToField<String>; rarity: ToField<String>; wearRating: ToField<"u64">; upgrades: ToField<Vector<Upgrade>>; misc: ToField<VecMap<String, String>> }
 
 export type CosmeticReified = Reified< Cosmetic, CosmeticFields >;
 
@@ -154,11 +155,11 @@ export class Cosmetic implements StructClass { static readonly $typeName = `${PK
 
  readonly $typeArgs: [];
 
- readonly id: ToField<UID>; readonly name: ToField<String>; readonly imageUrl: ToField<String>; readonly imageHash: ToField<String>; readonly modelUrl: ToField<String>; readonly type: ToField<String>; readonly colourWay: ToField<String>; readonly edition: ToField<String>; readonly manufacturer: ToField<String>; readonly rarity: ToField<String>; readonly hash: ToField<String>; readonly wearRating: ToField<"u64">; readonly upgrades: ToField<Vector<Upgrade>>
+ readonly id: ToField<UID>; readonly hash: ToField<Vector<"u8">>; readonly name: ToField<String>; readonly imageUrl: ToField<String>; readonly modelUrl: ToField<String>; readonly textureUrl: ToField<String>; readonly type: ToField<String>; readonly colourWay: ToField<String>; readonly edition: ToField<String>; readonly manufacturer: ToField<String>; readonly rarity: ToField<String>; readonly wearRating: ToField<"u64">; readonly upgrades: ToField<Vector<Upgrade>>; readonly misc: ToField<VecMap<String, String>>
 
  private constructor(typeArgs: [], fields: CosmeticFields, ) { this.$fullTypeName = composeSuiType( Cosmetic.$typeName, ...typeArgs ) as `${typeof PKG_V1}::cosmetic::Cosmetic`; this.$typeArgs = typeArgs;
 
- this.id = fields.id;; this.name = fields.name;; this.imageUrl = fields.imageUrl;; this.imageHash = fields.imageHash;; this.modelUrl = fields.modelUrl;; this.type = fields.type;; this.colourWay = fields.colourWay;; this.edition = fields.edition;; this.manufacturer = fields.manufacturer;; this.rarity = fields.rarity;; this.hash = fields.hash;; this.wearRating = fields.wearRating;; this.upgrades = fields.upgrades; }
+ this.id = fields.id;; this.hash = fields.hash;; this.name = fields.name;; this.imageUrl = fields.imageUrl;; this.modelUrl = fields.modelUrl;; this.textureUrl = fields.textureUrl;; this.type = fields.type;; this.colourWay = fields.colourWay;; this.edition = fields.edition;; this.manufacturer = fields.manufacturer;; this.rarity = fields.rarity;; this.wearRating = fields.wearRating;; this.upgrades = fields.upgrades;; this.misc = fields.misc; }
 
  static reified( ): CosmeticReified { return { typeName: Cosmetic.$typeName, fullTypeName: composeSuiType( Cosmetic.$typeName, ...[] ) as `${typeof PKG_V1}::cosmetic::Cosmetic`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Cosmetic.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Cosmetic.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Cosmetic.fromBcs( data, ), bcs: Cosmetic.bcs, fromJSONField: (field: any) => Cosmetic.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Cosmetic.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Cosmetic.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Cosmetic.fetch( client, id, ), new: ( fields: CosmeticFields, ) => { return new Cosmetic( [], fields ) }, kind: "StructClassReified", } }
 
@@ -168,29 +169,29 @@ export class Cosmetic implements StructClass { static readonly $typeName = `${PK
 
  static get bcs() { return bcs.struct("Cosmetic", {
 
- id: UID.bcs, name: String.bcs, image_url: String.bcs, image_hash: String.bcs, model_url: String.bcs, type: String.bcs, colour_way: String.bcs, edition: String.bcs, manufacturer: String.bcs, rarity: String.bcs, hash: String.bcs, wear_rating: bcs.u64(), upgrades: bcs.vector(Upgrade.bcs)
+ id: UID.bcs, hash: bcs.vector(bcs.u8()), name: String.bcs, image_url: String.bcs, model_url: String.bcs, texture_url: String.bcs, type: String.bcs, colour_way: String.bcs, edition: String.bcs, manufacturer: String.bcs, rarity: String.bcs, wear_rating: bcs.u64(), upgrades: bcs.vector(Upgrade.bcs), misc: VecMap.bcs(String.bcs, String.bcs)
 
 }) };
 
- static fromFields( fields: Record<string, any> ): Cosmetic { return Cosmetic.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), name: decodeFromFields(String.reified(), fields.name), imageUrl: decodeFromFields(String.reified(), fields.image_url), imageHash: decodeFromFields(String.reified(), fields.image_hash), modelUrl: decodeFromFields(String.reified(), fields.model_url), type: decodeFromFields(String.reified(), fields.type), colourWay: decodeFromFields(String.reified(), fields.colour_way), edition: decodeFromFields(String.reified(), fields.edition), manufacturer: decodeFromFields(String.reified(), fields.manufacturer), rarity: decodeFromFields(String.reified(), fields.rarity), hash: decodeFromFields(String.reified(), fields.hash), wearRating: decodeFromFields("u64", fields.wear_rating), upgrades: decodeFromFields(reified.vector(Upgrade.reified()), fields.upgrades) } ) }
+ static fromFields( fields: Record<string, any> ): Cosmetic { return Cosmetic.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), hash: decodeFromFields(reified.vector("u8"), fields.hash), name: decodeFromFields(String.reified(), fields.name), imageUrl: decodeFromFields(String.reified(), fields.image_url), modelUrl: decodeFromFields(String.reified(), fields.model_url), textureUrl: decodeFromFields(String.reified(), fields.texture_url), type: decodeFromFields(String.reified(), fields.type), colourWay: decodeFromFields(String.reified(), fields.colour_way), edition: decodeFromFields(String.reified(), fields.edition), manufacturer: decodeFromFields(String.reified(), fields.manufacturer), rarity: decodeFromFields(String.reified(), fields.rarity), wearRating: decodeFromFields("u64", fields.wear_rating), upgrades: decodeFromFields(reified.vector(Upgrade.reified()), fields.upgrades), misc: decodeFromFields(VecMap.reified(String.reified(), String.reified()), fields.misc) } ) }
 
  static fromFieldsWithTypes( item: FieldsWithTypes ): Cosmetic { if (!isCosmetic(item.type)) { throw new Error("not a Cosmetic type");
 
  }
 
- return Cosmetic.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), name: decodeFromFieldsWithTypes(String.reified(), item.fields.name), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url), imageHash: decodeFromFieldsWithTypes(String.reified(), item.fields.image_hash), modelUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.model_url), type: decodeFromFieldsWithTypes(String.reified(), item.fields.type), colourWay: decodeFromFieldsWithTypes(String.reified(), item.fields.colour_way), edition: decodeFromFieldsWithTypes(String.reified(), item.fields.edition), manufacturer: decodeFromFieldsWithTypes(String.reified(), item.fields.manufacturer), rarity: decodeFromFieldsWithTypes(String.reified(), item.fields.rarity), hash: decodeFromFieldsWithTypes(String.reified(), item.fields.hash), wearRating: decodeFromFieldsWithTypes("u64", item.fields.wear_rating), upgrades: decodeFromFieldsWithTypes(reified.vector(Upgrade.reified()), item.fields.upgrades) } ) }
+ return Cosmetic.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), hash: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.hash), name: decodeFromFieldsWithTypes(String.reified(), item.fields.name), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url), modelUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.model_url), textureUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.texture_url), type: decodeFromFieldsWithTypes(String.reified(), item.fields.type), colourWay: decodeFromFieldsWithTypes(String.reified(), item.fields.colour_way), edition: decodeFromFieldsWithTypes(String.reified(), item.fields.edition), manufacturer: decodeFromFieldsWithTypes(String.reified(), item.fields.manufacturer), rarity: decodeFromFieldsWithTypes(String.reified(), item.fields.rarity), wearRating: decodeFromFieldsWithTypes("u64", item.fields.wear_rating), upgrades: decodeFromFieldsWithTypes(reified.vector(Upgrade.reified()), item.fields.upgrades), misc: decodeFromFieldsWithTypes(VecMap.reified(String.reified(), String.reified()), item.fields.misc) } ) }
 
  static fromBcs( data: Uint8Array ): Cosmetic { return Cosmetic.fromFields( Cosmetic.bcs.parse(data) ) }
 
  toJSONField() { return {
 
- id: this.id,name: this.name,imageUrl: this.imageUrl,imageHash: this.imageHash,modelUrl: this.modelUrl,type: this.type,colourWay: this.colourWay,edition: this.edition,manufacturer: this.manufacturer,rarity: this.rarity,hash: this.hash,wearRating: this.wearRating.toString(),upgrades: fieldToJSON<Vector<Upgrade>>(`vector<${Upgrade.$typeName}>`, this.upgrades),
+ id: this.id,hash: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.hash),name: this.name,imageUrl: this.imageUrl,modelUrl: this.modelUrl,textureUrl: this.textureUrl,type: this.type,colourWay: this.colourWay,edition: this.edition,manufacturer: this.manufacturer,rarity: this.rarity,wearRating: this.wearRating.toString(),upgrades: fieldToJSON<Vector<Upgrade>>(`vector<${Upgrade.$typeName}>`, this.upgrades),misc: this.misc.toJSONField(),
 
 } }
 
  toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
 
- static fromJSONField( field: any ): Cosmetic { return Cosmetic.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), name: decodeFromJSONField(String.reified(), field.name), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl), imageHash: decodeFromJSONField(String.reified(), field.imageHash), modelUrl: decodeFromJSONField(String.reified(), field.modelUrl), type: decodeFromJSONField(String.reified(), field.type), colourWay: decodeFromJSONField(String.reified(), field.colourWay), edition: decodeFromJSONField(String.reified(), field.edition), manufacturer: decodeFromJSONField(String.reified(), field.manufacturer), rarity: decodeFromJSONField(String.reified(), field.rarity), hash: decodeFromJSONField(String.reified(), field.hash), wearRating: decodeFromJSONField("u64", field.wearRating), upgrades: decodeFromJSONField(reified.vector(Upgrade.reified()), field.upgrades) } ) }
+ static fromJSONField( field: any ): Cosmetic { return Cosmetic.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), hash: decodeFromJSONField(reified.vector("u8"), field.hash), name: decodeFromJSONField(String.reified(), field.name), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl), modelUrl: decodeFromJSONField(String.reified(), field.modelUrl), textureUrl: decodeFromJSONField(String.reified(), field.textureUrl), type: decodeFromJSONField(String.reified(), field.type), colourWay: decodeFromJSONField(String.reified(), field.colourWay), edition: decodeFromJSONField(String.reified(), field.edition), manufacturer: decodeFromJSONField(String.reified(), field.manufacturer), rarity: decodeFromJSONField(String.reified(), field.rarity), wearRating: decodeFromJSONField("u64", field.wearRating), upgrades: decodeFromJSONField(reified.vector(Upgrade.reified()), field.upgrades), misc: decodeFromJSONField(VecMap.reified(String.reified(), String.reified()), field.misc) } ) }
 
  static fromJSON( json: Record<string, any> ): Cosmetic { if (json.$typeName !== Cosmetic.$typeName) { throw new Error("not a WithTwoGenerics json object") };
 

@@ -13,7 +13,7 @@ import {SuiClient, SuiParsedData} from "@mysten/sui/client";
 
 export function isItem(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::genesis_shop::Item`; }
 
-export interface ItemFields { name: ToField<String>; kinds: ToField<Vector<String>>; isCosmetic: ToField<"bool">; colourWay: ToField<String>; manufacturer: ToField<String>; rarity: ToField<String> }
+export interface ItemFields { name: ToField<String>; equipment: ToField<String>; colourWay: ToField<String>; manufacturer: ToField<String>; rarity: ToField<String>; imageUrl: ToField<String>; modelUrl: ToField<String>; textureUrl: ToField<String> }
 
 export type ItemReified = Reified< Item, ItemFields >;
 
@@ -25,11 +25,11 @@ export class Item implements StructClass { static readonly $typeName = `${PKG_V1
 
  readonly $typeArgs: [];
 
- readonly name: ToField<String>; readonly kinds: ToField<Vector<String>>; readonly isCosmetic: ToField<"bool">; readonly colourWay: ToField<String>; readonly manufacturer: ToField<String>; readonly rarity: ToField<String>
+ readonly name: ToField<String>; readonly equipment: ToField<String>; readonly colourWay: ToField<String>; readonly manufacturer: ToField<String>; readonly rarity: ToField<String>; readonly imageUrl: ToField<String>; readonly modelUrl: ToField<String>; readonly textureUrl: ToField<String>
 
  private constructor(typeArgs: [], fields: ItemFields, ) { this.$fullTypeName = composeSuiType( Item.$typeName, ...typeArgs ) as `${typeof PKG_V1}::genesis_shop::Item`; this.$typeArgs = typeArgs;
 
- this.name = fields.name;; this.kinds = fields.kinds;; this.isCosmetic = fields.isCosmetic;; this.colourWay = fields.colourWay;; this.manufacturer = fields.manufacturer;; this.rarity = fields.rarity; }
+ this.name = fields.name;; this.equipment = fields.equipment;; this.colourWay = fields.colourWay;; this.manufacturer = fields.manufacturer;; this.rarity = fields.rarity;; this.imageUrl = fields.imageUrl;; this.modelUrl = fields.modelUrl;; this.textureUrl = fields.textureUrl; }
 
  static reified( ): ItemReified { return { typeName: Item.$typeName, fullTypeName: composeSuiType( Item.$typeName, ...[] ) as `${typeof PKG_V1}::genesis_shop::Item`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Item.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Item.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Item.fromBcs( data, ), bcs: Item.bcs, fromJSONField: (field: any) => Item.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Item.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Item.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Item.fetch( client, id, ), new: ( fields: ItemFields, ) => { return new Item( [], fields ) }, kind: "StructClassReified", } }
 
@@ -39,29 +39,29 @@ export class Item implements StructClass { static readonly $typeName = `${PKG_V1
 
  static get bcs() { return bcs.struct("Item", {
 
- name: String.bcs, kinds: bcs.vector(String.bcs), is_cosmetic: bcs.bool(), colour_way: String.bcs, manufacturer: String.bcs, rarity: String.bcs
+ name: String.bcs, equipment: String.bcs, colour_way: String.bcs, manufacturer: String.bcs, rarity: String.bcs, image_url: String.bcs, model_url: String.bcs, texture_url: String.bcs
 
 }) };
 
- static fromFields( fields: Record<string, any> ): Item { return Item.reified( ).new( { name: decodeFromFields(String.reified(), fields.name), kinds: decodeFromFields(reified.vector(String.reified()), fields.kinds), isCosmetic: decodeFromFields("bool", fields.is_cosmetic), colourWay: decodeFromFields(String.reified(), fields.colour_way), manufacturer: decodeFromFields(String.reified(), fields.manufacturer), rarity: decodeFromFields(String.reified(), fields.rarity) } ) }
+ static fromFields( fields: Record<string, any> ): Item { return Item.reified( ).new( { name: decodeFromFields(String.reified(), fields.name), equipment: decodeFromFields(String.reified(), fields.equipment), colourWay: decodeFromFields(String.reified(), fields.colour_way), manufacturer: decodeFromFields(String.reified(), fields.manufacturer), rarity: decodeFromFields(String.reified(), fields.rarity), imageUrl: decodeFromFields(String.reified(), fields.image_url), modelUrl: decodeFromFields(String.reified(), fields.model_url), textureUrl: decodeFromFields(String.reified(), fields.texture_url) } ) }
 
  static fromFieldsWithTypes( item: FieldsWithTypes ): Item { if (!isItem(item.type)) { throw new Error("not a Item type");
 
  }
 
- return Item.reified( ).new( { name: decodeFromFieldsWithTypes(String.reified(), item.fields.name), kinds: decodeFromFieldsWithTypes(reified.vector(String.reified()), item.fields.kinds), isCosmetic: decodeFromFieldsWithTypes("bool", item.fields.is_cosmetic), colourWay: decodeFromFieldsWithTypes(String.reified(), item.fields.colour_way), manufacturer: decodeFromFieldsWithTypes(String.reified(), item.fields.manufacturer), rarity: decodeFromFieldsWithTypes(String.reified(), item.fields.rarity) } ) }
+ return Item.reified( ).new( { name: decodeFromFieldsWithTypes(String.reified(), item.fields.name), equipment: decodeFromFieldsWithTypes(String.reified(), item.fields.equipment), colourWay: decodeFromFieldsWithTypes(String.reified(), item.fields.colour_way), manufacturer: decodeFromFieldsWithTypes(String.reified(), item.fields.manufacturer), rarity: decodeFromFieldsWithTypes(String.reified(), item.fields.rarity), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url), modelUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.model_url), textureUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.texture_url) } ) }
 
  static fromBcs( data: Uint8Array ): Item { return Item.fromFields( Item.bcs.parse(data) ) }
 
  toJSONField() { return {
 
- name: this.name,kinds: fieldToJSON<Vector<String>>(`vector<${String.$typeName}>`, this.kinds),isCosmetic: this.isCosmetic,colourWay: this.colourWay,manufacturer: this.manufacturer,rarity: this.rarity,
+ name: this.name,equipment: this.equipment,colourWay: this.colourWay,manufacturer: this.manufacturer,rarity: this.rarity,imageUrl: this.imageUrl,modelUrl: this.modelUrl,textureUrl: this.textureUrl,
 
 } }
 
  toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
 
- static fromJSONField( field: any ): Item { return Item.reified( ).new( { name: decodeFromJSONField(String.reified(), field.name), kinds: decodeFromJSONField(reified.vector(String.reified()), field.kinds), isCosmetic: decodeFromJSONField("bool", field.isCosmetic), colourWay: decodeFromJSONField(String.reified(), field.colourWay), manufacturer: decodeFromJSONField(String.reified(), field.manufacturer), rarity: decodeFromJSONField(String.reified(), field.rarity) } ) }
+ static fromJSONField( field: any ): Item { return Item.reified( ).new( { name: decodeFromJSONField(String.reified(), field.name), equipment: decodeFromJSONField(String.reified(), field.equipment), colourWay: decodeFromJSONField(String.reified(), field.colourWay), manufacturer: decodeFromJSONField(String.reified(), field.manufacturer), rarity: decodeFromJSONField(String.reified(), field.rarity), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl), modelUrl: decodeFromJSONField(String.reified(), field.modelUrl), textureUrl: decodeFromJSONField(String.reified(), field.textureUrl) } ) }
 
  static fromJSON( json: Record<string, any> ): Item { if (json.$typeName !== Item.$typeName) { throw new Error("not a WithTwoGenerics json object") };
 
@@ -71,6 +71,71 @@ export class Item implements StructClass { static readonly $typeName = `${PKG_V1
 
  static async fetch( client: SuiClient, id: string ): Promise<Item> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Item object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isItem(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Item object`); }
  return Item.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ }
+
+/* ============================== Builder =============================== */
+
+export function isBuilder(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::genesis_shop::Builder`; }
+
+export interface BuilderFields { id: ToField<UID>; equipment: ToField<String>; names: ToField<Vector<Vector<"u8">>>; colourWays: ToField<Vector<Vector<"u8">>>; manufacturers: ToField<Vector<Vector<"u8">>>; rarities: ToField<Vector<Vector<"u8">>>; quantities: ToField<Vector<Vector<"u64">>> }
+
+export type BuilderReified = Reified< Builder, BuilderFields >;
+
+export class Builder implements StructClass { static readonly $typeName = `${PKG_V1}::genesis_shop::Builder`; static readonly $numTypeParams = 0;
+
+ readonly $typeName = Builder.$typeName;
+
+ readonly $fullTypeName: `${typeof PKG_V1}::genesis_shop::Builder`;
+
+ readonly $typeArgs: [];
+
+ readonly id: ToField<UID>; readonly equipment: ToField<String>; readonly names: ToField<Vector<Vector<"u8">>>; readonly colourWays: ToField<Vector<Vector<"u8">>>; readonly manufacturers: ToField<Vector<Vector<"u8">>>; readonly rarities: ToField<Vector<Vector<"u8">>>; readonly quantities: ToField<Vector<Vector<"u64">>>
+
+ private constructor(typeArgs: [], fields: BuilderFields, ) { this.$fullTypeName = composeSuiType( Builder.$typeName, ...typeArgs ) as `${typeof PKG_V1}::genesis_shop::Builder`; this.$typeArgs = typeArgs;
+
+ this.id = fields.id;; this.equipment = fields.equipment;; this.names = fields.names;; this.colourWays = fields.colourWays;; this.manufacturers = fields.manufacturers;; this.rarities = fields.rarities;; this.quantities = fields.quantities; }
+
+ static reified( ): BuilderReified { return { typeName: Builder.$typeName, fullTypeName: composeSuiType( Builder.$typeName, ...[] ) as `${typeof PKG_V1}::genesis_shop::Builder`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Builder.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Builder.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Builder.fromBcs( data, ), bcs: Builder.bcs, fromJSONField: (field: any) => Builder.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Builder.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Builder.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Builder.fetch( client, id, ), new: ( fields: BuilderFields, ) => { return new Builder( [], fields ) }, kind: "StructClassReified", } }
+
+ static get r() { return Builder.reified() }
+
+ static phantom( ): PhantomReified<ToTypeStr<Builder>> { return phantom(Builder.reified( )); } static get p() { return Builder.phantom() }
+
+ static get bcs() { return bcs.struct("Builder", {
+
+ id: UID.bcs, equipment: String.bcs, names: bcs.vector(bcs.vector(bcs.u8())), colour_ways: bcs.vector(bcs.vector(bcs.u8())), manufacturers: bcs.vector(bcs.vector(bcs.u8())), rarities: bcs.vector(bcs.vector(bcs.u8())), quantities: bcs.vector(bcs.vector(bcs.u64()))
+
+}) };
+
+ static fromFields( fields: Record<string, any> ): Builder { return Builder.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), equipment: decodeFromFields(String.reified(), fields.equipment), names: decodeFromFields(reified.vector(reified.vector("u8")), fields.names), colourWays: decodeFromFields(reified.vector(reified.vector("u8")), fields.colour_ways), manufacturers: decodeFromFields(reified.vector(reified.vector("u8")), fields.manufacturers), rarities: decodeFromFields(reified.vector(reified.vector("u8")), fields.rarities), quantities: decodeFromFields(reified.vector(reified.vector("u64")), fields.quantities) } ) }
+
+ static fromFieldsWithTypes( item: FieldsWithTypes ): Builder { if (!isBuilder(item.type)) { throw new Error("not a Builder type");
+
+ }
+
+ return Builder.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), equipment: decodeFromFieldsWithTypes(String.reified(), item.fields.equipment), names: decodeFromFieldsWithTypes(reified.vector(reified.vector("u8")), item.fields.names), colourWays: decodeFromFieldsWithTypes(reified.vector(reified.vector("u8")), item.fields.colour_ways), manufacturers: decodeFromFieldsWithTypes(reified.vector(reified.vector("u8")), item.fields.manufacturers), rarities: decodeFromFieldsWithTypes(reified.vector(reified.vector("u8")), item.fields.rarities), quantities: decodeFromFieldsWithTypes(reified.vector(reified.vector("u64")), item.fields.quantities) } ) }
+
+ static fromBcs( data: Uint8Array ): Builder { return Builder.fromFields( Builder.bcs.parse(data) ) }
+
+ toJSONField() { return {
+
+ id: this.id,equipment: this.equipment,names: fieldToJSON<Vector<Vector<"u8">>>(`vector<vector<u8>>`, this.names),colourWays: fieldToJSON<Vector<Vector<"u8">>>(`vector<vector<u8>>`, this.colourWays),manufacturers: fieldToJSON<Vector<Vector<"u8">>>(`vector<vector<u8>>`, this.manufacturers),rarities: fieldToJSON<Vector<Vector<"u8">>>(`vector<vector<u8>>`, this.rarities),quantities: fieldToJSON<Vector<Vector<"u64">>>(`vector<vector<u64>>`, this.quantities),
+
+} }
+
+ toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
+
+ static fromJSONField( field: any ): Builder { return Builder.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), equipment: decodeFromJSONField(String.reified(), field.equipment), names: decodeFromJSONField(reified.vector(reified.vector("u8")), field.names), colourWays: decodeFromJSONField(reified.vector(reified.vector("u8")), field.colourWays), manufacturers: decodeFromJSONField(reified.vector(reified.vector("u8")), field.manufacturers), rarities: decodeFromJSONField(reified.vector(reified.vector("u8")), field.rarities), quantities: decodeFromJSONField(reified.vector(reified.vector("u64")), field.quantities) } ) }
+
+ static fromJSON( json: Record<string, any> ): Builder { if (json.$typeName !== Builder.$typeName) { throw new Error("not a WithTwoGenerics json object") };
+
+ return Builder.fromJSONField( json, ) }
+
+ static fromSuiParsedData( content: SuiParsedData ): Builder { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isBuilder(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Builder object`); } return Builder.fromFieldsWithTypes( content ); }
+
+ static async fetch( client: SuiClient, id: string ): Promise<Builder> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Builder object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isBuilder(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Builder object`); }
+ return Builder.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
 
  }
 

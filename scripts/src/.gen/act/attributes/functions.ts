@@ -15,11 +15,15 @@ export function assertIsValidWeapon( tx: Transaction, str: string | TransactionA
 
 export function backpiece( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::backpiece`, arguments: [ ], }) }
 
+export function belt( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::belt`, arguments: [ ], }) }
+
 export function boots( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::boots`, arguments: [ ], }) }
 
 export function chestpiece( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::chestpiece`, arguments: [ ], }) }
 
 export function cosmeticTypes( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::cosmetic_types`, arguments: [ ], }) }
+
+export function genesisMintTypes( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::genesis_mint_types`, arguments: [ ], }) }
 
 export function helm( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::attributes::helm`, arguments: [ ], }) }
 

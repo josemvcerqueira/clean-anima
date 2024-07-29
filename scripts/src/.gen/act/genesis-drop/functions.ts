@@ -1,4 +1,5 @@
 import {PUBLISHED_AT} from "..";
+import {String} from "../../_dependencies/source/0x1/string/structs";
 import {obj, pure, vector} from "../../_framework/util";
 import {GenesisPass} from "./structs";
 import {Transaction, TransactionArgument, TransactionObjectInput} from "@mysten/sui/transactions";
@@ -19,6 +20,10 @@ export function assertCanMint( tx: Transaction, args: AssertCanMintArgs ) { retu
 
 export function assertValidTicket( tx: Transaction, ticket: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::assert_valid_ticket`, arguments: [ obj(tx, ticket) ], }) }
 
+export interface GenerateImageToTicketArgs { ticket: TransactionObjectInput; imageUrl: string | TransactionArgument }
+
+export function generateImageToTicket( tx: Transaction, args: GenerateImageToTicketArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::generate_image_to_ticket`, arguments: [ obj(tx, args.ticket), pure(tx, args.imageUrl, `${String.$typeName}`) ], }) }
+
 export interface MintToAvatarArgs { ticket: TransactionObjectInput; registry: TransactionObjectInput; random: TransactionObjectInput }
 
 export function mintToAvatar( tx: Transaction, args: MintToAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_avatar`, arguments: [ obj(tx, args.ticket), obj(tx, args.registry), obj(tx, args.random) ], }) }
@@ -38,6 +43,10 @@ export function setActive( tx: Transaction, args: SetActiveArgs ) { return tx.mo
 export interface SetDropsLeftArgs { sale: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; dropsLeft: bigint | TransactionArgument }
 
 export function setDropsLeft( tx: Transaction, args: SetDropsLeftArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::set_drops_left`, arguments: [ obj(tx, args.sale), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.dropsLeft, `u64`) ], }) }
+
+export interface SetMaxMintsArgs { sale: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; maxMints: Array<bigint | TransactionArgument> | TransactionArgument }
+
+export function setMaxMints( tx: Transaction, args: SetMaxMintsArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::set_max_mints`, arguments: [ obj(tx, args.sale), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.maxMints, `vector<u64>`) ], }) }
 
 export interface SetPricesArgs { sale: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; prices: Array<bigint | TransactionArgument> | TransactionArgument }
 

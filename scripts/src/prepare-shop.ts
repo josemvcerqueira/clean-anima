@@ -3,59 +3,83 @@ import { client, keypair, getId } from './utils.js';
 import * as shop from "./.gen/act/genesis-shop/functions.js";
 
 (async () => {
+	const functions = [
+		shop.addHelm,
+		shop.addUpperTorso,
+		shop.addChestpiece,
+		shop.addBoots,
+		shop.addLeftArm,
+		shop.addRightArm,
+		shop.addLeftBracer,
+		shop.addRightBracer,
+		shop.addLeftGlove,
+		shop.addRightGlove,
+		shop.addLeftPauldron,
+		shop.addRightPauldron,
+		shop.addLegs,
+		shop.addShins,
+		shop.addBoots,
+		shop.addPrimary,
+		shop.addSecondary,
+		shop.addTertiary,
+	];
+
+	const args = {
+		genesisShop: getId("genesis_shop::GenesisShop"),
+		accessControl: getId("access_control::AccessControl"),
+		admin: getId("access_control::Admin"),
+	};
+
 	try {
 		console.log("calling...")
 
-		const tx = new Transaction();
-		const args = {
-			genesisShop: tx.object(getId("genesis_shop::GenesisShop")),
-			accessControl: tx.object(getId("access_control::AccessControl")),
-			admin: tx.object(getId("access_control::Admin")),
-		};
+		for (let fun of functions) {
+			let builderId = "";
+			let j = 0;
+			while (j < 6) {
+				const tx = new Transaction();
+				tx.setGasBudget(10000000000);
+				
+				let builder;
+				if (!builderId) { 
+					builder = fun(tx, args) 
+				} else {
+					builder = tx.object(builderId);
+				}
 
-		tx.moveCall({
-			target: `${getId("package_id")}::genesis_shop::add_helm`,
-			arguments: [
-				tx.object(getId("genesis_shop::GenesisShop")),
-				tx.object(getId("access_control::AccessControl")),
-				tx.object(getId("access_control::Admin")),
-			]
-		})
+				let i = 0;
+				while (i < 500) {
+					shop.newItem(tx, {
+						genesisShop: getId("genesis_shop::GenesisShop"),
+						builder: builder,
+					});
+					i++;
+				}
+				shop.keep(tx, builder);
 
-		// shop.addHelm(tx, args);
-		// shop.addUpperTorso(tx, args);
-		// shop.addChestpiece(tx, args);
-		// shop.addBoots(tx, args);
-		// shop.addLeftArm(tx, args);
-		// shop.addRightArm(tx, args);
-		// shop.addLeftBracer(tx, args);
-		// shop.addRightBracer(tx, args);
-		// shop.addLeftGlove(tx, args);
-		// shop.addRightGlove(tx, args);
-		// shop.addLeftPauldron(tx, args);
-		// shop.addRightPauldron(tx, args);
-		// shop.addLegs(tx, args);
-		// shop.addAccessory(tx, args);
-		// shop.addShins(tx, args);
-		// shop.addBoots(tx, args);
-		// shop.addPrimary(tx, args);
-		// shop.addSecondary(tx, args);
-		// shop.addTertiary(tx, args);
+				const result: any = await client.signAndExecuteTransaction({
+					signer: keypair,
+					transaction: tx,
+					options: {
+						showObjectChanges: true,
+						showEffects: true,
+					},
+					requestType: "WaitForLocalExecution"
+				});
 
-		tx.setGasBudget(10000000000);
+				if (!builderId) {
+					builderId = result.objectChanges?.find((obj: any) => obj.objectType.endsWith("::Builder")).objectId;
+					console.log("Builder: " + builderId);
+				}
 
-		const result = await client.signAndExecuteTransaction({
-			signer: keypair,
-			transaction: tx,
-			options: {
-				showObjectChanges: true,
-				showEffects: true,
-			},
-			requestType: "WaitForLocalExecution"
-		});
-
-		console.log("result: ", JSON.stringify(result.objectChanges, null, 2));
-		console.log("status: ", JSON.stringify(result.effects?.status, null, 2));
+				let status = result.effects?.status.status;
+				if (status === "success") {
+					console.log("tx success");
+				} else {
+					console.log(result.effects?.status.error);
+				}
+			}
+		}
 
 	} catch (e) {
 		console.log(e)

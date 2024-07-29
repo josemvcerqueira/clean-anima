@@ -1,0 +1,14 @@
+[
+  {
+    "type": "package::UpgradeCap",
+    "id": "0xa08953ede11a7662bce7c6add697eba8a2d4317197dd9f03723057fb66e0ac09"
+  },
+  {
+    "type": "package_id",
+    "id": "0xbacd50dfc91cdb1b9d8ee11c84322534503a542e68f5cbede9425e369f5f31dc"
+  },
+  {
+    "type": "account::Registry",
+    "id": "0xf621af7b81070750f0e28e5e38c508d37206774ea13c94fca85bbb98142caa34"
+  }
+]

@@ -79,7 +79,7 @@ export class AVATAR implements StructClass { static readonly $typeName = `${PKG_
 
 export function isAvatar(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::avatar::Avatar`; }
 
-export interface AvatarFields { id: ToField<UID>; imageUrl: ToField<String>; imageHash: ToField<String>; modelUrl: ToField<String>; avatarUrl: ToField<String>; avatarHash: ToField<String>; edition: ToField<String>; upgrades: ToField<Vector<Upgrade>>; attributes: ToField<VecMap<String, String>> }
+export interface AvatarFields { id: ToField<UID>; imageUrl: ToField<String>; avatarImage: ToField<String>; avatarModel: ToField<String>; avatarTexture: ToField<String>; edition: ToField<String>; upgrades: ToField<Vector<Upgrade>>; attributes: ToField<VecMap<String, String>>; misc: ToField<VecMap<String, String>> }
 
 export type AvatarReified = Reified< Avatar, AvatarFields >;
 
@@ -91,11 +91,11 @@ export class Avatar implements StructClass { static readonly $typeName = `${PKG_
 
  readonly $typeArgs: [];
 
- readonly id: ToField<UID>; readonly imageUrl: ToField<String>; readonly imageHash: ToField<String>; readonly modelUrl: ToField<String>; readonly avatarUrl: ToField<String>; readonly avatarHash: ToField<String>; readonly edition: ToField<String>; readonly upgrades: ToField<Vector<Upgrade>>; readonly attributes: ToField<VecMap<String, String>>
+ readonly id: ToField<UID>; readonly imageUrl: ToField<String>; readonly avatarImage: ToField<String>; readonly avatarModel: ToField<String>; readonly avatarTexture: ToField<String>; readonly edition: ToField<String>; readonly upgrades: ToField<Vector<Upgrade>>; readonly attributes: ToField<VecMap<String, String>>; readonly misc: ToField<VecMap<String, String>>
 
  private constructor(typeArgs: [], fields: AvatarFields, ) { this.$fullTypeName = composeSuiType( Avatar.$typeName, ...typeArgs ) as `${typeof PKG_V1}::avatar::Avatar`; this.$typeArgs = typeArgs;
 
- this.id = fields.id;; this.imageUrl = fields.imageUrl;; this.imageHash = fields.imageHash;; this.modelUrl = fields.modelUrl;; this.avatarUrl = fields.avatarUrl;; this.avatarHash = fields.avatarHash;; this.edition = fields.edition;; this.upgrades = fields.upgrades;; this.attributes = fields.attributes; }
+ this.id = fields.id;; this.imageUrl = fields.imageUrl;; this.avatarImage = fields.avatarImage;; this.avatarModel = fields.avatarModel;; this.avatarTexture = fields.avatarTexture;; this.edition = fields.edition;; this.upgrades = fields.upgrades;; this.attributes = fields.attributes;; this.misc = fields.misc; }
 
  static reified( ): AvatarReified { return { typeName: Avatar.$typeName, fullTypeName: composeSuiType( Avatar.$typeName, ...[] ) as `${typeof PKG_V1}::avatar::Avatar`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Avatar.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Avatar.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Avatar.fromBcs( data, ), bcs: Avatar.bcs, fromJSONField: (field: any) => Avatar.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Avatar.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Avatar.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Avatar.fetch( client, id, ), new: ( fields: AvatarFields, ) => { return new Avatar( [], fields ) }, kind: "StructClassReified", } }
 
@@ -105,29 +105,29 @@ export class Avatar implements StructClass { static readonly $typeName = `${PKG_
 
  static get bcs() { return bcs.struct("Avatar", {
 
- id: UID.bcs, image_url: String.bcs, image_hash: String.bcs, model_url: String.bcs, avatar_url: String.bcs, avatar_hash: String.bcs, edition: String.bcs, upgrades: bcs.vector(Upgrade.bcs), attributes: VecMap.bcs(String.bcs, String.bcs)
+ id: UID.bcs, image_url: String.bcs, avatar_image: String.bcs, avatar_model: String.bcs, avatar_texture: String.bcs, edition: String.bcs, upgrades: bcs.vector(Upgrade.bcs), attributes: VecMap.bcs(String.bcs, String.bcs), misc: VecMap.bcs(String.bcs, String.bcs)
 
 }) };
 
- static fromFields( fields: Record<string, any> ): Avatar { return Avatar.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), imageUrl: decodeFromFields(String.reified(), fields.image_url), imageHash: decodeFromFields(String.reified(), fields.image_hash), modelUrl: decodeFromFields(String.reified(), fields.model_url), avatarUrl: decodeFromFields(String.reified(), fields.avatar_url), avatarHash: decodeFromFields(String.reified(), fields.avatar_hash), edition: decodeFromFields(String.reified(), fields.edition), upgrades: decodeFromFields(reified.vector(Upgrade.reified()), fields.upgrades), attributes: decodeFromFields(VecMap.reified(String.reified(), String.reified()), fields.attributes) } ) }
+ static fromFields( fields: Record<string, any> ): Avatar { return Avatar.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), imageUrl: decodeFromFields(String.reified(), fields.image_url), avatarImage: decodeFromFields(String.reified(), fields.avatar_image), avatarModel: decodeFromFields(String.reified(), fields.avatar_model), avatarTexture: decodeFromFields(String.reified(), fields.avatar_texture), edition: decodeFromFields(String.reified(), fields.edition), upgrades: decodeFromFields(reified.vector(Upgrade.reified()), fields.upgrades), attributes: decodeFromFields(VecMap.reified(String.reified(), String.reified()), fields.attributes), misc: decodeFromFields(VecMap.reified(String.reified(), String.reified()), fields.misc) } ) }
 
  static fromFieldsWithTypes( item: FieldsWithTypes ): Avatar { if (!isAvatar(item.type)) { throw new Error("not a Avatar type");
 
  }
 
- return Avatar.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url), imageHash: decodeFromFieldsWithTypes(String.reified(), item.fields.image_hash), modelUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.model_url), avatarUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.avatar_url), avatarHash: decodeFromFieldsWithTypes(String.reified(), item.fields.avatar_hash), edition: decodeFromFieldsWithTypes(String.reified(), item.fields.edition), upgrades: decodeFromFieldsWithTypes(reified.vector(Upgrade.reified()), item.fields.upgrades), attributes: decodeFromFieldsWithTypes(VecMap.reified(String.reified(), String.reified()), item.fields.attributes) } ) }
+ return Avatar.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), imageUrl: decodeFromFieldsWithTypes(String.reified(), item.fields.image_url), avatarImage: decodeFromFieldsWithTypes(String.reified(), item.fields.avatar_image), avatarModel: decodeFromFieldsWithTypes(String.reified(), item.fields.avatar_model), avatarTexture: decodeFromFieldsWithTypes(String.reified(), item.fields.avatar_texture), edition: decodeFromFieldsWithTypes(String.reified(), item.fields.edition), upgrades: decodeFromFieldsWithTypes(reified.vector(Upgrade.reified()), item.fields.upgrades), attributes: decodeFromFieldsWithTypes(VecMap.reified(String.reified(), String.reified()), item.fields.attributes), misc: decodeFromFieldsWithTypes(VecMap.reified(String.reified(), String.reified()), item.fields.misc) } ) }
 
  static fromBcs( data: Uint8Array ): Avatar { return Avatar.fromFields( Avatar.bcs.parse(data) ) }
 
  toJSONField() { return {
 
- id: this.id,imageUrl: this.imageUrl,imageHash: this.imageHash,modelUrl: this.modelUrl,avatarUrl: this.avatarUrl,avatarHash: this.avatarHash,edition: this.edition,upgrades: fieldToJSON<Vector<Upgrade>>(`vector<${Upgrade.$typeName}>`, this.upgrades),attributes: this.attributes.toJSONField(),
+ id: this.id,imageUrl: this.imageUrl,avatarImage: this.avatarImage,avatarModel: this.avatarModel,avatarTexture: this.avatarTexture,edition: this.edition,upgrades: fieldToJSON<Vector<Upgrade>>(`vector<${Upgrade.$typeName}>`, this.upgrades),attributes: this.attributes.toJSONField(),misc: this.misc.toJSONField(),
 
 } }
 
  toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
 
- static fromJSONField( field: any ): Avatar { return Avatar.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl), imageHash: decodeFromJSONField(String.reified(), field.imageHash), modelUrl: decodeFromJSONField(String.reified(), field.modelUrl), avatarUrl: decodeFromJSONField(String.reified(), field.avatarUrl), avatarHash: decodeFromJSONField(String.reified(), field.avatarHash), edition: decodeFromJSONField(String.reified(), field.edition), upgrades: decodeFromJSONField(reified.vector(Upgrade.reified()), field.upgrades), attributes: decodeFromJSONField(VecMap.reified(String.reified(), String.reified()), field.attributes) } ) }
+ static fromJSONField( field: any ): Avatar { return Avatar.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), imageUrl: decodeFromJSONField(String.reified(), field.imageUrl), avatarImage: decodeFromJSONField(String.reified(), field.avatarImage), avatarModel: decodeFromJSONField(String.reified(), field.avatarModel), avatarTexture: decodeFromJSONField(String.reified(), field.avatarTexture), edition: decodeFromJSONField(String.reified(), field.edition), upgrades: decodeFromJSONField(reified.vector(Upgrade.reified()), field.upgrades), attributes: decodeFromJSONField(VecMap.reified(String.reified(), String.reified()), field.attributes), misc: decodeFromJSONField(VecMap.reified(String.reified(), String.reified()), field.misc) } ) }
 
  static fromJSON( json: Record<string, any> ): Avatar { if (json.$typeName !== Avatar.$typeName) { throw new Error("not a WithTwoGenerics json object") };
 

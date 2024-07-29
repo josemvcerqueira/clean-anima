@@ -3,11 +3,9 @@ import {String} from "../../_dependencies/source/0x1/string/structs";
 import {obj, pure} from "../../_framework/util";
 import {Transaction, TransactionArgument, TransactionObjectInput} from "@mysten/sui/transactions";
 
-export interface MinArgs { x: bigint | TransactionArgument; y: bigint | TransactionArgument }
-
-export function min( tx: Transaction, args: MinArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::min`, arguments: [ pure(tx, args.x, `u64`), pure(tx, args.y, `u64`) ], }) }
-
 export function name( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::name`, arguments: [ obj(tx, self) ], }) }
+
+export function keep( tx: Transaction, builder: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::keep`, arguments: [ obj(tx, builder) ], }) }
 
 export function init( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::init`, arguments: [ ], }) }
 
@@ -17,9 +15,11 @@ export function manufacturer( tx: Transaction, self: TransactionObjectInput ) { 
 
 export function rarity( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::rarity`, arguments: [ obj(tx, self) ], }) }
 
-export interface AddAccessoryArgs { genesisShop: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput }
+export function equipment( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::equipment`, arguments: [ obj(tx, self) ], }) }
 
-export function addAccessory( tx: Transaction, args: AddAccessoryArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::add_accessory`, arguments: [ obj(tx, args.genesisShop), obj(tx, args.accessControl), obj(tx, args.admin) ], }) }
+export interface AddBeltArgs { genesisShop: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput }
+
+export function addBelt( tx: Transaction, args: AddBeltArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::add_belt`, arguments: [ obj(tx, args.genesisShop), obj(tx, args.accessControl), obj(tx, args.admin) ], }) }
 
 export interface AddBootsArgs { genesisShop: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput }
 
@@ -93,28 +93,20 @@ export interface BorrowItemMutArgs { self: TransactionObjectInput; name: string 
 
 export function borrowItemMut( tx: Transaction, args: BorrowItemMutArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::borrow_item_mut`, arguments: [ obj(tx, args.self), pure(tx, args.name, `${String.$typeName}`) ], }) }
 
-export interface BuildArgs { isCosmetic: boolean | TransactionArgument; names: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; kinds: Array<string | TransactionArgument> | TransactionArgument; colourWays: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; manufacturers: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; rarities: Array<Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument> | TransactionArgument; chances: Array<Array<bigint | TransactionArgument> | TransactionArgument> | TransactionArgument }
-
-export function build( tx: Transaction, args: BuildArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::build`, arguments: [ pure(tx, args.isCosmetic, `bool`), pure(tx, args.names, `vector<vector<u8>>`), pure(tx, args.kinds, `vector<${String.$typeName}>`), pure(tx, args.colourWays, `vector<vector<u8>>`), pure(tx, args.manufacturers, `vector<vector<u8>>`), pure(tx, args.rarities, `vector<vector<vector<u8>>>`), pure(tx, args.chances, `vector<vector<u64>>`) ], }) }
-
-export function kinds( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::kinds`, arguments: [ obj(tx, self) ], }) }
-
-export interface BuildSecondaryArgs { names: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; kinds: Array<string | TransactionArgument> | TransactionArgument; colourWays: Array<Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument> | TransactionArgument; manufacturers: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; rarities: Array<Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument> | TransactionArgument; chances: Array<Array<bigint | TransactionArgument> | TransactionArgument> | TransactionArgument; precision: bigint | TransactionArgument }
-
-export function buildSecondary( tx: Transaction, args: BuildSecondaryArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::build_secondary`, arguments: [ pure(tx, args.names, `vector<vector<u8>>`), pure(tx, args.kinds, `vector<${String.$typeName}>`), pure(tx, args.colourWays, `vector<vector<vector<u8>>>`), pure(tx, args.manufacturers, `vector<vector<u8>>`), pure(tx, args.rarities, `vector<vector<vector<u8>>>`), pure(tx, args.chances, `vector<vector<u64>>`), pure(tx, args.precision, `u64`) ], }) }
-
-export interface BuildTertiaryArgs { names: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; kinds: Array<string | TransactionArgument> | TransactionArgument; colourWays: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; manufacturers: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; rarities: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; chances: Array<bigint | TransactionArgument> | TransactionArgument; precision: bigint | TransactionArgument }
-
-export function buildTertiary( tx: Transaction, args: BuildTertiaryArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::build_tertiary`, arguments: [ pure(tx, args.names, `vector<vector<u8>>`), pure(tx, args.kinds, `vector<${String.$typeName}>`), pure(tx, args.colourWays, `vector<vector<u8>>`), pure(tx, args.manufacturers, `vector<vector<u8>>`), pure(tx, args.rarities, `vector<vector<u8>>`), pure(tx, args.chances, `vector<u64>`), pure(tx, args.precision, `u64`) ], }) }
+export function destroyBuilder( tx: Transaction, builder: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::destroy_builder`, arguments: [ obj(tx, builder) ], }) }
 
 export function isSet( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::is_set`, arguments: [ obj(tx, self) ], }) }
-
-export function makeCosmeticRarities( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::make_cosmetic_rarities`, arguments: [ ], }) }
-
-export function makePrimaryRarities( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::make_primary_rarities`, arguments: [ ], }) }
 
 export interface MulDivArgs { x: bigint | TransactionArgument; y: bigint | TransactionArgument; z: bigint | TransactionArgument }
 
 export function mulDiv( tx: Transaction, args: MulDivArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::mul_div`, arguments: [ pure(tx, args.x, `u64`), pure(tx, args.y, `u64`), pure(tx, args.z, `u64`) ], }) }
+
+export interface NewBuilderArgs { equipment: string | TransactionArgument; names: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; colourWays: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; manufacturers: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; rarities: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument; chances: Array<Array<bigint | TransactionArgument> | TransactionArgument> | TransactionArgument; totalAmount: bigint | TransactionArgument }
+
+export function newBuilder( tx: Transaction, args: NewBuilderArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::new_builder`, arguments: [ pure(tx, args.equipment, `${String.$typeName}`), pure(tx, args.names, `vector<vector<u8>>`), pure(tx, args.colourWays, `vector<vector<u8>>`), pure(tx, args.manufacturers, `vector<vector<u8>>`), pure(tx, args.rarities, `vector<vector<u8>>`), pure(tx, args.chances, `vector<vector<u64>>`), pure(tx, args.totalAmount, `u64`) ], }) }
+
+export interface NewItemArgs { genesisShop: TransactionObjectInput; builder: TransactionObjectInput }
+
+export function newItem( tx: Transaction, args: NewItemArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::new_item`, arguments: [ obj(tx, args.genesisShop), obj(tx, args.builder) ], }) }
 
 export function unpack( tx: Transaction, item: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_shop::unpack`, arguments: [ obj(tx, item) ], }) }

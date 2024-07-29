@@ -4,9 +4,9 @@ import {ID} from "../../_dependencies/source/0x2/object/structs";
 import {obj, pure} from "../../_framework/util";
 import {Transaction, TransactionArgument, TransactionObjectInput} from "@mysten/sui/transactions";
 
-export interface NewArgs { registry: TransactionObjectInput; imageUrl: string | TransactionArgument; imageHash: string | TransactionArgument; modelUrl: string | TransactionArgument; avatarUrl: string | TransactionArgument; avatarHash: string | TransactionArgument; edition: string | TransactionArgument }
+export interface NewArgs { registry: TransactionObjectInput; imageUrl: string | TransactionArgument }
 
-export function new_( tx: Transaction, args: NewArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::new`, arguments: [ obj(tx, args.registry), pure(tx, args.imageUrl, `${String.$typeName}`), pure(tx, args.imageHash, `${String.$typeName}`), pure(tx, args.modelUrl, `${String.$typeName}`), pure(tx, args.avatarUrl, `${String.$typeName}`), pure(tx, args.avatarHash, `${String.$typeName}`), pure(tx, args.edition, `${String.$typeName}`) ], }) }
+export function new_( tx: Transaction, args: NewArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::new`, arguments: [ obj(tx, args.registry), pure(tx, args.imageUrl, `${String.$typeName}`) ], }) }
 
 export interface TransferArgs { self: TransactionObjectInput; recipient: string | TransactionArgument }
 
@@ -18,17 +18,13 @@ export interface UpgradeArgs { self: TransactionObjectInput; accessControl: Tran
 
 export function upgrade( tx: Transaction, args: UpgradeArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::upgrade`, arguments: [ obj(tx, args.self), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.url, `${String.$typeName}`) ], }) }
 
-export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::init`, arguments: [ obj(tx, otw) ], }) }
-
 export function attributes( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::attributes`, arguments: [ obj(tx, self) ], }) }
+
+export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::init`, arguments: [ obj(tx, otw) ], }) }
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::edition`, arguments: [ obj(tx, self) ], }) }
 
-export function imageHash( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::image_hash`, arguments: [ obj(tx, self) ], }) }
-
 export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::image_url`, arguments: [ obj(tx, self) ], }) }
-
-export function modelUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::model_url`, arguments: [ obj(tx, self) ], }) }
 
 export function upgrades( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::upgrades`, arguments: [ obj(tx, self) ], }) }
 
@@ -40,9 +36,11 @@ export interface AssertNoAvatarArgs { self: TransactionObjectInput; addr: string
 
 export function assertNoAvatar( tx: Transaction, args: AssertNoAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::assert_no_avatar`, arguments: [ obj(tx, args.self), pure(tx, args.addr, `address`) ], }) }
 
-export function avatarHash( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_hash`, arguments: [ obj(tx, self) ], }) }
+export function avatarImage( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_image`, arguments: [ obj(tx, self) ], }) }
 
-export function avatarUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_url`, arguments: [ obj(tx, self) ], }) }
+export function avatarModel( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_model`, arguments: [ obj(tx, self) ], }) }
+
+export function avatarTexture( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_texture`, arguments: [ obj(tx, self) ], }) }
 
 export interface EquipCosmeticArgs { self: TransactionObjectInput; cosmeticId: string | TransactionArgument; cosmeticType: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
 
@@ -67,6 +65,10 @@ export function hasCosmetic( tx: Transaction, args: HasCosmeticArgs ) { return t
 export interface HasWeaponArgs { self: TransactionObjectInput; slot: string | TransactionArgument }
 
 export function hasWeapon( tx: Transaction, args: HasWeaponArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::has_weapon`, arguments: [ obj(tx, args.self), pure(tx, args.slot, `${String.$typeName}`) ], }) }
+
+export interface SetEditionArgs { self: TransactionObjectInput; edition: Array<number | TransactionArgument> | TransactionArgument }
+
+export function setEdition( tx: Transaction, args: SetEditionArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::set_edition`, arguments: [ obj(tx, args.self), pure(tx, args.edition, `vector<u8>`) ], }) }
 
 export interface UnequipCosmeticArgs { self: TransactionObjectInput; cosmeticType: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
 

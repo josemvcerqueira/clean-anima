@@ -1,0 +1,22 @@
+[
+  {
+    "type": "access_control::Admin",
+    "id": "0x6909772e0b639fc718330fa4af7781180d4bc53b19322567e171d40e98813fe5"
+  },
+  {
+    "type": "package::UpgradeCap",
+    "id": "0x7bca7d2953e23773dbc68b3d8f3af62f905aea56f8e8ce1f351ce709519bcb30"
+  },
+  {
+    "type": "access_control::AccessControl",
+    "id": "0xdeac081924d1cf6a79926d1e4529b02a47bc525aac2135ec025e53343cc5d759"
+  },
+  {
+    "type": "package_id",
+    "id": "0xeb5dd3a26fdf5f95b63d60ccd280d40ec3ead1a3d479ede43308835a89f6e152"
+  },
+  {
+    "type": "access_control::Admin",
+    "id": "0xf1be7569948fb075fbea4416875a0acfd0c5a63a0c0e8821ffbc28da9305f34f"
+  }
+]

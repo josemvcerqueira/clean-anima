@@ -7,7 +7,9 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "publish": "bun ./src/publish.ts",
+    "publish-lib": "bun ./src/publish-lib.ts",
+    "publish-act": "bun ./src/publish-act.ts",
+    "publish-anima": "bun ./src/publish-anima.ts",
     "prepare-shop": "bun ./src/prepare-shop.ts"
   },
   "dependencies": {

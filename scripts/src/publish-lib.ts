@@ -9,7 +9,7 @@ import { client, keypair, IObjectInfo, getId } from './utils.js';
 	const { execSync } = require('child_process');
 	const { modules, dependencies } = JSON.parse(
 	execSync(
-		`${process.env.CLI_PATH!} move build --dump-bytecode-as-base64 --path ${process.env.ACT_PACKAGE_PATH!}`, 
+		`${process.env.CLI_PATH!} move build --dump-bytecode-as-base64 --path ${process.env.LIB_PACKAGE_PATH!}`, 
 		{ encoding: 'utf-8' }
 	));
 
@@ -69,7 +69,7 @@ import { client, keypair, IObjectInfo, getId } from './utils.js';
             }
         });
 
-		fs.writeFileSync('./src/data/created.json', JSON.stringify(objects, null, 2));
+		fs.writeFileSync('./src/data/lib-created.json', JSON.stringify(objects, null, 2));
 		
 	} catch (e) {
 		console.log(e);
