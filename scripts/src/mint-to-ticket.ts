@@ -16,7 +16,7 @@ import * as drop from "./.gen/act/genesis-drop/functions.js";
         drop.mintToTicket(tx, {
             sale: getId("genesis_drop::Sale"),
             genesisShop: getId("genesis_shop::GenesisShop"),
-            registry: getId("avatar::Registry"),
+            registry: getId("avatar::AvatarRegistry"),
             pass: [],
             coin,
             random: "0x8",

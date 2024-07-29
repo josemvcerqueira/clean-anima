@@ -21,19 +21,19 @@ import * as drop from "./.gen/act/genesis-drop/functions.js";
 			sale: getId("genesis_drop::Sale"),
 			accessControl: getId("access_control::AccessControl"),
 			admin: getId("access_control::Admin"),
-			startTimes: [0n],
+			startTimes: [0n, 0n, 0n],
 		});
 		drop.setMaxMints(tx, {
 			sale: getId("genesis_drop::Sale"),
 			accessControl: getId("access_control::AccessControl"),
 			admin: getId("access_control::Admin"),
-			maxMints: [100n],
+			maxMints: [100n, 100n, 100n],
 		});
 		drop.setPrices(tx, {
 			sale: getId("genesis_drop::Sale"),
 			accessControl: getId("access_control::AccessControl"),
 			admin: getId("access_control::Admin"),
-			prices: [10n],
+			prices: [10n, 10n, 10n],
 		});
 
 		const result: any = await client.signAndExecuteTransaction({
