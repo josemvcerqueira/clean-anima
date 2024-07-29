@@ -10,7 +10,8 @@
     "publish-lib": "bun ./src/publish-lib.ts",
     "publish-act": "bun ./src/publish-act.ts",
     "publish-anima": "bun ./src/publish-anima.ts",
-    "prepare-shop": "bun ./src/prepare-shop.ts"
+    "prepare-shop": "bun ./src/prepare-shop.ts",
+    "genesis-shop": "bun ./src/genesis-shop.ts"
   },
   "dependencies": {
     "@mysten/sui": "^1.2.1",
