@@ -56,7 +56,12 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 					});
 					i++;
 				}
-				shop.keep(tx, builder);
+				
+				if (j == 5) {
+					shop.destroyBuilder(tx, builder);
+				} else {
+					shop.keep(tx, builder);
+				}
 
 				const result: any = await client.signAndExecuteTransaction({
 					signer: keypair,
@@ -67,17 +72,17 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 					},
 					requestType: "WaitForLocalExecution"
 				});
-
-				if (!builderId) {
-					builderId = result.objectChanges?.find((obj: any) => obj.objectType.endsWith("::Builder")).objectId;
-					console.log("Builder: " + builderId);
-				}
-
+				
 				let status = result.effects?.status.status;
 				if (status === "success") {
 					console.log("Items created: " + (j * 500 + 500));
 				} else {
 					console.log(result.effects?.status.error);
+				}
+
+				if (!builderId) {
+					builderId = result.objectChanges?.find((obj: any) => obj.objectType.endsWith("::Builder")).objectId;
+					console.log("Builder: " + builderId);
 				}
 
 				j++;

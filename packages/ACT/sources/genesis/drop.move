@@ -14,7 +14,6 @@ module act::genesis_drop {
         sui::SUI,
         clock::Clock,
         random::Random,
-        hash,
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -113,11 +112,7 @@ module act::genesis_drop {
 
                 let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
                 let item = items.swap_remove(index);
-                let (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
-
-                let mut hash = hash::blake2b256(name.as_bytes());
-                hash.append(hash::blake2b256(equipment.as_bytes()));
-                hash.append(hash::blake2b256(colour_way.as_bytes()));
+                let (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
                 if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                     let cosmetic = cosmetic::new(
@@ -218,11 +213,7 @@ module act::genesis_drop {
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
-            let (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
-
-            let mut hash = hash::blake2b256(name.as_bytes());
-            hash.append(hash::blake2b256(equipment.as_bytes()));
-            hash.append(hash::blake2b256(colour_way.as_bytes()));
+            let (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
             if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                 let cosmetic = cosmetic::new(

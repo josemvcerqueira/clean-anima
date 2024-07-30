@@ -145,6 +145,8 @@ module act::avatar {
         transfer::transfer(avatar, ctx.sender());
     }
 
+    // TODO: update image_url upon equip/unequip
+
     // used during the mint in a ptb
     public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
         assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
@@ -152,7 +154,7 @@ module act::avatar {
         let cosmetic_val = self.attributes.get_mut(&weapon.slot());
         *cosmetic_val = weapon.name();
 
-        dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon)  
+        dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon);
     }
 
     // used during the mint in a ptb
@@ -162,7 +164,7 @@ module act::avatar {
         let cosmetic_val = self.attributes.get_mut(&cosmetic.type_());
         *cosmetic_val = cosmetic.name();
 
-        dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic)  
+        dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic);  
     }
 
     public fun equip_weapon(
@@ -172,6 +174,7 @@ module act::avatar {
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // equipping policy
+        new_image: String,
         ctx: &mut TxContext
     ) {
         let weapon_name = weapon::equip(
@@ -186,6 +189,8 @@ module act::avatar {
 
         let weapon_val = self.attributes.get_mut(&weapon_slot);
         *weapon_val = weapon_name;
+
+        self.image_url = new_image;
     }
 
     public fun equip_cosmetic(
@@ -195,6 +200,7 @@ module act::avatar {
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // equipping policy
+        new_image: String,
         ctx: &mut TxContext
     ) {
         let cosmetic_name = cosmetic::equip(
@@ -209,6 +215,8 @@ module act::avatar {
 
         let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
         *cosmetic_val = cosmetic_name;
+
+        self.image_url = new_image;
     }
 
     public fun unequip_weapon(
@@ -217,6 +225,7 @@ module act::avatar {
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // trading policy
+        new_image: String,
     ) {
         let weapon_val = self.attributes.get_mut(&weapon_slot);
         *weapon_val = b"".to_string();
@@ -228,6 +237,8 @@ module act::avatar {
             cap,
             policy,
         );
+
+        self.image_url = new_image;
     }
 
     public fun unequip_cosmetic(
@@ -236,6 +247,7 @@ module act::avatar {
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // trading policy
+        new_image: String,
     ) {
         let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
         *cosmetic_val = b"".to_string();
@@ -247,6 +259,8 @@ module act::avatar {
             cap,
             policy,
         );
+
+        self.image_url = new_image;
     }
 
     // === Public-View Functions ===

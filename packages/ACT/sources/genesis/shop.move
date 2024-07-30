@@ -14,6 +14,7 @@ module act::genesis_shop {
     use sui::{
         table_vec::{Self, TableVec},
         table::{Self, Table},
+        hash,
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -54,6 +55,7 @@ module act::genesis_shop {
     }
 
     public struct Item has store, copy, drop {
+        hash: vector<u8>,
         name: String,
         equipment: String,
         colour_way: String,
@@ -502,7 +504,13 @@ module act::genesis_shop {
             uris::get_right_bracer(name, colour)
         } else { uris::get_other(name, builder.equipment.into_bytes(), colour) };
 
+
+        let mut hash = hash::blake2b256(&name);
+        hash.append(hash::blake2b256(builder.equipment.as_bytes()));
+        hash.append(hash::blake2b256(&colour));
+
         let item = Item {
+            hash,
             name: name.to_string(),
             equipment: builder.equipment,
             colour_way: colour.to_string(),
@@ -570,9 +578,9 @@ module act::genesis_shop {
         self.items.length() == 18 // 19 equipments - backpiece
     }
 
-    public(package) fun unpack(item: Item): (String, String, String, String, String, String, String, String) {
-        let Item { name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url } = item;
-        (name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url)
+    public(package) fun unpack(item: Item): (vector<u8>, String, String, String, String, String, String, String, String) {
+        let Item { hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url } = item;
+        (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url)
     }
 
     // === Private Functions ===

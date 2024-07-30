@@ -11,15 +11,15 @@ export function keep( tx: Transaction, self: TransactionObjectInput ) { return t
 
 export function init( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::account::init`, arguments: [ ], }) }
 
-export interface AssertNoAvatarArgs { self: TransactionObjectInput; addr: string | TransactionArgument }
-
-export function assertNoAvatar( tx: Transaction, args: AssertNoAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::account::assert_no_avatar`, arguments: [ obj(tx, args.self), pure(tx, args.addr, `address`) ], }) }
-
 export interface AddAccoladeArgs { self: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; type: string | TransactionArgument; description: string | TransactionArgument; url: string | TransactionArgument }
 
 export function addAccolade( tx: Transaction, args: AddAccoladeArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::account::add_accolade`, arguments: [ obj(tx, args.self), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.type, `${String.$typeName}`), pure(tx, args.description, `${String.$typeName}`), pure(tx, args.url, `${String.$typeName}`) ], }) }
 
 export function alias( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::account::alias`, arguments: [ obj(tx, self) ], }) }
+
+export interface AssertNoAvatarArgs { self: TransactionObjectInput; addr: string | TransactionArgument }
+
+export function assertNoAvatar( tx: Transaction, args: AssertNoAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::account::assert_no_avatar`, arguments: [ obj(tx, args.self), pure(tx, args.addr, `address`) ], }) }
 
 export function creationDate( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::account::creation_date`, arguments: [ obj(tx, self) ], }) }
 

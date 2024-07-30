@@ -18,9 +18,13 @@ export interface UpgradeArgs { self: TransactionObjectInput; accessControl: Tran
 
 export function upgrade( tx: Transaction, args: UpgradeArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::upgrade`, arguments: [ obj(tx, args.self), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.url, `${String.$typeName}`) ], }) }
 
-export function attributes( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::attributes`, arguments: [ obj(tx, self) ], }) }
-
 export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::init`, arguments: [ obj(tx, otw) ], }) }
+
+export interface AssertNoAvatarArgs { self: TransactionObjectInput; addr: string | TransactionArgument }
+
+export function assertNoAvatar( tx: Transaction, args: AssertNoAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::assert_no_avatar`, arguments: [ obj(tx, args.self), pure(tx, args.addr, `address`) ], }) }
+
+export function attributes( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::attributes`, arguments: [ obj(tx, self) ], }) }
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::edition`, arguments: [ obj(tx, self) ], }) }
 
@@ -32,19 +36,15 @@ export interface AssertHasAvatarArgs { self: TransactionObjectInput; addr: strin
 
 export function assertHasAvatar( tx: Transaction, args: AssertHasAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::assert_has_avatar`, arguments: [ obj(tx, args.self), pure(tx, args.addr, `address`) ], }) }
 
-export interface AssertNoAvatarArgs { self: TransactionObjectInput; addr: string | TransactionArgument }
-
-export function assertNoAvatar( tx: Transaction, args: AssertNoAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::assert_no_avatar`, arguments: [ obj(tx, args.self), pure(tx, args.addr, `address`) ], }) }
-
 export function avatarImage( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_image`, arguments: [ obj(tx, self) ], }) }
 
 export function avatarModel( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_model`, arguments: [ obj(tx, self) ], }) }
 
 export function avatarTexture( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_texture`, arguments: [ obj(tx, self) ], }) }
 
-export interface EquipCosmeticArgs { self: TransactionObjectInput; cosmeticId: string | TransactionArgument; cosmeticType: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
+export interface EquipCosmeticArgs { self: TransactionObjectInput; cosmeticId: string | TransactionArgument; cosmeticType: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput; newImage: string | TransactionArgument }
 
-export function equipCosmetic( tx: Transaction, args: EquipCosmeticArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::equip_cosmetic`, arguments: [ obj(tx, args.self), pure(tx, args.cosmeticId, `${ID.$typeName}`), pure(tx, args.cosmeticType, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy) ], }) }
+export function equipCosmetic( tx: Transaction, args: EquipCosmeticArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::equip_cosmetic`, arguments: [ obj(tx, args.self), pure(tx, args.cosmeticId, `${ID.$typeName}`), pure(tx, args.cosmeticType, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy), pure(tx, args.newImage, `${String.$typeName}`) ], }) }
 
 export interface EquipMintedCosmeticArgs { self: TransactionObjectInput; cosmetic: TransactionObjectInput }
 
@@ -54,9 +54,9 @@ export interface EquipMintedWeaponArgs { self: TransactionObjectInput; weapon: T
 
 export function equipMintedWeapon( tx: Transaction, args: EquipMintedWeaponArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::equip_minted_weapon`, arguments: [ obj(tx, args.self), obj(tx, args.weapon) ], }) }
 
-export interface EquipWeaponArgs { self: TransactionObjectInput; weaponId: string | TransactionArgument; weaponSlot: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
+export interface EquipWeaponArgs { self: TransactionObjectInput; weaponId: string | TransactionArgument; weaponSlot: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput; newImage: string | TransactionArgument }
 
-export function equipWeapon( tx: Transaction, args: EquipWeaponArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::equip_weapon`, arguments: [ obj(tx, args.self), pure(tx, args.weaponId, `${ID.$typeName}`), pure(tx, args.weaponSlot, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy) ], }) }
+export function equipWeapon( tx: Transaction, args: EquipWeaponArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::equip_weapon`, arguments: [ obj(tx, args.self), pure(tx, args.weaponId, `${ID.$typeName}`), pure(tx, args.weaponSlot, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy), pure(tx, args.newImage, `${String.$typeName}`) ], }) }
 
 export interface HasCosmeticArgs { self: TransactionObjectInput; type: string | TransactionArgument }
 
@@ -70,13 +70,13 @@ export interface SetEditionArgs { self: TransactionObjectInput; edition: Array<n
 
 export function setEdition( tx: Transaction, args: SetEditionArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::set_edition`, arguments: [ obj(tx, args.self), pure(tx, args.edition, `vector<u8>`) ], }) }
 
-export interface UnequipCosmeticArgs { self: TransactionObjectInput; cosmeticType: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
+export interface UnequipCosmeticArgs { self: TransactionObjectInput; cosmeticType: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput; newImage: string | TransactionArgument }
 
-export function unequipCosmetic( tx: Transaction, args: UnequipCosmeticArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::unequip_cosmetic`, arguments: [ obj(tx, args.self), pure(tx, args.cosmeticType, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy) ], }) }
+export function unequipCosmetic( tx: Transaction, args: UnequipCosmeticArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::unequip_cosmetic`, arguments: [ obj(tx, args.self), pure(tx, args.cosmeticType, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy), pure(tx, args.newImage, `${String.$typeName}`) ], }) }
 
-export interface UnequipWeaponArgs { self: TransactionObjectInput; weaponSlot: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
+export interface UnequipWeaponArgs { self: TransactionObjectInput; weaponSlot: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput; newImage: string | TransactionArgument }
 
-export function unequipWeapon( tx: Transaction, args: UnequipWeaponArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::unequip_weapon`, arguments: [ obj(tx, args.self), pure(tx, args.weaponSlot, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy) ], }) }
+export function unequipWeapon( tx: Transaction, args: UnequipWeaponArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::unequip_weapon`, arguments: [ obj(tx, args.self), pure(tx, args.weaponSlot, `${String.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy), pure(tx, args.newImage, `${String.$typeName}`) ], }) }
 
 export interface UpgradeEquippedCosmeticArgs { self: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; type: string | TransactionArgument; url: string | TransactionArgument }
 

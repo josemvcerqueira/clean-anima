@@ -1,102 +1,102 @@
 [
   {
-    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Config>",
-    "id": "0x033ae553cb5568f07300b077ee0361573a651ed5d30c2449432dd19f0165660c"
+    "type": "display::Display<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::avatar::Avatar>",
+    "id": "0x14df2c4446275e95f25d7be40d73bb5018e81078f038fdf66ac346aec24c2eaa"
   },
   {
-    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Config>",
-    "id": "0x0a35d96f21f6bc804257a74923422e8415a1a31de5b16ed6ed4add91f32dfdba"
-  },
-  {
-    "type": "package::Publisher",
-    "id": "0x0d6e1b943331901034e1127c1331521bd3c84e29430defc7bcd17e7e90ea1eda"
-  },
-  {
-    "type": "transfer_policy::TransferPolicy<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::weapon::Weapon>",
-    "id": "0x309a1470d6927ab0c843e58b44594745063601ad8b4e9feac061d174a4daf29e"
-  },
-  {
-    "type": "genesis_shop::GenesisShop",
-    "id": "0x36e7fd24ed806792d8efc5363f77fe3f6faf52f605ccaaa4662b2abe8284f9d2"
-  },
-  {
-    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::witness_rule::Rule<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::cosmetic::Equip>>, bool>",
-    "id": "0x3aa9e24d98774bda7d749c22feaa1fb2ae12859521d225bddb2261528132486f"
-  },
-  {
-    "type": "package_id",
-    "id": "0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e"
-  },
-  {
-    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::witness_rule::Rule<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::weapon::Equip>>, bool>",
-    "id": "0x3cba7cdc6db652909df3b0403e99e76d6e5209d35dd8e727026659433fe3fd5a"
-  },
-  {
-    "type": "transfer_policy::TransferPolicy<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::weapon::Weapon>",
-    "id": "0x3cf5b850ff382d3ba7f981d3d3d52f69585b93872c65a4edcdafbf0ffd84b9db"
+    "type": "display::Display<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::cosmetic::Cosmetic>",
+    "id": "0x2171ca2b59833de4a42936f1c9275e6f5dea121507237882d93a1ccc70c397b2"
   },
   {
     "type": "package::Publisher",
-    "id": "0x4b4a6db1909a5c1b5f77411b54daa283b58056ec7d8f9a995c0375f476289f7e"
-  },
-  {
-    "type": "transfer_policy::TransferPolicyCap<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::cosmetic::Cosmetic>",
-    "id": "0x580754d314571c82b687cf4519448fc6f750c7f0789826abcc0d57c5bce486e4"
-  },
-  {
-    "type": "transfer_policy::TransferPolicyCap<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::cosmetic::Cosmetic>",
-    "id": "0x7f6e6982030b35598a7f4774bd11a0f468a03a012b9eb341c354d01838da3d15"
-  },
-  {
-    "type": "transfer_policy::TransferPolicy<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::cosmetic::Cosmetic>",
-    "id": "0x8ccbb89dcf4740f91819a16bc67874f76601d0d789f539dec8ea42c57cd10dd4"
-  },
-  {
-    "type": "display::Display<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::weapon::Weapon>",
-    "id": "0x9cb256b6d9e2fac2b5574f96d4ea0ca0078c65e2d16fdc6e9bc4a79b02a0be53"
-  },
-  {
-    "type": "display::Display<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::avatar::Avatar>",
-    "id": "0xa2f7520ed573f164cd593d4355a55889aff18503d2e571155b991154642b03ad"
-  },
-  {
-    "type": "genesis_drop::Sale",
-    "id": "0xa6ce75fd1543ea09ccf6bd9e3abd9453932acc795cb7d5808badc2e04d8218f2"
-  },
-  {
-    "type": "transfer_policy::TransferPolicy<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::cosmetic::Cosmetic>",
-    "id": "0xa953258978a194989bb864893593799637254b1ee5537a1141008c6dc307850a"
-  },
-  {
-    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Config>",
-    "id": "0xb0fe1d9e7a8c8ad0f63f6cf8b71ca514335d810eb0226a3cedfbf316ebb44ec7"
-  },
-  {
-    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Config>",
-    "id": "0xbb6216256fb98df54ae93fd69061921722b529366f1521b2416a95fe8092b37a"
-  },
-  {
-    "type": "display::Display<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::cosmetic::Cosmetic>",
-    "id": "0xbc9239933a7fe99ddaa8161d2a02ad64ae8f455b9c8ba783bc742e86763e9218"
-  },
-  {
-    "type": "package::Publisher",
-    "id": "0xc5bc4e192eb2c1665f7d0dad4f891f64eca269f47afdacbe6eeefeae297d917b"
+    "id": "0x24288f52e3a92041e5dfcdcac82036f13aca9d979207c76baa616771087875aa"
   },
   {
     "type": "avatar::AvatarRegistry",
-    "id": "0xe69578190d2562df14d20f4aacb65683a039d1ca38dcbb8e7785513ec0b70c72"
+    "id": "0x32db207b3e30d1cc2158f3661a1108b8b8266cbcda8e5cc3020e367d149d9f2a"
   },
   {
-    "type": "transfer_policy::TransferPolicyCap<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::weapon::Weapon>",
-    "id": "0xeba23e17be24439b8dfe38732c3216b45bb4e4eba5248fca5018b7b571b0f335"
+    "type": "package::Publisher",
+    "id": "0x3becb570ca7adb743d7b76d778a30501e8409adf5562df7aac91bfc3dc9afcfb"
   },
   {
-    "type": "transfer_policy::TransferPolicyCap<0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e::weapon::Weapon>",
-    "id": "0xf159da448bb0f67384437df345a24ff268fcb98e0c0d546e64e88ed2c7b75e7f"
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Config>",
+    "id": "0x3e38f54d1a1246e2e101dfbe861512095b3b18a85b3ee0910a3387aa19be1a77"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::witness_rule::Rule<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::weapon::Equip>>, bool>",
+    "id": "0x50aa393246545bc9075f76900f3ed09191c5b84aeb61a8fcffbdc20e5d0dc8c0"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Config>",
+    "id": "0x516f9ca3804e9e32496037b83cf1cedd5d5cf50500befe3301d528fac5c3d3bf"
+  },
+  {
+    "type": "package::Publisher",
+    "id": "0x55f3826ed9702cbffbf91f80aedfc2262e8199fecd2e2fbfabf92285d9f77a16"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::cosmetic::Cosmetic>",
+    "id": "0x57ea38f291a3a124329bafff983edd90d66f8745932ae59b85df7d6cfc22c8c6"
+  },
+  {
+    "type": "display::Display<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::weapon::Weapon>",
+    "id": "0x6786f09388c5ee91279496fcd32aeb0cfbd8a2a1f5e57d3a8a1371845e943268"
+  },
+  {
+    "type": "package_id",
+    "id": "0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::weapon::Weapon>",
+    "id": "0x974173a21ad06b2762cc9441157e60e400f10b23b33f91264d38a3f13fe2ad0e"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::royalty_rule::Config>",
+    "id": "0x984e5c51a641fdcf10d5f3142ca53d0c0dea1f7f8925ce7e6829994bada6573f"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::witness_rule::Rule<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::cosmetic::Equip>>, bool>",
+    "id": "0x9a19f30bd4a56112fb29f4271cd02199b694ed615eab76abb9bc726276689422"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::weapon::Weapon>",
+    "id": "0x9b4a33d1360f521f03d6e2b81731d6ea7b301c06db3d12c66d8729ab6e23c201"
+  },
+  {
+    "type": "dynamic_field::Field<0x2::transfer_policy::RuleKey<0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Rule>, 0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585::kiosk_lock_rule::Config>",
+    "id": "0xafe0356e1727c218aa9eff16f9f979c5d0f1319e742ee26f7f0161798cece9a3"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::cosmetic::Cosmetic>",
+    "id": "0xb1d3e00798768d00970b63affff4b3e8ebe5fd8934d94113f2024c1e099e1934"
   },
   {
     "type": "package::UpgradeCap",
-    "id": "0xf46df47f8237c7f4e369d4db8800680e18141e9c17dca3bcbdc25da38b7354c4"
+    "id": "0xbe9ae322563e39bcd5e731e038b9cf9925096126dcecba1508c1d128e38681f2"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::weapon::Weapon>",
+    "id": "0xc3e4c362e8c82aa90ccb61a976b18c65a6bde3cecf6af0ca2cd5730bba9d4482"
+  },
+  {
+    "type": "genesis_shop::GenesisShop",
+    "id": "0xc6bd25f0c012d32f204846d4b829063f06379f99afde61dee46d98c986cb5526"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::cosmetic::Cosmetic>",
+    "id": "0xd3ccb60d8116d31b5154a3733108d8d1b03ea4ddf2912da6059e96f6814468cb"
+  },
+  {
+    "type": "transfer_policy::TransferPolicy<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::weapon::Weapon>",
+    "id": "0xdcfd0046dcaf9feaa9a398bb50f3c8db529ab397c294c3b3f8ae98df614f78de"
+  },
+  {
+    "type": "transfer_policy::TransferPolicyCap<0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc::cosmetic::Cosmetic>",
+    "id": "0xddf875a33b3f55af4dfaf905015ed171986c075d58b9aa46c304448c524348e0"
+  },
+  {
+    "type": "genesis_drop::Sale",
+    "id": "0xdf1fed46ba4697cf03528976ffbfa15a390eadf7063b437c47a01bfbc9acc2c3"
   }
 ]

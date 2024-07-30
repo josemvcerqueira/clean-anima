@@ -1,14 +1,14 @@
 [
   {
-    "type": "package::UpgradeCap",
-    "id": "0x0444bc5be65f4e80e9b18f8f57e7d40c3eb26dfec74c5a90fc81b00300f8407b"
+    "type": "package_id",
+    "id": "0x30ad6c8edc1e5e21fa09fe6296c7ba3bb9d5a26028ff95b615611b1723ba86da"
   },
   {
     "type": "account::Registry",
-    "id": "0x9f0eb2318543b9a188cb03fe3037efedd57cf8e1827ba928fc1fe1db1b327a7f"
+    "id": "0x3c7d15d6c2ecc7fa29bac443510fac664b20755794cbe92539d1758f45107534"
   },
   {
-    "type": "package_id",
-    "id": "0xd4899972711ec1edc08ac1c8e4955ba7f434971f516f6befe8c87837bffb42c9"
+    "type": "package::UpgradeCap",
+    "id": "0xa56c57a4a43e5bc79933ce60c204a4b4aedb7a86d05981c2524fab3f7307538b"
   }
 ]

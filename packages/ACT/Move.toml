@@ -3,7 +3,7 @@ name = "ACT"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
 # authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
-published-at = "0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e"
+published-at = "0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet", override = true }
@@ -21,8 +21,8 @@ AnimaLib = { local = "../AnimaLib" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-animalib = "0xf013fc886023ddad5f2470ed24419d81ec2497f03d5981bfdab20848ec73209c"
-act = "0x3bd003f67108ad52e2623256c06a1254125705ae0ee15b013ef0a52304badb9e"
+animalib = "0x8b06bd74267785fe6a6a0d39e42b08233c999d13c34f87b08ea960afa1bce40d"
+act = "0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc"
 kiosk = "0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585"
 treasury = "0xbabe" # TODO: replace with the actual address
 

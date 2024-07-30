@@ -3,7 +3,7 @@ name = "Anima"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
 # authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
-published-at = "0xd4899972711ec1edc08ac1c8e4955ba7f434971f516f6befe8c87837bffb42c9"
+published-at = "0x30ad6c8edc1e5e21fa09fe6296c7ba3bb9d5a26028ff95b615611b1723ba86da"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet", override = true }
@@ -21,8 +21,8 @@ AnimaLib = { local = "../AnimaLib" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-anima = "0xd4899972711ec1edc08ac1c8e4955ba7f434971f516f6befe8c87837bffb42c9"
-animalib = "0xf013fc886023ddad5f2470ed24419d81ec2497f03d5981bfdab20848ec73209c"
+anima = "0x30ad6c8edc1e5e21fa09fe6296c7ba3bb9d5a26028ff95b615611b1723ba86da"
+animalib = "0x8b06bd74267785fe6a6a0d39e42b08233c999d13c34f87b08ea960afa1bce40d"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.
