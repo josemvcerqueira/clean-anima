@@ -44,6 +44,8 @@ module act::avatar {
     const ECosmeticIsNotEquipped: u64 = 3;
     const EWeaponIsNotEquipped: u64 = 4;
     const ENeedToMintAnAvatar: u64 = 5;
+    const EWrongWeaponSlot: u64 = 6;
+    const EWrongCosmeticType: u64 = 7;
 
     // === Constants ===
 
@@ -177,7 +179,7 @@ module act::avatar {
         new_image: String,
         ctx: &mut TxContext
     ) {
-        let weapon_name = weapon::equip(
+        let (weapon_name, slot) = weapon::equip(
             &mut self.id, 
             WeaponKey(weapon_slot), 
             weapon_id, 
@@ -186,6 +188,8 @@ module act::avatar {
             policy,
             ctx
         );
+
+        assert!(weapon_slot == slot, EWrongWeaponSlot);
 
         let weapon_val = self.attributes.get_mut(&weapon_slot);
         *weapon_val = weapon_name;
@@ -203,7 +207,7 @@ module act::avatar {
         new_image: String,
         ctx: &mut TxContext
     ) {
-        let cosmetic_name = cosmetic::equip(
+        let (cosmetic_name, type_) = cosmetic::equip(
             &mut self.id, 
             CosmeticKey(cosmetic_type), 
             cosmetic_id, 
@@ -212,6 +216,8 @@ module act::avatar {
             policy,
             ctx
         );
+
+        assert!(cosmetic_type == type_, EWrongCosmeticType);
 
         let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
         *cosmetic_val = cosmetic_name;

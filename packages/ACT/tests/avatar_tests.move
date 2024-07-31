@@ -74,7 +74,7 @@ module act::avatar_tests {
     }
 
     #[test]
-    fun test_equip_weapon() {
+    fun test_equip_minted_weapon() {
         let mut world = start_world();
 
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
@@ -91,7 +91,7 @@ module act::avatar_tests {
     }
 
     #[test]
-    fun test_equip_cosmetic() {
+    fun test_equip_minted_cosmetic() {
         let mut world = start_world();
 
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
@@ -242,6 +242,130 @@ module act::avatar_tests {
         avatar.keep(world.scenario.ctx());
         world.end();
     }  
+
+    #[test]
+    fun test_equip_weapon() {
+        let mut world = start_world();
+
+        let weapon = new_weapon(world.scenario.ctx());
+
+        let weapon_id = object::id(&weapon);
+        let slot = weapon.slot();
+
+        let kiosk_cap = &world.kiosk_cap;
+        let equip_transfer_policy = &world.weapon_equip_transfer_policy;
+
+        world.kiosk.place(kiosk_cap, weapon);
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+
+        assert_eq(avatar.has_weapon(slot), false);
+
+        avatar.equip_weapon(
+            weapon_id, 
+            slot, 
+            &mut world.kiosk, 
+            kiosk_cap, 
+            equip_transfer_policy, 
+            world.scenario.ctx()
+        );
+
+        assert_eq(avatar.has_weapon(slot), true);
+
+        destroy(avatar);
+        world.end();
+    }
+
+    #[test]
+    fun test_equip_cosmetic() {
+        let mut world = start_world();
+
+        let cosmetic = new_cosmetic(world.scenario.ctx());
+
+        let cosmetic_id = object::id(&cosmetic);
+        let type_ = cosmetic.type_();
+
+        let kiosk_cap = &world.kiosk_cap;
+        let equip_transfer_policy = &world.cosmetic_equip_transfer_policy;
+
+        world.kiosk.place(kiosk_cap, cosmetic);
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+
+        assert_eq(avatar.has_cosmetic(type_), false);
+
+        avatar.equip_cosmetic(
+            cosmetic_id, 
+            type_, 
+            &mut world.kiosk, 
+            kiosk_cap, 
+            equip_transfer_policy, 
+            world.scenario.ctx()
+        );
+
+        assert_eq(avatar.has_cosmetic(type_), true);
+
+        destroy(avatar);
+        world.end();
+    }
+
+    #[test]
+    #[expected_failure(abort_code = avatar::EWrongWeaponSlot)]
+    fun test_equip_weapon_error_wrong_slot() {
+        let mut world = start_world();
+
+        let weapon = new_weapon(world.scenario.ctx());
+
+        let weapon_id = object::id(&weapon);
+
+        let kiosk_cap = &world.kiosk_cap;
+        let equip_transfer_policy = &world.weapon_equip_transfer_policy;
+
+        world.kiosk.place(kiosk_cap, weapon);
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+
+        avatar.equip_weapon(
+            weapon_id, 
+            attributes::secondary(), 
+            &mut world.kiosk, 
+            kiosk_cap, 
+            equip_transfer_policy, 
+            world.scenario.ctx()
+        );
+
+        destroy(avatar);
+        world.end();
+    }
+
+    #[test]
+    #[expected_failure(abort_code = avatar::EWrongCosmeticType)]
+    fun test_equip_cosmetic_error_wrong_type() {
+       let mut world = start_world();
+
+        let cosmetic = new_cosmetic(world.scenario.ctx());
+
+        let cosmetic_id = object::id(&cosmetic);
+
+        let kiosk_cap = &world.kiosk_cap;
+        let equip_transfer_policy = &world.cosmetic_equip_transfer_policy;
+
+        world.kiosk.place(kiosk_cap, cosmetic);
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+
+        avatar.equip_cosmetic(
+            cosmetic_id, 
+            attributes::chestpiece(), 
+            &mut world.kiosk, 
+            kiosk_cap, 
+            equip_transfer_policy, 
+            world.scenario.ctx()
+        );
+
+        destroy(avatar);
+        world.end();
+    }
 
     fun start_world(): World {
         let mut scenario = ts::begin(OWNER);
