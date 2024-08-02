@@ -1,14 +1,12 @@
 #[test_only]
 module act::genesis_drop_tests {
-    use std::debug::print;
+
     use sui::{
         coin::mint_for_testing,
         clock::{Self, Clock},
-        random::{Self, Random},
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk, KioskOwnerCap},
         test_scenario::{Self as ts, Scenario},
-        hash,
     };
     use animalib::access_control::{Admin, AccessControl};
     use act::{
@@ -23,7 +21,6 @@ module act::genesis_drop_tests {
     public struct World {
         scenario: Scenario,
         clock: Clock,
-        random: Random,
         super_admin: Admin,
         access_control: AccessControl,
         genesis_shop: GenesisShop,
@@ -39,11 +36,6 @@ module act::genesis_drop_tests {
     const TOTAL_ITEMS: u64 = 10;
     const FREE_MINT_PHASE: u64 = 0;
     const WHITELIST_PHASE: u64 = 1;
-
-    #[test]
-    fun hash_blake2b() {
-        print(&hash::blake2b256(&b"Thouny-test HASH"));
-    }
 
     #[test]
     fun test_init() {
@@ -81,7 +73,6 @@ module act::genesis_drop_tests {
             ];
             let cap = &world.kiosk_cap;
             let quantity = 3;
-            let random = &world.random;
             let clock = &world.clock;
             let ctx = world.scenario.ctx();
         
@@ -99,7 +90,6 @@ module act::genesis_drop_tests {
                 cap, 
                 mint_for_testing(10 * quantity, ctx), 
                 quantity, 
-                random, 
                 clock, 
                 ctx
             );
@@ -116,7 +106,6 @@ module act::genesis_drop_tests {
             let avatar_registry = &world.avatar_registry;
             let cap = &world.kiosk_cap;
             let quantity = 3;
-            let random = &world.random;
             let clock = &world.clock;
             let ctx = world.scenario.ctx();
         
@@ -135,7 +124,6 @@ module act::genesis_drop_tests {
                 cap, 
                 mint_for_testing(25 * quantity, ctx), 
                 quantity, 
-                random, 
                 clock, 
                 ctx
             );
@@ -152,7 +140,6 @@ module act::genesis_drop_tests {
             let avatar_registry = &world.avatar_registry;
             let cap = &world.kiosk_cap;
             let quantity = 4;
-            let random = &world.random;
             let clock = &world.clock;
             let ctx = world.scenario.ctx();
         
@@ -169,7 +156,6 @@ module act::genesis_drop_tests {
                 cap, 
                 mint_for_testing(50 * quantity, ctx), 
                 quantity, 
-                random, 
                 clock, 
                 ctx
             );
@@ -204,7 +190,6 @@ module act::genesis_drop_tests {
             let genesis_pass = vector[
                 genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
             ];
-            let random = &world.random;
             let clock = &world.clock;
             let ctx = world.scenario.ctx();
         
@@ -217,7 +202,6 @@ module act::genesis_drop_tests {
                 avatar_registry, 
                 genesis_pass, 
                 mint_for_testing(10, ctx), 
-                random, 
                 clock, 
                 ctx
             );
@@ -234,10 +218,10 @@ module act::genesis_drop_tests {
         avatar_ticket.generate_image_to_ticket(b"image_url".to_string());
 
         {
-            let random = &world.random;
+            let clock = &world.clock;
             let avatar_registry = &mut world.avatar_registry;
 
-            avatar_ticket.mint_to_avatar(avatar_registry, random, world.scenario.ctx());
+            avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());
 
         };
 
@@ -275,7 +259,6 @@ module act::genesis_drop_tests {
             let genesis_pass = vector[];
             let cap = &world.kiosk_cap;
             let quantity = 3;
-            let random = &world.random;
             let clock = &world.clock;
             let ctx = world.scenario.ctx();
         
@@ -290,7 +273,6 @@ module act::genesis_drop_tests {
                 cap, 
                 mint_for_testing(10 * quantity, ctx), 
                 quantity, 
-                random, 
                 clock, 
                 ctx
             );
@@ -322,7 +304,6 @@ module act::genesis_drop_tests {
             ];
             let cap = &world.kiosk_cap;
             let quantity = 3;
-            let random = &world.random;
             let clock = &world.clock;
             let ctx = world.scenario.ctx();
         
@@ -337,7 +318,6 @@ module act::genesis_drop_tests {
                 cap, 
                 mint_for_testing(10 * quantity, ctx), 
                 quantity, 
-                random, 
                 clock, 
                 ctx
             );
@@ -351,12 +331,12 @@ module act::genesis_drop_tests {
     fun test_mint_to_avatar_error_invalid_ticket() {
         let mut world = start_world();
 
-        let random = &world.random;
+        let clock = &world.clock;
         let avatar_registry = &mut world.avatar_registry;
 
         let avatar_ticket = genesis_drop::new_empty_avatar_ticket(world.scenario.ctx());
 
-        avatar_ticket.mint_to_avatar(avatar_registry, random, world.scenario.ctx());    
+        avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());    
 
         world.end(); 
     }    
@@ -384,7 +364,6 @@ module act::genesis_drop_tests {
         ];
         let cap = &world.kiosk_cap;
         let quantity = 3;
-        let random = &world.random;
         let clock = &world.clock;
         let ctx = world.scenario.ctx();
         
@@ -399,7 +378,6 @@ module act::genesis_drop_tests {
             cap, 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
-            random, 
             clock, 
             ctx
         );      
@@ -431,7 +409,6 @@ module act::genesis_drop_tests {
         ];
         let cap = &world.kiosk_cap;
         let quantity = 3;
-        let random = &world.random;
         let clock = &world.clock;
         let ctx = world.scenario.ctx();
         
@@ -446,7 +423,6 @@ module act::genesis_drop_tests {
             cap, 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
-            random, 
             clock, 
             ctx
         );      
@@ -477,7 +453,6 @@ module act::genesis_drop_tests {
         ];
         let cap = &world.kiosk_cap;
         let quantity = 3;
-        let random = &world.random;
         let clock = &world.clock;
         let ctx = world.scenario.ctx();
         
@@ -492,7 +467,6 @@ module act::genesis_drop_tests {
             cap, 
             mint_for_testing((10 * quantity) - 1, ctx), 
             quantity, 
-            random, 
             clock, 
             ctx
         );      
@@ -523,7 +497,6 @@ module act::genesis_drop_tests {
         ];
         let cap = &world.kiosk_cap;
         let quantity = 3;
-        let random = &world.random;
         let clock = &world.clock;
         let ctx = world.scenario.ctx();
         
@@ -538,7 +511,6 @@ module act::genesis_drop_tests {
             cap, 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
-            random, 
             clock, 
             ctx
         );      
@@ -570,7 +542,6 @@ module act::genesis_drop_tests {
         ];
         let cap = &world.kiosk_cap;
         let quantity = 3;
-        let random = &world.random;
         let clock = &world.clock;
         let ctx = world.scenario.ctx();
         
@@ -585,7 +556,6 @@ module act::genesis_drop_tests {
             cap, 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
-            random, 
             clock, 
             ctx
         );      
@@ -617,7 +587,6 @@ module act::genesis_drop_tests {
         ];
         let cap = &world.kiosk_cap;
         let quantity = 11;
-        let random = &world.random;
         let clock = &world.clock;
         let ctx = world.scenario.ctx();
         
@@ -632,7 +601,6 @@ module act::genesis_drop_tests {
             cap, 
             mint_for_testing(11 * quantity, ctx), 
             quantity, 
-            random, 
             clock, 
             ctx
         );      
@@ -916,14 +884,12 @@ module act::genesis_drop_tests {
         avatar::init_for_testing(scenario.ctx());
         genesis_shop::init_for_testing(scenario.ctx());
         genesis_drop::init_for_testing(scenario.ctx());
-        random::create_for_testing(scenario.ctx());
 
         scenario.next_tx(OWNER);
 
         let (access_control, super_admin) = set_up_admins(&mut scenario);
         let genesis_shop = scenario.take_shared<GenesisShop>();
         let sale = scenario.take_shared<Sale>();
-        let random = scenario.take_shared<Random>();
         let mut avatar_registry = scenario.take_shared<AvatarRegistry>();
         let clock = clock::create_for_testing(scenario.ctx());
 
@@ -939,7 +905,6 @@ module act::genesis_drop_tests {
             sale,
             kiosk,
             kiosk_cap,
-            random,
             scenario,
             access_control,
             super_admin,

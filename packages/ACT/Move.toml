@@ -6,7 +6,7 @@ edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 published-at = "0x6a39432e88d4bceb6c8f684d990c137243ddc0679b77f92027c787bfcd981cbc"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet", override = true }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "mainnet", override = true }
 Kiosk = { git = "https://github.com/MystenLabs/apps.git", subdir = "kiosk", rev = "testnet" }
 AnimaLib = { local = "../AnimaLib" }
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
