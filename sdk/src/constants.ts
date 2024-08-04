@@ -7,12 +7,13 @@ export const OBJECTS = {
     initialSharedVersion: '89890688',
     mutable: false,
   }),
-  REGISTRY: Inputs.SharedObjectRef({
+  ACCOUNT_REGISTRY: Inputs.SharedObjectRef({
     objectId:
       '0x4668b31e86e4937c601c345f169b1cc814d03f64c5bd79b4ea9df3d12cfb5a5b',
     mutable: true,
     initialSharedVersion: '89890689',
   }),
+
   SUPER_ADMIN:
     '0x3d225dfe44e070316a0516babdc1c77b914567ee84acbbbec3e97931b2968efd',
   ADMIN: '0xb4c56302d1e2ea83295a0ca453c9ad43f4f3a6f01588c2598bf9cb909dae9c0e',

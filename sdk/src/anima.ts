@@ -4,9 +4,11 @@ import { Transaction } from '@mysten/sui/transactions';
 import {
   isValidSuiAddress,
   normalizeStructTag,
+  SUI_CLOCK_OBJECT_ID,
   toHEX,
 } from '@mysten/sui/utils';
 import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
+import * as changeCase from 'change-case';
 import { path, pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
@@ -15,14 +17,22 @@ import {
   AirdropFreeMintArgs,
   AirdropWhitelistArgs,
   AnimaConstructorArgs,
+  Avatar,
+  AvatarTicket,
+  CreateAvatarArgs,
+  GenerateImageUrlToAvatarTicketArgs,
   GenesisPass,
   GenesisShopItem,
+  MaybeTx,
+  MintToKioskArgs,
+  MintToTicketArgs,
   SetDropsLeftArgs,
   SetMaxMintsArgs,
   SetPricesArgs,
   SetSaleActiveArgs,
   SetStartTimesArgs,
 } from './types';
+import { parseGenesisShopItem } from './utils';
 
 export class AnimaSDK {
   #packages: typeof PACKAGES;
@@ -55,6 +65,266 @@ export class AnimaSDK {
       }),
       network: Network.TESTNET,
     });
+  }
+
+  async getAvatarTicket(address: string): Promise<AvatarTicket | null> {
+    invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
+
+    const res = await this.#client.getOwnedObjects({
+      owner: address,
+      filter: {
+        StructType: normalizeStructTag(
+          `${this.#packages.ACT}::genesis_drop::AvatarTicket`
+        ),
+      },
+      options: {
+        showType: true,
+        showContent: true,
+      },
+    });
+
+    if (!res.data.length) return null;
+
+    const elem = res.data[0];
+
+    pathOr(null, ['data', 'content', 'fields', 'drop', 0, 'fields'], elem);
+
+    return {
+      objectId: pathOr('', ['data', 'objectId'], elem),
+      version: pathOr('', ['data', 'version'], elem),
+      digest: pathOr('', ['data', 'digest'], elem),
+      type: pathOr('', ['data', 'type'], elem),
+      imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
+      drops: pathOr([], ['data', 'content', 'fields', 'drop'], elem).map(
+        (x) => {
+          const fields = pathOr(null, ['fields'], x);
+          invariant(fields, 'Failed to get item fields');
+
+          return Object.keys(fields).reduce(
+            (acc, elem) => ({
+              ...acc,
+              [changeCase.camelCase(elem)]:
+                elem === 'hash' ? toHEX(fields[elem]) : fields[elem],
+            }),
+            {} as GenesisShopItem
+          );
+        }
+      ),
+    };
+  }
+
+  async generateImageUrlToAvatarTicket({
+    tx = new Transaction(),
+    imageUrl,
+    sender,
+  }: GenerateImageUrlToAvatarTicketArgs) {
+    const ticket = await this.getAvatarTicket(sender);
+
+    invariant(ticket, 'Mint an AvatarTicket first');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::genesis_drop::generate_image_to_ticket`,
+      arguments: [tx.object(ticket?.objectId), tx.pure.string(imageUrl)],
+    });
+
+    return tx;
+  }
+
+  async getAvatar(address: string): Promise<Avatar | null> {
+    invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
+
+    const res = await this.#client.getOwnedObjects({
+      owner: address,
+      filter: {
+        StructType: normalizeStructTag(`${this.#packages.ACT}::avatar::Avatar`),
+      },
+      options: {
+        showType: true,
+        showContent: true,
+      },
+    });
+
+    if (!res.data.length) return null;
+
+    const elem = res.data[0];
+
+    return {
+      objectId: pathOr('', ['data', 'objectId'], elem),
+      version: pathOr('', ['data', 'version'], elem),
+      digest: pathOr('', ['data', 'digest'], elem),
+      type: pathOr('', ['data', 'type'], elem),
+      avatarImage: pathOr(
+        '',
+        ['data', 'content', 'fields', 'avatar_image'],
+        elem
+      ),
+      avatarModel: pathOr(
+        '',
+        ['data', 'content', 'fields', 'avatar_model'],
+        elem
+      ),
+      avatarTexture: pathOr(
+        '',
+        ['data', 'content', 'fields', 'avatar_texture'],
+        elem
+      ),
+      edition: pathOr('', ['data', 'content', 'fields', 'edition'], elem),
+      imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
+      upgrades: pathOr([], ['data', 'content', 'fields', 'upgrades'], elem),
+      attributes: pathOr(
+        [] as Record<string, string>[],
+        ['data', 'content', 'fields', 'attributes', 'fields', 'contents'],
+        elem
+      ).reduce(
+        (acc, elem) => {
+          const data = pathOr({} as Record<string, string>, ['fields'], elem);
+          return {
+            ...acc,
+            [changeCase.camelCase(data.key)]: data.value,
+          };
+        },
+        {} as Record<string, string>
+      ),
+      misc: pathOr(
+        [] as Record<string, string>[],
+        ['data', 'content', 'fields', 'misc', 'fields', 'contents'],
+        elem
+      ).reduce(
+        (acc, elem) => {
+          const data = pathOr({} as Record<string, string>, ['fields'], elem);
+          return {
+            ...acc,
+            [changeCase.camelCase(data.key)]: data.value,
+          };
+        },
+        {} as Record<string, string>
+      ),
+    };
+  }
+
+  async getCap(address: string) {
+    invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
+
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address,
+    });
+
+    return kioskOwnerCaps[0];
+  }
+
+  createAvatar({ tx = new Transaction(), imageUrl }: CreateAvatarArgs) {
+    const avatar = tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::new`,
+      arguments: [
+        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.pure.string(imageUrl),
+      ],
+    });
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::keep`,
+      arguments: [avatar],
+    });
+
+    return tx;
+  }
+
+  async mintToAvatar({
+    tx = new Transaction(),
+    sender,
+  }: MaybeTx & { sender: string }) {
+    const ticket = await this.getAvatarTicket(sender);
+
+    invariant(ticket, 'Mint an AvatarTicket first');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::genesis_drop::mint_to_avatar`,
+      arguments: [
+        tx.object(ticket.objectId),
+        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.object(SUI_CLOCK_OBJECT_ID),
+      ],
+    });
+
+    return tx;
+  }
+
+  async mintToKiosk({
+    tx = new Transaction(),
+    nftQuantity,
+    suiValue,
+    sender,
+  }: MintToKioskArgs) {
+    invariant(nftQuantity > 0, 'You must mint at least one kiosk');
+
+    const payment = tx.splitCoins(tx.gas, [tx.pure.u64(suiValue)]);
+
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address: sender,
+    });
+
+    // const kioskTx = new KioskTransaction({
+    //   kioskClient: this.#kioskClient,
+    //   transaction: tx,
+    //   cap: kioskCap,
+    // });
+
+    // if (!kioskCap) kioskTx.create();
+
+    const passes = await this.getGenesisPasses(sender);
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::genesis_drop::mint_to_kiosk`,
+      arguments: [
+        tx.object(this.#objects.SALE),
+        tx.object(this.#objects.GENESIS_SHOP),
+        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.makeMoveVec({
+          elements: [passes[0].objectId],
+          type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+        }),
+        tx.object(kioskOwnerCaps[0].kioskId),
+        tx.object(kioskOwnerCaps[0].objectId),
+        payment,
+        tx.pure.u64(nftQuantity),
+        tx.object(SUI_CLOCK_OBJECT_ID),
+      ],
+    });
+
+    // if (!kioskCap) {
+    //   kioskTx.shareAndTransferCap(sender);
+    // }
+
+    // kioskTx.finalize();
+
+    return tx;
+  }
+
+  async mintToTicket({
+    tx = new Transaction(),
+    suiValue,
+    sender,
+  }: MintToTicketArgs) {
+    const payment = tx.splitCoins(tx.gas, [tx.pure.u64(suiValue)]);
+
+    const passes = await this.getGenesisPasses(sender);
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::genesis_drop::mint_to_ticket`,
+      arguments: [
+        tx.object(this.#objects.SALE),
+        tx.object(this.#objects.GENESIS_SHOP),
+        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.makeMoveVec({
+          elements: [passes[0].objectId],
+          type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+        }),
+        payment,
+        tx.object(SUI_CLOCK_OBJECT_ID),
+      ],
+    });
+
+    return tx;
   }
 
   async getGenesisShopItems(
@@ -99,60 +369,7 @@ export class AnimaSDK {
       .map((x) => {
         invariant(x && x.data, 'Failed to get data');
 
-        return {
-          objectId: x.data.objectId,
-          version: x.data.version,
-          digest: x.data.digest,
-          hash: toHEX(
-            Uint8Array.from(
-              pathOr(
-                [],
-                ['data', 'content', 'fields', 'value', 'fields', 'hash'],
-                x
-              )
-            )
-          ),
-          name: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'name'],
-            x
-          ),
-          equipment: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'equipment'],
-            x
-          ),
-          colourWay: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'colour_way'],
-            x
-          ),
-          manufacturer: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'manufacturer'],
-            x
-          ),
-          rarity: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'rarity'],
-            x
-          ),
-          imageUrl: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'image_url'],
-            x
-          ),
-          modelUrl: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'model_url'],
-            x
-          ),
-          textureUrl: pathOr(
-            '',
-            ['data', 'content', 'fields', 'value', 'fields', 'texture_url'],
-            x
-          ),
-        };
+        return parseGenesisShopItem(x);
       });
   }
 

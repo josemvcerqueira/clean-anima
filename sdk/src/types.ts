@@ -9,7 +9,7 @@ export interface AnimaConstructorArgs {
   objects?: typeof OBJECTS;
 }
 
-interface MaybeTx {
+export interface MaybeTx {
   tx?: Transaction;
 }
 
@@ -46,7 +46,27 @@ export interface GenesisPass extends SuiObjectRef {
   type: string;
 }
 
-export interface GeenesisShopItem extends SuiObjectRef {
+export interface MintToKioskArgs extends MaybeTx {
+  nftQuantity: bigint;
+  suiValue: bigint;
+  sender: string;
+}
+
+export interface MintToTicketArgs extends MaybeTx {
+  suiValue: bigint;
+  sender: string;
+}
+
+export interface CreateAvatarArgs extends MaybeTx {
+  imageUrl: string;
+}
+
+export interface GenerateImageUrlToAvatarTicketArgs extends MaybeTx {
+  imageUrl: string;
+  sender: string;
+}
+
+export interface GenesisShopItem extends SuiObjectRef {
   hash: string;
   name: string;
   equipment: string;
@@ -56,4 +76,22 @@ export interface GeenesisShopItem extends SuiObjectRef {
   imageUrl: string;
   modelUrl: string;
   textureUrl: string;
+}
+
+export interface Avatar extends SuiObjectRef {
+  imageUrl: string;
+  type: string;
+  avatarImage: string;
+  avatarModel: string;
+  avatarTexture: string;
+  edition: string;
+  upgrades: any;
+  attributes: Record<string, string>;
+  misc: Record<string, string>;
+}
+
+export interface AvatarTicket extends SuiObjectRef {
+  imageUrl: string;
+  drops: ReadonlyArray<GenesisShopItem>;
+  type: string;
 }

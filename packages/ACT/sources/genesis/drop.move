@@ -84,7 +84,7 @@ module act::genesis_drop {
     } 
 
     // mint equipments to the kiosk
-    entry fun mint_to_kiosk(
+    public fun mint_to_kiosk(
         sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
@@ -151,7 +151,7 @@ module act::genesis_drop {
     }
 
     // mint equipments to a ticket for generating the Avatar
-    entry fun mint_to_ticket(
+    public fun mint_to_ticket(
         sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
@@ -186,7 +186,7 @@ module act::genesis_drop {
         );
     }
 
-    entry fun generate_image_to_ticket(
+    public fun generate_image_to_ticket(
         ticket: &mut AvatarTicket,
         image_url: String,
     ) {
@@ -194,7 +194,7 @@ module act::genesis_drop {
     }
 
     // mint equipments and equip them to the avatar
-    entry fun mint_to_avatar(
+    public fun mint_to_avatar(
         ticket: AvatarTicket,
         registry: &mut AvatarRegistry,
         clock: &Clock,
@@ -352,7 +352,7 @@ module act::genesis_drop {
         };
         pass.destroy_empty();
         // check price and quantity
-        assert!(amount == sale.prices[phase] * quantity, EWrongCoinValue);
+        assert!(amount <= sale.prices[phase] * quantity, EWrongCoinValue);
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);
     }
 
