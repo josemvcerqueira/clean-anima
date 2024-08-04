@@ -7,3 +7,4 @@ dist
 .trace
 .coverage_map.*
 node_modules
+.env.local

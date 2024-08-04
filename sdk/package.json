@@ -9,14 +9,17 @@
     "build:tsup": "tsup './src/index.ts' --format esm,cjs --sourcemap",
     "build:types": "tsc --project tsconfig.json",
     "build": "npm run clean && npm run build:tsup && npm run build:types",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run build",
+    "script": "tsx ./src/script.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "npm@10.7.0+sha512.157ca5c98497363817c7797cd814fc45242f0a818843787c61d44518a36fa373effdb2ac70ae29756931fe89f04e91c3a86c3ea1e2dfe11c659fd595cb103195",
   "devDependencies": {
+    "@types/node": "^22.1.0",
     "@types/ramda": "^0.30.1",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -31,6 +34,7 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
+    "@mysten/kiosk": "^0.9.13",
     "@mysten/sui": "^1.4.0",
     "@polymedia/suitcase-core": "^0.0.10",
     "ramda": "^0.30.1",

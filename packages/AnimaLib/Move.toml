@@ -3,7 +3,6 @@ name = "AnimaLib"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
 # authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
-published-at = "0x8b06bd74267785fe6a6a0d39e42b08233c999d13c34f87b08ea960afa1bce40d"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "mainnet" }
@@ -20,8 +19,7 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-animalib = "0x8b06bd74267785fe6a6a0d39e42b08233c999d13c34f87b08ea960afa1bce40d"
-std = "0x1"
+animalib = "0x4131664ba5171fd9bced996b37238d7b541436a13d4d32ecce245f221c5ed9d8"
 sui = "0x2"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
