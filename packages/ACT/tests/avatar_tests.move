@@ -128,7 +128,6 @@ module act::avatar_tests {
             &mut world.kiosk, 
             kiosk_cap, 
             policy,
-            b"new_image.png".to_string()
         );
 
         assert_eq(world.kiosk.has_item(weapon_id), true);
@@ -160,7 +159,6 @@ module act::avatar_tests {
             &mut world.kiosk, 
             kiosk_cap, 
             policy,
-            b"new_image.png".to_string()
         );
         
         assert_eq(avatar.has_cosmetic(attributes::helm()), false);

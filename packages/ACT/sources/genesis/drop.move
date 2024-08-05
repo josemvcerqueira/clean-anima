@@ -13,7 +13,6 @@ module act::genesis_drop {
         coin::Coin,
         sui::SUI,
         clock::Clock,
-        random::Random,
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -24,6 +23,7 @@ module act::genesis_drop {
         avatar::{Self, AvatarRegistry},
         weapon,
         cosmetic,
+        pseuso_random::rng,
         genesis_shop::{Item, GenesisShop},
     };
 
@@ -84,7 +84,7 @@ module act::genesis_drop {
     } 
 
     // mint equipments to the kiosk
-    entry fun mint_to_kiosk(
+    public fun mint_to_kiosk(
         sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
@@ -93,7 +93,6 @@ module act::genesis_drop {
         cap: &KioskOwnerCap,
         coin: Coin<SUI>, // exact amount
         mut quantity: u64, // number of drops to mint
-        random: &Random,
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
@@ -101,7 +100,6 @@ module act::genesis_drop {
         assert_can_mint(sale, pass, coin.value(), quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
-        let mut gen = random.new_generator(ctx);
         sale.drops_left = sale.drops_left - quantity;
 
         while (quantity > 0) {
@@ -110,7 +108,7 @@ module act::genesis_drop {
                 let x = attributes.pop_back();
                 let items = genesis_shop.borrow_item_mut(x);
 
-                let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
+                let index = if (items.length() == 1) { 0 } else { rng(0, items.length() - 1, clock, ctx) };
                 let item = items.swap_remove(index);
                 let (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
 
@@ -126,7 +124,7 @@ module act::genesis_drop {
                         utf8(b"Genesis"),
                         manufacturer,
                         rarity,
-                        gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                        rng(0, WEAR_RATING_MAX, clock, ctx),
                         ctx
                     );
                     kiosk.place(cap, cosmetic);
@@ -142,7 +140,7 @@ module act::genesis_drop {
                         utf8(b"Genesis"),
                         manufacturer,
                         rarity,
-                        gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
+                        rng(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX, clock, ctx),
                         ctx
                     );
                     kiosk.place(cap, weapon);
@@ -153,13 +151,12 @@ module act::genesis_drop {
     }
 
     // mint equipments to a ticket for generating the Avatar
-    entry fun mint_to_ticket(
+    public fun mint_to_ticket(
         sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
         registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
         coin: Coin<SUI>, // exact amount for one drop at this phase
-        random: &Random,
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
@@ -170,12 +167,11 @@ module act::genesis_drop {
         sale.drops_left = sale.drops_left - 1;
 
         let mut attributes = attributes::genesis_mint_types();
-        let mut gen = random.new_generator(ctx);
         let mut drop = vector::empty();
 
         while (!attributes.is_empty()) {
             let items = genesis_shop.borrow_item_mut(attributes.pop_back());
-            let index = if (items.length() == 1) { 0 } else { gen.generate_u64_in_range(0, items.length() - 1) };
+            let index = if (items.length() == 1) { 0 } else { rng(0, items.length() - 1, clock, ctx) };
             let item = items.swap_remove(index);
             drop.push_back(item);
         };
@@ -190,7 +186,7 @@ module act::genesis_drop {
         );
     }
 
-    entry fun generate_image_to_ticket(
+    public fun generate_image_to_ticket(
         ticket: &mut AvatarTicket,
         image_url: String,
     ) {
@@ -198,10 +194,10 @@ module act::genesis_drop {
     }
 
     // mint equipments and equip them to the avatar
-    entry fun mint_to_avatar(
+    public fun mint_to_avatar(
         ticket: AvatarTicket,
         registry: &mut AvatarRegistry,
-        random: &Random,
+        clock: &Clock,
         ctx: &mut TxContext,
     ) {
         assert_valid_ticket(&ticket);
@@ -209,7 +205,6 @@ module act::genesis_drop {
         id.delete();
         let mut avatar = avatar::new(registry, image_url, ctx);
         avatar.set_edition(b"Genesis");
-        let mut gen = random.new_generator(ctx);
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
@@ -227,7 +222,7 @@ module act::genesis_drop {
                     utf8(b"Genesis"),
                     manufacturer,
                     rarity,
-                    gen.generate_u64_in_range(0, WEAR_RATING_MAX),
+                    rng(0, WEAR_RATING_MAX, clock, ctx),
                     ctx
                 );
                 avatar.equip_minted_cosmetic(cosmetic);
@@ -243,7 +238,7 @@ module act::genesis_drop {
                     utf8(b"Genesis"),
                     manufacturer,
                     rarity,
-                    gen.generate_u64_in_range(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX),
+                    rng(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX, clock, ctx),
                     ctx
                 );
                 avatar.equip_minted_weapon(weapon);
@@ -357,7 +352,7 @@ module act::genesis_drop {
         };
         pass.destroy_empty();
         // check price and quantity
-        assert!(amount == sale.prices[phase] * quantity, EWrongCoinValue);
+        assert!(amount >= sale.prices[phase] * quantity, EWrongCoinValue);
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);
     }
 
