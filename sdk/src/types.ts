@@ -67,6 +67,32 @@ export interface GenerateImageUrlToAvatarTicketArgs extends MaybeTx {
   sender: string;
 }
 
+export interface EquipWeaponArgs extends MaybeTx {
+  weaponId: string;
+  weaponSlot: string;
+  sender: string;
+  kioskId: string;
+}
+
+export interface UnequipWeaponArgs extends MaybeTx {
+  weaponSlot: string;
+  sender: string;
+  kioskId: string;
+}
+
+export interface EquipCosmeticArgs extends MaybeTx {
+  cosmeticId: string;
+  cosmeticType: string;
+  sender: string;
+  kioskId: string;
+}
+
+export interface UnequipCosmeticArgs extends MaybeTx {
+  cosmeticType: string;
+  sender: string;
+  kioskId: string;
+}
+
 export interface GenesisShopItem extends SuiObjectRef {
   hash: string;
   name: string;

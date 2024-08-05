@@ -4,6 +4,7 @@ import { Transaction } from '@mysten/sui/transactions';
 import {
   isValidSuiAddress,
   normalizeStructTag,
+  normalizeSuiObjectId,
   SUI_CLOCK_OBJECT_ID,
   toHEX,
 } from '@mysten/sui/utils';
@@ -20,6 +21,8 @@ import {
   Avatar,
   AvatarTicket,
   CreateAvatarArgs,
+  EquipCosmeticArgs,
+  EquipWeaponArgs,
   GenerateImageUrlToAvatarTicketArgs,
   GenesisPass,
   GenesisShopItem,
@@ -31,6 +34,8 @@ import {
   SetPricesArgs,
   SetSaleActiveArgs,
   SetStartTimesArgs,
+  UnequipCosmeticArgs,
+  UnequipWeaponArgs,
 } from './types';
 import { parseGenesisShopItem } from './utils';
 
@@ -65,6 +70,174 @@ export class AnimaSDK {
       }),
       network: Network.TESTNET,
     });
+  }
+
+  async getItemsInKiosk(address: string) {
+    invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
+
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address,
+    });
+
+    if (!kioskOwnerCaps.length) return [];
+
+    const promises = kioskOwnerCaps.map((elem) =>
+      this.#kioskClient.getKiosk({
+        id: elem.kioskId,
+        options: {
+          withObjects: true,
+          withKioskFields: true,
+          withListingPrices: true,
+        },
+      })
+    );
+
+    const result = await Promise.all(promises);
+
+    return result
+      .map((x) => x.items)
+      .flatMap((x) => x)
+      .filter(
+        (item) =>
+          item.type === `${this.#packages.ACT}::cosmetic::Cosmetic` ||
+          item.type === `${this.#packages.ACT}::weapon::Weapon`
+      );
+  }
+
+  async equipWeapon({
+    weaponId,
+    weaponSlot,
+    sender,
+    kioskId,
+    tx = new Transaction(),
+  }: EquipWeaponArgs) {
+    const avatar = await this.getAvatar(sender);
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address: sender,
+    });
+    invariant(avatar, 'Please mint an avatar first');
+
+    const caps = kioskOwnerCaps.filter(
+      (cap) =>
+        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
+    );
+
+    invariant(caps.length, 'He does not own this kiosk');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::equip_weapon`,
+      arguments: [
+        tx.object(avatar.objectId),
+        tx.pure.id(weaponId),
+        tx.pure.string(weaponSlot),
+        tx.object(kioskId),
+        tx.object(caps[0].objectId),
+        tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
+      ],
+    });
+
+    return tx;
+  }
+
+  async unequipWeapon({
+    weaponSlot,
+    sender,
+    kioskId,
+    tx = new Transaction(),
+  }: UnequipWeaponArgs) {
+    const avatar = await this.getAvatar(sender);
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address: sender,
+    });
+    invariant(avatar, 'Please mint an avatar first');
+
+    const caps = kioskOwnerCaps.filter(
+      (cap) =>
+        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
+    );
+
+    invariant(caps.length, 'He does not own this kiosk');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::unequip_weapon`,
+      arguments: [
+        tx.object(avatar.objectId),
+        tx.pure.string(weaponSlot),
+        tx.object(kioskId),
+        tx.object(caps[0].objectId),
+        tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
+      ],
+    });
+
+    return tx;
+  }
+
+  async equipCosmetic({
+    cosmeticId,
+    cosmeticType,
+    sender,
+    kioskId,
+    tx = new Transaction(),
+  }: EquipCosmeticArgs) {
+    const avatar = await this.getAvatar(sender);
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address: sender,
+    });
+    invariant(avatar, 'Please mint an avatar first');
+
+    const caps = kioskOwnerCaps.filter(
+      (cap) =>
+        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
+    );
+
+    invariant(caps.length, 'He does not own this kiosk');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::equip_cosmetic`,
+      arguments: [
+        tx.object(avatar.objectId),
+        tx.pure.id(cosmeticId),
+        tx.pure.string(cosmeticType),
+        tx.object(kioskId),
+        tx.object(caps[0].objectId),
+        tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+      ],
+    });
+
+    return tx;
+  }
+
+  async unequipCosmetic({
+    cosmeticType,
+    sender,
+    kioskId,
+    tx = new Transaction(),
+  }: UnequipCosmeticArgs) {
+    const avatar = await this.getAvatar(sender);
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address: sender,
+    });
+    invariant(avatar, 'Please mint an avatar first');
+
+    const caps = kioskOwnerCaps.filter(
+      (cap) =>
+        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
+    );
+
+    invariant(caps.length, 'He does not own this kiosk');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::unequip_cosmetic`,
+      arguments: [
+        tx.object(avatar.objectId),
+        tx.pure.string(cosmeticType),
+        tx.object(kioskId),
+        tx.object(caps[0].objectId),
+        tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+      ],
+    });
+
+    return tx;
   }
 
   async getAvatarTicket(address: string): Promise<AvatarTicket | null> {
@@ -200,16 +373,6 @@ export class AnimaSDK {
         {} as Record<string, string>
       ),
     };
-  }
-
-  async getCap(address: string) {
-    invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
-
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address,
-    });
-
-    return kioskOwnerCaps[0];
   }
 
   createAvatar({ tx = new Transaction(), imageUrl }: CreateAvatarArgs) {
@@ -527,4 +690,6 @@ export class AnimaSDK {
 
     return tx;
   }
+
+  upgradeAvatar() {}
 }
