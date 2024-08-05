@@ -50,11 +50,12 @@ export interface MintToKioskArgs extends MaybeTx {
   nftQuantity: bigint;
   suiValue: bigint;
   sender: string;
+  passId: string;
 }
 
 export interface MintToTicketArgs extends MaybeTx {
   suiValue: bigint;
-  sender: string;
+  passId: string;
 }
 
 export interface CreateAvatarArgs extends MaybeTx {

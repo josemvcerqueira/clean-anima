@@ -20,8 +20,8 @@ AnimaLib = { local = "../AnimaLib" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-animalib = "0x4131664ba5171fd9bced996b37238d7b541436a13d4d32ecce245f221c5ed9d8"
-act = "0x0"
+act = "0x09d3b7549e0eb06a034b196f57a60fd20e9303091872d77f03230a434c53359f"
+animalib = "0xec2a7e41756d88a0418bb8868e1d85a4177dc2441f4ae0c6716f24683d2b16e2"
 kiosk = "0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585"
 treasury = "0xbabe" # TODO: replace with the actual address
 

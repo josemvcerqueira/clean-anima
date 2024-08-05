@@ -352,7 +352,7 @@ module act::genesis_drop {
         };
         pass.destroy_empty();
         // check price and quantity
-        assert!(amount <= sale.prices[phase] * quantity, EWrongCoinValue);
+        assert!(amount >= sale.prices[phase] * quantity, EWrongCoinValue);
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);
     }
 

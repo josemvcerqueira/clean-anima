@@ -1,4 +1,4 @@
-import { KioskClient, Network } from '@mysten/kiosk';
+import { KioskClient, KioskTransaction, Network } from '@mysten/kiosk';
 import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 import {
@@ -254,6 +254,7 @@ export class AnimaSDK {
     nftQuantity,
     suiValue,
     sender,
+    passId,
   }: MintToKioskArgs) {
     invariant(nftQuantity > 0, 'You must mint at least one kiosk');
 
@@ -263,15 +264,13 @@ export class AnimaSDK {
       address: sender,
     });
 
-    // const kioskTx = new KioskTransaction({
-    //   kioskClient: this.#kioskClient,
-    //   transaction: tx,
-    //   cap: kioskCap,
-    // });
+    const kioskTx = new KioskTransaction({
+      kioskClient: this.#kioskClient,
+      transaction: tx,
+      cap: kioskOwnerCaps[0],
+    });
 
-    // if (!kioskCap) kioskTx.create();
-
-    const passes = await this.getGenesisPasses(sender);
+    if (!kioskOwnerCaps.length) kioskTx.create();
 
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::mint_to_kiosk`,
@@ -280,22 +279,22 @@ export class AnimaSDK {
         tx.object(this.#objects.GENESIS_SHOP),
         tx.object(this.#objects.AVATAR_REGISTRY),
         tx.makeMoveVec({
-          elements: [passes[0].objectId],
+          elements: [passId],
           type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
         }),
-        tx.object(kioskOwnerCaps[0].kioskId),
-        tx.object(kioskOwnerCaps[0].objectId),
+        kioskTx.getKiosk(),
+        kioskTx.getKioskCap(),
         payment,
         tx.pure.u64(nftQuantity),
         tx.object(SUI_CLOCK_OBJECT_ID),
       ],
     });
 
-    // if (!kioskCap) {
-    //   kioskTx.shareAndTransferCap(sender);
-    // }
+    if (!kioskOwnerCaps.length) {
+      kioskTx.shareAndTransferCap(sender);
+    }
 
-    // kioskTx.finalize();
+    kioskTx.finalize();
 
     return tx;
   }
@@ -303,11 +302,9 @@ export class AnimaSDK {
   async mintToTicket({
     tx = new Transaction(),
     suiValue,
-    sender,
+    passId,
   }: MintToTicketArgs) {
     const payment = tx.splitCoins(tx.gas, [tx.pure.u64(suiValue)]);
-
-    const passes = await this.getGenesisPasses(sender);
 
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::mint_to_ticket`,
@@ -316,7 +313,7 @@ export class AnimaSDK {
         tx.object(this.#objects.GENESIS_SHOP),
         tx.object(this.#objects.AVATAR_REGISTRY),
         tx.makeMoveVec({
-          elements: [passes[0].objectId],
+          elements: [passId],
           type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
         }),
         payment,
