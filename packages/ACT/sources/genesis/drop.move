@@ -203,7 +203,7 @@ module act::genesis_drop {
         assert_valid_ticket(&ticket);
         let AvatarTicket { id, mut drop, image_url } = ticket;
         id.delete();
-        let mut avatar = avatar::new(registry, image_url, ctx);
+        let mut avatar = avatar::new(registry, image_url, b"".to_string(), ctx);
         avatar.set_edition(b"Genesis");
 
         while (!drop.is_empty()) {

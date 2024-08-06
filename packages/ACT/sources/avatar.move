@@ -24,6 +24,7 @@ module act::avatar {
         transfer_policy::TransferPolicy,
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
+        transfer::{public_receive, Receiving}
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -69,6 +70,7 @@ module act::avatar {
     public struct Avatar has key {
         id: UID,
         image_url: String,
+        equipped_cosmetics_hash: String,
         avatar_image: String,
         avatar_model: String,
         avatar_texture: String,
@@ -77,6 +79,12 @@ module act::avatar {
         attributes: VecMap<String, String>,
         attributes_hash: VecMap<String, vector<u8>>,
         misc: VecMap<String, String>,
+    }
+
+    public struct AvatarImage has key, store {
+        id: UID,
+        image_url: String,
+        equipped_cosmetics_hash: String,
     }
 
     // === Method Aliases ===
@@ -119,6 +127,7 @@ module act::avatar {
     public fun new(
         registry: &mut AvatarRegistry, 
         image_url: String,
+        equipped_cosmetics_hash: String,
         ctx: &mut TxContext
     ): Avatar {
         // One Avatar per user
@@ -127,6 +136,7 @@ module act::avatar {
         let avatar = Avatar {
             id: object::new(ctx),
             image_url,
+            equipped_cosmetics_hash,
             avatar_image: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
             avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
             avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
@@ -272,8 +282,17 @@ module act::avatar {
         );
     }
 
-    public fun update_avatar_image_url(self: &mut Avatar, image_url: String) {
+    public fun update_avatar(self: &mut Avatar, receiving: Receiving<AvatarImage>) {
+        let AvatarImage { 
+            id, 
+            image_url, 
+            equipped_cosmetics_hash
+        } = public_receive(&mut self.id, receiving);
+
         self.image_url = image_url;
+        self.equipped_cosmetics_hash = equipped_cosmetics_hash;
+
+        id.delete();
     }
 
     // === Public-View Functions ===
@@ -323,6 +342,24 @@ module act::avatar {
     }
 
     // === Admin Functions ===
+
+    public fun new_avatar_image(
+        access_control: &AccessControl, 
+        admin: &Admin, 
+        image_url: String,
+        equipped_cosmetics_hash: String,
+        recipient: address,
+        ctx: &mut TxContext
+    ) {
+        admin::assert_upgrades_role(access_control, admin);
+        let image = AvatarImage {
+            id: object::new(ctx),
+            image_url,
+            equipped_cosmetics_hash
+        };
+
+        transfer::public_transfer(image, recipient);
+    }
 
     public fun upgrade(
         self: &mut Avatar, 

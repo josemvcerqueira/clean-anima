@@ -898,6 +898,7 @@ module act::genesis_drop_tests {
         let avatar = avatar::new(
             &mut avatar_registry, 
             b"image_url".to_string(),
+            b"".to_string(),
             scenario.ctx()
         );
 

@@ -420,6 +420,7 @@ module act::avatar_tests {
         avatar::new(
             registry,
             b"avatar_image.png".to_string(),
+            b"".to_string(),
             ctx
         )
     }
