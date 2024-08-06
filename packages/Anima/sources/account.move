@@ -13,7 +13,6 @@ module anima::account {
         clock::Clock,
         table::{Self, Table},
         table_vec::{Self, TableVec},
-        transfer::Receiving,
     };
     use animalib::{
         access_control::{Admin, AccessControl},
@@ -29,28 +28,29 @@ module anima::account {
     // === Structs ===
 
     // @dev Shared object to ensure we have one account per user
-    public struct Registry has key {
+    public struct System has key {
         id: UID,
         // ctx.sender() => Account.id.uid_to_inner()
-        accounts: Table<address, ID>
+        accounts: Table<address, address>,
+        accolades: Table<address, TableVec<Accolade>>,
+        reputation: Table<address, TableVec<Reputation>>
     }
 
     // "achievements" added to an account
-    public struct Accolade has store {
+    public struct Accolade has store, drop {
         `type`: String,
         description: String,
         url: String
     }
 
     // "moderation" transferred to accounts
-    public struct Reputation has key {
-        id: UID,
+    public struct Reputation has store, drop {
         `type`: String,
         value: u64,
         positive: bool,
         description: String,
         url: String,
-        issuer: ID,
+        issuer: address,
     }
 
     // @dev key only ability to prevent transfers
@@ -67,21 +67,23 @@ module anima::account {
     // === Public-Mutative Functions ===
 
     fun init(ctx: &mut TxContext) {
-        transfer::share_object(Registry {
+        transfer::share_object(System {
             id: object::new(ctx),
-            accounts: table::new(ctx)
+            accounts: table::new(ctx),
+            accolades: table::new(ctx),
+            reputation: table::new(ctx)
         });
     }
 
     public fun new(
-        registry: &mut Registry, 
+        system: &mut System, 
         alias: String,
         username: String,
         clock: &Clock,
         ctx: &mut TxContext
     ): Account {
         // One Account per user
-        registry.assert_no_avatar(ctx.sender());
+        system.assert_no_avatar(ctx.sender());
         
         let account = Account {
             id: object::new(ctx),
@@ -91,7 +93,7 @@ module anima::account {
             accolades: table_vec::empty(ctx),
         };
 
-        registry.accounts.add(ctx.sender(), account.id.uid_to_inner());
+        system.accounts.add(ctx.sender(), account.id.to_address());
 
         account
     }
@@ -122,7 +124,7 @@ module anima::account {
         self.creation_date
     }
 
-    public fun assert_no_avatar(self: &Registry, addr: address) {
+    public fun assert_no_avatar(self: &System, addr: address) {
         assert!(!self.accounts.contains(addr), EAlreadyMintedAnAccount);
     }
 
@@ -130,6 +132,7 @@ module anima::account {
 
     // can be sent by any player 
     public fun give_reputation(
+        system: &mut System,
         account: &Account,
         recipient: address,
         `type`: String,
@@ -140,36 +143,40 @@ module anima::account {
         ctx: &mut TxContext
     ) {
         let reputation = Reputation {
-            id: object::new(ctx),
             `type`,
             value,
             positive, 
             description,
             url,
-            issuer: account.id.uid_to_inner(),
+            issuer: account.id.to_address(),
         };
-        transfer::transfer(reputation, recipient);
+        
+        if (!system.reputation.contains(recipient))
+            system.reputation.add(recipient, table_vec::empty(ctx));
+        
+        system.reputation.borrow_mut(recipient).push_back(reputation);
     }
 
     public fun remove_reputation(
-        self: &mut Account, 
-        reputation: Receiving<Reputation>,
+        system: &mut System,
         access_control: &AccessControl, 
         admin: &Admin, 
+        account: address, 
+        index: u64,
     ) {
         admin::assert_reputation_role(access_control, admin);
-        let reputation = transfer::receive(&mut self.id, reputation);
-        let Reputation { id, .. } = reputation;
-        id.delete();
+        system.reputation.borrow_mut(account).swap_remove(index);
     }
 
     public fun add_accolade(
-        self: &mut Account, 
+        system: &mut System, 
         access_control: &AccessControl, 
         admin: &Admin, 
+        recipient: address,
         `type`: String,
         description: String,
-        url: String        
+        url: String,
+        ctx: &mut TxContext        
     ) {
         admin::assert_accolades_role(access_control, admin);
         let accolade = Accolade {
@@ -177,18 +184,22 @@ module anima::account {
             description,
             url
         };
-        self.accolades.push_back(accolade);
+
+        if (!system.accolades.contains(recipient))
+            system.accolades.add(recipient, table_vec::empty(ctx));
+
+        system.accolades.borrow_mut(recipient).push_back(accolade);
     }
 
     public fun remove_accolade(
-        self: &mut Account, 
+        system: &mut System,
         access_control: &AccessControl, 
         admin: &Admin, 
-        idx: u64
+        account: address, 
+        index: u64,
     ) {
         admin::assert_accolades_role(access_control, admin);
-        let accolade = self.accolades.swap_remove(idx);
-        let Accolade { .. } = accolade;
+        system.accolades.borrow_mut(account).swap_remove(index);
     }
 
     // === Public-Package Functions ===
@@ -203,7 +214,7 @@ module anima::account {
     }
 
     #[test_only]
-    public fun accounts(self: &Registry): &Table<address, ID> {
+    public fun accounts(self: &System): &Table<address, address> {
         &self.accounts
     }
 
@@ -251,7 +262,7 @@ module anima::account {
     }
 
     #[test_only]
-    public fun issuer(self: &Reputation): ID {
+    public fun issuer(self: &Reputation): address {
         self.issuer
     }
 
