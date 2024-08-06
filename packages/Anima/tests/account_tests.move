@@ -4,14 +4,14 @@ module anima::account_tests {
     use sui::{
         clock::{Self, Clock},
         test_utils::{assert_eq, destroy},
-        test_scenario::{Self as ts, Scenario, receiving_ticket_by_id}
+        test_scenario::{Self as ts, Scenario}
     };
     use animalib::{
         access_control::{Admin, AccessControl},
         admin,
     };
     use anima::{
-        account::{Self, Registry, Reputation},
+        account::{Self, System},
     };
 
     const OWNER: address = @0xBABE;
@@ -23,8 +23,8 @@ module anima::account_tests {
     fun test_new_and_account_setters() {
         let mut world = start();
 
-        assert_eq(world.registry.accounts().length(), 0);
-        world.registry.assert_no_avatar(OWNER);
+        assert_eq(world.system.accounts().length(), 0);
+        world.system.assert_no_avatar(OWNER);
 
         let c = &mut world.clock;
 
@@ -34,7 +34,7 @@ module anima::account_tests {
         let username = b"Griffith".to_string();
 
 
-        let mut account = world.registry.new(
+        let mut account = world.system.new(
             alias,
             username,
             c,
@@ -44,9 +44,8 @@ module anima::account_tests {
         assert_eq(account.alias(), alias);
         assert_eq(account.username(), username);
         assert_eq(account.creation_date(), 123);
-        assert_eq(account.accolades().length(), 0);
-        assert_eq(world.registry.accounts().length(), 1);
-        assert_eq(*world.registry.accounts().borrow(OWNER), object::id(&account));
+        assert_eq(world.system.accounts().length(), 1);
+        assert_eq(*world.system.accounts().borrow(OWNER), object::id(&account).to_address());
 
         account.update_username(b"Blockrunner".to_string());
         account.update_alias(b"Thouny".to_string());
@@ -67,7 +66,7 @@ module anima::account_tests {
         let alias = b"jose".to_string();
         let username = b"Griffith".to_string();
 
-        let owner_account = world.registry.new(
+        let owner_account = world.system.new(
             alias,
             username,
             c,
@@ -79,7 +78,7 @@ module anima::account_tests {
         let alias = b"alice".to_string();
         let username = b"Super".to_string();
 
-        let mut alice_account = world.registry.new(
+        let alice_account = world.system.new(
             alias,
             username,
             c,
@@ -90,7 +89,8 @@ module anima::account_tests {
 
         let alice_account_addr = object::id(&alice_account).to_address();
 
-        owner_account.give_reputation(
+        world.system.give_reputation(
+            &owner_account,
             alice_account_addr, 
             b"behaviour".to_string(), 
             100, 
@@ -100,33 +100,28 @@ module anima::account_tests {
             world.scenario.ctx()
         );
 
-        world.scenario.next_tx(OWNER);
-
-        let reputation = world.scenario.take_from_address<Reputation>(alice_account_addr);
+        let reputation = world.system.reputation().borrow(alice_account_addr).borrow(0);
 
         assert_eq(reputation.type_(), b"behaviour".to_string());
         assert_eq(reputation.value(), 100);
         assert_eq(reputation.positive(), true);
         assert_eq(reputation.description(), b"He was nice to all players".to_string());
         assert_eq(reputation.url(), b"https://sui.io/".to_string());
-        assert_eq(reputation.issuer(), object::id(&owner_account));
-
-        let reputation_id = object::id(&reputation);
-
-        ts::return_to_address(alice_account_addr, reputation);
+        assert_eq(reputation.issuer(), object::id(&owner_account).to_address());
 
         world.scenario.next_tx(OWNER);
 
-        alice_account.remove_reputation(
-            receiving_ticket_by_id(reputation_id), 
-            &world.access_control, 
-            &world.admin
+        let access_control = &world.access_control;
+        let admin = &world.admin;
+
+        world.system.remove_reputation(
+            access_control, 
+            admin,
+            alice_account_addr,
+            0
         );
 
-        let effects = world.scenario.next_tx(OWNER);
-
-        // was deleted
-        assert_eq(effects.deleted().contains(&reputation_id), true);
+        assert_eq(world.system.reputation().borrow(alice_account_addr).length(), 0);
 
         destroy(alice_account);
         destroy(owner_account);
@@ -144,7 +139,7 @@ module anima::account_tests {
         let alias = b"alice".to_string();
         let username = b"Super".to_string();
 
-        let mut alice_account = world.registry.new(
+        let alice_account = world.system.new(
             alias,
             username,
             c,
@@ -153,19 +148,27 @@ module anima::account_tests {
 
         world.scenario.next_tx(OWNER);
 
-        assert_eq(alice_account.accolades().length(), 0);
+        let alice_account_address = object::id(&alice_account).to_address();
 
-        alice_account.add_accolade(
-            &world.access_control, 
-            &world.admin, 
+        assert_eq(world.system.accolades().contains(alice_account_address), false);
+
+        let access_control = &world.access_control;
+        let admin = &world.admin;
+
+        world.system.add_accolade(
+            access_control, 
+            admin, 
+            object::id(&alice_account).to_address(),
             b"Kills".to_string(), 
             b"100 kills in 5 minutes".to_string(),  
             b"accolades.png".to_string(), 
+            world.scenario.ctx()
         );
 
-        assert_eq(alice_account.accolades().length(), 1);
+        assert_eq(world.system.accolades().contains(alice_account_address), true);
+        assert_eq(world.system.accolades().borrow(alice_account_address).length(), 1);
 
-        let accolades = &alice_account.accolades()[0];
+        let accolades = world.system.accolades().borrow(alice_account_address).borrow(0);
 
         assert_eq(accolades.type_(), b"Kills".to_string());
         assert_eq(accolades.description(), b"100 kills in 5 minutes".to_string());
@@ -173,9 +176,12 @@ module anima::account_tests {
         
         world.scenario.next_tx(OWNER);
 
-        alice_account.remove_accolade(&world.access_control, &world.admin, 0);
+        let access_control = &world.access_control;
+        let admin = &world.admin;
 
-        assert_eq(alice_account.accolades().length(), 0);
+        world.system.remove_accolade(access_control, admin, alice_account_address, 0);
+
+        assert_eq(world.system.accolades().borrow(alice_account_address).length(), 0);
 
         destroy(alice_account);
         world.end();
@@ -193,14 +199,14 @@ module anima::account_tests {
         let alias = b"alice".to_string();
         let username = b"Super".to_string();
 
-        world.registry.new(
+        world.system.new(
             alias,
             username,
             c,
             world.scenario.ctx()
         ).keep(world.scenario.ctx());
 
-        world.registry.new(
+        world.system.new(
             alias,
             username,
             c,
@@ -220,7 +226,7 @@ module anima::account_tests {
         let alias = b"jose".to_string();
         let username = b"Griffith".to_string();
 
-        let owner_account = world.registry.new(
+        let owner_account = world.system.new(
             alias,
             username,
             c,
@@ -232,7 +238,7 @@ module anima::account_tests {
         let alias = b"alice".to_string();
         let username = b"Super".to_string();
 
-        let mut alice_account = world.registry.new(
+        let alice_account = world.system.new(
             alias,
             username,
             c,
@@ -243,7 +249,8 @@ module anima::account_tests {
 
         let alice_account_addr = object::id(&alice_account).to_address();
 
-        owner_account.give_reputation(
+        world.system.give_reputation(
+            &owner_account,
             alice_account_addr, 
             b"behaviour".to_string(), 
             100, 
@@ -253,21 +260,15 @@ module anima::account_tests {
             world.scenario.ctx()
         );
 
-        world.scenario.next_tx(OWNER);
+        let access_control = &world.access_control;
+        let admin = &world.super_admin;
 
-        let reputation = world.scenario.take_from_address<Reputation>(alice_account_addr);
-
-        let reputation_id = object::id(&reputation);
-
-        ts::return_to_address(alice_account_addr, reputation);
-
-        world.scenario.next_tx(OWNER);
-
-        alice_account.remove_reputation(
-            receiving_ticket_by_id(reputation_id), 
-            &world.access_control, 
+        world.system.remove_reputation(
+            access_control, 
             // does not have the role
-            &world.super_admin
+            admin,
+            alice_account_addr,
+            0
         );
 
         destroy(alice_account);
@@ -287,7 +288,7 @@ module anima::account_tests {
         let alias = b"alice".to_string();
         let username = b"Super".to_string();
 
-        let mut alice_account = world.registry.new(
+        let alice_account = world.system.new(
             alias,
             username,
             c,
@@ -296,16 +297,28 @@ module anima::account_tests {
 
         world.scenario.next_tx(OWNER);
 
-        assert_eq(alice_account.accolades().length(), 0);
 
-        alice_account.add_accolade(
-            &world.access_control, 
-            // Does not have the roles
-            &world.super_admin, 
+        let access_control = &world.access_control;
+        let admin = &world.admin;
+
+        world.system.add_accolade(
+            access_control, 
+            admin, 
+            object::id(&alice_account).to_address(),
             b"Kills".to_string(), 
             b"100 kills in 5 minutes".to_string(),  
             b"accolades.png".to_string(), 
+            world.scenario.ctx()
         );
+
+        let alice_account_address = object::id(&alice_account).to_address();
+        
+        world.scenario.next_tx(OWNER);
+
+        let access_control = &world.access_control;
+        let admin = &world.super_admin;
+
+        world.system.remove_accolade(access_control, admin, alice_account_address, 0);
 
         destroy(alice_account);
         world.end();
@@ -316,7 +329,7 @@ module anima::account_tests {
         super_admin: Admin,
         access_control: AccessControl,
         scenario: Scenario,
-        registry: Registry,
+        system: System,
         clock: Clock
     }
 
@@ -330,9 +343,9 @@ module anima::account_tests {
         scenario.next_tx(OWNER);
 
         let access_control = scenario.take_shared<AccessControl>();
-        let super_admin = scenario.take_from_sender<Admin>();
         let admin = scenario.take_from_sender<Admin>();
-        let registry = scenario.take_shared<Registry>();
+        let super_admin = scenario.take_from_sender<Admin>();
+        let system = scenario.take_shared<System>();
         let clock = clock::create_for_testing(scenario.ctx());
 
         World {
@@ -340,7 +353,7 @@ module anima::account_tests {
             super_admin,
             admin, 
             scenario,
-            registry,
+            system,
             clock
         }
     }

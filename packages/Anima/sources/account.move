@@ -59,7 +59,6 @@ module anima::account {
         alias: String,
         username: String, 
         creation_date: u64,
-        accolades: TableVec<Accolade>,
     }
 
     // === Method Aliases ===
@@ -90,7 +89,6 @@ module anima::account {
             alias,
             username,
             creation_date: clock.timestamp_ms(),
-            accolades: table_vec::empty(ctx),
         };
 
         system.accounts.add(ctx.sender(), account.id.to_address());
@@ -214,12 +212,17 @@ module anima::account {
     }
 
     #[test_only]
+    public fun reputation(self: &System): &Table<address, TableVec<Reputation>> {
+        &self.reputation
+    }
+
+    #[test_only]
     public fun accounts(self: &System): &Table<address, address> {
         &self.accounts
     }
 
     #[test_only]
-    public fun accolades(self: &Account): &TableVec<Accolade> {
+    public fun accolades(self: &System): &Table<address, TableVec<Accolade>> {
         &self.accolades
     }
     
