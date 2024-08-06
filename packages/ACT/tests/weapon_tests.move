@@ -88,22 +88,22 @@ module act::weapon_tests {
         world.end();
     }
 
-    #[test]
-    fun test_upgrade() {
-        let mut world = start_world();
+    // #[test]
+    // fun test_upgrade() {
+    //     let mut world = start_world();
 
-        let mut weapon = new_weapon(world.scenario.ctx());
+    //     let mut weapon = new_weapon(world.scenario.ctx());
 
-        assert_eq(weapon.upgrades().length(), 0);
+    //     assert_eq(weapon.upgrades().length(), 0);
 
-        weapon.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
+    //     weapon.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
 
-        assert_eq(weapon.upgrades().length(), 1);
-        assert_eq(weapon.upgrades()[0].url(), b"upgrade.png".to_string());
+    //     assert_eq(weapon.upgrades().length(), 1);
+    //     assert_eq(weapon.upgrades()[0].url(), b"upgrade.png".to_string());
 
-        destroy(weapon);
-        world.end();
-    }
+    //     destroy(weapon);
+    //     world.end();
+    // }
 
     #[test]
     fun test_equip() {

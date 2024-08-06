@@ -175,12 +175,27 @@ module act::avatar_tests {
 
         assert_eq(avatar.upgrades().length(), 0);
 
-        avatar.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
-        
+        avatar::new_upgrade(
+            &world.access_control, 
+            &world.super_admin, 
+            b"upgrade_name".to_string(),
+            b"upgrade_image_url".to_string(),
+            b"upgrade_model_url".to_string(),
+            b"upgrade_texture_url".to_string(),
+            object::id(&avatar).to_address(),
+            world.scenario.ctx()
+        );
 
-        assert_eq(avatar.upgrades().length(), 2);
-        assert_eq(avatar.upgrades()[0].url(), b"upgrade.png".to_string());
-        assert_eq(avatar.upgrades()[1].url(), b"upgrade1.png".to_string());
+        let effects = world.scenario.next_tx(OWNER);
+
+        assert_eq(avatar.upgrades().length(), 0);
+
+        avatar.upgrade(receiving_ticket_by_id(effects.created()[0]));
+
+        assert_eq(avatar.upgrades().length(), 1);
+        assert_eq(avatar.image_url(), b"upgrade_image_url".to_string());
+        assert_eq(avatar.avatar_model(), b"upgrade_model_url".to_string());
+        assert_eq(avatar.avatar_texture(), b"upgrade_texture_url".to_string());
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -195,19 +210,34 @@ module act::avatar_tests {
 
         assert_eq(weapon.upgrades().length(), 0);
 
+        let weapon_address = object::id(&weapon).to_address();
+        let slot = weapon.slot();
+
         avatar.equip_minted_weapon(weapon);
 
         assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).upgrades().length(), 0);
 
-        avatar.upgrade_equipped_weapon(
+        world.scenario.next_tx(OWNER);
+
+        avatar::new_upgrade(
             &world.access_control, 
             &world.super_admin, 
-            attributes::primary(), 
-            b"upgrade2.png".to_string()
+            b"upgrade_name".to_string(),
+            b"upgrade_image_url".to_string(),
+            b"upgrade_model_url".to_string(),
+            b"upgrade_texture_url".to_string(),
+            weapon_address,
+            world.scenario.ctx()
         );
 
+        let effects = world.scenario.next_tx(OWNER);
+
+        avatar.upgrade_equipped_weapon(receiving_ticket_by_id(effects.created()[0]), slot);
+
         assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).upgrades().length(), 1);
-        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).upgrades()[0].url(), b"upgrade2.png".to_string());
+        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).image_url(), b"upgrade_image_url".to_string());
+        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).model_url(), b"upgrade_model_url".to_string());
+        assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).texture_url(), b"upgrade_texture_url".to_string());
 
         avatar.keep(world.scenario.ctx());
         world.end();
@@ -220,21 +250,36 @@ module act::avatar_tests {
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
         let cosmetic = new_cosmetic(world.scenario.ctx());
 
+        let cosmetic_address = object::id(&cosmetic).to_address();
+        let type_ = cosmetic.type_();
+
         assert_eq(cosmetic.upgrades().length(), 0);
 
         avatar.equip_minted_cosmetic(cosmetic);
 
         assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).upgrades().length(), 0);
 
-        avatar.upgrade_equipped_cosmetic(
+        world.scenario.next_tx(OWNER);
+
+        avatar::new_upgrade(
             &world.access_control, 
             &world.super_admin, 
-            attributes::helm(), 
-            b"upgrade2.png".to_string()
+            b"upgrade_name".to_string(),
+            b"upgrade_image_url".to_string(),
+            b"upgrade_model_url".to_string(),
+            b"upgrade_texture_url".to_string(),
+            cosmetic_address,
+            world.scenario.ctx()
         );
 
+        let effects = world.scenario.next_tx(OWNER);
+
+        avatar.upgrade_equipped_cosmetic(receiving_ticket_by_id(effects.created()[0]), type_);
+
         assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).upgrades().length(), 1);
-        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).upgrades()[0].url(), b"upgrade2.png".to_string());
+        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).image_url(), b"upgrade_image_url".to_string());
+        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).model_url(), b"upgrade_model_url".to_string());
+        assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).texture_url(), b"upgrade_texture_url".to_string());
 
         avatar.keep(world.scenario.ctx());
         world.end();

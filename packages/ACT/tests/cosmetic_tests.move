@@ -88,22 +88,22 @@ module act::cosmetic_tests {
         world.end();
     }
 
-    #[test]
-    fun test_upgrade() {
-        let mut world = start_world();
+    // #[test]
+    // fun test_upgrade() {
+    //     let mut world = start_world();
 
-        let mut cosmetic = new_cosmetic(world.scenario.ctx());
+    //     let mut cosmetic = new_cosmetic(world.scenario.ctx());
 
-        assert_eq(cosmetic.upgrades().length(), 0);
+    //     assert_eq(cosmetic.upgrades().length(), 0);
 
-        cosmetic.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
+    //     cosmetic.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
 
-        assert_eq(cosmetic.upgrades().length(), 1);
-        assert_eq(cosmetic.upgrades()[0].url(), b"upgrade.png".to_string());
+    //     assert_eq(cosmetic.upgrades().length(), 1);
+    //     assert_eq(cosmetic.upgrades()[0].url(), b"upgrade.png".to_string());
 
-        destroy(cosmetic);
-        world.end();
-    }
+    //     destroy(cosmetic);
+    //     world.end();
+    // }
 
     #[test]
     fun test_equip() {
