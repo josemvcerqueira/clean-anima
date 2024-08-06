@@ -32,7 +32,7 @@ module act::avatar {
     };
     use act::{
         attributes,
-        upgrade::{Self, Upgrade},
+        upgrade::{Self, Upgrade, LockedUpgrade},
         weapon::{Self, Weapon}, 
         cosmetic::{Self, Cosmetic}
     };
@@ -47,6 +47,7 @@ module act::avatar {
     const ENeedToMintAnAvatar: u64 = 5;
     const EWrongWeaponSlot: u64 = 6;
     const EWrongCosmeticType: u64 = 7;
+    const EMaxTwoUpgrades: u64 = 8;
 
     // === Constants ===
 
@@ -295,6 +296,42 @@ module act::avatar {
         id.delete();
     }
 
+
+    public fun upgrade(
+        self: &mut Avatar, 
+        receiving: Receiving<LockedUpgrade>
+    ) {
+        assert!(2 > self.upgrades.length(), EMaxTwoUpgrades);
+        let locked_upgrade = public_receive(&mut self.id, receiving);
+        let upgrade = locked_upgrade.destroy();
+
+        self.image_url = upgrade.image_url();
+        self.avatar_model = upgrade.model_url();
+        self.avatar_texture = upgrade.texture_url();
+
+        self.upgrades.push_back(upgrade);
+    }
+
+    public fun upgrade_equipped_cosmetic(
+        self: &mut Avatar, 
+        receiving: Receiving<LockedUpgrade>,
+        `type`: String,      
+    ) {
+        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
+        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
+        cosmetic.upgrade(receiving);   
+    }
+
+    public fun upgrade_equipped_weapon(
+        self: &mut Avatar,  
+        receiving: Receiving<LockedUpgrade>,
+        slot: String,
+    ) {
+        assert!(dof::exists_(&self.id, WeaponKey(slot)), EWeaponIsNotEquipped);
+        let weapon = dof::borrow_mut<WeaponKey, Weapon>(&mut self.id, WeaponKey(slot)); 
+        weapon.upgrade(receiving);   
+    }
+
     // === Public-View Functions ===
 
     public fun image_url(self: &Avatar): String {
@@ -365,40 +402,21 @@ module act::avatar {
         transfer::public_transfer(image, recipient);
     }
 
-    public fun upgrade(
-        self: &mut Avatar, 
+    public fun new_upgrade(
         access_control: &AccessControl, 
         admin: &Admin, 
-        url: String
+        name: String,
+        image_url: String,
+        model_url: String,
+        texture_url: String,
+        recipient: address,
+        ctx: &mut TxContext
     ) {
         admin::assert_upgrades_role(access_control, admin);
-        self.upgrades.push_back(upgrade::new(url));
-    }
-
-    public fun upgrade_equipped_weapon(
-        self: &mut Avatar, 
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        slot: String,
-        url: String,     
-    ) {
-        admin::assert_upgrades_role(access_control, admin);
-        assert!(dof::exists_(&self.id, WeaponKey(slot)), EWeaponIsNotEquipped);
-        let weapon = dof::borrow_mut<WeaponKey, Weapon>(&mut self.id, WeaponKey(slot)); 
-        weapon.upgrade(access_control, admin, url);   
-    }
-
-    public fun upgrade_equipped_cosmetic(
-        self: &mut Avatar, 
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        `type`: String,
-        url: String        
-    ) {
-        admin::assert_upgrades_role(access_control, admin);
-        assert!(dof::exists_(&self.id, CosmeticKey(`type`)), ECosmeticIsNotEquipped);
-        let cosmetic = dof::borrow_mut<CosmeticKey, Cosmetic>(&mut self.id, CosmeticKey(`type`)); 
-        cosmetic.upgrade(access_control, admin, url);   
+        transfer::public_transfer(
+            upgrade::new(name, image_url, model_url, texture_url, ctx), 
+            recipient
+        );
     }
 
     // === Public-Package Functions ===

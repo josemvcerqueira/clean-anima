@@ -6,14 +6,11 @@ module act::cosmetic {
         kiosk::{Kiosk, KioskOwnerCap},
         transfer_policy::TransferPolicy, 
         vec_map::{Self, VecMap},
-    };
-    use animalib::{
-        access_control::{Admin, AccessControl},
-        admin,
+        transfer::{public_receive, Receiving}
     };
     use act::{
         item,
-        upgrade::{Self, Upgrade},
+        upgrade::{Upgrade, LockedUpgrade},
     };
 
     // === Constants ===
@@ -53,12 +50,17 @@ module act::cosmetic {
 
     public fun upgrade(
         self: &mut Cosmetic, 
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        url: String,
+        receiving: Receiving<LockedUpgrade>
     ) {
-        admin::assert_upgrades_role(access_control, admin);
-        self.upgrades.push_back(upgrade::new(url));        
+        assert!(2 > self.upgrades.length());
+        let locked_upgrade = public_receive(&mut self.id, receiving);
+        let upgrade = locked_upgrade.destroy();
+
+        self.image_url = upgrade.image_url();
+        self.model_url = upgrade.model_url();
+        self.texture_url = upgrade.texture_url();
+
+        self.upgrades.push_back(upgrade);    
     }
 
     // === Public-View Functions ===

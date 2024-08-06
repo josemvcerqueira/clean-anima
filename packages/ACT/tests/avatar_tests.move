@@ -176,7 +176,7 @@ module act::avatar_tests {
         assert_eq(avatar.upgrades().length(), 0);
 
         avatar.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
-        avatar.upgrade(&world.access_control, &world.super_admin, b"upgrade1.png".to_string());
+        
 
         assert_eq(avatar.upgrades().length(), 2);
         assert_eq(avatar.upgrades()[0].url(), b"upgrade.png".to_string());
