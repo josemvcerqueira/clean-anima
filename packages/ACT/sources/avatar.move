@@ -75,6 +75,7 @@ module act::avatar {
         edition: String,
         upgrades: vector<Upgrade>,
         attributes: VecMap<String, String>,
+        attributes_hash: VecMap<String, vector<u8>>,
         misc: VecMap<String, String>,
     }
 
@@ -132,6 +133,7 @@ module act::avatar {
             edition: b"Standard".to_string(),
             upgrades: vector[],
             attributes: attributes::new(),
+            attributes_hash: attributes::new_hashes(),
             misc: vec_map::empty(),
         };
 
@@ -148,8 +150,11 @@ module act::avatar {
     public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
         assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
 
-        let cosmetic_val = self.attributes.get_mut(&weapon.slot());
-        *cosmetic_val = weapon.name();
+        let weapon_val = &mut self.attributes[&weapon.slot()];
+        *weapon_val = weapon.name();
+
+        let weapon_val = &mut self.attributes_hash[&weapon.slot()];
+        *weapon_val = weapon.hash();
 
         dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon);
     }
@@ -158,8 +163,11 @@ module act::avatar {
     public fun equip_minted_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
         assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.type_())), ECosmeticSlotAlreadyEquipped);
 
-        let cosmetic_val = self.attributes.get_mut(&cosmetic.type_());
+        let cosmetic_val = &mut self.attributes[&cosmetic.type_()];
         *cosmetic_val = cosmetic.name();
+
+        let cosmetic_val = &mut self.attributes_hash[&cosmetic.type_()];
+        *cosmetic_val = cosmetic.hash();
 
         dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic);  
     }
@@ -173,7 +181,7 @@ module act::avatar {
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext
     ) {
-        let (weapon_name, slot) = weapon::equip(
+        let (weapon_name, slot, hash) = weapon::equip(
             &mut self.id, 
             WeaponKey(weapon_slot), 
             weapon_id, 
@@ -185,8 +193,11 @@ module act::avatar {
 
         assert!(weapon_slot == slot, EWrongWeaponSlot);
 
-        let weapon_val = self.attributes.get_mut(&weapon_slot);
+        let weapon_val = &mut self.attributes[&weapon_slot];
         *weapon_val = weapon_name;
+
+        let weapon_val = &mut self.attributes_hash[&weapon_slot];
+        *weapon_val = hash;
     }
 
     public fun equip_cosmetic(
@@ -198,7 +209,7 @@ module act::avatar {
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext
     ) {
-        let (cosmetic_name, type_) = cosmetic::equip(
+        let (cosmetic_name, type_, hash) = cosmetic::equip(
             &mut self.id, 
             CosmeticKey(cosmetic_type), 
             cosmetic_id, 
@@ -210,8 +221,11 @@ module act::avatar {
 
         assert!(cosmetic_type == type_, EWrongCosmeticType);
 
-        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
+        let cosmetic_val = &mut self.attributes[&cosmetic_type];
         *cosmetic_val = cosmetic_name;
+
+        let cosmetic_val = &mut self.attributes_hash[&cosmetic_type];
+        *cosmetic_val = hash;
     }
 
     public fun unequip_weapon(
@@ -221,8 +235,11 @@ module act::avatar {
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // trading policy
     ) {
-        let weapon_val = self.attributes.get_mut(&weapon_slot);
+        let weapon_val = &mut self.attributes[&weapon_slot];
         *weapon_val = b"".to_string();
+
+        let weapon_val = &mut self.attributes_hash[&weapon_slot];
+        *weapon_val = vector[];
 
         weapon::unequip(
             &mut self.id, 
@@ -240,8 +257,11 @@ module act::avatar {
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // trading policy
     ) {
-        let cosmetic_val = self.attributes.get_mut(&cosmetic_type);
+        let cosmetic_val = &mut self.attributes[&cosmetic_type];
         *cosmetic_val = b"".to_string();
+
+        let cosmetic_val = &mut self.attributes_hash[&cosmetic_type];
+        *cosmetic_val = vector[];
 
         cosmetic::unequip(
             &mut self.id, 

@@ -475,7 +475,18 @@ module act::genesis_shop {
 
         let quantity = &mut quantities[len];
 
-        if (quantity != 0) *quantity = *quantity - 1;
+        if (*quantity == 0) {
+            quantities.pop_back();
+
+            if (quantities.length() == 0) {
+                 builder.quantities.pop_back();
+                 builder.manufacturers.pop_back();
+                 builder.names.pop_back();
+            };
+            return
+        };
+
+        *quantity = *quantity - 1;
 
         let mut rarity = b"";
         let mut colour = b"";

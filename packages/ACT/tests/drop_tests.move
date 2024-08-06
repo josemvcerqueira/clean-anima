@@ -856,6 +856,8 @@ module act::genesis_drop_tests {
             i = i + 1;
         };
 
+        world.genesis_shop.new_item(&mut legs); 
+
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::boots()).length(), 10);
 
         destroy(primary);

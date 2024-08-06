@@ -633,7 +633,7 @@ module act::genesis_shop_tests {
 
         let mut i = 0;
 
-        while ((TOTAL_ITEMS) > i) {
+        while ((TOTAL_ITEMS + 1) > i) {
             world.genesis_shop.new_item(&mut builder);
             i = i + 1;
         };

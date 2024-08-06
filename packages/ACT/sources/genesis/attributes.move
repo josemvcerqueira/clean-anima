@@ -57,6 +57,24 @@ module act::attributes {
         attributes
     }
 
+    public(package) fun new_hashes(): VecMap<String, vector<u8>> {
+        let mut attributes = vec_map::empty();
+        // Default cosmetics
+        let mut i = 0;
+        let cosmetic_types = cosmetic_types(); 
+        let len = cosmetic_types.length();
+        while (len > i) {
+            attributes.insert(cosmetic_types[i], vector[]);
+            i = i + 1;
+        };
+        // Default weapons
+        attributes.insert(primary(), vector[]);
+        attributes.insert(secondary(), vector[]);
+        attributes.insert(tertiary(), vector[]);
+
+        attributes
+    }
+
     public(package) fun assert_is_valid_cosmetic(str: &String) {
         assert!(cosmetic_types().contains(str), EInvalidAttribute);
     }
