@@ -1,11 +1,10 @@
 #[test_only]
 module act::avatar_tests {
-
     use sui::{
         display::Display,
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk, KioskOwnerCap},
-        test_scenario::{Self as ts, Scenario},
+        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
         transfer_policy::{TransferPolicy, TransferPolicyCap},
     };
     use animalib::access_control::{Admin, AccessControl};
@@ -304,6 +303,38 @@ module act::avatar_tests {
         assert_eq(avatar.has_cosmetic(type_), true);
 
         destroy(avatar);
+        world.end();
+    }
+
+    #[test]
+    fun test_update_avatar_image() {
+        let mut world = start_world();
+
+        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+
+        let access_control = &world.access_control;
+        let admin = &world.super_admin;
+
+        avatar::new_avatar_image(
+            access_control, 
+            admin, 
+            b"image2".to_string(), 
+            b"hash2".to_string(),
+            object::id(&avatar).to_address(),
+            world.scenario.ctx()
+        );
+
+        assert_eq(avatar.image_url(), b"avatar_image.png".to_string());
+        assert_eq(avatar.equipped_cosmetics_hash(), b"".to_string());
+
+        let effects = world.scenario.next_tx(OWNER);
+
+        avatar.update_avatar(receiving_ticket_by_id(effects.created()[0]));
+
+        assert_eq(avatar.image_url(), b"image2".to_string());
+        assert_eq(avatar.equipped_cosmetics_hash(), b"hash2".to_string());
+
+        avatar.keep(world.scenario.ctx());
         world.end();
     }
 

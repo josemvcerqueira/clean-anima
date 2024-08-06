@@ -305,6 +305,10 @@ module act::avatar {
         self.avatar_image
     }    
 
+    public fun equipped_cosmetics_hash(self: &Avatar): String {
+        self.equipped_cosmetics_hash
+    }  
+
     public fun avatar_model(self: &Avatar): String {
         self.avatar_model
     }    
