@@ -9,7 +9,7 @@ import { OBJECTS, PACKAGES } from './constants';
 
 dotenv.config();
 
-const client = new SuiClient({ url: getFullnodeUrl('testnet') });
+const client = new SuiClient({ url: 'https://devnet.baku.movementlabs.xyz' });
 
 const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -96,6 +96,10 @@ const deployBuilder = (tx = new Transaction()) => {
 };
 
 (async () => {
-  const items = await sdk.getGenesisShopItems('BELT');
-  console.log(items.filter((item) => item.imageUrl === ''));
+  console.log(
+    await client.getCoinMetadata({
+      coinType:
+        '0x8ac626e474c33520a815175649fefcbb272678c8c37a7b024e7171fa45d47711::weth::WETH',
+    })
+  );
 })();

@@ -3,10 +3,11 @@ module act::avatar_tests {
     use sui::{
         display::Display,
         test_utils::{assert_eq, destroy},
-        kiosk::{Self, Kiosk, KioskOwnerCap},
+        kiosk::{Self, Kiosk},
         test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
         transfer_policy::{TransferPolicy, TransferPolicyCap},
     };
+    use kiosk::personal_kiosk::{Self, PersonalKioskCap};
     use animalib::access_control::{Admin, AccessControl};
     use act::{
         attributes,
@@ -23,7 +24,7 @@ module act::avatar_tests {
         super_admin: Admin,
         kiosk: Kiosk,
         avatar_registry: AvatarRegistry,
-        kiosk_cap: KioskOwnerCap,
+        kiosk_cap: PersonalKioskCap,
         access_control: AccessControl,
         avatar_display: Display<Avatar>,
         weapon_equip_transfer_policy: TransferPolicy<Weapon>,
@@ -125,7 +126,7 @@ module act::avatar_tests {
         avatar.unequip_weapon(
             attributes::primary(), 
             &mut world.kiosk, 
-            kiosk_cap, 
+            kiosk_cap.borrow(), 
             policy,
         );
 
@@ -156,7 +157,7 @@ module act::avatar_tests {
         avatar.unequip_cosmetic(
             attributes::helm(), 
             &mut world.kiosk, 
-            kiosk_cap, 
+            kiosk_cap.borrow(), 
             policy,
         );
         
@@ -297,7 +298,7 @@ module act::avatar_tests {
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.weapon_equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap.borrow(), weapon);
 
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
 
@@ -307,7 +308,7 @@ module act::avatar_tests {
             weapon_id, 
             slot, 
             &mut world.kiosk, 
-            kiosk_cap, 
+            kiosk_cap.borrow(), 
             equip_transfer_policy, 
             world.scenario.ctx()
         );
@@ -330,7 +331,7 @@ module act::avatar_tests {
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.cosmetic_equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, cosmetic);
+        world.kiosk.place(kiosk_cap.borrow(), cosmetic);
 
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
 
@@ -340,7 +341,7 @@ module act::avatar_tests {
             cosmetic_id, 
             type_, 
             &mut world.kiosk, 
-            kiosk_cap, 
+            kiosk_cap.borrow(), 
             equip_transfer_policy, 
             world.scenario.ctx()
         );
@@ -395,7 +396,7 @@ module act::avatar_tests {
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.weapon_equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap.borrow(), weapon);
 
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
 
@@ -403,7 +404,7 @@ module act::avatar_tests {
             weapon_id, 
             attributes::secondary(), 
             &mut world.kiosk, 
-            kiosk_cap, 
+            kiosk_cap.borrow(), 
             equip_transfer_policy, 
             world.scenario.ctx()
         );
@@ -424,7 +425,7 @@ module act::avatar_tests {
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.cosmetic_equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, cosmetic);
+        world.kiosk.place(kiosk_cap.borrow(), cosmetic);
 
         let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
 
@@ -432,7 +433,7 @@ module act::avatar_tests {
             cosmetic_id, 
             attributes::chestpiece(), 
             &mut world.kiosk, 
-            kiosk_cap, 
+            kiosk_cap.borrow(), 
             equip_transfer_policy, 
             world.scenario.ctx()
         );
@@ -452,7 +453,9 @@ module act::avatar_tests {
 
         let (access_control, super_admin) = set_up_admins(&mut scenario);
 
-        let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
+        let (mut kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
+
+        let kiosk_cap = personal_kiosk::new(&mut kiosk, kiosk_cap, scenario.ctx());
 
         let weapon_display = scenario.take_from_sender<Display<Weapon>>();
         let weapon_equip_transfer_policy_cap = scenario.take_from_sender<TransferPolicyCap<Weapon>>();

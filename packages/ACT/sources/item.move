@@ -12,13 +12,20 @@ module act::item {
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
     };
-    use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
+    use kiosk::{
+        witness_rule, 
+        royalty_rule, 
+        personal_kiosk,
+        kiosk_lock_rule, 
+        personal_kiosk_rule
+    };
     
     // === Errors ===
 
     const ENotAOneTimeWitness: u64 = 0;
     const EItemTypeAlreadyEquipped: u64 = 1;
     const EItemTypeNotEquipped: u64 = 2;
+    const EMustBeAPersonalKiosk: u64 = 3;
 
     // === Constants ===
 
@@ -55,6 +62,7 @@ module act::item {
         let (mut policy, cap) = transfer_policy::new<Item>(&publisher, ctx);
         royalty_rule::add(&mut policy, &cap, 100, 0); // % royalty?
         kiosk_lock_rule::add(&mut policy, &cap);
+        personal_kiosk_rule::add(&mut policy, &cap);
         transfer::public_share_object(policy);
         transfer::public_transfer(cap, ctx.sender());
 
@@ -105,9 +113,12 @@ module act::item {
 
         let item_id = object::id(&item);
 
+        assert!(personal_kiosk::is_personal(kiosk), EMustBeAPersonalKiosk);
+
         kiosk.lock(cap, policy, item);
         item_id
     }
 
     // === Private Functions ===
 }
+

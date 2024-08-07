@@ -8,11 +8,17 @@ module act::weapon_tests {
         package::Publisher,
         dynamic_object_field as dof,
         test_utils::{assert_eq, destroy},
-        kiosk::{Self, Kiosk, KioskOwnerCap},
+        kiosk::{Self, Kiosk},
         test_scenario::{Self as ts, Scenario},
         transfer_policy::{TransferPolicy, TransferPolicyCap},
     };
-    use kiosk::{royalty_rule, kiosk_lock_rule, witness_rule};
+    use kiosk::{
+        royalty_rule, 
+        kiosk_lock_rule, 
+        witness_rule, 
+        personal_kiosk_rule,
+        personal_kiosk::{Self, PersonalKioskCap}
+    };
     use animalib::access_control::{Admin, AccessControl};
     use act::{
         item,
@@ -32,7 +38,7 @@ module act::weapon_tests {
         scenario: Scenario,
         super_admin: Admin,
         kiosk: Kiosk,
-        kiosk_cap: KioskOwnerCap,
+        kiosk_cap: PersonalKioskCap,
         access_control: AccessControl,
         equip_transfer_policy: TransferPolicy<Weapon>,
         trade_transfer_policy: TransferPolicy<Weapon>,
@@ -56,6 +62,7 @@ module act::weapon_tests {
         let mut rules = vec_set::empty();
         rules.insert(type_name::get<royalty_rule::Rule>());
         rules.insert(type_name::get<kiosk_lock_rule::Rule>());
+        rules.insert(type_name::get<personal_kiosk_rule::Rule>());
 
         assert_eq((*world.trade_transfer_policy.rules()).into_keys(), rules.into_keys());
 
@@ -116,7 +123,7 @@ module act::weapon_tests {
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap.borrow(), weapon);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
@@ -129,7 +136,7 @@ module act::weapon_tests {
             WeaponKey {},
             weapon_id,
             &mut world.kiosk,
-            kiosk_cap,
+            kiosk_cap.borrow(),
             equip_transfer_policy,
             world.scenario.ctx()
         );
@@ -152,7 +159,7 @@ module act::weapon_tests {
         let equip_transfer_policy = &world.equip_transfer_policy;
         let trade_transfer_policy = &world.trade_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap.borrow(), weapon);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
@@ -163,7 +170,7 @@ module act::weapon_tests {
             WeaponKey {},
             weapon_id,
             &mut world.kiosk,
-            kiosk_cap,
+            kiosk_cap.borrow(),
             equip_transfer_policy,
             world.scenario.ctx()
         );
@@ -175,7 +182,7 @@ module act::weapon_tests {
             &mut character.id,
             WeaponKey {},
             &mut world.kiosk,
-            kiosk_cap,
+            kiosk_cap.borrow(),
             trade_transfer_policy
         );
 
@@ -200,8 +207,8 @@ module act::weapon_tests {
         let kiosk_cap = &world.kiosk_cap;
         let equip_transfer_policy = &world.equip_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
-        world.kiosk.place(kiosk_cap, second_weapon);
+        world.kiosk.place(kiosk_cap.borrow(), weapon);
+        world.kiosk.place(kiosk_cap.borrow(), second_weapon);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
@@ -212,7 +219,7 @@ module act::weapon_tests {
             WeaponKey {},
             weapon_id,
             &mut world.kiosk,
-            kiosk_cap,
+            kiosk_cap.borrow(),
             equip_transfer_policy,
             world.scenario.ctx()
         );
@@ -222,7 +229,7 @@ module act::weapon_tests {
             WeaponKey {},
             second_weapon_id,
             &mut world.kiosk,
-            kiosk_cap,
+            kiosk_cap.borrow(),
             equip_transfer_policy,
             world.scenario.ctx()
         );
@@ -241,7 +248,7 @@ module act::weapon_tests {
         let kiosk_cap = &world.kiosk_cap;
         let trade_transfer_policy = &world.trade_transfer_policy;
 
-        world.kiosk.place(kiosk_cap, weapon);
+        world.kiosk.place(kiosk_cap.borrow(), weapon);
 
         let mut character = Character {
             id: object::new(world.scenario.ctx())
@@ -251,7 +258,7 @@ module act::weapon_tests {
             &mut character.id,
             WeaponKey {},
             &mut world.kiosk,
-            kiosk_cap,
+            kiosk_cap.borrow(),
             trade_transfer_policy
         );
 
@@ -268,7 +275,9 @@ module act::weapon_tests {
 
         let (access_control, super_admin) = set_up_admins(&mut scenario);
 
-        let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
+        let (mut kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
+
+        let kiosk_cap = personal_kiosk::new(&mut kiosk, kiosk_cap, scenario.ctx());
 
         let display = scenario.take_from_sender<Display<Weapon>>();
         let publisher = scenario.take_from_sender<Publisher>();
