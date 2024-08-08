@@ -48,6 +48,8 @@ import {
   UpdateAvatarArgs,
   UpdateUsernameArgs,
   UpgradeAvatarArgs,
+  UpgradeAvatarCosmeticArgs,
+  UpgradeAvatarWeaponArgs,
   UpgradeEquippedCosmeticArgs,
   UpgradeEquippedWeaponArgs,
 } from './types';
@@ -133,6 +135,28 @@ export class AnimaSDK {
     return tx;
   }
 
+  async getAvatarItems(avatar: string) {
+    invariant(isValidSuiObjectId(avatar), 'It is not a valid object');
+
+    const fields = await fetchAllDynamicFields(this.#client, avatar);
+
+    const chunks = chunkArray(fields, 50);
+
+    const results = await Promise.all(
+      chunks.map((items) =>
+        this.#client.multiGetObjects({
+          ids: items.map((item) => item.objectId),
+          options: {
+            showContent: true,
+            showType: true,
+          },
+        })
+      )
+    );
+
+    return results.flat();
+  }
+
   async getPersonalKiosks(address: string) {
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address,
@@ -165,7 +189,7 @@ export class AnimaSDK {
 
     return result
       .map((x) => x.items)
-      .flatMap((x) => x)
+      .flat()
       .filter(
         (item) =>
           item.type === `${this.#packages.ACT}::cosmetic::Cosmetic` ||
@@ -193,39 +217,46 @@ export class AnimaSDK {
     );
 
     const avatar = await this.getAvatar(sender);
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address: sender,
-    });
     invariant(avatar, 'Please mint an avatar first');
+    const allItems = await this.getItemsInKiosk(sender);
 
-    const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
+    const record = weaponIds.reduce(
+      (acc, id, i) => ({
+        ...acc,
+        [normalizeSuiObjectId(id)]: weaponSlots[i],
+      }),
+      {} as Record<string, string>
+    );
 
-    const kioskTx = new KioskTransaction({
-      kioskClient: this.#kioskClient,
-      transaction: tx,
-      cap,
-    });
+    const items = allItems.filter((item) =>
+      weaponIds
+        .map((id) => normalizeSuiObjectId(id))
+        .includes(normalizeSuiObjectId(item.objectId))
+    );
 
-    if (!cap) {
-      kioskTx.createPersonal(true);
-    }
+    items.forEach((item) => {
+      const [cap, borrow] = tx.moveCall({
+        target: `${this.#packages.KIOSK}::personal_kiosk::borrow_val`,
+        arguments: [tx.object(item.cap)],
+      });
 
-    weaponIds.forEach((weapon, i) => {
       tx.moveCall({
         target: `${this.#packages.ACT}::avatar::equip_weapon`,
         arguments: [
           tx.object(avatar.objectId),
-          tx.pure.id(weapon),
-          tx.pure.string(weaponSlots[i]),
-          kioskTx.getKiosk(),
-          kioskTx.getKioskCap(),
+          tx.pure.id(item.objectId),
+          tx.pure.string(record[item.objectId]),
+          tx.object(item.kioskId),
+          tx.object(cap),
           tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
         ],
       });
+
+      tx.moveCall({
+        target: `${this.#packages.KIOSK}::personal_kiosk::return_val`,
+        arguments: [tx.object(item.cap), cap, borrow],
+      });
     });
-
-    kioskTx.finalize();
-
     return tx;
   }
 
@@ -392,7 +423,7 @@ export class AnimaSDK {
     );
 
     tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::upgrade_avatar`,
+      target: `${this.#packages.ACT}::avatar::update_avatar`,
       arguments: [
         tx.object(avatar),
         tx.receivingRef({
@@ -431,6 +462,72 @@ export class AnimaSDK {
           digest: obj.data.digest,
           version: obj.data.version,
         }),
+      ],
+    });
+
+    return tx;
+  }
+
+  async upgradeAvatarWeapon({
+    avatar,
+    lockedUpgrade,
+    slot,
+    tx = new Transaction(),
+  }: UpgradeAvatarWeaponArgs) {
+    const obj = await this.#client.getObject({
+      id: lockedUpgrade,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
+      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::upgrade_equipped_weapon`,
+      arguments: [
+        tx.object(avatar),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+        tx.pure.string(slot),
+      ],
+    });
+
+    return tx;
+  }
+
+  async upgradeAvatarCosmetic({
+    avatar,
+    lockedUpgrade,
+    type,
+    tx = new Transaction(),
+  }: UpgradeAvatarCosmeticArgs) {
+    const obj = await this.#client.getObject({
+      id: lockedUpgrade,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
+      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::upgrade_equipped_cosmetic`,
+      arguments: [
+        tx.object(avatar),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+        tx.pure.string(type),
       ],
     });
 
@@ -704,10 +801,17 @@ export class AnimaSDK {
         tx.object(this.#objects.SALE),
         tx.object(this.#objects.GENESIS_SHOP),
         tx.object(this.#objects.AVATAR_REGISTRY),
-        tx.makeMoveVec({
-          elements: [passId],
-          type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
-        }),
+        passId
+          ? tx.makeMoveVec({
+              elements: [passId],
+              type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+            })
+          : tx.moveCall({
+              target: '0x1::vector::empty',
+              typeArguments: [
+                `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+              ],
+            }),
         kioskTx.getKiosk(),
         kioskTx.getKioskCap(),
         payment,
@@ -738,10 +842,17 @@ export class AnimaSDK {
         tx.object(this.#objects.SALE),
         tx.object(this.#objects.GENESIS_SHOP),
         tx.object(this.#objects.AVATAR_REGISTRY),
-        tx.makeMoveVec({
-          elements: [passId],
-          type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
-        }),
+        passId
+          ? tx.makeMoveVec({
+              elements: [passId],
+              type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+            })
+          : tx.moveCall({
+              target: '0x1::vector::empty',
+              typeArguments: [
+                `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+              ],
+            }),
         payment,
         tx.object(SUI_CLOCK_OBJECT_ID),
       ],
@@ -787,13 +898,11 @@ export class AnimaSDK {
 
     const items = await Promise.all(promises);
 
-    return items
-      .flatMap((x) => x!)
-      .map((x) => {
-        invariant(x && x.data, 'Failed to get data');
+    return items.flat().map((x) => {
+      invariant(x && x.data, 'Failed to get data');
 
-        return parseGenesisShopItem(x);
-      });
+      return parseGenesisShopItem(x);
+    });
   }
 
   /**

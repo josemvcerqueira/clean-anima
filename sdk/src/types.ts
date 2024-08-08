@@ -50,12 +50,12 @@ export interface MintToKioskArgs extends MaybeTx {
   nftQuantity: bigint;
   suiValue: bigint;
   sender: string;
-  passId: string;
+  passId?: string;
 }
 
 export interface MintToTicketArgs extends MaybeTx {
   suiValue: bigint;
-  passId: string;
+  passId?: string;
 }
 
 export interface CreateAvatarArgs extends MaybeTx {
@@ -169,6 +169,18 @@ export interface UpdateAvatarArgs extends MaybeTx {
 export interface UpgradeAvatarArgs extends MaybeTx {
   avatar: string;
   lockedUpgrade: string;
+}
+
+export interface UpgradeAvatarWeaponArgs extends MaybeTx {
+  avatar: string;
+  lockedUpgrade: string;
+  slot: string;
+}
+
+export interface UpgradeAvatarCosmeticArgs extends MaybeTx {
+  avatar: string;
+  lockedUpgrade: string;
+  type: string;
 }
 
 export interface UpgradeEquippedCosmeticArgs extends MaybeTx {
