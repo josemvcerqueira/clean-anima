@@ -23,8 +23,8 @@ import {
   Avatar,
   AvatarTicket,
   CreateAvatarArgs,
-  EquipCosmeticArgs,
-  EquipWeaponArgs,
+  EquipCosmeticsArgs,
+  EquipWeaponsArgs,
   GenerateImageUrlToAvatarTicketArgs,
   GenesisPass,
   GenesisShopItem,
@@ -33,6 +33,8 @@ import {
   MintToKioskArgs,
   MintToTicketArgs,
   NewAnimaAccountArgs,
+  NewAvatarImageArgs,
+  NewUpgradeArgs,
   RemoveAccoladeArgs,
   RemoveReputationArgs,
   SetDropsLeftArgs,
@@ -40,10 +42,14 @@ import {
   SetPricesArgs,
   SetSaleActiveArgs,
   SetStartTimesArgs,
-  UnequipCosmeticArgs,
-  UnequipWeaponArgs,
+  UnequipCosmeticsArgs,
+  UnequipWeaponsArgs,
   UpdateAliasArgs,
+  UpdateAvatarArgs,
   UpdateUsernameArgs,
+  UpgradeAvatarArgs,
+  UpgradeEquippedCosmeticArgs,
+  UpgradeEquippedWeaponArgs,
 } from './types';
 import { parseGenesisShopItem } from './utils';
 
@@ -159,13 +165,18 @@ export class AnimaSDK {
       );
   }
 
-  async equipWeapon({
-    weaponId,
-    weaponSlot,
+  async equipWeapons({
+    weaponIds,
+    weaponSlots,
     sender,
     kioskId,
     tx = new Transaction(),
-  }: EquipWeaponArgs) {
+  }: EquipWeaponsArgs) {
+    invariant(
+      weaponIds.length === weaponSlots.length && weaponIds.length != 0,
+      'Mismatch configuration'
+    );
+
     const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
@@ -179,27 +190,30 @@ export class AnimaSDK {
 
     invariant(caps.length, 'He does not own this kiosk');
 
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::equip_weapon`,
-      arguments: [
-        tx.object(avatar.objectId),
-        tx.pure.id(weaponId),
-        tx.pure.string(weaponSlot),
-        tx.object(kioskId),
-        tx.object(caps[0].objectId),
-        tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
-      ],
+    weaponIds.forEach((weapon, i) => {
+      tx.moveCall({
+        target: `${this.#packages.ACT}::avatar::equip_weapon`,
+        arguments: [
+          tx.object(avatar.objectId),
+          tx.pure.id(weapon),
+          tx.pure.string(weaponSlots[i]),
+          tx.object(kioskId),
+          tx.object(caps[0].objectId),
+          tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
+        ],
+      });
     });
 
     return tx;
   }
 
   async unequipWeapon({
-    weaponSlot,
+    weaponSlots,
     sender,
     kioskId,
     tx = new Transaction(),
-  }: UnequipWeaponArgs) {
+  }: UnequipWeaponsArgs) {
+    invariant(weaponSlots.length, 'You must unequip at leas one weapon');
     const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
@@ -212,28 +226,36 @@ export class AnimaSDK {
     );
 
     invariant(caps.length, 'He does not own this kiosk');
+    invariant(caps[0].isPersonal, 'You must pass a personal kiosk');
 
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::unequip_weapon`,
-      arguments: [
-        tx.object(avatar.objectId),
-        tx.pure.string(weaponSlot),
-        tx.object(kioskId),
-        tx.object(caps[0].objectId),
-        tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
-      ],
+    weaponSlots.forEach((slot) => {
+      tx.moveCall({
+        target: `${this.#packages.ACT}::avatar::unequip_weapon`,
+        arguments: [
+          tx.object(avatar.objectId),
+          tx.pure.string(slot),
+          tx.object(kioskId),
+          tx.object(caps[0].objectId),
+          tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
+        ],
+      });
     });
 
     return tx;
   }
 
   async equipCosmetic({
-    cosmeticId,
-    cosmeticType,
+    cosmeticIds,
+    cosmeticTypes,
     sender,
     kioskId,
     tx = new Transaction(),
-  }: EquipCosmeticArgs) {
+  }: EquipCosmeticsArgs) {
+    invariant(
+      cosmeticIds.length === cosmeticTypes.length && cosmeticTypes.length != 0,
+      'Mismatch configuration'
+    );
+
     const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
@@ -246,28 +268,35 @@ export class AnimaSDK {
     );
 
     invariant(caps.length, 'He does not own this kiosk');
+    invariant(caps[0].isPersonal, 'You must pass a personal kiosk');
 
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::equip_cosmetic`,
-      arguments: [
-        tx.object(avatar.objectId),
-        tx.pure.id(cosmeticId),
-        tx.pure.string(cosmeticType),
-        tx.object(kioskId),
-        tx.object(caps[0].objectId),
-        tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
-      ],
+    cosmeticIds.forEach((id, i) => {
+      tx.moveCall({
+        target: `${this.#packages.ACT}::avatar::equip_cosmetic`,
+        arguments: [
+          tx.object(avatar.objectId),
+          tx.pure.id(id),
+          tx.pure.string(cosmeticTypes[i]),
+          tx.object(kioskId),
+          tx.object(caps[0].objectId),
+          tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+        ],
+      });
     });
 
     return tx;
   }
 
   async unequipCosmetic({
-    cosmeticType,
+    cosmeticTypes,
     sender,
     kioskId,
     tx = new Transaction(),
-  }: UnequipCosmeticArgs) {
+  }: UnequipCosmeticsArgs) {
+    invariant(
+      cosmeticTypes.length != 0,
+      'You must unequip at least one cosmetic'
+    );
     const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
@@ -280,15 +309,146 @@ export class AnimaSDK {
     );
 
     invariant(caps.length, 'He does not own this kiosk');
+    invariant(caps[0].isPersonal, 'You must pass a personal kiosk');
+
+    cosmeticTypes.forEach((type) => {
+      tx.moveCall({
+        target: `${this.#packages.ACT}::avatar::unequip_cosmetic`,
+        arguments: [
+          tx.object(avatar.objectId),
+          tx.pure.string(type),
+          tx.object(kioskId),
+          tx.object(caps[0].objectId),
+          tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+        ],
+      });
+    });
+
+    return tx;
+  }
+
+  async updateAvatar({
+    tx = new Transaction(),
+    avatar,
+    image,
+  }: UpdateAvatarArgs) {
+    const obj = await this.#client.getObject({
+      id: image,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::avatar::AvatarImage`,
+      `The object type must be equal to ${this.#packages.ACT}::avatar::AvatarImage`
+    );
 
     tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::unequip_cosmetic`,
+      target: `${this.#packages.ACT}::avatar::upgrade_avatar`,
       arguments: [
-        tx.object(avatar.objectId),
-        tx.pure.string(cosmeticType),
-        tx.object(kioskId),
-        tx.object(caps[0].objectId),
-        tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+        tx.object(avatar),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+      ],
+    });
+
+    return tx;
+  }
+
+  async upgradeAvatar({
+    avatar,
+    lockedUpgrade,
+    tx = new Transaction(),
+  }: UpgradeAvatarArgs) {
+    const obj = await this.#client.getObject({
+      id: lockedUpgrade,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
+      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::upgrade`,
+      arguments: [
+        tx.object(avatar),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+      ],
+    });
+
+    return tx;
+  }
+
+  async upgradeEquippedCosmetic({
+    avatar,
+    lockedUpgrade,
+    type,
+    tx = new Transaction(),
+  }: UpgradeEquippedCosmeticArgs) {
+    const obj = await this.#client.getObject({
+      id: lockedUpgrade,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
+      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::upgrade_equipped_cosmetic`,
+      arguments: [
+        tx.object(avatar),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+        tx.pure.string(type),
+      ],
+    });
+
+    return tx;
+  }
+
+  async upgradeEquippedWeapon({
+    avatar,
+    lockedUpgrade,
+    slot,
+    tx = new Transaction(),
+  }: UpgradeEquippedWeaponArgs) {
+    const obj = await this.#client.getObject({
+      id: lockedUpgrade,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
+      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::upgrade_equipped_weapon`,
+      arguments: [
+        tx.object(avatar),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+        tx.pure.string(slot),
       ],
     });
 
@@ -827,6 +987,50 @@ export class AnimaSDK {
         tx.pure.u64(index),
       ],
     });
+    return tx;
+  }
+
+  newAvatarImage({
+    equippedCosmeticHash,
+    imageUrl,
+    recipient,
+    tx = new Transaction(),
+  }: NewAvatarImageArgs) {
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::new_avatar_image`,
+      arguments: [
+        tx.object(this.#objects.ACCESS_CONTROL),
+        tx.object(this.#objects.ADMIN),
+        tx.pure.string(imageUrl),
+        tx.pure.string(equippedCosmeticHash),
+        tx.pure.address(recipient),
+      ],
+    });
+
+    return tx;
+  }
+
+  newUpgrade({
+    imageUrl,
+    modelUrl,
+    name,
+    recipient,
+    textureUrl,
+    tx = new Transaction(),
+  }: NewUpgradeArgs) {
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::new_upgrade`,
+      arguments: [
+        tx.object(this.#objects.ACCESS_CONTROL),
+        tx.object(this.#objects.ADMIN),
+        tx.pure.string(name),
+        tx.pure.string(imageUrl),
+        tx.pure.string(modelUrl),
+        tx.pure.string(textureUrl),
+        tx.pure.address(recipient),
+      ],
+    });
+
     return tx;
   }
 }

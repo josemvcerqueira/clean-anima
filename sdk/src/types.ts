@@ -67,28 +67,28 @@ export interface GenerateImageUrlToAvatarTicketArgs extends MaybeTx {
   sender: string;
 }
 
-export interface EquipWeaponArgs extends MaybeTx {
-  weaponId: string;
-  weaponSlot: string;
+export interface EquipWeaponsArgs extends MaybeTx {
+  weaponIds: string[];
+  weaponSlots: string[];
   sender: string;
   kioskId: string;
 }
 
-export interface UnequipWeaponArgs extends MaybeTx {
-  weaponSlot: string;
+export interface UnequipWeaponsArgs extends MaybeTx {
+  weaponSlots: string[];
   sender: string;
   kioskId: string;
 }
 
-export interface EquipCosmeticArgs extends MaybeTx {
-  cosmeticId: string;
-  cosmeticType: string;
+export interface EquipCosmeticsArgs extends MaybeTx {
+  cosmeticIds: string[];
+  cosmeticTypes: string[];
   sender: string;
   kioskId: string;
 }
 
-export interface UnequipCosmeticArgs extends MaybeTx {
-  cosmeticType: string;
+export interface UnequipCosmeticsArgs extends MaybeTx {
+  cosmeticTypes: string[];
   sender: string;
   kioskId: string;
 }
@@ -163,4 +163,40 @@ export interface AddAccoladeArgs extends MaybeTx {
 export interface RemoveAccoladeArgs extends MaybeTx {
   account: string;
   index: bigint;
+}
+
+export interface UpdateAvatarArgs extends MaybeTx {
+  avatar: string;
+  image: string;
+}
+
+export interface UpgradeAvatarArgs extends MaybeTx {
+  avatar: string;
+  lockedUpgrade: string;
+}
+
+export interface UpgradeEquippedCosmeticArgs extends MaybeTx {
+  avatar: string;
+  lockedUpgrade: string;
+  type: string;
+}
+
+export interface UpgradeEquippedWeaponArgs extends MaybeTx {
+  avatar: string;
+  lockedUpgrade: string;
+  slot: string;
+}
+
+export interface NewAvatarImageArgs extends MaybeTx {
+  imageUrl: string;
+  equippedCosmeticHash: string;
+  recipient: string;
+}
+
+export interface NewUpgradeArgs extends MaybeTx {
+  imageUrl: string;
+  name: string;
+  modelUrl: string;
+  textureUrl: string;
+  recipient: string;
 }
