@@ -1,7 +1,10 @@
-import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
+import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
 import { Signer } from '@mysten/sui/cryptography';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-import { Transaction } from '@mysten/sui/transactions';
+import {
+  SerialTransactionExecutor,
+  Transaction,
+} from '@mysten/sui/transactions';
 import dotenv from 'dotenv';
 
 import { AnimaSDK } from './anima';
@@ -9,7 +12,7 @@ import { OBJECTS, PACKAGES } from './constants';
 
 dotenv.config();
 
-const client = new SuiClient({ url: 'https://devnet.baku.movementlabs.xyz' });
+const client = new SuiClient({ url: getFullnodeUrl('testnet') });
 
 const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -39,16 +42,17 @@ const executeTx = async (tx: Transaction, signer: Signer) => {
 
   console.log('SUCCESS!');
 
-  const createdObjectIds = result.effects.created!.map(
+  const createdObjectIds = result.effects?.created?.map(
     (item: OwnedObjectRef) => item.reference.objectId
   );
 
-  const createdObjects = await client.multiGetObjects({
-    ids: createdObjectIds,
-    options: { showContent: true, showType: true },
-  });
-
-  console.log(createdObjects);
+  if (createdObjectIds?.length) {
+    const createdObjects = await client.multiGetObjects({
+      ids: createdObjectIds,
+      options: { showContent: true, showType: true },
+    });
+    console.log(createdObjects);
+  }
 };
 
 const sdk = new AnimaSDK();
@@ -77,9 +81,9 @@ const destroy = (builder: string, tx = new Transaction()) => {
   return tx;
 };
 
-const deployBuilder = (tx = new Transaction()) => {
+const deployBuilder = (key: string, tx = new Transaction()) => {
   const builder = tx.moveCall({
-    target: `${PACKAGES.ACT}::genesis_shop::add_tertiary`,
+    target: `${PACKAGES.ACT}::genesis_shop::${key}`,
     arguments: [
       tx.object(OBJECTS.GENESIS_SHOP),
       tx.object(OBJECTS.ACCESS_CONTROL),
@@ -96,10 +100,12 @@ const deployBuilder = (tx = new Transaction()) => {
 };
 
 (async () => {
-  console.log(
-    await client.getCoinMetadata({
-      coinType:
-        '0x8ac626e474c33520a815175649fefcbb272678c8c37a7b024e7171fa45d47711::weth::WETH',
-    })
+  await executeTx(
+    sdk.removeAccolade({
+      account:
+        '0x94fbcf49867fd909e6b2ecf2802c4b2bba7c9b2d50a13abbb75dbae0216db82a',
+      index: 0n,
+    }),
+    adminKeypair
   );
 })();

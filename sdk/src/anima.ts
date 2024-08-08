@@ -3,6 +3,7 @@ import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 import {
   isValidSuiAddress,
+  isValidSuiObjectId,
   normalizeStructTag,
   normalizeSuiObjectId,
   SUI_CLOCK_OBJECT_ID,
@@ -15,6 +16,7 @@ import invariant from 'tiny-invariant';
 
 import { GENESIS_SHOP_NAMES, OBJECTS, PACKAGES } from './constants';
 import {
+  AddAccoladeArgs,
   AirdropFreeMintArgs,
   AirdropWhitelistArgs,
   AnimaConstructorArgs,
@@ -26,9 +28,13 @@ import {
   GenerateImageUrlToAvatarTicketArgs,
   GenesisPass,
   GenesisShopItem,
+  GiveReputationArgs,
   MaybeTx,
   MintToKioskArgs,
   MintToTicketArgs,
+  NewAnimaAccountArgs,
+  RemoveAccoladeArgs,
+  RemoveReputationArgs,
   SetDropsLeftArgs,
   SetMaxMintsArgs,
   SetPricesArgs,
@@ -36,6 +42,8 @@ import {
   SetStartTimesArgs,
   UnequipCosmeticArgs,
   UnequipWeaponArgs,
+  UpdateAliasArgs,
+  UpdateUsernameArgs,
 } from './types';
 import { parseGenesisShopItem } from './utils';
 
@@ -70,6 +78,53 @@ export class AnimaSDK {
       }),
       network: Network.TESTNET,
     });
+  }
+
+  newAnimaAccount({
+    tx = new Transaction(),
+    alias,
+    username,
+  }: NewAnimaAccountArgs) {
+    const account = tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::new`,
+      arguments: [
+        tx.object(this.#objects.SYSTEM),
+        tx.pure.string(alias),
+        tx.pure.string(username),
+        tx.object(SUI_CLOCK_OBJECT_ID),
+      ],
+    });
+
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::keep`,
+      arguments: [account],
+    });
+
+    return tx;
+  }
+
+  updateAlias({ tx = new Transaction(), alias, account }: UpdateAliasArgs) {
+    invariant(isValidSuiObjectId(account), 'invalid Acount Id');
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::update_alias`,
+      arguments: [tx.object(account), tx.pure.string(alias)],
+    });
+
+    return tx;
+  }
+
+  updateUsername({
+    tx = new Transaction(),
+    username,
+    account,
+  }: UpdateUsernameArgs) {
+    invariant(isValidSuiObjectId(account), 'invalid Acount Id');
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::update_username`,
+      arguments: [tx.object(account), tx.pure.string(username)],
+    });
+
+    return tx;
   }
 
   async getItemsInKiosk(address: string) {
@@ -691,5 +746,87 @@ export class AnimaSDK {
     return tx;
   }
 
-  upgradeAvatar() {}
+  giveReputation({
+    tx = new Transaction(),
+    account,
+    recipient,
+    type,
+    description,
+    url,
+    positive,
+    value,
+  }: GiveReputationArgs) {
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::give_reputation`,
+      arguments: [
+        tx.object(this.#objects.SYSTEM),
+        tx.object(account),
+        tx.pure.address(recipient),
+        tx.pure.string(type),
+        tx.pure.u64(value),
+        tx.pure.bool(positive),
+        tx.pure.string(description),
+        tx.pure.string(url),
+      ],
+    });
+    return tx;
+  }
+
+  removeReputation({
+    account,
+    index,
+    tx = new Transaction(),
+  }: RemoveReputationArgs) {
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::remove_reputation`,
+      arguments: [
+        tx.object(this.#objects.SYSTEM),
+        tx.object(this.#objects.ACCESS_CONTROL),
+        tx.object(this.#objects.ADMIN),
+        tx.pure.address(account),
+        tx.pure.u64(index),
+      ],
+    });
+    return tx;
+  }
+
+  addAccolade({
+    description,
+    recipient,
+    type,
+    url,
+    tx = new Transaction(),
+  }: AddAccoladeArgs) {
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::add_accolade`,
+      arguments: [
+        tx.object(this.#objects.SYSTEM),
+        tx.object(this.#objects.ACCESS_CONTROL),
+        tx.object(this.#objects.ADMIN),
+        tx.pure.address(recipient),
+        tx.pure.string(type),
+        tx.pure.string(description),
+        tx.pure.string(url),
+      ],
+    });
+    return tx;
+  }
+
+  removeAccolade({
+    account,
+    index,
+    tx = new Transaction(),
+  }: RemoveAccoladeArgs) {
+    tx.moveCall({
+      target: `${this.#packages.ANIMA}::account::remove_accolade`,
+      arguments: [
+        tx.object(this.#objects.SYSTEM),
+        tx.object(this.#objects.ACCESS_CONTROL),
+        tx.object(this.#objects.ADMIN),
+        tx.pure.address(account),
+        tx.pure.u64(index),
+      ],
+    });
+    return tx;
+  }
 }

@@ -122,3 +122,45 @@ export interface AvatarTicket extends SuiObjectRef {
   drops: ReadonlyArray<GenesisShopItem>;
   type: string;
 }
+
+export interface NewAnimaAccountArgs extends MaybeTx {
+  alias: string;
+  username: string;
+}
+
+export interface UpdateAliasArgs extends MaybeTx {
+  account: string;
+  alias: string;
+}
+
+export interface UpdateUsernameArgs extends MaybeTx {
+  account: string;
+  username: string;
+}
+
+export interface GiveReputationArgs extends MaybeTx {
+  account: string;
+  recipient: string;
+  type: string;
+  value: bigint;
+  positive: boolean;
+  description: string;
+  url: string;
+}
+
+export interface RemoveReputationArgs extends MaybeTx {
+  account: string;
+  index: bigint;
+}
+
+export interface AddAccoladeArgs extends MaybeTx {
+  recipient: string;
+  type: string;
+  description: string;
+  url: string;
+}
+
+export interface RemoveAccoladeArgs extends MaybeTx {
+  account: string;
+  index: bigint;
+}

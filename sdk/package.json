@@ -34,8 +34,8 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
-    "@mysten/kiosk": "^0.9.13",
-    "@mysten/sui": "^1.4.0",
+    "@mysten/kiosk": "^0.9.14",
+    "@mysten/sui": "^1.5.0",
     "@polymedia/suitcase-core": "^0.0.10",
     "change-case": "^5.4.4",
     "ramda": "^0.30.1",
