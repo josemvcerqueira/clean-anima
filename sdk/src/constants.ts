@@ -26,7 +26,7 @@ export const OBJECTS = {
     objectId:
       '0x8c2cb174c3eddaa2d80496a9cd33107369c620fe9ec84729e6b27b356544f313',
     mutable: false,
-    initialSharedVersion: '89890916',
+    initialSharedVersion: '102635434',
   }),
   AVATAR_REGISTRY: Inputs.SharedObjectRef({
     objectId:
@@ -75,6 +75,7 @@ export const PACKAGES = {
     '0xb4d37fa68d148ae0ea3d48464415ee6969220de75f11f754aed007cebdec33df',
   ANIMA: '0x82fedbc1262381127844460fd31979841095cb42d0e0c20224f7d41a01c2aff6',
   ACT: '0x82cc70323d49cb574dc8e533024f1aaa76aef768f231e3f08a351c753370450d',
+  KIOSK: '0x0717a13f43deaf5345682153e3633f76cdcf695405959697fcd63f63f289320b',
 };
 
 export const GENESIS_SHOP_NAMES = {

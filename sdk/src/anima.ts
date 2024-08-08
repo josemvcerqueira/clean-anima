@@ -133,6 +133,14 @@ export class AnimaSDK {
     return tx;
   }
 
+  async getPersonalKiosks(address: string) {
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address,
+    });
+
+    return kioskOwnerCaps.filter((cap) => cap.isPersonal);
+  }
+
   async getItemsInKiosk(address: string) {
     invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
 
@@ -142,16 +150,16 @@ export class AnimaSDK {
 
     if (!kioskOwnerCaps.length) return [];
 
-    const promises = kioskOwnerCaps.map((elem) =>
-      this.#kioskClient.getKiosk({
-        id: elem.kioskId,
-        options: {
-          withObjects: true,
-          withKioskFields: true,
-          withListingPrices: true,
-        },
-      })
-    );
+    const promises = kioskOwnerCaps
+      .filter((cap) => cap?.isPersonal)
+      .map((elem) =>
+        this.#kioskClient.getKiosk({
+          id: elem.kioskId,
+          options: {
+            withObjects: true,
+          },
+        })
+      );
 
     const result = await Promise.all(promises);
 
@@ -162,14 +170,21 @@ export class AnimaSDK {
         (item) =>
           item.type === `${this.#packages.ACT}::cosmetic::Cosmetic` ||
           item.type === `${this.#packages.ACT}::weapon::Weapon`
-      );
+      )
+      .map((item) => ({
+        ...item,
+        cap: kioskOwnerCaps.find(
+          (x) =>
+            normalizeSuiObjectId(x.kioskId) ===
+            normalizeSuiObjectId(item.kioskId)
+        )!.objectId,
+      }));
   }
 
   async equipWeapons({
     weaponIds,
     weaponSlots,
     sender,
-    kioskId,
     tx = new Transaction(),
   }: EquipWeaponsArgs) {
     invariant(
@@ -183,12 +198,17 @@ export class AnimaSDK {
     });
     invariant(avatar, 'Please mint an avatar first');
 
-    const caps = kioskOwnerCaps.filter(
-      (cap) =>
-        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
-    );
+    const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
-    invariant(caps.length, 'He does not own this kiosk');
+    const kioskTx = new KioskTransaction({
+      kioskClient: this.#kioskClient,
+      transaction: tx,
+      cap,
+    });
+
+    if (!cap) {
+      kioskTx.createPersonal(true);
+    }
 
     weaponIds.forEach((weapon, i) => {
       tx.moveCall({
@@ -197,20 +217,21 @@ export class AnimaSDK {
           tx.object(avatar.objectId),
           tx.pure.id(weapon),
           tx.pure.string(weaponSlots[i]),
-          tx.object(kioskId),
-          tx.object(caps[0].objectId),
+          kioskTx.getKiosk(),
+          kioskTx.getKioskCap(),
           tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
         ],
       });
     });
 
+    kioskTx.finalize();
+
     return tx;
   }
 
-  async unequipWeapon({
+  async unequipWeapons({
     weaponSlots,
     sender,
-    kioskId,
     tx = new Transaction(),
   }: UnequipWeaponsArgs) {
     invariant(weaponSlots.length, 'You must unequip at leas one weapon');
@@ -220,13 +241,17 @@ export class AnimaSDK {
     });
     invariant(avatar, 'Please mint an avatar first');
 
-    const caps = kioskOwnerCaps.filter(
-      (cap) =>
-        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
-    );
+    const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
-    invariant(caps.length, 'He does not own this kiosk');
-    invariant(caps[0].isPersonal, 'You must pass a personal kiosk');
+    const kioskTx = new KioskTransaction({
+      kioskClient: this.#kioskClient,
+      transaction: tx,
+      cap,
+    });
+
+    if (!cap) {
+      kioskTx.createPersonal(true);
+    }
 
     weaponSlots.forEach((slot) => {
       tx.moveCall({
@@ -234,12 +259,14 @@ export class AnimaSDK {
         arguments: [
           tx.object(avatar.objectId),
           tx.pure.string(slot),
-          tx.object(kioskId),
-          tx.object(caps[0].objectId),
+          kioskTx.getKiosk(),
+          kioskTx.getKioskCap(),
           tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
         ],
       });
     });
+
+    kioskTx.finalize();
 
     return tx;
   }
@@ -248,7 +275,6 @@ export class AnimaSDK {
     cosmeticIds,
     cosmeticTypes,
     sender,
-    kioskId,
     tx = new Transaction(),
   }: EquipCosmeticsArgs) {
     invariant(
@@ -257,40 +283,56 @@ export class AnimaSDK {
     );
 
     const avatar = await this.getAvatar(sender);
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address: sender,
-    });
+
     invariant(avatar, 'Please mint an avatar first');
 
-    const caps = kioskOwnerCaps.filter(
-      (cap) =>
-        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
+    const allItems = await this.getItemsInKiosk(sender);
+
+    const record = cosmeticIds.reduce(
+      (acc, id, i) => ({
+        ...acc,
+        [normalizeSuiObjectId(id)]: cosmeticTypes[i],
+      }),
+      {} as Record<string, string>
     );
 
-    invariant(caps.length, 'He does not own this kiosk');
-    invariant(caps[0].isPersonal, 'You must pass a personal kiosk');
+    const items = allItems.filter((item) =>
+      cosmeticIds
+        .map((id) => normalizeSuiObjectId(id))
+        .includes(normalizeSuiObjectId(item.objectId))
+    );
 
-    cosmeticIds.forEach((id, i) => {
+    items.forEach((item) => {
+      const [cap, borrow] = tx.moveCall({
+        target: `${this.#packages.KIOSK}::personal_kiosk::borrow_val`,
+        arguments: [tx.object(item.cap)],
+      });
+
       tx.moveCall({
         target: `${this.#packages.ACT}::avatar::equip_cosmetic`,
         arguments: [
           tx.object(avatar.objectId),
-          tx.pure.id(id),
-          tx.pure.string(cosmeticTypes[i]),
-          tx.object(kioskId),
-          tx.object(caps[0].objectId),
+          tx.pure.id(item.objectId),
+          tx.pure.string(record[item.objectId]),
+          tx.object(item.kioskId),
+          tx.object(cap),
           tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
         ],
+      });
+
+      tx.moveCall({
+        target: `${this.#packages.KIOSK}::personal_kiosk::return_val`,
+        arguments: [tx.object(item.cap), cap, borrow],
       });
     });
 
     return tx;
   }
 
-  async unequipCosmetic({
+  async unequipCosmetics({
     cosmeticTypes,
     sender,
-    kioskId,
+
     tx = new Transaction(),
   }: UnequipCosmeticsArgs) {
     invariant(
@@ -303,13 +345,17 @@ export class AnimaSDK {
     });
     invariant(avatar, 'Please mint an avatar first');
 
-    const caps = kioskOwnerCaps.filter(
-      (cap) =>
-        normalizeSuiObjectId(cap.kioskId) === normalizeSuiObjectId(kioskId)
-    );
+    const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
-    invariant(caps.length, 'He does not own this kiosk');
-    invariant(caps[0].isPersonal, 'You must pass a personal kiosk');
+    const kioskTx = new KioskTransaction({
+      kioskClient: this.#kioskClient,
+      transaction: tx,
+      cap,
+    });
+
+    if (!cap) {
+      kioskTx.createPersonal(true);
+    }
 
     cosmeticTypes.forEach((type) => {
       tx.moveCall({
@@ -317,12 +363,14 @@ export class AnimaSDK {
         arguments: [
           tx.object(avatar.objectId),
           tx.pure.string(type),
-          tx.object(kioskId),
-          tx.object(caps[0].objectId),
+          kioskTx.getKiosk(),
+          kioskTx.getKioskCap(),
           tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
         ],
       });
     });
+
+    kioskTx.finalize();
 
     return tx;
   }

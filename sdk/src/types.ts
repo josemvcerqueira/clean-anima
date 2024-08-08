@@ -71,26 +71,22 @@ export interface EquipWeaponsArgs extends MaybeTx {
   weaponIds: string[];
   weaponSlots: string[];
   sender: string;
-  kioskId: string;
 }
 
 export interface UnequipWeaponsArgs extends MaybeTx {
   weaponSlots: string[];
   sender: string;
-  kioskId: string;
 }
 
 export interface EquipCosmeticsArgs extends MaybeTx {
   cosmeticIds: string[];
   cosmeticTypes: string[];
   sender: string;
-  kioskId: string;
 }
 
 export interface UnequipCosmeticsArgs extends MaybeTx {
   cosmeticTypes: string[];
   sender: string;
-  kioskId: string;
 }
 
 export interface GenesisShopItem extends SuiObjectRef {

@@ -101,11 +101,14 @@ const deployBuilder = (key: string, tx = new Transaction()) => {
 
 (async () => {
   await executeTx(
-    sdk.removeAccolade({
-      account:
-        '0x94fbcf49867fd909e6b2ecf2802c4b2bba7c9b2d50a13abbb75dbae0216db82a',
-      index: 0n,
+    await sdk.equipCosmetic({
+      sender: aliceKeyPair.toSuiAddress(),
+      cosmeticIds: [
+        '0xff0bca18ecdfc7c48463235152b3cda3698a49b7fd9b184742827f7a686d8b3c',
+        '0xdbd6d568f96088316aa009356a26d0e2fb09139e25013c65a9bd912a91f33f1b',
+      ],
+      cosmeticTypes: ['Helm', 'Left Arm'],
     }),
-    adminKeypair
+    aliceKeyPair
   );
 })();

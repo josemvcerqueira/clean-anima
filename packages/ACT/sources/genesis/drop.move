@@ -14,6 +14,7 @@ module act::genesis_drop {
         sui::SUI,
         clock::Clock,
     };
+    use kiosk::personal_kiosk;
     use animalib::{
         access_control::{Admin, AccessControl},
         admin,
@@ -37,6 +38,7 @@ module act::genesis_drop {
     const ETooManyMints: u64 = 6;
     const EInvalidPass: u64 = 7;
     const ENoMoreDrops: u64 = 8;
+    const EMustBeAPersonalKiosk: u64 = 9;
 
     // === Constants ===
 
@@ -96,6 +98,7 @@ module act::genesis_drop {
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
+        assert!(personal_kiosk::is_personal(kiosk), EMustBeAPersonalKiosk);
         registry.assert_has_avatar(ctx.sender());
         assert_can_mint(sale, pass, coin.value(), quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
