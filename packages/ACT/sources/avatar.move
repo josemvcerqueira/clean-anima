@@ -127,30 +127,9 @@ module act::avatar {
 
     public fun new(
         registry: &mut AvatarRegistry, 
-        image_url: String,
-        equipped_cosmetics_hash: String,
         ctx: &mut TxContext
     ): Avatar {
-        // One Avatar per user
-        registry.assert_no_avatar(ctx.sender());
-        
-        let avatar = Avatar {
-            id: object::new(ctx),
-            image_url,
-            equipped_cosmetics_hash,
-            avatar_image: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
-            avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
-            avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
-            edition: b"Standard".to_string(),
-            upgrades: vector[],
-            attributes: attributes::new(),
-            attributes_hash: attributes::new_hashes(),
-            misc: vec_map::empty(),
-        };
-
-        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
-
-        avatar
+        new_with_image(registry, b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string(), b"".to_string(), ctx)
     }
 
     public fun keep(avatar: Avatar, ctx: &mut TxContext) {
@@ -421,6 +400,34 @@ module act::avatar {
 
     // === Public-Package Functions ===
 
+    public(package) fun new_with_image(
+        registry: &mut AvatarRegistry, 
+        image_url: String,
+        equipped_cosmetics_hash: String,
+        ctx: &mut TxContext
+    ): Avatar {
+        // One Avatar per user
+        registry.assert_no_avatar(ctx.sender());
+        
+        let avatar = Avatar {
+            id: object::new(ctx),
+            image_url,
+            equipped_cosmetics_hash,
+            avatar_image: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
+            avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
+            avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
+            edition: b"Standard".to_string(),
+            upgrades: vector[],
+            attributes: attributes::new(),
+            attributes_hash: attributes::new_hashes(),
+            misc: vec_map::empty(),
+        };
+
+        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
+
+        avatar
+    }
+
     public(package) fun transfer(self: Avatar, recipient: address) {
         transfer::transfer(self, recipient);
     }
@@ -428,6 +435,13 @@ module act::avatar {
     public(package) fun set_edition(self: &mut Avatar, edition: vector<u8>) {
         self.edition = edition.to_string();
     }
+
+    public use fun destroy_avatar_image as AvatarImage.destroy;
+    public(package) fun destroy_avatar_image(avatar_image: AvatarImage): (String, String) {
+        let AvatarImage { id, image_url, equipped_cosmetics_hash } = avatar_image;
+        id.delete();
+        (image_url, equipped_cosmetics_hash)
+    }    
 
     // === Test Functions === 
     

@@ -5,14 +5,13 @@
 
 module act::genesis_drop {
 
-    use std::{
-        string::{utf8, String},
-    };
+    use std::string::String;
     use sui::{
         kiosk::{Kiosk, KioskOwnerCap},
         coin::Coin,
         sui::SUI,
         clock::Clock,
+        transfer::{public_receive, Receiving}
     };
     use kiosk::personal_kiosk;
     use animalib::{
@@ -21,7 +20,7 @@ module act::genesis_drop {
     };
     use act::{
         attributes,
-        avatar::{Self, AvatarRegistry},
+        avatar::{Self, AvatarRegistry, AvatarImage},
         weapon,
         cosmetic,
         pseuso_random::rng,
@@ -70,6 +69,7 @@ module act::genesis_drop {
         drop: vector<Item>,
         // following field is to be added between mint_to_ticket and mint_to_avatar
         image_url: String,
+        equipped_cosmetics_hash: String
     }
 
     // === Public mutative Functions ===
@@ -124,7 +124,7 @@ module act::genesis_drop {
                         texture_url,
                         equipment,
                         colour_way,
-                        utf8(b"Genesis"),
+                        b"Genesis".to_string(),
                         manufacturer,
                         rarity,
                         rng(0, WEAR_RATING_MAX, clock, ctx),
@@ -140,7 +140,7 @@ module act::genesis_drop {
                         texture_url,
                         equipment,
                         colour_way,
-                        utf8(b"Genesis"),
+                        b"Genesis".to_string(),
                         manufacturer,
                         rarity,
                         rng(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX, clock, ctx),
@@ -183,17 +183,21 @@ module act::genesis_drop {
             AvatarTicket {
                 id: object::new(ctx),
                 drop: drop,
-                image_url: utf8(b""),
+                image_url: b"".to_string(),
+                equipped_cosmetics_hash: b"".to_string()
             },
             ctx.sender() 
         );
     }
 
-    public fun generate_image_to_ticket(
-        ticket: &mut AvatarTicket,
-        image_url: String,
-    ) {
-        ticket.image_url = image_url;
+    public fun update_image(self: &mut AvatarTicket, receiving: Receiving<AvatarImage>) {
+        let (
+            image_url, 
+            equipped_cosmetics_hash
+        ) = public_receive(&mut self.id, receiving).destroy();
+
+        self.image_url = image_url;
+        self.equipped_cosmetics_hash = equipped_cosmetics_hash;
     }
 
     // mint equipments and equip them to the avatar
@@ -204,9 +208,9 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         assert_valid_ticket(&ticket);
-        let AvatarTicket { id, mut drop, image_url } = ticket;
+        let AvatarTicket { id, mut drop, image_url, equipped_cosmetics_hash } = ticket;
         id.delete();
-        let mut avatar = avatar::new(registry, image_url, b"".to_string(), ctx);
+        let mut avatar = avatar::new_with_image(registry, image_url, equipped_cosmetics_hash, ctx);
         avatar.set_edition(b"Genesis");
 
         while (!drop.is_empty()) {
@@ -222,7 +226,7 @@ module act::genesis_drop {
                     texture_url,
                     equipment,
                     colour_way,
-                    utf8(b"Genesis"),
+                    b"Genesis".to_string(),
                     manufacturer,
                     rarity,
                     rng(0, WEAR_RATING_MAX, clock, ctx),
@@ -238,7 +242,7 @@ module act::genesis_drop {
                     texture_url,
                     equipment,
                     colour_way,
-                    utf8(b"Genesis"),
+                    b"Genesis".to_string(),
                     manufacturer,
                     rarity,
                     rng(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX, clock, ctx),
@@ -414,6 +418,7 @@ module act::genesis_drop {
             id: object::new(ctx),
             drop: vector[],
             image_url: b"".to_string(),
+            equipped_cosmetics_hash: b"".to_string()
         }
     }
 }
