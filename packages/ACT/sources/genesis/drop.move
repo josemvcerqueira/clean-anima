@@ -13,6 +13,7 @@ module act::genesis_drop {
         coin::Coin,
         sui::SUI,
         clock::Clock,
+        transfer::{public_receive, Receiving}
     };
     use kiosk::personal_kiosk;
     use animalib::{
@@ -21,7 +22,7 @@ module act::genesis_drop {
     };
     use act::{
         attributes,
-        avatar::{Self, AvatarRegistry},
+        avatar::{Self, AvatarRegistry, AvatarImage},
         weapon,
         cosmetic,
         pseuso_random::rng,
@@ -196,6 +197,15 @@ module act::genesis_drop {
         ticket.image_url = image_url;
     }
 
+    public fun update_avatar_ticker_image(self: &mut AvatarTicket, receiving: Receiving<AvatarImage>) {
+        let (
+            image_url, 
+            _
+        ) = public_receive(&mut self.id, receiving).destroy();
+
+        self.image_url = image_url;
+    }
+
     // mint equipments and equip them to the avatar
     public fun mint_to_avatar(
         ticket: AvatarTicket,
@@ -206,7 +216,7 @@ module act::genesis_drop {
         assert_valid_ticket(&ticket);
         let AvatarTicket { id, mut drop, image_url } = ticket;
         id.delete();
-        let mut avatar = avatar::new(registry, image_url, b"".to_string(), ctx);
+        let mut avatar = avatar::new_with_image(registry, image_url, b"".to_string(), ctx);
         avatar.set_edition(b"Genesis");
 
         while (!drop.is_empty()) {
