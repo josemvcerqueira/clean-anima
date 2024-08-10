@@ -62,8 +62,8 @@ export interface CreateAvatarArgs extends MaybeTx {
   imageUrl: string;
 }
 
-export interface GenerateImageUrlToAvatarTicketArgs extends MaybeTx {
-  imageUrl: string;
+export interface UpdateAvatarTicketImageArgs extends MaybeTx {
+  image: string;
   sender: string;
 }
 
@@ -103,6 +103,7 @@ export interface GenesisShopItem extends SuiObjectRef {
 
 export interface Avatar extends SuiObjectRef {
   imageUrl: string;
+  equippedCosmeticsHash: string;
   type: string;
   avatarImage: string;
   avatarModel: string;
@@ -115,6 +116,7 @@ export interface Avatar extends SuiObjectRef {
 
 export interface AvatarTicket extends SuiObjectRef {
   imageUrl: string;
+  equippedCosmeticsHash: string;
   drops: ReadonlyArray<GenesisShopItem>;
   type: string;
 }

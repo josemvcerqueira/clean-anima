@@ -25,7 +25,6 @@ import {
   CreateAvatarArgs,
   EquipCosmeticsArgs,
   EquipWeaponsArgs,
-  GenerateImageUrlToAvatarTicketArgs,
   GenesisPass,
   GenesisShopItem,
   GiveReputationArgs,
@@ -46,6 +45,7 @@ import {
   UnequipWeaponsArgs,
   UpdateAliasArgs,
   UpdateAvatarArgs,
+  UpdateAvatarTicketImageArgs,
   UpdateUsernameArgs,
   UpgradeAvatarArgs,
   UpgradeAvatarCosmeticArgs,
@@ -628,6 +628,11 @@ export class AnimaSDK {
       digest: pathOr('', ['data', 'digest'], elem),
       type: pathOr('', ['data', 'type'], elem),
       imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
+      equippedCosmeticsHash: pathOr(
+        '',
+        ['data', 'content', 'fields', 'equipped_cosmetics_hash'],
+        elem
+      ),
       drops: pathOr([], ['data', 'content', 'fields', 'drop'], elem).map(
         (x) => {
           const fields = pathOr(null, ['fields'], x);
@@ -646,18 +651,36 @@ export class AnimaSDK {
     };
   }
 
-  async generateImageUrlToAvatarTicket({
+  async updateAvatarTicketImage({
     tx = new Transaction(),
-    imageUrl,
+    image,
     sender,
-  }: GenerateImageUrlToAvatarTicketArgs) {
+  }: UpdateAvatarTicketImageArgs) {
     const ticket = await this.getAvatarTicket(sender);
 
     invariant(ticket, 'Mint an AvatarTicket first');
 
+    const obj = await this.#client.getObject({
+      id: image,
+      options: { showType: true },
+    });
+
+    invariant(obj.data, 'Image does not exist');
+    invariant(
+      obj.data.type === `${this.#packages.ACT}::avatar::AvatarImage`,
+      `The object type must be equal to ${this.#packages.ACT}::avatar::AvatarImage`
+    );
+
     tx.moveCall({
-      target: `${this.#packages.ACT}::genesis_drop::generate_image_to_ticket`,
-      arguments: [tx.object(ticket?.objectId), tx.pure.string(imageUrl)],
+      target: `${this.#packages.ACT}::genesis_drop::update_image`,
+      arguments: [
+        tx.object(ticket?.objectId),
+        tx.receivingRef({
+          objectId: obj.data.objectId,
+          digest: obj.data.digest,
+          version: obj.data.version,
+        }),
+      ],
     });
 
     return tx;
@@ -703,6 +726,11 @@ export class AnimaSDK {
       ),
       edition: pathOr('', ['data', 'content', 'fields', 'edition'], elem),
       imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
+      equippedCosmeticsHash: pathOr(
+        '',
+        ['data', 'content', 'fields', 'equipped_cosmetics_hash'],
+        elem
+      ),
       upgrades: pathOr([], ['data', 'content', 'fields', 'upgrades'], elem),
       attributes: pathOr(
         [] as Record<string, string>[],
