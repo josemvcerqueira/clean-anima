@@ -5,10 +5,11 @@ module act::genesis_drop_tests {
         coin::mint_for_testing,
         clock::{Self, Clock},
         test_utils::{assert_eq, destroy},
-        kiosk::{Self, Kiosk, KioskOwnerCap},
-        test_scenario::{Self as ts, Scenario},
+        kiosk::{Self, Kiosk},
+       test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
     };
     use animalib::access_control::{Admin, AccessControl};
+    use kiosk::personal_kiosk::{Self, PersonalKioskCap};
     use act::{
         assets,
         attributes,
@@ -28,7 +29,7 @@ module act::genesis_drop_tests {
         avatar_registry: AvatarRegistry,
         avatar: Avatar,
         kiosk: Kiosk,
-        kiosk_cap: KioskOwnerCap,
+        kiosk_cap: PersonalKioskCap,
     }
 
     const OWNER: address = @0x0;
@@ -87,7 +88,7 @@ module act::genesis_drop_tests {
                 avatar_registry, 
                 genesis_pass, 
                 kiosk, 
-                cap, 
+                cap.borrow(), 
                 mint_for_testing(10 * quantity, ctx), 
                 quantity, 
                 clock, 
@@ -121,7 +122,7 @@ module act::genesis_drop_tests {
                 avatar_registry, 
                 genesis_pass, 
                 kiosk, 
-                cap, 
+                cap.borrow(), 
                 mint_for_testing(25 * quantity, ctx), 
                 quantity, 
                 clock, 
@@ -153,7 +154,7 @@ module act::genesis_drop_tests {
                 avatar_registry, 
                 genesis_pass, 
                 kiosk, 
-                cap, 
+                cap.borrow(), 
                 mint_for_testing(50 * quantity, ctx), 
                 quantity, 
                 clock, 
@@ -215,7 +216,21 @@ module act::genesis_drop_tests {
 
         assert_eq(avatar_ticket.drop().length(), 17);
 
-        avatar_ticket.generate_image_to_ticket(b"image_url".to_string());
+        let access_control = &world.access_control;
+        let admin = &world.super_admin;
+
+        avatar::new_avatar_image(
+            access_control, 
+            admin, 
+            b"image2".to_string(), 
+            b"hash2".to_string(),
+            object::id(&avatar_ticket).to_address(),
+            world.scenario.ctx()
+        );
+
+        let effects = world.scenario.next_tx(ALICE);
+
+        avatar_ticket.update_image(receiving_ticket_by_id(effects.created()[0]));
 
         {
             let clock = &world.clock;
@@ -229,8 +244,10 @@ module act::genesis_drop_tests {
 
         let avatar = world.scenario.take_from_sender<Avatar>();
 
-        // all avatar attr vlaues are filled so equipped all items
+        // all avatar attr values are filled so equipped all items
         assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
+        assert_eq(avatar.image_url(), b"image2".to_string());
+        assert_eq(avatar.equipped_cosmetics_hash(), b"hash2".to_string());
 
         assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
         destroy(avatar);    
@@ -270,7 +287,7 @@ module act::genesis_drop_tests {
                 avatar_registry, 
                 genesis_pass, 
                 kiosk, 
-                cap, 
+                cap.borrow(), 
                 mint_for_testing(10 * quantity, ctx), 
                 quantity, 
                 clock, 
@@ -315,7 +332,7 @@ module act::genesis_drop_tests {
                 avatar_registry, 
                 genesis_pass, 
                 kiosk, 
-                cap, 
+                cap.borrow(), 
                 mint_for_testing(10 * quantity, ctx), 
                 quantity, 
                 clock, 
@@ -375,7 +392,7 @@ module act::genesis_drop_tests {
             avatar_registry, 
             genesis_pass, 
             kiosk, 
-            cap, 
+            cap.borrow(), 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
             clock, 
@@ -420,7 +437,7 @@ module act::genesis_drop_tests {
             avatar_registry, 
             genesis_pass, 
             kiosk, 
-            cap, 
+            cap.borrow(), 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
             clock, 
@@ -464,7 +481,7 @@ module act::genesis_drop_tests {
             avatar_registry, 
             genesis_pass, 
             kiosk, 
-            cap, 
+            cap.borrow(), 
             mint_for_testing((10 * quantity) - 1, ctx), 
             quantity, 
             clock, 
@@ -508,7 +525,7 @@ module act::genesis_drop_tests {
             avatar_registry, 
             genesis_pass, 
             kiosk, 
-            cap, 
+            cap.borrow(), 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
             clock, 
@@ -553,7 +570,7 @@ module act::genesis_drop_tests {
             avatar_registry, 
             genesis_pass, 
             kiosk, 
-            cap, 
+            cap.borrow(), 
             mint_for_testing(10 * quantity, ctx), 
             quantity, 
             clock, 
@@ -598,7 +615,7 @@ module act::genesis_drop_tests {
             avatar_registry, 
             genesis_pass, 
             kiosk, 
-            cap, 
+            cap.borrow(), 
             mint_for_testing(11 * quantity, ctx), 
             quantity, 
             clock, 
@@ -895,14 +912,16 @@ module act::genesis_drop_tests {
         let mut avatar_registry = scenario.take_shared<AvatarRegistry>();
         let clock = clock::create_for_testing(scenario.ctx());
 
-        let avatar = avatar::new(
+        let avatar = avatar::new_with_image(
             &mut avatar_registry, 
             b"image_url".to_string(),
             b"".to_string(),
             scenario.ctx()
         );
 
-        let (kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
+        let (mut kiosk, kiosk_cap) = kiosk::new(scenario.ctx());
+
+        let kiosk_cap = personal_kiosk::new(&mut kiosk, kiosk_cap, scenario.ctx());
 
         World {
             sale,

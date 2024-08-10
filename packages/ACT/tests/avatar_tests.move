@@ -63,7 +63,7 @@ module act::avatar_tests {
 
         world.avatar_registry.assert_has_avatar(OWNER);
 
-        assert_eq(avatar.image_url(), b"avatar_image.png".to_string());
+        assert_eq(avatar.image_url(), b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string());
         assert_eq(avatar.edition(), b"Standard".to_string());
         //@ dev 16 cosmetics + 3 weapons
         assert_eq(avatar.attributes().size(), 20);
@@ -370,7 +370,7 @@ module act::avatar_tests {
             world.scenario.ctx()
         );
 
-        assert_eq(avatar.image_url(), b"avatar_image.png".to_string());
+        assert_eq(avatar.image_url(), b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string());
         assert_eq(avatar.equipped_cosmetics_hash(), b"".to_string());
 
         let effects = world.scenario.next_tx(OWNER);
@@ -498,8 +498,6 @@ module act::avatar_tests {
     fun new_avatar(registry: &mut AvatarRegistry, ctx: &mut TxContext): Avatar {
         avatar::new(
             registry,
-            b"avatar_image.png".to_string(),
-            b"".to_string(),
             ctx
         )
     }

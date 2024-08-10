@@ -129,7 +129,7 @@ module act::avatar {
         registry: &mut AvatarRegistry, 
         ctx: &mut TxContext
     ): Avatar {
-        new_with_image(registry, b"".to_string(), b"".to_string(), ctx)
+        new_with_image(registry, b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string(), b"".to_string(), ctx)
     }
 
     public fun keep(avatar: Avatar, ctx: &mut TxContext) {
