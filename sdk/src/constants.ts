@@ -5,7 +5,7 @@ export const OBJECTS = {
     objectId:
       '0x1372d2cbf462b7bb1575fb4722b4f8952c8ccc9c7416097cda12f7a49e0c2b65',
     initialSharedVersion: '102635432',
-    mutable: false,
+    mutable: true,
   }),
   SYSTEM: Inputs.SharedObjectRef({
     objectId:
@@ -13,7 +13,7 @@ export const OBJECTS = {
     mutable: true,
     initialSharedVersion: '102635433',
   }),
-  ADMIN: '0x30dcf2ecd7b04bb601508aae8bf0143155ec9677ae0ed1edd199280dceb41057',
+  ADMIN: '0x7e252d0b310eafd561f260b8d7edede4cda271a06f7f273ad6cd9b5e8bb144fc',
   SUPER_ADMIN:
     '0x4b83072ab2a32a1ad618c928051648a5a1050e2cd3a974e15ae849c38d09afeb',
   COSMETIC_TRANSFER_POLICY_TRADING: Inputs.SharedObjectRef({
