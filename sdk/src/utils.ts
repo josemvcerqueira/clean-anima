@@ -59,7 +59,7 @@ export const parseGenesisShopItem = (x: SuiObjectResponse) => {
 };
 
 export const parseKioskItem = (x: SuiObjectResponse) => {
-  invariant(x.data, 'Something went fetching the genesis shop item');
+  invariant(x.data, 'Something went wrong fetching the items data');
 
   return {
     objectId: x.data.objectId,
