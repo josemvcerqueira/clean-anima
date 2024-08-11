@@ -53,7 +53,7 @@ import {
   UpgradeEquippedCosmeticArgs,
   UpgradeEquippedWeaponArgs,
 } from './types';
-import { parseGenesisShopItem } from './utils';
+import { parseGenesisShopItem, parseKioskItem } from './utils';
 
 export class AnimaSDK {
   #packages: typeof PACKAGES;
@@ -154,7 +154,7 @@ export class AnimaSDK {
       )
     );
 
-    return results.flat();
+    return results.flat().map((x) => parseKioskItem(x));
   }
 
   async getPersonalKiosks(address: string) {
@@ -187,7 +187,7 @@ export class AnimaSDK {
 
     const result = await Promise.all(promises);
 
-    return result
+    const unparsedItems = result
       .map((x) => x.items)
       .flat()
       .filter(
@@ -203,6 +203,35 @@ export class AnimaSDK {
             normalizeSuiObjectId(item.kioskId)
         )!.objectId,
       }));
+
+    const capMap = unparsedItems.reduce(
+      (acc, elem) => ({
+        ...acc,
+        [elem.objectId]: { cap: elem.cap, kioskId: elem.kioskId },
+      }),
+      {} as Record<string, { cap: string; kioskId: string }>
+    );
+
+    const chunks = chunkArray(
+      unparsedItems.map((x) => x.objectId),
+      50
+    );
+
+    const promiseArray = chunks.map((ids) =>
+      this.#client.multiGetObjects({
+        ids,
+        options: { showContent: true },
+      })
+    );
+
+    const items = await Promise.all(promiseArray);
+
+    return items.flat().map((x) => {
+      invariant(x && x.data, 'Failed to get data');
+      invariant(x.data.objectId);
+
+      return { ...capMap[x.data.objectId], ...parseKioskItem(x) };
+    });
   }
 
   async equipWeapons({
@@ -815,13 +844,17 @@ export class AnimaSDK {
       address: sender,
     });
 
+    const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
+
     const kioskTx = new KioskTransaction({
       kioskClient: this.#kioskClient,
       transaction: tx,
-      cap: kioskOwnerCaps[0],
+      cap,
     });
 
-    if (!kioskOwnerCaps.length) kioskTx.create();
+    if (!cap) {
+      kioskTx.createPersonal(true);
+    }
 
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::mint_to_kiosk`,
@@ -847,10 +880,6 @@ export class AnimaSDK {
         tx.object(SUI_CLOCK_OBJECT_ID),
       ],
     });
-
-    if (!kioskOwnerCaps.length) {
-      kioskTx.shareAndTransferCap(sender);
-    }
 
     kioskTx.finalize();
 

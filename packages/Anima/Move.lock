@@ -2,7 +2,7 @@
 
 [move]
 version = 2
-manifest_digest = "4362D13759C0ED33D7F625373AD5EFAEA6841824AD5C9DECC0E10989317DB1FC"
+manifest_digest = "5A918021C1C2A8639A22AC64FF3AAE859B018FD5DC01A6D4D006BEC2ACFA90EA"
 deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
 dependencies = [
   { name = "AnimaLib" },
@@ -30,7 +30,7 @@ dependencies = [
 ]
 
 [move.toolchain-version]
-compiler-version = "1.30.1"
+compiler-version = "1.30.3"
 edition = "2024.beta"
 flavor = "sui"
 
@@ -38,6 +38,6 @@ flavor = "sui"
 
 [env.testnet]
 chain-id = "4c78adac"
-original-published-id = "0x82fedbc1262381127844460fd31979841095cb42d0e0c20224f7d41a01c2aff6"
-latest-published-id = "0x82fedbc1262381127844460fd31979841095cb42d0e0c20224f7d41a01c2aff6"
+original-published-id = "0x4eaefc88507b0b1c2579704d352f631ac63acc46ad66b7e904b3a7981a2609c6"
+latest-published-id = "0x4eaefc88507b0b1c2579704d352f631ac63acc46ad66b7e904b3a7981a2609c6"
 published-version = "1"
