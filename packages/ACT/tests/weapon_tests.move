@@ -9,7 +9,7 @@ module act::weapon_tests {
         dynamic_object_field as dof,
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk},
-        test_scenario::{Self as ts, Scenario},
+        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
         transfer_policy::{TransferPolicy, TransferPolicyCap},
     };
     use kiosk::{
@@ -22,6 +22,7 @@ module act::weapon_tests {
     use animalib::access_control::{Admin, AccessControl};
     use act::{
         item,
+        upgrade,
         weapon::{Self, Equip, Weapon}, 
         set_up_tests::set_up_admins
     };
@@ -95,22 +96,61 @@ module act::weapon_tests {
         world.end();
     }
 
-    // #[test]
-    // fun test_upgrade() {
-    //     let mut world = start_world();
+    #[test]
+    fun test_upgrade() {
+        let mut world = start_world();
 
-    //     let mut weapon = new_weapon(world.scenario.ctx());
+        let mut weapon = new_weapon(world.scenario.ctx());
 
-    //     assert_eq(weapon.upgrades().length(), 0);
+        assert_eq(weapon.upgrades().length(), 0);
 
-    //     weapon.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
+        let upgrade = upgrade::new(
+            b"upgrade_1".to_string(),
+            b"image_1".to_string(),
+            b"model_1".to_string(),
+            b"texture_url".to_string(),
+            world.scenario.ctx()
+        );
 
-    //     assert_eq(weapon.upgrades().length(), 1);
-    //     assert_eq(weapon.upgrades()[0].url(), b"upgrade.png".to_string());
+        let upgrade_address = object::id(&upgrade);
 
-    //     destroy(weapon);
-    //     world.end();
-    // }
+        transfer::public_transfer(upgrade, object::id(&weapon).to_address());
+
+        world.scenario.next_tx(OWNER);
+
+        weapon.upgrade(receiving_ticket_by_id(upgrade_address));
+
+        assert_eq(weapon.image_url(), b"image_1".to_string());
+        assert_eq(weapon.model_url(), b"model_1".to_string());
+        assert_eq(weapon.texture_url(), b"texture_url".to_string());
+
+        assert_eq(weapon.upgrades().length(), 1);
+
+        let upgrade = upgrade::new(
+            b"upgrade_2".to_string(),
+            b"image_2".to_string(),
+            b"model_2".to_string(),
+            b"texture_url_2".to_string(),
+            world.scenario.ctx()
+        );
+
+        let upgrade_address = object::id(&upgrade);
+
+        transfer::public_transfer(upgrade, object::id(&weapon).to_address());
+
+        world.scenario.next_tx(OWNER);
+
+        weapon.upgrade(receiving_ticket_by_id(upgrade_address));
+
+        assert_eq(weapon.image_url(), b"image_2".to_string());
+        assert_eq(weapon.model_url(), b"model_2".to_string());
+        assert_eq(weapon.texture_url(), b"texture_url_2".to_string());
+
+        assert_eq(weapon.upgrades().length(), 2);
+
+        destroy(weapon);
+        world.end();
+    }
 
     #[test]
     fun test_equip() {

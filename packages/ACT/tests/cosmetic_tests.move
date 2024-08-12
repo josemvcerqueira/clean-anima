@@ -9,7 +9,7 @@ module act::cosmetic_tests {
         dynamic_object_field as dof,
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk},
-        test_scenario::{Self as ts, Scenario},
+        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
         transfer_policy::{TransferPolicy, TransferPolicyCap},
     };
     use kiosk::{
@@ -22,6 +22,7 @@ module act::cosmetic_tests {
     use animalib::access_control::{Admin, AccessControl};
     use act::{
         item,
+        upgrade,
         set_up_tests::set_up_admins,
         cosmetic::{Self, Equip, Cosmetic}, 
     };
@@ -95,22 +96,61 @@ module act::cosmetic_tests {
         world.end();
     }
 
-    // #[test]
-    // fun test_upgrade() {
-    //     let mut world = start_world();
+    #[test]
+    fun test_upgrade() {
+        let mut world = start_world();
 
-    //     let mut cosmetic = new_cosmetic(world.scenario.ctx());
+        let mut cosmetic = new_cosmetic(world.scenario.ctx());
 
-    //     assert_eq(cosmetic.upgrades().length(), 0);
+        assert_eq(cosmetic.upgrades().length(), 0);
 
-    //     cosmetic.upgrade(&world.access_control, &world.super_admin, b"upgrade.png".to_string());
+        let upgrade = upgrade::new(
+            b"upgrade_1".to_string(),
+            b"image_1".to_string(),
+            b"model_1".to_string(),
+            b"texture_url".to_string(),
+            world.scenario.ctx()
+        );
 
-    //     assert_eq(cosmetic.upgrades().length(), 1);
-    //     assert_eq(cosmetic.upgrades()[0].url(), b"upgrade.png".to_string());
+        let upgrade_address = object::id(&upgrade);
 
-    //     destroy(cosmetic);
-    //     world.end();
-    // }
+        transfer::public_transfer(upgrade, object::id(&cosmetic).to_address());
+
+        world.scenario.next_tx(OWNER);
+
+        cosmetic.upgrade(receiving_ticket_by_id(upgrade_address));
+
+        assert_eq(cosmetic.image_url(), b"image_1".to_string());
+        assert_eq(cosmetic.model_url(), b"model_1".to_string());
+        assert_eq(cosmetic.texture_url(), b"texture_url".to_string());
+
+        assert_eq(cosmetic.upgrades().length(), 1);
+
+        let upgrade = upgrade::new(
+            b"upgrade_2".to_string(),
+            b"image_2".to_string(),
+            b"model_2".to_string(),
+            b"texture_url_2".to_string(),
+            world.scenario.ctx()
+        );
+
+        let upgrade_address = object::id(&upgrade);
+
+        transfer::public_transfer(upgrade, object::id(&cosmetic).to_address());
+
+        world.scenario.next_tx(OWNER);
+
+        cosmetic.upgrade(receiving_ticket_by_id(upgrade_address));
+
+        assert_eq(cosmetic.image_url(), b"image_2".to_string());
+        assert_eq(cosmetic.model_url(), b"model_2".to_string());
+        assert_eq(cosmetic.texture_url(), b"texture_url_2".to_string());
+
+        assert_eq(cosmetic.upgrades().length(), 2);
+
+        destroy(cosmetic);
+        world.end();
+    }
 
     #[test]
     fun test_equip() {
