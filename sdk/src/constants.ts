@@ -1,80 +1,141 @@
 import { Inputs } from '@mysten/sui/transactions';
 
-export const OBJECTS = {
+export const SHARED_OBJECTS = {
   ACCESS_CONTROL: Inputs.SharedObjectRef({
     objectId:
-      '0x7c4ac76af6a3e47a5571cc11cba4157eba0024e1bf4d5699577bd23394391e4a',
-    initialSharedVersion: '104923326',
+      '0x3e9365ba8dd095e7bc3bd382bd33d0ba2278b89bea26aefa4be5bbe6880024cc',
+    initialSharedVersion: '111160773',
+    mutable: false,
+  }),
+  ACCESS_CONTROL_MUT: Inputs.SharedObjectRef({
+    objectId:
+      '0x3e9365ba8dd095e7bc3bd382bd33d0ba2278b89bea26aefa4be5bbe6880024cc',
+    initialSharedVersion: '111160773',
     mutable: true,
   }),
   SYSTEM: Inputs.SharedObjectRef({
     objectId:
-      '0xbf0cc060b579bc500ff74a9a398db3cb57a0ac2c7cf9ad595d9f74a1bf7a918d',
-    mutable: true,
-    initialSharedVersion: '104923327',
-  }),
-  ADMIN: '0x163d03f0d1d88795641a064657b4df1c7348f21f9d66a440be75653d06a18986',
-  SUPER_ADMIN:
-    '0xa9b0edbd9a8c9bbd18658ee10120bdeb01b8ed9c29bb160779232dfef0cd83f1',
-  COSMETIC_TRANSFER_POLICY_TRADING: Inputs.SharedObjectRef({
-    objectId:
-      '0x01f94bff0b0c77c7746e8a9a3389ee85e374fddd0d966567dda5a2d7e60a1e73',
+      '0x3251ca6fde7b5c1178e7a2536b884cf6c210a2448cf05ed22ebdc708afab7a5f',
     mutable: false,
-    initialSharedVersion: '104923328',
+    initialSharedVersion: '111160774',
+  }),
+  SYSTEM_MUT: Inputs.SharedObjectRef({
+    objectId:
+      '0x3251ca6fde7b5c1178e7a2536b884cf6c210a2448cf05ed22ebdc708afab7a5f',
+    mutable: true,
+    initialSharedVersion: '111160774',
+  }),
+  COSMETIC_TRANSFER_POLICY_TRADING: Inputs.SharedObjectRef({
+    objectId: '111160775',
+    mutable: false,
+    initialSharedVersion:
+      '0x21bfa13a7152234178e32e27a47a86e92edefcce06818af908143dec10a99343',
+  }),
+  COSMETIC_TRANSFER_POLICY_TRADING_MUT: Inputs.SharedObjectRef({
+    objectId: '111160775',
+    mutable: true,
+    initialSharedVersion:
+      '0x21bfa13a7152234178e32e27a47a86e92edefcce06818af908143dec10a99343',
   }),
   COSMETIC_TRANSFER_POLICY_EQUIP: Inputs.SharedObjectRef({
     objectId:
-      '0xe2758e5463de7f26cb4a3f104ec3b06066f05a0396c9dc2a67772adea524f4ce',
+      '0x53dea1e5f2dd358fb7547f44060631583984e1724157779899e3bd604ad53899',
     mutable: false,
-    initialSharedVersion: '104923328',
+    initialSharedVersion: '111160775',
+  }),
+  COSMETIC_TRANSFER_POLICY_EQUIP_MUT: Inputs.SharedObjectRef({
+    objectId:
+      '0x53dea1e5f2dd358fb7547f44060631583984e1724157779899e3bd604ad53899',
+    mutable: true,
+    initialSharedVersion: '111160775',
   }),
   AVATAR_REGISTRY: Inputs.SharedObjectRef({
     objectId:
-      '0x17702729c83d3b1a39519fb780553fc3d482548024bb3ad2f2bda89575ecafcc',
+      '0x6e0b1b286454bce33e8c350d247bcf0249e6dad2bcba1862d0dc6d355b9c815a',
+    mutable: false,
+    initialSharedVersion: '111160775',
+  }),
+  AVATAR_REGISTRY_MUT: Inputs.SharedObjectRef({
+    objectId:
+      '0x6e0b1b286454bce33e8c350d247bcf0249e6dad2bcba1862d0dc6d355b9c815a',
     mutable: true,
-    initialSharedVersion: '104923328',
+    initialSharedVersion: '111160775',
   }),
   SALE: Inputs.SharedObjectRef({
     objectId:
-      '0x7b240fdd530652f6e5afe86385db19bc4db599ffcbc947c151f7662301cf2127',
+      '0xf0bd997a605a337d059d0c9bae619e73509bf9b4792b068681e2909176740e5c',
+    mutable: false,
+    initialSharedVersion: '111160775',
+  }),
+  SALE_MUT: Inputs.SharedObjectRef({
+    objectId:
+      '0xf0bd997a605a337d059d0c9bae619e73509bf9b4792b068681e2909176740e5c',
     mutable: true,
-    initialSharedVersion: '104923328',
+    initialSharedVersion: '111160775',
   }),
   WEAPON_TRANSFER_POLICY_TRADING: Inputs.SharedObjectRef({
-    objectId:
-      '0x7eaf3e25e533109e2f9b3e1df298307e748373103ffd9b9cf30187f6db66ff5d',
-    mutable: false,
-    initialSharedVersion: '104923328',
-  }),
-  WEAPON_TRANSFER_POLICY_EQUIP: Inputs.SharedObjectRef({
-    objectId: '104923328',
+    objectId: '111160775',
     mutable: false,
     initialSharedVersion:
-      '0x2501dfa31ffe13dc163737e2d175351c1d37ad4877349e505d5243ad5c66f5fc',
+      '0x3b01ed3aa4fdb6b7777c336c947d7ca4d2251b12246b96525fe14bca466b15f5',
+  }),
+  WEAPON_TRANSFER_POLICY_TRADING_MUT: Inputs.SharedObjectRef({
+    objectId: '111160775',
+    mutable: true,
+    initialSharedVersion:
+      '0x3b01ed3aa4fdb6b7777c336c947d7ca4d2251b12246b96525fe14bca466b15f5',
+  }),
+  WEAPON_TRANSFER_POLICY_EQUIP: Inputs.SharedObjectRef({
+    objectId:
+      '0x41e371c7544ff6228adbcf970a63852333b67e32450411d586a19b77e85761fb',
+    mutable: false,
+    initialSharedVersion: '111160775',
+  }),
+  WEAPON_TRANSFER_POLICY_EQUIP_MUT: Inputs.SharedObjectRef({
+    objectId:
+      '0x41e371c7544ff6228adbcf970a63852333b67e32450411d586a19b77e85761fb',
+    mutable: true,
+    initialSharedVersion: '111160775',
   }),
   GENESIS_SHOP: Inputs.SharedObjectRef({
     objectId:
-      '0xa182134bf688fd46302b522bdee674785cf5d502c4203687ffbc4962908f5284',
-    mutable: true,
-    initialSharedVersion: '104923328',
+      '0x9648141334cd1c5d4077fca7ded88eff01b6fd5366297925027cd4ac67c50ea1',
+    mutable: false,
+    initialSharedVersion: '111160775',
   }),
-  GENESIS_SHOP_ITEMS_ID:
-    '0x9ea56e6433749387aee30bfc210b60c743a907b27386e2ae91a57d7a58adec53',
+  GENESIS_SHOP_mut: Inputs.SharedObjectRef({
+    objectId:
+      '0x9648141334cd1c5d4077fca7ded88eff01b6fd5366297925027cd4ac67c50ea1',
+    mutable: true,
+    initialSharedVersion: '111160775',
+  }),
+};
+
+export const GENESIS_SHOP_ITEMS_ID = '';
+
+export const OWNED_OBJECTS = {
   COSMETIC_TRANSFER_POLICY_EQUIP_CAP:
-    '0x1a2e47fb234246791d2942a7c330dfae99470581f7b4dcd56886663448949d5e',
+    '0xae67e1c23fc4569f5ff7cbd32438788927021189ea3123367968c9c1ef893c68',
   COSMETIC_TRANSFER_POLICY_TRADING_CAP:
-    '0x9bcebcb20a23dfeb86f0f3ff81c54fe147a35207337a2e2cc85d121ed8d9782f',
+    '0x213551317aa96244e563936bc06fd2c295178af5f97bc30a6b258c4f222ffa42',
   WEAPON_TRANSFER_POLICY_EQUIP_CAP:
-    '0xb6ef6ec2708e1cd1a176607dc3ca03a0f1b1a9cbdecf5189a4c25966afdd5811',
+    '0x222e8107aa9c2de572c031b2611af7abf1cb1ae4ae3b88bf35132d25df1e6111',
   WEAPON_TRANSFER_POLICY_TRADING_CAP:
-    '0xc50b8834b0adb76bb48bd4839cc52c8c44ef31e404b79a595573b6e6d1a498f7',
+    '0x0b1ac88c0819ec1d2d19b77aed582ef8f1fb5bf219f6a8dea47ef4efc6fc4978',
+  ADMIN: '0x69166ffa3f153642b70a874c37ea457db78f2c6b4e5613d4ea34078c77776065',
+  SUPER_ADMIN:
+    '0x980599a390271777807fb9cc9d25fe4c7800ce92f0f1a6c5bfa1ec0f3d382b32',
+  ANIMA_LIB_UPGRADE_CAP:
+    '0x890f8feae56f1943b171b79596da90b225869be464aa3aa1038c3342ea995236',
+  ANIMA_UPGRADE_CAP:
+    '0x80c50bd115199dbe5ec3514da09c53cc9d14f6fa97857b038f7fa052614f4653',
 };
 
 export const PACKAGES = {
   ANIMA_LIB:
-    '0xad1654082fcb7d214be43b51fc00109e91d11af1dc929af5a6cc85c8657e7af4',
-  ANIMA: '0x4eaefc88507b0b1c2579704d352f631ac63acc46ad66b7e904b3a7981a2609c6',
-  ACT: '0x3885905d83c6507b6f132e0af16e10c406f992865dbe8f46a5f84ae0502bc4a6',
+    '0xbccf5774041fd8a3dc5f247c482aed6a40a391070c41f08d65a9bc68f8e1ccbc',
+  ANIMA: '0x79e474a77c5ebefa5dad1b20f998c65f4477f69e69a4df23cd058beb5bb8d737',
+  ACT: '0xcdb5484020cbb427acbff7b3365ffed5670ffcc5b6fed98f9c94107315c89dda',
   KIOSK: '0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585',
 };
 

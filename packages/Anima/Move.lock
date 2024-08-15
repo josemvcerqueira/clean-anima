@@ -2,7 +2,7 @@
 
 [move]
 version = 2
-manifest_digest = "5A918021C1C2A8639A22AC64FF3AAE859B018FD5DC01A6D4D006BEC2ACFA90EA"
+manifest_digest = "8BE70C889611EE407379C76228F22D952E63DB0D4A5F4FDEBE6C28E4EDD81188"
 deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
 dependencies = [
   { name = "AnimaLib" },
@@ -38,6 +38,6 @@ flavor = "sui"
 
 [env.testnet]
 chain-id = "4c78adac"
-original-published-id = "0x4eaefc88507b0b1c2579704d352f631ac63acc46ad66b7e904b3a7981a2609c6"
-latest-published-id = "0x4eaefc88507b0b1c2579704d352f631ac63acc46ad66b7e904b3a7981a2609c6"
+original-published-id = "0x79e474a77c5ebefa5dad1b20f998c65f4477f69e69a4df23cd058beb5bb8d737"
+latest-published-id = "0x79e474a77c5ebefa5dad1b20f998c65f4477f69e69a4df23cd058beb5bb8d737"
 published-version = "1"
