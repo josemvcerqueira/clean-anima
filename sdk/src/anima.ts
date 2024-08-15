@@ -14,7 +14,12 @@ import * as changeCase from 'change-case';
 import { path, pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
-import { GENESIS_SHOP_NAMES, OBJECTS, PACKAGES } from './constants';
+import {
+  GENESIS_SHOP_NAMES,
+  OWNED_OBJECTS,
+  PACKAGES,
+  SHARED_OBJECTS,
+} from './constants';
 import {
   AddAccoladeArgs,
   AirdropFreeMintArgs,
@@ -57,26 +62,25 @@ import { parseGenesisShopItem, parseKioskItem } from './utils';
 
 export class AnimaSDK {
   #packages: typeof PACKAGES;
-  #objects: typeof OBJECTS;
+  #ownedObjects: typeof OWNED_OBJECTS;
+  #sharedObjects: typeof SHARED_OBJECTS;
   #client: SuiClient;
   #kioskClient: KioskClient;
 
-  constructor(
-    args: AnimaConstructorArgs = {
-      packages: PACKAGES,
-      objects: OBJECTS,
-      fullNodeUrl: getFullnodeUrl('testnet'),
-    }
-  ) {
+  constructor(args: AnimaConstructorArgs | null | undefined) {
     const data = args
       ? args
       : {
           packages: PACKAGES,
-          objects: OBJECTS,
+          ownedObjects: OWNED_OBJECTS,
+          sharedObjects: SHARED_OBJECTS,
           fullNodeUrl: getFullnodeUrl('testnet'),
         };
+
     this.#packages = data.packages || PACKAGES;
-    this.#objects = data.objects || OBJECTS;
+    this.#sharedObjects = data.sharedObjects || SHARED_OBJECTS;
+    this.#ownedObjects = data.ownedObjects || OWNED_OBJECTS;
+
     this.#client = new SuiClient({
       url: data.fullNodeUrl || getFullnodeUrl('testnet'),
     });
@@ -96,7 +100,7 @@ export class AnimaSDK {
     const account = tx.moveCall({
       target: `${this.#packages.ANIMA}::account::new`,
       arguments: [
-        tx.object(this.#objects.SYSTEM),
+        tx.object(this.#sharedObjects?.SYSTEM_MUT),
         tx.pure.string(alias),
         tx.pure.string(username),
         tx.object(SUI_CLOCK_OBJECT_ID),
@@ -277,7 +281,7 @@ export class AnimaSDK {
           tx.pure.string(record[item.objectId]),
           tx.object(item.kioskId),
           tx.object(cap),
-          tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
+          tx.object(this.#sharedObjects.WEAPON_TRANSFER_POLICY_EQUIP),
         ],
       });
 
@@ -321,7 +325,7 @@ export class AnimaSDK {
           tx.pure.string(slot),
           kioskTx.getKiosk(),
           kioskTx.getKioskCap(),
-          tx.object(this.#objects.WEAPON_TRANSFER_POLICY_EQUIP),
+          tx.object(this.#sharedObjects.WEAPON_TRANSFER_POLICY_EQUIP),
         ],
       });
     });
@@ -376,7 +380,7 @@ export class AnimaSDK {
           tx.pure.string(record[item.objectId]),
           tx.object(item.kioskId),
           tx.object(cap),
-          tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+          tx.object(this.#sharedObjects.COSMETIC_TRANSFER_POLICY_EQUIP),
         ],
       });
 
@@ -425,7 +429,7 @@ export class AnimaSDK {
           tx.pure.string(type),
           kioskTx.getKiosk(),
           kioskTx.getKioskCap(),
-          tx.object(this.#objects.COSMETIC_TRANSFER_POLICY_EQUIP),
+          tx.object(this.#sharedObjects.COSMETIC_TRANSFER_POLICY_EQUIP),
         ],
       });
     });
@@ -796,7 +800,7 @@ export class AnimaSDK {
     const avatar = tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new`,
       arguments: [
-        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.object(this.#sharedObjects.AVATAR_REGISTRY_MUT),
         tx.pure.string(imageUrl),
       ],
     });
@@ -821,7 +825,7 @@ export class AnimaSDK {
       target: `${this.#packages.ACT}::genesis_drop::mint_to_avatar`,
       arguments: [
         tx.object(ticket.objectId),
-        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.object(this.#sharedObjects.AVATAR_REGISTRY_MUT),
         tx.object(SUI_CLOCK_OBJECT_ID),
       ],
     });
@@ -859,9 +863,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::mint_to_kiosk`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.GENESIS_SHOP),
-        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
+        tx.object(this.#sharedObjects.AVATAR_REGISTRY),
         passId
           ? tx.makeMoveVec({
               elements: [passId],
@@ -896,9 +900,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::mint_to_ticket`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.GENESIS_SHOP),
-        tx.object(this.#objects.AVATAR_REGISTRY),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
+        tx.object(this.#sharedObjects.AVATAR_REGISTRY),
         passId
           ? tx.makeMoveVec({
               elements: [passId],
@@ -922,7 +926,7 @@ export class AnimaSDK {
     name: keyof typeof GENESIS_SHOP_NAMES
   ): Promise<ReadonlyArray<GenesisShopItem>> {
     const keys = await this.#client.getDynamicFieldObject({
-      parentId: this.#objects.GENESIS_SHOP_ITEMS_ID,
+      parentId: this.#ownedObjects.GENESIS_SHOP_ITEMS_ID,
       name: GENESIS_SHOP_NAMES[name],
     });
 
@@ -1001,8 +1005,8 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::airdrop_freemint`,
       arguments: [
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.address(recipient),
       ],
     });
@@ -1022,8 +1026,8 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::airdrop_whitelist`,
       arguments: [
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.address(recipient),
       ],
     });
@@ -1038,9 +1042,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_active`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.bool(active),
       ],
     });
@@ -1057,9 +1061,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_start_times`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.vector('u64', startTimes),
       ],
     });
@@ -1075,9 +1079,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_max_mints`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.vector('u64', maxMints),
       ],
     });
@@ -1093,9 +1097,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_prices`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.vector('u64', prices),
       ],
     });
@@ -1110,9 +1114,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_drops_left`,
       arguments: [
-        tx.object(this.#objects.SALE),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.u64(dropsLeft),
       ],
     });
@@ -1133,7 +1137,7 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ANIMA}::account::give_reputation`,
       arguments: [
-        tx.object(this.#objects.SYSTEM),
+        tx.object(this.#sharedObjects.SYSTEM_MUT),
         tx.object(account),
         tx.pure.address(recipient),
         tx.pure.string(type),
@@ -1154,9 +1158,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ANIMA}::account::remove_reputation`,
       arguments: [
-        tx.object(this.#objects.SYSTEM),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SYSTEM_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.address(account),
         tx.pure.u64(index),
       ],
@@ -1174,9 +1178,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ANIMA}::account::add_accolade`,
       arguments: [
-        tx.object(this.#objects.SYSTEM),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SYSTEM_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.address(recipient),
         tx.pure.string(type),
         tx.pure.string(description),
@@ -1194,9 +1198,9 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ANIMA}::account::remove_accolade`,
       arguments: [
-        tx.object(this.#objects.SYSTEM),
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.SYSTEM_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.address(account),
         tx.pure.u64(index),
       ],
@@ -1213,8 +1217,8 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new_avatar_image`,
       arguments: [
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.string(imageUrl),
         tx.pure.string(equippedCosmeticHash),
         tx.pure.address(recipient),
@@ -1235,8 +1239,8 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new_upgrade`,
       arguments: [
-        tx.object(this.#objects.ACCESS_CONTROL),
-        tx.object(this.#objects.ADMIN),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(this.#ownedObjects.ADMIN),
         tx.pure.string(name),
         tx.pure.string(imageUrl),
         tx.pure.string(modelUrl),

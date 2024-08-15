@@ -103,15 +103,13 @@ export const SHARED_OBJECTS = {
     mutable: false,
     initialSharedVersion: '111160775',
   }),
-  GENESIS_SHOP_mut: Inputs.SharedObjectRef({
+  GENESIS_SHOP_MUT: Inputs.SharedObjectRef({
     objectId:
       '0x9648141334cd1c5d4077fca7ded88eff01b6fd5366297925027cd4ac67c50ea1',
     mutable: true,
     initialSharedVersion: '111160775',
   }),
 };
-
-export const GENESIS_SHOP_ITEMS_ID = '';
 
 export const OWNED_OBJECTS = {
   COSMETIC_TRANSFER_POLICY_EQUIP_CAP:
@@ -129,6 +127,8 @@ export const OWNED_OBJECTS = {
     '0x890f8feae56f1943b171b79596da90b225869be464aa3aa1038c3342ea995236',
   ANIMA_UPGRADE_CAP:
     '0x80c50bd115199dbe5ec3514da09c53cc9d14f6fa97857b038f7fa052614f4653',
+  GENESIS_SHOP_ITEMS_ID:
+    '0xfca41a20ef53616a930c67f06a7e92317489e7653eb46bd046d356db2dd7fd5a',
 };
 
 export const PACKAGES = {

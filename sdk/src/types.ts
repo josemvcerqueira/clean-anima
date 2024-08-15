@@ -1,12 +1,13 @@
 import { SuiObjectRef } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 
-import type { OBJECTS, PACKAGES } from './constants';
+import type { OWNED_OBJECTS, PACKAGES, SHARED_OBJECTS } from './constants';
 
 export interface AnimaConstructorArgs {
   fullNodeUrl?: string;
   packages?: typeof PACKAGES;
-  objects?: typeof OBJECTS;
+  ownedObjects?: typeof OWNED_OBJECTS;
+  sharedObjects?: typeof SHARED_OBJECTS;
 }
 
 export interface MaybeTx {
