@@ -977,7 +977,7 @@ module act::genesis_shop_tests {
         assert_eq(world.genesis_shop.borrow_mut().borrow(attributes::boots()).length(), TOTAL_ITEMS);
 
         let mut index = 0;
-        let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare"];
+        let rarity = vector[b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Ultra Rare", b"Mythic", b"Ultra Rare"];
 
         let colour_way = vector[b"Dusk", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 

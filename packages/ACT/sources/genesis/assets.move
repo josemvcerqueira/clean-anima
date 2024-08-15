@@ -22,7 +22,7 @@ module act::assets {
 
     const BOOTS_RARITIES: vector<vector<u8>> = vector[
         b"Ultra Rare",
-        b"Ultra Rare",
+        b"Mythic",
         b"Ultra Rare",
         b"Ultra Rare",
         b"Ultra Rare",

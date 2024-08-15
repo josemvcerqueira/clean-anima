@@ -38,7 +38,7 @@ module act::genesis_shop {
     // temporary shared object to build the shops
     public struct Builder has key {
         id: UID,
-        equipment: String,
+        equipment: vector<u8>,
         // each of those are popped when chances_len reach 0
         names: vector<vector<u8>>,
         colour_ways: vector<vector<u8>>,
@@ -84,7 +84,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::helm(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::helm(),
+            attributes::helm_bytes(),
             assets::helm_names(), 
             assets::cosmetic_colour_ways(),
             assets::helm_manufacturers(), 
@@ -105,7 +105,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::upper_torso(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::upper_torso(),
+            attributes::upper_torso_bytes(),
             assets::upper_torso_names(), 
             vector[b"Obsidian"],
             assets::upper_torso_manufacturers(), 
@@ -126,7 +126,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::chestpiece(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::chestpiece(),
+            attributes::chestpiece_bytes(),
             assets::chestpiece_names(), 
             assets::cosmetic_colour_ways(),
             assets::chestpiece_manufacturers(), 
@@ -149,7 +149,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::left_arm(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::left_arm(),
+            attributes::left_arm_bytes(),
             assets::arm_names(), 
             vector[b"Obsidian"],
             assets::arm_manufacturers(), 
@@ -170,7 +170,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::right_arm(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::right_arm(),
+            attributes::right_arm_bytes(),
             assets::arm_names(), 
             vector[b"Obsidian"],
             assets::arm_manufacturers(), 
@@ -191,7 +191,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::left_bracer(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::left_bracer(),
+            attributes::left_bracer_bytes(),
             assets::bracer_names(), 
             assets::cosmetic_colour_ways(),
             assets::bracer_manufacturers(), 
@@ -212,7 +212,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::right_bracer(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::right_bracer(),
+            attributes::right_bracer_bytes(),
             assets::bracer_names(), 
             assets::cosmetic_colour_ways(),
             assets::bracer_manufacturers(), 
@@ -233,7 +233,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::left_glove(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::left_glove(),
+            attributes::left_glove_bytes(),
             assets::glove_names(), 
             vector[b"Obsidian"],
             assets::glove_manufacturers(), 
@@ -254,7 +254,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::right_glove(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::right_glove(),
+            attributes::right_glove_bytes(),
             assets::glove_names(), 
             vector[b"Obsidian"],
             assets::glove_manufacturers(), 
@@ -275,7 +275,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::left_pauldron(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::left_pauldron(),
+            attributes::left_pauldron_bytes(),
             assets::pauldrons_names(), 
             assets::cosmetic_colour_ways(),
             assets::pauldrons_manufacturers(), 
@@ -296,7 +296,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::right_pauldron(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::right_pauldron(),
+            attributes::right_pauldron_bytes(),
             assets::pauldrons_names(), 
             assets::cosmetic_colour_ways(),
             assets::pauldrons_manufacturers(), 
@@ -317,7 +317,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::legs(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::legs(),
+            attributes::legs_bytes(),
             assets::legs_names(), 
             assets::legs_colour_ways(),
             assets::legs_manufacturers(), 
@@ -338,7 +338,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::belt(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::belt(),
+            attributes::belt_bytes(),
             assets::belt_names(), 
             vector[b"Obsidian"],
             assets::belt_manufacturers(), 
@@ -359,7 +359,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::shins(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::shins(),
+            attributes::shins_bytes(),
             assets::shins_names(), 
             vector[b"Obsidian"],
             assets::shins_manufacturers(), 
@@ -380,7 +380,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::boots(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::boots(),
+            attributes::boots_bytes(),
             assets::boots_names(), 
             assets::boots_colour_ways(),
             assets::boots_manufacturers(), 
@@ -401,7 +401,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::primary(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::primary(),
+            attributes::primary_bytes(),
             assets::primary_names(), 
             assets::primary_colour_ways(), // same
             assets::primary_manufacturers(), 
@@ -422,7 +422,7 @@ module act::genesis_shop {
         genesis_shop.items.add(attributes::secondary(), table_vec::empty(ctx));
 
         new_builder(
-            attributes::secondary(),
+            attributes::secondary_bytes(),
             assets::secondary_names(), 
             assets::secondary_colour_ways(),
             assets::secondary_manufacturers(), 
@@ -443,7 +443,7 @@ module act::genesis_shop {
         genesis_shop.items.add( attributes::tertiary(), table_vec::empty(ctx));
         
         new_builder(
-            attributes::tertiary(),
+            attributes::tertiary_bytes(),
             assets::tertiary_names(), 
             assets::tertiary_colour_ways(),
             assets::tertiary_manufacturers(), 
@@ -490,7 +490,7 @@ module act::genesis_shop {
 
         let mut rarity = b"";
         let mut colour = b"";
-        if (builder.equipment == attributes::tertiary()) {
+        if (builder.equipment == attributes::tertiary_bytes()) {
             let last_idx = builder.rarities.length() - 1;
             rarity = builder.rarities[last_idx];
             colour = builder.colour_ways[last_idx];
@@ -499,31 +499,33 @@ module act::genesis_shop {
             colour = builder.colour_ways[len];
         };
 
-        let (image_url, model_url, texture_url) = if (builder.equipment == attributes::primary() || builder.equipment == attributes::secondary() || builder.equipment == attributes::tertiary()) {
+        let (image_url, model_url, texture_url) = if (builder.equipment == attributes::primary_bytes() || builder.equipment == attributes::secondary_bytes() || builder.equipment == attributes::tertiary_bytes()) {
             uris::get_weapon(name)
-        } else if (builder.equipment == attributes::helm()) {
+        } else if (builder.equipment == attributes::helm_bytes()) {
             uris::get_helm(name, colour)
-        } else if (builder.equipment == attributes::chestpiece()) {
+        } else if (builder.equipment == attributes::chestpiece_bytes()) {
             uris::get_chestpiece(name, colour)
-        } else if (builder.equipment == attributes::left_pauldron()) {
+        } else if (builder.equipment == attributes::left_pauldron_bytes()) {
             uris::get_left_pauldron(name, colour)
-        } else if (builder.equipment == attributes::right_pauldron()) {
+        } else if (builder.equipment == attributes::right_pauldron_bytes()) {
             uris::get_right_pauldron(name, colour)
-        } else if (builder.equipment == attributes::left_bracer()) {
+        } else if (builder.equipment == attributes::left_bracer_bytes()) {
             uris::get_left_bracer(name, colour)
-        } else if (builder.equipment == attributes::right_bracer()) {
+        } else if (builder.equipment == attributes::right_bracer_bytes()) {
             uris::get_right_bracer(name, colour)
-        } else { uris::get_other(name, builder.equipment.into_bytes(), colour) };
+        } else { uris::get_other(name, builder.equipment, colour) };
 
+        let mut value = vector[];
+        value.append(name);
+        value.append(builder.equipment);
+        value.append(colour);
 
-        let mut hash = hash::blake2b256(&name);
-        hash.append(hash::blake2b256(builder.equipment.as_bytes()));
-        hash.append(hash::blake2b256(&colour));
+        let hash = hash::blake2b256(&value);
 
         let item = Item {
             hash,
             name: name.to_string(),
-            equipment: builder.equipment,
+            equipment: builder.equipment.to_string(),
             colour_way: colour.to_string(),
             manufacturer: manufacturer.to_string(),
             rarity: rarity.to_string(),
@@ -532,7 +534,7 @@ module act::genesis_shop {
             texture_url: texture_url.to_string()
         };
 
-        genesis_shop.items.borrow_mut(builder.equipment).push_back(item);
+        genesis_shop.items.borrow_mut(builder.equipment.to_string()).push_back(item);
 
         if (*quantity == 0) {
             quantities.pop_back();
@@ -542,13 +544,12 @@ module act::genesis_shop {
                 builder.manufacturers.pop_back();
                 builder.names.pop_back();
                 
-                if (builder.equipment == attributes::tertiary()) {
+                if (builder.equipment == attributes::tertiary_bytes()) {
                     builder.rarities.pop_back();
                     builder.colour_ways.pop_back();
                 }
             }
         };
-
     }
 
     // when names has been emptied it means the whole shop has been filled
@@ -597,7 +598,7 @@ module act::genesis_shop {
     // === Private Functions ===
 
     fun new_builder(
-        equipment: String,
+        equipment: vector<u8>,
         names: vector<vector<u8>>,
         colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
@@ -642,7 +643,7 @@ module act::genesis_shop {
     #[test_only]
     public fun new_builder_for_testing(
         self: &mut GenesisShop,
-        equipment: String,
+        equipment: vector<u8>,
         names: vector<vector<u8>>,
         colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
@@ -651,7 +652,7 @@ module act::genesis_shop {
         total_amount: u64,
         ctx: &mut TxContext
     ): Builder  {
-        self.items.add(equipment, table_vec::empty(ctx));
+        self.items.add(equipment.to_string(), table_vec::empty(ctx));
         Builder { 
             id: object::new(ctx), 
             equipment, 

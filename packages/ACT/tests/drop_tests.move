@@ -634,7 +634,7 @@ module act::genesis_drop_tests {
 
         let mut primary = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::primary(),
+            attributes::primary_bytes(),
             assets::primary_names(), 
             assets::primary_colour_ways(), // same
             assets::primary_manufacturers(), 
@@ -645,7 +645,7 @@ module act::genesis_drop_tests {
         );
         let mut secondary = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::secondary(),
+            attributes::secondary_bytes(),
             assets::secondary_names(), 
             assets::secondary_colour_ways(),
             assets::secondary_manufacturers(), 
@@ -657,7 +657,7 @@ module act::genesis_drop_tests {
 
         let mut tertiary = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::tertiary(),
+            attributes::tertiary_bytes(),
             assets::tertiary_names(), 
             assets::tertiary_colour_ways(),
             assets::tertiary_manufacturers(), 
@@ -669,7 +669,7 @@ module act::genesis_drop_tests {
 
         let mut helm = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::helm(),
+            attributes::helm_bytes(),
             assets::helm_names(), 
             assets::cosmetic_colour_ways(),
             assets::helm_manufacturers(), 
@@ -681,7 +681,7 @@ module act::genesis_drop_tests {
 
         let mut chestpiece = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::chestpiece(),
+            attributes::chestpiece_bytes(),
             assets::chestpiece_names(), 
             assets::cosmetic_colour_ways(),
             assets::chestpiece_manufacturers(), 
@@ -693,7 +693,7 @@ module act::genesis_drop_tests {
 
         let mut left_pauldron = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::left_pauldron(),
+            attributes::left_pauldron_bytes(),
             assets::pauldrons_names(), 
             assets::cosmetic_colour_ways(),
             assets::pauldrons_manufacturers(), 
@@ -705,7 +705,7 @@ module act::genesis_drop_tests {
 
         let mut right_pauldron = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::right_pauldron(),
+            attributes::right_pauldron_bytes(),
             assets::pauldrons_names(), 
             assets::cosmetic_colour_ways(),
             assets::pauldrons_manufacturers(), 
@@ -717,7 +717,7 @@ module act::genesis_drop_tests {
 
         let mut left_bracer = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::left_bracer(),
+            attributes::left_bracer_bytes(),
             assets::bracer_names(), 
             assets::cosmetic_colour_ways(),
             assets::bracer_manufacturers(), 
@@ -729,7 +729,7 @@ module act::genesis_drop_tests {
 
         let mut right_bracer = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::right_bracer(),
+            attributes::right_bracer_bytes(),
             assets::bracer_names(), 
             assets::cosmetic_colour_ways(),
             assets::bracer_manufacturers(), 
@@ -741,7 +741,7 @@ module act::genesis_drop_tests {
 
         let mut legs = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::legs(),
+            attributes::legs_bytes(),
             assets::legs_names(), 
             assets::legs_colour_ways(),
             assets::legs_manufacturers(), 
@@ -753,7 +753,7 @@ module act::genesis_drop_tests {
 
         let mut right_glove = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::right_glove(),
+            attributes::right_glove_bytes(),
             assets::glove_names(), 
             vector[b"Obsidian"],
             assets::glove_manufacturers(), 
@@ -765,7 +765,7 @@ module act::genesis_drop_tests {
 
         let mut left_glove = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::left_glove(),
+            attributes::left_glove_bytes(),
             assets::glove_names(), 
             vector[b"Obsidian"],
             assets::glove_manufacturers(), 
@@ -777,7 +777,7 @@ module act::genesis_drop_tests {
 
         let mut right_arm = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::right_arm(),
+            attributes::right_arm_bytes(),
             assets::arm_names(), 
             vector[b"Obsidian"],
             assets::arm_manufacturers(), 
@@ -789,7 +789,7 @@ module act::genesis_drop_tests {
 
         let mut left_arm = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::left_arm(),
+            attributes::left_arm_bytes(),
             assets::arm_names(), 
             vector[b"Obsidian"],
             assets::arm_manufacturers(), 
@@ -801,7 +801,7 @@ module act::genesis_drop_tests {
 
         let mut belt = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::belt(),
+            attributes::belt_bytes(),
             assets::belt_names(), 
             vector[b"Obsidian"],
             assets::belt_manufacturers(), 
@@ -813,7 +813,7 @@ module act::genesis_drop_tests {
 
         let mut shins = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::shins(),
+            attributes::shins_bytes(),
             assets::shins_names(), 
             vector[b"Obsidian"],
             assets::shins_manufacturers(), 
@@ -825,7 +825,7 @@ module act::genesis_drop_tests {
 
         let mut upper_torso = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::upper_torso(),
+            attributes::upper_torso_bytes(),
             assets::upper_torso_names(), 
             vector[b"Obsidian"],
             assets::upper_torso_manufacturers(), 
@@ -837,7 +837,7 @@ module act::genesis_drop_tests {
 
         let mut boots = new_builder_for_testing(
             &mut world.genesis_shop,
-            attributes::boots(),
+            attributes::boots_bytes(),
             assets::boots_names(), 
             assets::boots_colour_ways(),
             assets::boots_manufacturers(), 

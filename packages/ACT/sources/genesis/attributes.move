@@ -183,6 +183,28 @@ module act::attributes {
     public(package) fun secondary(): String { SECONDARY.to_string() }
     public(package) fun tertiary(): String { TERTIARY.to_string() }
 
+    public(package) fun helm_bytes(): vector<u8> { HELM }
+    public(package) fun chestpiece_bytes(): vector<u8>  { CHESTPIECE }
+    public(package) fun backpiece_bytes(): vector<u8>  { BACKPIECE }
+    public(package) fun upper_torso_bytes(): vector<u8>  { UPPER_TORSO }
+    public(package) fun right_pauldron_bytes(): vector<u8>  { RIGHT_PAULDRON }
+    public(package) fun left_pauldron_bytes(): vector<u8>  { LEFT_PAULDRON }
+    public(package) fun right_arm_bytes(): vector<u8>  { RIGHT_ARM }
+    public(package) fun left_arm_bytes(): vector<u8>  { LEFT_ARM }
+    public(package) fun right_glove_bytes(): vector<u8>  { RIGHT_GLOVE }
+    public(package) fun left_glove_bytes(): vector<u8>  { LEFT_GLOVE }
+    public(package) fun right_bracer_bytes(): vector<u8>  { RIGHT_BRACER }
+    public(package) fun left_bracer_bytes(): vector<u8>  { LEFT_BRACER }
+    public(package) fun legs_bytes(): vector<u8>  { LEGS }
+    public(package) fun belt_bytes(): vector<u8>  { BELT }
+    public(package) fun shins_bytes(): vector<u8>  { SHINS }
+    public(package) fun boots_bytes(): vector<u8>  { BOOTS }
+    public(package) fun accessory_bytes(): vector<u8>  { ACCESSORY }
+
+    public(package) fun primary_bytes(): vector<u8>  { PRIMARY }
+    public(package) fun secondary_bytes(): vector<u8> { SECONDARY }
+    public(package) fun tertiary_bytes(): vector<u8> { TERTIARY }
+
     // === Admin Functions ===
 
     // === Public-Package Functions ===

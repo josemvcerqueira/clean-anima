@@ -100,11 +100,11 @@
 // (async () => {
 //   const tx = new Transaction();
 
-//   const admin = tx.moveCall({
-//     target:
-//       '0xad1654082fcb7d214be43b51fc00109e91d11af1dc929af5a6cc85c8657e7af4::access_control::new_admin',
-//     arguments: [tx.object(OBJECTS.ACCESS_CONTROL)],
-//   });
+//   // const admin = tx.moveCall({
+//   //   target:
+//   //     '0xad1654082fcb7d214be43b51fc00109e91d11af1dc929af5a6cc85c8657e7af4::access_control::new_admin',
+//   //   arguments: [tx.object(OBJECTS.ACCESS_CONTROL)],
+//   // });
 
 //   tx.moveCall({
 //     target:
@@ -119,20 +119,18 @@
 //           76, 69,
 //         ]
 //       ),
-//       tx.moveCall({
-//         target:
-//           '0xad1654082fcb7d214be43b51fc00109e91d11af1dc929af5a6cc85c8657e7af4::access_control::addy',
-//         arguments: [admin],
-//       }),
+//       tx.object(
+//         '0x1223715610fc0792f67fd28a2450247b31bc514f88991fb15858bcbb95371dbe'
+//       ),
 //     ],
 //   });
 
-//   tx.transferObjects(
-//     [admin],
-//     tx.pure.address(
-//       '0x23db92f4373fa9353ab56f8be76263432f9f93b2974e50e613265266f5d3d3e7'
-//     )
-//   );
+//   // tx.transferObjects(
+//   //   [admin],
+//   //   tx.pure.address(
+//   //     '0x23db92f4373fa9353ab56f8be76263432f9f93b2974e50e613265266f5d3d3e7'
+//   //   )
+//   // );
 
 //   await executeTx(tx);
 // })();

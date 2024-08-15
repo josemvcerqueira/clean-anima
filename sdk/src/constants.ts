@@ -5,7 +5,7 @@ export const OBJECTS = {
     objectId:
       '0x7c4ac76af6a3e47a5571cc11cba4157eba0024e1bf4d5699577bd23394391e4a',
     initialSharedVersion: '104923326',
-    mutable: false,
+    mutable: true,
   }),
   SYSTEM: Inputs.SharedObjectRef({
     objectId:
@@ -119,3 +119,9 @@ export const BUILDER_FN_NAMES = [
   'add_secondary',
   'add_tertiary',
 ];
+
+export const ROLES = {
+  MINTER: [
+    71, 69, 78, 69, 83, 73, 83, 95, 77, 73, 78, 84, 69, 82, 95, 82, 79, 76, 69,
+  ],
+};
