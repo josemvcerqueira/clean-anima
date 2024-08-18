@@ -58,7 +58,11 @@ import {
   UpgradeEquippedCosmeticArgs,
   UpgradeEquippedWeaponArgs,
 } from './types';
-import { parseGenesisShopItem, parseKioskItem } from './utils';
+import {
+  parseGenesisShopItem,
+  parseImageObjectResponse,
+  parseKioskItem,
+} from './utils';
 
 export class AnimaSDK {
   #packages: typeof PACKAGES;
@@ -162,6 +166,21 @@ export class AnimaSDK {
     return results.flat().map((x) => parseKioskItem(x));
   }
 
+  async getOwnedAvatarImages(objectId: string) {
+    const data = await this.#client.getOwnedObjects({
+      owner: objectId,
+      options: { showType: true, showContent: true },
+    });
+
+    const avatarImages = data.data.filter(
+      (elem) => elem.data?.type === `${this.#packages.ACT}::avatar::AvatarImage`
+    );
+
+    if (!avatarImages.length) return [];
+
+    return data.data.map((elem) => parseImageObjectResponse(elem));
+  }
+
   async getPersonalKiosks(address: string) {
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address,
@@ -225,7 +244,7 @@ export class AnimaSDK {
     const promiseArray = chunks.map((ids) =>
       this.#client.multiGetObjects({
         ids,
-        options: { showContent: true },
+        options: { showContent: true, showType: true },
       })
     );
 
@@ -954,7 +973,7 @@ export class AnimaSDK {
     const promises = chunks.map((ids) =>
       this.#client.multiGetObjects({
         ids,
-        options: { showContent: true },
+        options: { showContent: true, showType: true },
       })
     );
 

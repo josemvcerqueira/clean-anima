@@ -10,6 +10,7 @@ export const parseGenesisShopItem = (x: SuiObjectResponse) => {
     objectId: x.data.objectId,
     version: x.data.version,
     digest: x.data.digest,
+    type: x.data.type,
     hash: toHEX(
       Uint8Array.from(
         pathOr([], ['data', 'content', 'fields', 'value', 'fields', 'hash'], x)
@@ -65,6 +66,7 @@ export const parseKioskItem = (x: SuiObjectResponse) => {
     objectId: x.data.objectId,
     version: x.data.version,
     digest: x.data.digest,
+    type: x.data.type,
     hash: toHEX(
       Uint8Array.from(pathOr([], ['data', 'content', 'fields', 'hash'], x))
     ),
@@ -80,5 +82,22 @@ export const parseKioskItem = (x: SuiObjectResponse) => {
     equipment:
       pathOr('', ['data', 'content', 'fields', 'slot'], x) ||
       pathOr('', ['data', 'content', 'fields', 'type'], x),
+  };
+};
+
+export const parseImageObjectResponse = (x: SuiObjectResponse) => {
+  invariant(x.data, 'Something went wrong fetching the data');
+
+  return {
+    objectId: x.data.objectId,
+    version: x.data.version,
+    digest: x.data.digest,
+    type: x.data.type,
+    equippedHashCosmeticsHash: pathOr(
+      '',
+      ['data', 'content', 'fields', 'equipped_cosmetics_hash'],
+      x
+    ),
+    imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], x),
   };
 };

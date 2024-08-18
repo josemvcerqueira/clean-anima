@@ -209,7 +209,9 @@
 // };
 
 // (async () => {
-//   await giveAllAdminRoles(
-//     '0x3cf8b73df4aa8c60f89108f9d7ab32222c15b53eac02bc58fad179d59d503d12'
+//   const data = await sdk.getOwnedAvatarImages(
+//     '0xdc34ba406bad68d555181bb53cd8ef580d2388d1770ae8877b3730007e74c9e8'
 //   );
+
+//   console.log(data);
 // })();
