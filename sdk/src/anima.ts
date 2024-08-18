@@ -62,8 +62,8 @@ import { parseGenesisShopItem, parseKioskItem } from './utils';
 
 export class AnimaSDK {
   #packages: typeof PACKAGES;
-  #ownedObjects: typeof OWNED_OBJECTS;
   #sharedObjects: typeof SHARED_OBJECTS;
+  #genesisShopItemsId: string;
   #client: SuiClient;
   #kioskClient: KioskClient;
 
@@ -72,14 +72,15 @@ export class AnimaSDK {
       ? args
       : {
           packages: PACKAGES,
-          ownedObjects: OWNED_OBJECTS,
           sharedObjects: SHARED_OBJECTS,
+          genesisShopItemsId: OWNED_OBJECTS.GENESIS_SHOP_ITEMS_ID,
           fullNodeUrl: getFullnodeUrl('testnet'),
         };
 
     this.#packages = data.packages || PACKAGES;
     this.#sharedObjects = data.sharedObjects || SHARED_OBJECTS;
-    this.#ownedObjects = data.ownedObjects || OWNED_OBJECTS;
+    this.#genesisShopItemsId =
+      data.genesisShopItemsId || OWNED_OBJECTS.GENESIS_SHOP_ITEMS_ID;
 
     this.#client = new SuiClient({
       url: data.fullNodeUrl || getFullnodeUrl('testnet'),
@@ -926,7 +927,7 @@ export class AnimaSDK {
     name: keyof typeof GENESIS_SHOP_NAMES
   ): Promise<ReadonlyArray<GenesisShopItem>> {
     const keys = await this.#client.getDynamicFieldObject({
-      parentId: this.#ownedObjects.GENESIS_SHOP_ITEMS_ID,
+      parentId: this.#genesisShopItemsId,
       name: GENESIS_SHOP_NAMES[name],
     });
 
@@ -999,14 +1000,18 @@ export class AnimaSDK {
   /**
    * @notice This account must hold an AdminCap with sufficient permissions
    */
-  airdropFreeMint({ recipient, tx = new Transaction() }: AirdropFreeMintArgs) {
+  airdropFreeMint({
+    recipient,
+    adminCap,
+    tx = new Transaction(),
+  }: AirdropFreeMintArgs) {
     invariant(isValidSuiAddress(recipient), 'Please provide a valid recipient');
 
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::airdrop_freemint`,
       arguments: [
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.address(recipient),
       ],
     });
@@ -1019,6 +1024,7 @@ export class AnimaSDK {
    */
   airdropWhitelist({
     recipient,
+    adminCap,
     tx = new Transaction(),
   }: AirdropWhitelistArgs) {
     invariant(isValidSuiAddress(recipient), 'Please provide a valid recipient');
@@ -1027,7 +1033,7 @@ export class AnimaSDK {
       target: `${this.#packages.ACT}::genesis_drop::airdrop_whitelist`,
       arguments: [
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.address(recipient),
       ],
     });
@@ -1038,13 +1044,17 @@ export class AnimaSDK {
   /**
    * @notice This account must hold an AdminCap with sufficient permissions
    */
-  setSaleActive({ active, tx = new Transaction() }: SetSaleActiveArgs) {
+  setSaleActive({
+    active,
+    adminCap,
+    tx = new Transaction(),
+  }: SetSaleActiveArgs) {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_active`,
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.bool(active),
       ],
     });
@@ -1056,14 +1066,18 @@ export class AnimaSDK {
    * @notice This account must hold an AdminCap with sufficient permissions
    * @notice The times are in milliseconds. Each value is a sale phase.
    */
-  setStartTimes({ startTimes, tx = new Transaction() }: SetStartTimesArgs) {
+  setStartTimes({
+    startTimes,
+    adminCap,
+    tx = new Transaction(),
+  }: SetStartTimesArgs) {
     invariant(startTimes.length == 3, 'There are only 3 phases');
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_start_times`,
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.vector('u64', startTimes),
       ],
     });
@@ -1074,14 +1088,14 @@ export class AnimaSDK {
   /**
    * @notice This account must hold an AdminCap with sufficient permissions
    */
-  setMaxMints({ maxMints, tx = new Transaction() }: SetMaxMintsArgs) {
+  setMaxMints({ maxMints, adminCap, tx = new Transaction() }: SetMaxMintsArgs) {
     invariant(maxMints.length == 3, 'There are only 3 phases');
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_max_mints`,
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.vector('u64', maxMints),
       ],
     });
@@ -1092,14 +1106,14 @@ export class AnimaSDK {
   /**
    * @notice This account must hold an AdminCap with sufficient permissions
    */
-  setPrices({ prices, tx = new Transaction() }: SetPricesArgs) {
+  setPrices({ prices, adminCap, tx = new Transaction() }: SetPricesArgs) {
     invariant(prices.length == 3, 'There are only 3 phases');
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_prices`,
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.vector('u64', prices),
       ],
     });
@@ -1110,13 +1124,17 @@ export class AnimaSDK {
   /**
    * @notice This account must hold an AdminCap with sufficient permissions
    */
-  setDropsLeft({ dropsLeft, tx = new Transaction() }: SetDropsLeftArgs) {
+  setDropsLeft({
+    dropsLeft,
+    adminCap,
+    tx = new Transaction(),
+  }: SetDropsLeftArgs) {
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::set_drops_left`,
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.u64(dropsLeft),
       ],
     });
@@ -1153,6 +1171,7 @@ export class AnimaSDK {
   removeReputation({
     account,
     index,
+    adminCap,
     tx = new Transaction(),
   }: RemoveReputationArgs) {
     tx.moveCall({
@@ -1160,7 +1179,7 @@ export class AnimaSDK {
       arguments: [
         tx.object(this.#sharedObjects.SYSTEM_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.address(account),
         tx.pure.u64(index),
       ],
@@ -1173,6 +1192,7 @@ export class AnimaSDK {
     recipient,
     type,
     url,
+    adminCap,
     tx = new Transaction(),
   }: AddAccoladeArgs) {
     tx.moveCall({
@@ -1180,7 +1200,7 @@ export class AnimaSDK {
       arguments: [
         tx.object(this.#sharedObjects.SYSTEM_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.address(recipient),
         tx.pure.string(type),
         tx.pure.string(description),
@@ -1193,6 +1213,7 @@ export class AnimaSDK {
   removeAccolade({
     account,
     index,
+    adminCap,
     tx = new Transaction(),
   }: RemoveAccoladeArgs) {
     tx.moveCall({
@@ -1200,7 +1221,7 @@ export class AnimaSDK {
       arguments: [
         tx.object(this.#sharedObjects.SYSTEM_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.address(account),
         tx.pure.u64(index),
       ],
@@ -1212,13 +1233,14 @@ export class AnimaSDK {
     equippedCosmeticHash,
     imageUrl,
     recipient,
+    adminCap,
     tx = new Transaction(),
   }: NewAvatarImageArgs) {
     tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new_avatar_image`,
       arguments: [
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.string(imageUrl),
         tx.pure.string(equippedCosmeticHash),
         tx.pure.address(recipient),
@@ -1234,13 +1256,14 @@ export class AnimaSDK {
     name,
     recipient,
     textureUrl,
+    adminCap,
     tx = new Transaction(),
   }: NewUpgradeArgs) {
     tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new_upgrade`,
       arguments: [
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(this.#ownedObjects.ADMIN),
+        tx.object(adminCap),
         tx.pure.string(name),
         tx.pure.string(imageUrl),
         tx.pure.string(modelUrl),

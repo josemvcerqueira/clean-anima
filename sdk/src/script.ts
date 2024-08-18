@@ -106,113 +106,110 @@
 // const sdk = new AnimaSDK();
 // const DAY = 86400000;
 
-// // // (async () => {
-// // //   const avatar = await sdk.getAvatar(adminKeypair.toSuiAddress());
-// // //   invariant(avatar);
-// // //   console.log(await sdk.getAvatarItems(avatar.objectId));
-// // // })();
+// (async () => {
+//   const avatar = await sdk.getAvatar(adminKeypair.toSuiAddress());
+//   invariant(avatar);
+//   console.log(await sdk.getAvatarItems(avatar.objectId));
+// })();
 
-// // const giveAllAdminRoles = async (recipient: string) => {
-// //   const tx = new Transaction();
+// const giveAllAdminRoles = async (recipient: string) => {
+//   const tx = new Transaction();
 
-// //   const admin = tx.moveCall({
-// //     target: `${PACKAGES.ANIMA_LIB}::access_control::new_admin`,
-// //     arguments: [tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT)],
-// //   });
+//   const admin = tx.moveCall({
+//     target: `${PACKAGES.ANIMA_LIB}::access_control::new_admin`,
+//     arguments: [tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT)],
+//   });
 
-// //   tx.moveCall({
-// //     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-// //     arguments: [
-// //       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-// //       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-// //       tx.pure.vector(
-// //         'u8',
-// //         [83, 85, 80, 69, 82, 95, 65, 68, 77, 73, 78, 95, 82, 79, 76, 69]
-// //       ),
-// //       tx.moveCall({
-// //         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-// //         arguments: [admin],
-// //       }),
-// //     ],
-// //   });
+//   tx.moveCall({
+//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+//     arguments: [
+//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+//       tx.pure.vector(
+//         'u8',
+//         [83, 85, 80, 69, 82, 95, 65, 68, 77, 73, 78, 95, 82, 79, 76, 69]
+//       ),
+//       tx.moveCall({
+//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+//         arguments: [admin],
+//       }),
+//     ],
+//   });
 
-// //   tx.moveCall({
-// //     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-// //     arguments: [
-// //       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-// //       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-// //       tx.pure.vector(
-// //         'u8',
-// //         [65, 67, 67, 79, 76, 65, 68, 69, 83, 95, 82, 79, 76, 69]
-// //       ),
-// //       tx.moveCall({
-// //         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-// //         arguments: [admin],
-// //       }),
-// //     ],
-// //   });
+//   tx.moveCall({
+//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+//     arguments: [
+//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+//       tx.pure.vector(
+//         'u8',
+//         [65, 67, 67, 79, 76, 65, 68, 69, 83, 95, 82, 79, 76, 69]
+//       ),
+//       tx.moveCall({
+//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+//         arguments: [admin],
+//       }),
+//     ],
+//   });
 
-// //   tx.moveCall({
-// //     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-// //     arguments: [
-// //       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-// //       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-// //       tx.pure.vector(
-// //         'u8',
-// //         [82, 69, 80, 85, 84, 65, 84, 73, 79, 78, 95, 82, 79, 76, 69]
-// //       ),
-// //       tx.moveCall({
-// //         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-// //         arguments: [admin],
-// //       }),
-// //     ],
-// //   });
+//   tx.moveCall({
+//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+//     arguments: [
+//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+//       tx.pure.vector(
+//         'u8',
+//         [82, 69, 80, 85, 84, 65, 84, 73, 79, 78, 95, 82, 79, 76, 69]
+//       ),
+//       tx.moveCall({
+//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+//         arguments: [admin],
+//       }),
+//     ],
+//   });
 
-// //   tx.moveCall({
-// //     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-// //     arguments: [
-// //       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-// //       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-// //       tx.pure.vector(
-// //         'u8',
-// //         [85, 80, 71, 82, 65, 68, 69, 83, 95, 82, 79, 76, 69]
-// //       ),
-// //       tx.moveCall({
-// //         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-// //         arguments: [admin],
-// //       }),
-// //     ],
-// //   });
+//   tx.moveCall({
+//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+//     arguments: [
+//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+//       tx.pure.vector(
+//         'u8',
+//         [85, 80, 71, 82, 65, 68, 69, 83, 95, 82, 79, 76, 69]
+//       ),
+//       tx.moveCall({
+//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+//         arguments: [admin],
+//       }),
+//     ],
+//   });
 
-// //   tx.moveCall({
-// //     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-// //     arguments: [
-// //       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-// //       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-// //       tx.pure.vector(
-// //         'u8',
-// //         [
-// //           71, 69, 78, 69, 83, 73, 83, 95, 77, 73, 78, 84, 69, 82, 95, 82, 79,
-// //           76, 69,
-// //         ]
-// //       ),
-// //       tx.moveCall({
-// //         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-// //         arguments: [admin],
-// //       }),
-// //     ],
-// //   });
+//   tx.moveCall({
+//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+//     arguments: [
+//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+//       tx.pure.vector(
+//         'u8',
+//         [
+//           71, 69, 78, 69, 83, 73, 83, 95, 77, 73, 78, 84, 69, 82, 95, 82, 79,
+//           76, 69,
+//         ]
+//       ),
+//       tx.moveCall({
+//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+//         arguments: [admin],
+//       }),
+//     ],
+//   });
 
-// //   tx.transferObjects([admin], tx.pure.address(recipient));
+//   tx.transferObjects([admin], tx.pure.address(recipient));
 
-// //   await executeTx(tx);
-// // };
+//   await executeTx(tx);
+// };
 
 // (async () => {
-//   const passes = await sdk.getAvatarTicket(adminKeypair.toSuiAddress());
-//   invariant(passes);
-
-//   await executeTx(
-//     await sdk.mintToAvatar({ sender: adminKeypair.toSuiAddress() })
+//   await giveAllAdminRoles(
+//     '0x3cf8b73df4aa8c60f89108f9d7ab32222c15b53eac02bc58fad179d59d503d12'
 //   );
 // })();

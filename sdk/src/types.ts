@@ -1,12 +1,12 @@
 import { SuiObjectRef } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 
-import type { OWNED_OBJECTS, PACKAGES, SHARED_OBJECTS } from './constants';
+import type { PACKAGES, SHARED_OBJECTS } from './constants';
 
 export interface AnimaConstructorArgs {
   fullNodeUrl?: string;
   packages?: typeof PACKAGES;
-  ownedObjects?: typeof OWNED_OBJECTS;
+  genesisShopItemsId?: string;
   sharedObjects?: typeof SHARED_OBJECTS;
 }
 
@@ -14,31 +14,35 @@ export interface MaybeTx {
   tx?: Transaction;
 }
 
-export interface AirdropFreeMintArgs extends MaybeTx {
+export interface AdminFn {
+  adminCap: string;
+}
+
+export interface AirdropFreeMintArgs extends MaybeTx, AdminFn {
   recipient: string;
 }
 
-export interface AirdropWhitelistArgs extends MaybeTx {
+export interface AirdropWhitelistArgs extends MaybeTx, AdminFn {
   recipient: string;
 }
 
-export interface SetSaleActiveArgs extends MaybeTx {
+export interface SetSaleActiveArgs extends MaybeTx, AdminFn {
   active: boolean;
 }
 
-export interface SetStartTimesArgs extends MaybeTx {
+export interface SetStartTimesArgs extends MaybeTx, AdminFn {
   startTimes: Array<bigint>;
 }
 
-export interface SetMaxMintsArgs extends MaybeTx {
+export interface SetMaxMintsArgs extends MaybeTx, AdminFn {
   maxMints: Array<bigint>;
 }
 
-export interface SetPricesArgs extends MaybeTx {
+export interface SetPricesArgs extends MaybeTx, AdminFn {
   prices: Array<bigint>;
 }
 
-export interface SetDropsLeftArgs extends MaybeTx {
+export interface SetDropsLeftArgs extends MaybeTx, AdminFn {
   dropsLeft: bigint;
 }
 
@@ -147,19 +151,19 @@ export interface GiveReputationArgs extends MaybeTx {
   url: string;
 }
 
-export interface RemoveReputationArgs extends MaybeTx {
+export interface RemoveReputationArgs extends MaybeTx, AdminFn {
   account: string;
   index: bigint;
 }
 
-export interface AddAccoladeArgs extends MaybeTx {
+export interface AddAccoladeArgs extends MaybeTx, AdminFn {
   recipient: string;
   type: string;
   description: string;
   url: string;
 }
 
-export interface RemoveAccoladeArgs extends MaybeTx {
+export interface RemoveAccoladeArgs extends MaybeTx, AdminFn {
   account: string;
   index: bigint;
 }
@@ -198,13 +202,13 @@ export interface UpgradeEquippedWeaponArgs extends MaybeTx {
   slot: string;
 }
 
-export interface NewAvatarImageArgs extends MaybeTx {
+export interface NewAvatarImageArgs extends MaybeTx, AdminFn {
   imageUrl: string;
   equippedCosmeticHash: string;
   recipient: string;
 }
 
-export interface NewUpgradeArgs extends MaybeTx {
+export interface NewUpgradeArgs extends MaybeTx, AdminFn {
   imageUrl: string;
   name: string;
   modelUrl: string;

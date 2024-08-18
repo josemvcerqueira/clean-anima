@@ -7,10 +7,11 @@ module act::genesis_drop {
 
     use std::string::String;
     use sui::{
-        kiosk::{Kiosk, KioskOwnerCap},
         coin::Coin,
         sui::SUI,
         clock::Clock,
+        table::{Self, Table},
+        kiosk::{Kiosk, KioskOwnerCap},
         transfer::{public_receive, Receiving}
     };
     use kiosk::personal_kiosk;
@@ -38,6 +39,7 @@ module act::genesis_drop {
     const EInvalidPass: u64 = 7;
     const ENoMoreDrops: u64 = 8;
     const EMustBeAPersonalKiosk: u64 = 9;
+    const EAlreadyMintedATicket: u64 = 10;
 
     // === Constants ===
 
@@ -59,6 +61,7 @@ module act::genesis_drop {
         prices: vector<u64>, // length is number of phases
         max_mints: vector<u64>, // max mint for a pass by phase (for public it corresponds to max purchases in 1 tx)
         drops_left: u64,
+        ticket_map: Table<address, ID>
     }
 
     // if the user has no Avatar when he mints, a ticket is sent to him with all the info
@@ -82,6 +85,7 @@ module act::genesis_drop {
             prices: vector::empty(),
             max_mints: vector::empty(),
             drops_left: 3000,
+            ticket_map: table::new(ctx)
         });
     } 
 
@@ -164,6 +168,8 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         registry.assert_no_avatar(ctx.sender());
+        assert!(!sale.ticket_map.contains(ctx.sender()), EAlreadyMintedATicket);
+
         assert_can_mint(sale, pass, coin.value(), 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
@@ -179,9 +185,13 @@ module act::genesis_drop {
             drop.push_back(item);
         };
 
+        let id = object::new(ctx);
+
+        sale.ticket_map.add(ctx.sender(), id.to_inner());
+
         transfer::transfer(
             AvatarTicket {
-                id: object::new(ctx),
+                id,
                 drop: drop,
                 image_url: b"".to_string(),
                 equipped_cosmetics_hash: b"".to_string()
