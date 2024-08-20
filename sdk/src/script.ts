@@ -1,33 +1,33 @@
-// import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
-// import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-// import {
-//   SerialTransactionExecutor,
-//   Transaction,
-// } from '@mysten/sui/transactions';
-// import dotenv from 'dotenv';
-// import invariant from 'tiny-invariant';
-// import util from 'util';
+import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+import {
+  SerialTransactionExecutor,
+  Transaction,
+} from '@mysten/sui/transactions';
+import dotenv from 'dotenv';
+import invariant from 'tiny-invariant';
+import util from 'util';
 
-// import { AnimaSDK } from './anima';
-// import {
-//   BUILDER_FN_NAMES,
-//   OWNED_OBJECTS,
-//   PACKAGES,
-//   SHARED_OBJECTS,
-// } from './constants';
+import { AnimaSDK } from './anima';
+import {
+  BUILDER_FN_NAMES,
+  OWNED_OBJECTS,
+  PACKAGES,
+  SHARED_OBJECTS,
+} from './constants';
 
-// dotenv.config();
+dotenv.config();
 
-// const client = new SuiClient({
-//   url: 'https://api.shinami.com/node/v1/sui_testnet_8d0574f74958d67931463c51da36bc24',
-// });
+const client = new SuiClient({
+  url: 'https://api.shinami.com/node/v1/sui_testnet_8d0574f74958d67931463c51da36bc24',
+});
 
-// export const log = (x: unknown) =>
-//   console.log(util.inspect(x, false, null, true));
+export const log = (x: unknown) =>
+  console.log(util.inspect(x, false, null, true));
 
-// const adminKeypair = Ed25519Keypair.fromSecretKey(
-//   Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
-// );
+const adminKeypair = Ed25519Keypair.fromSecretKey(
+  Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
+);
 
 // const addItem = (builder: string, tx = new Transaction()) => {
 //   let i = 0;
@@ -72,36 +72,36 @@
 // //   return tx;
 // // };
 
-// export const executeTx = async (tx: Transaction) => {
-//   const result = await client.signAndExecuteTransaction({
-//     signer: adminKeypair,
-//     transaction: tx,
-//     options: {
-//       showEffects: true,
-//     },
-//     requestType: 'WaitForLocalExecution',
-//   });
+export const executeTx = async (tx: Transaction) => {
+  const result = await client.signAndExecuteTransaction({
+    signer: adminKeypair,
+    transaction: tx,
+    options: {
+      showEffects: true,
+    },
+    requestType: 'WaitForLocalExecution',
+  });
 
-//   // return if the tx hasn't succeed
-//   if (result.effects?.status?.status !== 'success') {
-//     console.log('\n\nCreating a new stable pool failed');
-//     return;
-//   }
+  // return if the tx hasn't succeed
+  if (result.effects?.status?.status !== 'success') {
+    console.log('\n\nCreating a new stable pool failed');
+    return;
+  }
 
-//   console.log('SUCCESS!');
+  console.log('SUCCESS!');
 
-//   // get all created objects IDs
-//   const createdObjectIds = result.effects.created?.map(
-//     (item: OwnedObjectRef) => item.reference.objectId
-//   );
+  // get all created objects IDs
+  const createdObjectIds = result.effects.created?.map(
+    (item: OwnedObjectRef) => item.reference.objectId
+  );
 
-//   if (createdObjectIds)
-//     // fetch objects data
-//     return client.multiGetObjects({
-//       ids: createdObjectIds,
-//       options: { showContent: true, showType: true, showOwner: true },
-//     });
-// };
+  if (createdObjectIds)
+    // fetch objects data
+    return client.multiGetObjects({
+      ids: createdObjectIds,
+      options: { showContent: true, showType: true, showOwner: true },
+    });
+};
 
 // const sdk = new AnimaSDK();
 // const DAY = 86400000;
@@ -208,10 +208,24 @@
 //   await executeTx(tx);
 // };
 
-// (async () => {
-//   const data = await sdk.getOwnedAvatarImages(
-//     '0xdc34ba406bad68d555181bb53cd8ef580d2388d1770ae8877b3730007e74c9e8'
-//   );
+(async () => {
+  const tx = new Transaction();
 
-//   console.log(data);
-// })();
+  tx.moveCall({
+    target: '0x2::display::edit',
+    arguments: [
+      tx.object(OWNED_OBJECTS.DISPLAY_COSMETIC),
+      tx.pure.string('image_url'),
+      tx.pure.string('{image_url}'),
+    ],
+    typeArguments: [`${PACKAGES.ACT}::cosmetic::Cosmetic`],
+  });
+
+  tx.moveCall({
+    target: '0x2::display::update_version',
+    arguments: [tx.object(OWNED_OBJECTS.DISPLAY_COSMETIC)],
+    typeArguments: [`${PACKAGES.ACT}::cosmetic::Cosmetic`],
+  });
+
+  await executeTx(tx);
+})();
