@@ -46,7 +46,7 @@ module act::item {
         let values = vector[
             name,
             b"ACT is a fast-paced, high-skill multiplayer FPS".to_string(),
-            b"ipfs://{image_url}".to_string(),
+            b"{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // TODO: change with ACT game page
             b"Anima Labs".to_string(),
         ];

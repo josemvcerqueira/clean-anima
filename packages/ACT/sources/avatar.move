@@ -110,7 +110,7 @@ module act::avatar {
         let values = vector[
             b"ACT Avatar: {alias}".to_string(),
             b"ACT is a fast-paced, high-skill multiplayer FPS".to_string(),
-            b"ipfs://{image_url}".to_string(),
+            b"{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // to change with ACT game page
             b"Anima Labs".to_string(),
         ];
