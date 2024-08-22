@@ -155,6 +155,7 @@ module act::attributes {
             LEGS.to_string(),
             SHINS.to_string(),
             BOOTS.to_string(),
+            BELT.to_string(),
             PRIMARY.to_string(),
             SECONDARY.to_string(),
             TERTIARY.to_string(),

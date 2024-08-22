@@ -95,7 +95,7 @@ module act::genesis_drop_tests {
                 ctx
             );
 
-            assert_eq(kiosk.item_count(), 17 * 3);
+            assert_eq(kiosk.item_count(), 18 * 3);
             assert_eq(world.sale.drops_left(), TOTAL_ITEMS - quantity);
         };
 
@@ -129,7 +129,7 @@ module act::genesis_drop_tests {
                 ctx
             );
 
-            assert_eq(kiosk.item_count(), 17 * 6);
+            assert_eq(kiosk.item_count(), 18 * 6);
             assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 6);
         };
 
@@ -161,7 +161,7 @@ module act::genesis_drop_tests {
                 ctx
             );
 
-            assert_eq(kiosk.item_count(), 17 * 10);
+            assert_eq(kiosk.item_count(), 18 * 10);
             assert_eq(world.sale.drops_left(), 0);
         };
 
@@ -214,7 +214,7 @@ module act::genesis_drop_tests {
 
         let mut avatar_ticket = world.scenario.take_from_sender<AvatarTicket>();
 
-        assert_eq(avatar_ticket.drop().length(), 17);
+        assert_eq(avatar_ticket.drop().length(), 18);
 
         let access_control = &world.access_control;
         let admin = &world.super_admin;

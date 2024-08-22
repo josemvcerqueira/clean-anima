@@ -1,9 +1,11 @@
 // import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
 // import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 // import {
+//   GasData,
 //   SerialTransactionExecutor,
 //   Transaction,
 // } from '@mysten/sui/transactions';
+// import { fetchAllDynamicFields } from '@polymedia/suitcase-core';
 // import dotenv from 'dotenv';
 // import invariant from 'tiny-invariant';
 // import util from 'util';
@@ -19,7 +21,7 @@
 // dotenv.config();
 
 // const client = new SuiClient({
-//   url: 'https://api.shinami.com/node/v1/sui_testnet_8d0574f74958d67931463c51da36bc24',
+//   url: getFullnodeUrl('testnet'),
 // });
 
 // export const log = (x: unknown) =>
@@ -103,8 +105,8 @@
 //     });
 // };
 
-// // const sdk = new AnimaSDK();
-// // const DAY = 86400000;
+// const sdk = new AnimaSDK();
+// const DAY = 86400000;
 
 // // (async () => {
 // //   const avatar = await sdk.getAvatar(adminKeypair.toSuiAddress());
@@ -209,23 +211,7 @@
 // // };
 
 // (async () => {
-//   const tx = new Transaction();
+//   const data = await sdk.getGenesisShopItems('BELT');
 
-//   tx.moveCall({
-//     target: '0x2::display::edit',
-//     arguments: [
-//       tx.object(OWNED_OBJECTS.DISPLAY_COSMETIC),
-//       tx.pure.string('image_url'),
-//       tx.pure.string('{image_url}'),
-//     ],
-//     typeArguments: [`${PACKAGES.ACT}::cosmetic::Cosmetic`],
-//   });
-
-//   tx.moveCall({
-//     target: '0x2::display::update_version',
-//     arguments: [tx.object(OWNED_OBJECTS.DISPLAY_COSMETIC)],
-//     typeArguments: [`${PACKAGES.ACT}::cosmetic::Cosmetic`],
-//   });
-
-//   await executeTx(tx);
+//   console.log(data);
 // })();

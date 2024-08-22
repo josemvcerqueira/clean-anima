@@ -46,7 +46,7 @@ module act::avatar_tests {
         assert_eq(world.avatar_display.fields().size(), 5);
         assert_eq(*world.avatar_display.fields().get(&b"name".to_string()), b"ACT Avatar: {alias}".to_string());
         assert_eq(*world.avatar_display.fields().get(&b"description".to_string()), b"ACT is a fast-paced, high-skill multiplayer FPS".to_string());
-        assert_eq(*world.avatar_display.fields().get(&b"image_url".to_string()), b"ipfs://{image_url}".to_string());
+        assert_eq(*world.avatar_display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
         assert_eq(*world.avatar_display.fields().get(&b"project_url".to_string()), b"https://animalabs.io".to_string());
         assert_eq(*world.avatar_display.fields().get(&b"creator".to_string()), b"Anima Labs".to_string());
 

@@ -71,7 +71,7 @@ export class AnimaSDK {
   #client: SuiClient;
   #kioskClient: KioskClient;
 
-  constructor(args: AnimaConstructorArgs | null | undefined) {
+  constructor(args: AnimaConstructorArgs | null | undefined = null) {
     const data = args
       ? args
       : {
