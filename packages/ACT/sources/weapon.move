@@ -49,7 +49,12 @@ module act::weapon {
 
     #[allow(lint(share_owned))]
     fun init(otw: WEAPON, ctx: &mut TxContext) {
-        item::init_state<WEAPON, Equip, Weapon>(otw, b"ACT Weapon: {name}".to_string(), ctx);
+        item::init_state<WEAPON, Equip, Weapon>(
+            otw, 
+            b"{name}".to_string(), 
+            b"A weapon built in the laser forges of ACT, an Anima Nexus world.".to_string(),
+            ctx
+        );
     }
 
     public fun upgrade(

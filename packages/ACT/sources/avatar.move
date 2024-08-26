@@ -68,7 +68,7 @@ module act::avatar {
     public struct WeaponKey(String) has copy, store, drop;
 
     // @dev key only ability to prevent transfers
-    public struct Avatar has key {
+    public struct Avatar has key, store {
         id: UID,
         image_url: String,
         equipped_cosmetics_hash: String,
@@ -109,7 +109,7 @@ module act::avatar {
         ];
         let values = vector[
             b"ACT Avatar: {alias}".to_string(),
-            b"ACT is a fast-paced, high-skill multiplayer FPS".to_string(),
+            b"An avatar for traversing metaversal worlds, designed by Anima Lab.".to_string(),
             b"{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // to change with ACT game page
             b"Anima Labs".to_string(),

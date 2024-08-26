@@ -29,6 +29,7 @@ module act::cosmetic {
         model_url: String,
         texture_url: String,
         `type`: String, 
+        formatted_type: String,
         colour_way: String,
         edition: String,
         manufacturer: String,
@@ -44,7 +45,12 @@ module act::cosmetic {
 
     #[allow(lint(share_owned))]
     fun init(otw: COSMETIC, ctx: &mut TxContext) {
-        item::init_state<COSMETIC, Equip, Cosmetic>(otw, b"ACT Cosmetic: {name}".to_string(), ctx);
+        item::init_state<COSMETIC, Equip, Cosmetic>(
+            otw, 
+            b"{name} {formatted_type}".to_string(),
+            b"A cosmetic built in the laser forges of ACT, an Anima Nexus world.".to_string(), 
+            ctx
+        );
     }
 
 
@@ -124,6 +130,7 @@ module act::cosmetic {
         model_url: String,
         texture_url: String,
         `type`: String, 
+        formatted_type: String,
         colour_way: String,
         edition: String,
         manufacturer: String,
@@ -139,6 +146,7 @@ module act::cosmetic {
             model_url,
             texture_url,
             `type`,
+            formatted_type,
             colour_way,
             edition,
             manufacturer,
