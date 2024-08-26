@@ -30,7 +30,7 @@ module act::genesis_shop {
 
     // === Constants ===
 
-    const GENESIS_AMOUNT: u64 = 3000;
+    const GENESIS_AMOUNT: u64 = 3333;
     const PRECISION: u64 = 10000; 
 
     // === Structs ===
