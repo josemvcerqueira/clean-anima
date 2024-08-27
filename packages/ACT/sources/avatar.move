@@ -19,31 +19,24 @@ module act::avatar {
     use sui::{
         package, 
         display,
-        table::{Self, Table},
         vec_map::{Self, VecMap},
         transfer_policy::TransferPolicy,
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
-        transfer::{public_receive, Receiving}
-    };
-    use animalib::{
-        access_control::{Admin, AccessControl},
-        admin,
     };
     use act::{
         attributes,
         weapon::{Self, Weapon}, 
-        cosmetic::{Self, Cosmetic}
+        cosmetic::{Self, Cosmetic},
+        profile_pictures::ProfilePictures,
     };
 
     // === Errors ===
 
-    const EAlreadyMintedAnAvatar: u64 = 0;
     const EWeaponSlotAlreadyEquipped: u64 = 1;
     const ECosmeticSlotAlreadyEquipped: u64 = 2;
-    const ENeedToMintAnAvatar: u64 = 3;
-    const EWrongWeaponSlot: u64 = 4;
-    const EWrongCosmeticType: u64 = 5;
+    const EWrongWeaponSlot: u64 = 3;
+    const EWrongCosmeticType: u64 = 4;
 
     // === Constants ===
 
@@ -51,13 +44,6 @@ module act::avatar {
 
     // one-time witness
     public struct AVATAR has drop {}
-
-    // @dev Shared object to ensure we have one account per avatar
-    public struct AvatarRegistry has key {
-        id: UID,
-        // ctx.sender() => Avatar.id.uid_to_inner()
-        accounts: Table<address, ID>
-    }
     
     public struct CosmeticKey(String) has copy, store, drop; 
 
@@ -67,7 +53,6 @@ module act::avatar {
     public struct Avatar has key, store {
         id: UID,
         image_url: String,
-        equipped_cosmetics_hash: String,
         avatar_image: String,
         avatar_model: String,
         avatar_texture: String,
@@ -77,24 +62,11 @@ module act::avatar {
         misc: VecMap<String, String>,
     }
 
-    public struct AvatarImage has key, store {
-        id: UID,
-        image_url: String,
-        equipped_cosmetics_hash: String,
-    }
-
     // === Method Aliases ===
 
     // === Public-Mutative Functions ===
 
     fun init(otw: AVATAR, ctx: &mut TxContext) {
-        let avatar_registry = AvatarRegistry {
-            id: object::new(ctx),
-            accounts: table::new(ctx)
-        };
-
-        transfer::share_object(avatar_registry);
-
         let keys = vector[
             b"name".to_string(),
             b"description".to_string(),
@@ -120,11 +92,8 @@ module act::avatar {
         transfer::public_transfer(display, ctx.sender());
     }
 
-    public fun new(
-        registry: &mut AvatarRegistry, 
-        ctx: &mut TxContext
-    ): Avatar {
-        new_with_image(registry, b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string(), b"".to_string(), ctx)
+    public fun new(ctx: &mut TxContext): Avatar {
+        new_with_image(b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(), ctx)
     }
 
     // used during the mint in a ptb
@@ -253,17 +222,20 @@ module act::avatar {
         );
     }
 
-    public fun update_avatar(self: &mut Avatar, receiving: Receiving<AvatarImage>) {
-        let AvatarImage { 
-            id, 
-            image_url, 
-            equipped_cosmetics_hash
-        } = public_receive(&mut self.id, receiving);
+    // to be called after un/equip if helmet, chestpiece or upper torso have been changed
+    public fun update_image(self: &mut Avatar, pfps: &ProfilePictures) {
+        let (
+            helm,
+            chestpiece,
+            upper_torso
+        ) = (
+            self.attributes_hash[&attributes::helm()],
+            self.attributes_hash[&attributes::chestpiece()],
+            self.attributes_hash[&attributes::upper_torso()],
+        );
 
+        let image_url = pfps.get_pfp(helm, chestpiece, upper_torso);
         self.image_url = image_url;
-        self.equipped_cosmetics_hash = equipped_cosmetics_hash;
-
-        id.delete();
     }
 
     // === Public-View Functions ===
@@ -275,10 +247,6 @@ module act::avatar {
     public fun avatar_image(self: &Avatar): String {
         self.avatar_image
     }    
-
-    public fun equipped_cosmetics_hash(self: &Avatar): String {
-        self.equipped_cosmetics_hash
-    }  
 
     public fun avatar_model(self: &Avatar): String {
         self.avatar_model
@@ -304,49 +272,15 @@ module act::avatar {
         dof::exists_(&self.id, CosmeticKey(type_))
     }
 
-    public fun assert_no_avatar(self: &AvatarRegistry, addr: address) {
-        assert!(!self.accounts.contains(addr), EAlreadyMintedAnAvatar);
-    }
-
-    public fun assert_has_avatar(self: &AvatarRegistry, addr: address) {
-        assert!(self.accounts.contains(addr), ENeedToMintAnAvatar);
-    }
-
-    // === Admin Functions ===
-
-    public fun new_avatar_image(
-        access_control: &AccessControl, 
-        admin: &Admin, 
-        image_url: String,
-        equipped_cosmetics_hash: String,
-        recipient: address,
-        ctx: &mut TxContext
-    ) {
-        admin::assert_upgrades_role(access_control, admin);
-        let image = AvatarImage {
-            id: object::new(ctx),
-            image_url,
-            equipped_cosmetics_hash
-        };
-
-        transfer::public_transfer(image, recipient);
-    }
-
     // === Public-Package Functions ===
 
     public(package) fun new_with_image(
-        registry: &mut AvatarRegistry, 
         image_url: String,
-        equipped_cosmetics_hash: String,
         ctx: &mut TxContext
     ): Avatar {
-        // One Avatar per user
-        registry.assert_no_avatar(ctx.sender());
-        
-        let avatar = Avatar {
+        Avatar {
             id: object::new(ctx),
             image_url,
-            equipped_cosmetics_hash,
             avatar_image: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
             avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
             avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
@@ -354,23 +288,16 @@ module act::avatar {
             attributes: attributes::new(),
             attributes_hash: attributes::new_hashes(),
             misc: vec_map::empty(),
-        };
+        }
+    }
 
-        registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
-
-        avatar
+    public(package) fun set_image(self: &mut Avatar, image_url: String) {
+        self.image_url = image_url;
     }
 
     public(package) fun set_edition(self: &mut Avatar, edition: vector<u8>) {
         self.edition = edition.to_string();
     }
-
-    public use fun destroy_avatar_image as AvatarImage.destroy;
-    public(package) fun destroy_avatar_image(avatar_image: AvatarImage): (String, String) {
-        let AvatarImage { id, image_url, equipped_cosmetics_hash } = avatar_image;
-        id.delete();
-        (image_url, equipped_cosmetics_hash)
-    }    
 
     // === Test Functions === 
     

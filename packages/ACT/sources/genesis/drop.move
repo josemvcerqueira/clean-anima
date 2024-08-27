@@ -14,7 +14,6 @@ module act::genesis_drop {
         clock::Clock,
         table::{Self, Table},
         kiosk::{Kiosk, KioskOwnerCap},
-        transfer::{public_receive, Receiving}
     };
     use kiosk::personal_kiosk;
     use animalib::{
@@ -23,11 +22,12 @@ module act::genesis_drop {
     };
     use act::{
         attributes,
-        avatar::{Self, Avatar, AvatarRegistry, AvatarImage},
+        avatar::{Self, Avatar},
         weapon,
         cosmetic,
         pseuso_random::rng,
         genesis_shop::{Item, GenesisShop},
+        profile_pictures::{Self, ProfilePictures},
     };
 
     // === Errors ===
@@ -41,7 +41,6 @@ module act::genesis_drop {
     const EInvalidPass: u64 = 7;
     const ENoMoreDrops: u64 = 8;
     const EMustBeAPersonalKiosk: u64 = 9;
-    const EAlreadyMintedATicket: u64 = 10;
 
     // === Constants ===
 
@@ -68,18 +67,6 @@ module act::genesis_drop {
         prices: vector<u64>, // length is number of phases
         max_mints: vector<u64>, // max mint for a pass by phase (for public it corresponds to max purchases in 1 tx)
         drops_left: u64,
-        ticket_map: Table<address, ID>
-    }
-
-    // if the user has no Avatar when he mints, a ticket is sent to him with all the info
-    // images, models, hash are generated on the frontend, 
-    // then the user can resolve his ticket to mint the Avatar with the equipments
-    public struct AvatarTicket has key {
-        id: UID,
-        drop: vector<Item>,
-        // following field is to be added between mint_to_ticket and mint_to_avatar
-        image_url: String,
-        equipped_cosmetics_hash: String
     }
 
     // === Public mutative Functions ===
@@ -104,7 +91,6 @@ module act::genesis_drop {
             prices: vector::empty(),
             max_mints: vector::empty(),
             drops_left: 3150,
-            ticket_map: table::new(ctx)
         });
     } 
 
@@ -112,7 +98,6 @@ module act::genesis_drop {
     public fun mint_to_kiosk(
         sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
-        registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
         kiosk: &mut Kiosk, 
         cap: &KioskOwnerCap,
@@ -121,7 +106,6 @@ module act::genesis_drop {
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
-        registry.assert_has_avatar(ctx.sender());
         assert_can_mint(sale, pass, coin.value(), quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
@@ -137,19 +121,16 @@ module act::genesis_drop {
         );
     }
 
-    // mint equipments to a ticket for generating the Avatar
-    public fun mint_to_ticket(
+    // mint equipments and equip them to the avatar
+    public fun mint_to_avatar(
         sale: &mut Sale, 
         genesis_shop: &mut GenesisShop,
-        registry: &AvatarRegistry,
         pass: vector<GenesisPass>, // can't have Option in entry fun so vector instead, if none/empty it must be public sale
+        pfps: &ProfilePictures,
         coin: Coin<SUI>, // exact amount for one drop at this phase
         clock: &Clock,
         ctx: &mut TxContext,
-    ) {
-        registry.assert_no_avatar(ctx.sender());
-        assert!(!sale.ticket_map.contains(ctx.sender()), EAlreadyMintedATicket);
-
+    ): Avatar {
         assert_can_mint(sale, pass, coin.value(), 1, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
@@ -165,47 +146,21 @@ module act::genesis_drop {
             drop.push_back(item);
         };
 
-        let id = object::new(ctx);
-
-        sale.ticket_map.add(ctx.sender(), id.to_inner());
-
-        transfer::transfer(
-            AvatarTicket {
-                id,
-                drop: drop,
-                image_url: b"".to_string(),
-                equipped_cosmetics_hash: b"".to_string()
-            },
-            ctx.sender() 
-        );
-    }
-
-    public fun update_image(self: &mut AvatarTicket, receiving: Receiving<AvatarImage>) {
-        let (
-            image_url, 
-            equipped_cosmetics_hash
-        ) = public_receive(&mut self.id, receiving).destroy();
-
-        self.image_url = image_url;
-        self.equipped_cosmetics_hash = equipped_cosmetics_hash;
-    }
-
-    // mint equipments and equip them to the avatar
-    public fun mint_to_avatar(
-        ticket: AvatarTicket,
-        registry: &mut AvatarRegistry,
-        clock: &Clock,
-        ctx: &mut TxContext,
-    ): Avatar {
-        assert_valid_ticket(&ticket);
-        let AvatarTicket { id, mut drop, image_url, equipped_cosmetics_hash } = ticket;
-        id.delete();
-        let mut avatar = avatar::new_with_image(registry, image_url, equipped_cosmetics_hash, ctx);
+        let mut avatar = avatar::new(ctx);
         avatar.set_edition(b"Genesis");
+        let (mut helm, mut chestpiece, mut upper_torso) = (vector[], vector[], vector[]);
 
         while (!drop.is_empty()) {
             let item = drop.pop_back();
             let (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
+
+            if (equipment == attributes::helm()) {
+                helm = hash;
+            } else if (equipment == attributes::chestpiece()) {
+                chestpiece = hash;
+            } else if (equipment == attributes::upper_torso()) {
+                upper_torso = hash;
+            };
 
             if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
                 let cosmetic = cosmetic::new(
@@ -242,6 +197,8 @@ module act::genesis_drop {
             };
         };
 
+        let image_url = pfps.get_pfp(helm, chestpiece, upper_torso);
+        avatar.set_image(image_url);
 
         avatar
     }
@@ -450,10 +407,6 @@ module act::genesis_drop {
         assert!(quantity <= sale.max_mints[phase], ETooManyMints);
     }
 
-    fun assert_valid_ticket(ticket: &AvatarTicket) {
-        assert!(!ticket.image_url.is_empty(), EInvalidTicket);
-    }
-
     // === Test Functions ===
 
     #[test_only]
@@ -484,11 +437,6 @@ module act::genesis_drop {
     #[test_only]
     public fun drops_left(self: &Sale): u64 {
         self.drops_left
-    }
-
-    #[test_only]
-    public fun drop(self: &AvatarTicket): vector<Item> {
-        self.drop
     }
 
     #[test_only]
@@ -524,15 +472,5 @@ module act::genesis_drop {
     public use fun pass_description as GenesisPass.description;
     public fun pass_description(pass: &GenesisPass): String {
         pass.description
-    }    
-
-    #[test_only]
-    public fun new_empty_avatar_ticket(ctx: &mut TxContext): AvatarTicket {
-        AvatarTicket {
-            id: object::new(ctx),
-            drop: vector[],
-            image_url: b"".to_string(),
-            equipped_cosmetics_hash: b"".to_string()
-        }
-    }
+    } 
 }

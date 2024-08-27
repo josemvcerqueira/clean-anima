@@ -14,7 +14,7 @@ module act::avatar_tests {
         weapon::{Self, Weapon},
         cosmetic::{Self, Cosmetic}, 
         set_up_tests::set_up_admins,
-        avatar::{Self, Avatar, AvatarRegistry},
+        avatar::{Self, Avatar},
     };
 
     const OWNER: address = @0xBABE;
@@ -23,7 +23,6 @@ module act::avatar_tests {
         scenario: Scenario,
         super_admin: Admin,
         kiosk: Kiosk,
-        avatar_registry: AvatarRegistry,
         kiosk_cap: PersonalKioskCap,
         access_control: AccessControl,
         avatar_display: Display<Avatar>,
@@ -57,13 +56,9 @@ module act::avatar_tests {
     fun test_new() {
         let mut world = start_world();
 
-        world.avatar_registry.assert_no_avatar(OWNER);
+        let avatar = avatar::new(world.scenario.ctx());
 
-        let avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
-
-        world.avatar_registry.assert_has_avatar(OWNER);
-
-        assert_eq(avatar.image_url(), b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string());
+        assert_eq(avatar.image_url(), b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string());
         assert_eq(avatar.edition(), b"Standard".to_string());
         //@ dev 16 cosmetics + 3 weapons
         assert_eq(avatar.attributes().size(), 20);
@@ -77,7 +72,7 @@ module act::avatar_tests {
     fun test_equip_minted_weapon() {
         let mut world = start_world();
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
         let weapon = new_weapon(world.scenario.ctx());
 
         assert_eq(avatar.has_weapon(attributes::primary()), false);
@@ -94,7 +89,7 @@ module act::avatar_tests {
     fun test_equip_minted_cosmetic() {
         let mut world = start_world();
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
         let cosmetic = new_cosmetic(world.scenario.ctx());
 
         assert_eq(avatar.has_cosmetic(attributes::helm()), false);
@@ -111,7 +106,7 @@ module act::avatar_tests {
     fun test_unequip_weapon() {
         let mut world = start_world();
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
         let weapon = new_weapon(world.scenario.ctx());
         let weapon_id = object::id(&weapon);
 
@@ -141,7 +136,7 @@ module act::avatar_tests {
     fun test_unequip_cosmetic() {
         let mut world = start_world();
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
         let cosmetic = new_cosmetic(world.scenario.ctx());
         let cosmetic_id = object::id(&cosmetic);
 
@@ -182,7 +177,7 @@ module act::avatar_tests {
 
         world.kiosk.place(kiosk_cap.borrow(), weapon);
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
 
         assert_eq(avatar.has_weapon(slot), false);
 
@@ -215,7 +210,7 @@ module act::avatar_tests {
 
         world.kiosk.place(kiosk_cap.borrow(), cosmetic);
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
 
         assert_eq(avatar.has_cosmetic(type_), false);
 
@@ -234,37 +229,37 @@ module act::avatar_tests {
         world.end();
     }
 
-    #[test]
-    fun test_update_avatar_image() {
-        let mut world = start_world();
+    // #[test]
+    // fun test_update_avatar_image() {
+    //     let mut world = start_world();
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+    //     let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
 
-        let access_control = &world.access_control;
-        let admin = &world.super_admin;
+    //     let access_control = &world.access_control;
+    //     let admin = &world.super_admin;
 
-        avatar::new_avatar_image(
-            access_control, 
-            admin, 
-            b"image2".to_string(), 
-            b"hash2".to_string(),
-            object::id(&avatar).to_address(),
-            world.scenario.ctx()
-        );
+    //     avatar::new_avatar_image(
+    //         access_control, 
+    //         admin, 
+    //         b"image2".to_string(), 
+    //         b"hash2".to_string(),
+    //         object::id(&avatar).to_address(),
+    //         world.scenario.ctx()
+    //     );
 
-        assert_eq(avatar.image_url(), b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string());
-        assert_eq(avatar.equipped_cosmetics_hash(), b"".to_string());
+    //     assert_eq(avatar.image_url(), b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string());
+    //     assert_eq(avatar.equipped_cosmetics_hash(), b"".to_string());
 
-        let effects = world.scenario.next_tx(OWNER);
+    //     let effects = world.scenario.next_tx(OWNER);
 
-        avatar.update_avatar(receiving_ticket_by_id(effects.created()[0]));
+    //     avatar.update_avatar(receiving_ticket_by_id(effects.created()[0]));
 
-        assert_eq(avatar.image_url(), b"image2".to_string());
-        assert_eq(avatar.equipped_cosmetics_hash(), b"hash2".to_string());
+    //     assert_eq(avatar.image_url(), b"image2".to_string());
+    //     assert_eq(avatar.equipped_cosmetics_hash(), b"hash2".to_string());
 
-        destroy(avatar);
-        world.end();
-    }
+    //     destroy(avatar);
+    //     world.end();
+    // }
 
     #[test]
     #[expected_failure(abort_code = avatar::EWrongWeaponSlot)]
@@ -280,7 +275,7 @@ module act::avatar_tests {
 
         world.kiosk.place(kiosk_cap.borrow(), weapon);
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
 
         avatar.equip_weapon(
             weapon_id, 
@@ -309,7 +304,7 @@ module act::avatar_tests {
 
         world.kiosk.place(kiosk_cap.borrow(), cosmetic);
 
-        let mut avatar = new_avatar(&mut world.avatar_registry, world.scenario.ctx());
+        let mut avatar = avatar::new(world.scenario.ctx());
 
         avatar.equip_cosmetic(
             cosmetic_id, 
@@ -354,11 +349,9 @@ module act::avatar_tests {
         scenario.next_tx(OWNER);
 
         let avatar_display = scenario.take_from_sender<Display<Avatar>>();
-        let avatar_registry = scenario.take_shared<AvatarRegistry>();
 
         World {
             scenario,
-            avatar_registry,
             avatar_display,
             weapon_display,
             cosmetic_display,
@@ -375,13 +368,6 @@ module act::avatar_tests {
             access_control,
             super_admin,
         }
-    }
-
-    fun new_avatar(registry: &mut AvatarRegistry, ctx: &mut TxContext): Avatar {
-        avatar::new(
-            registry,
-            ctx
-        )
     }
 
     fun new_weapon(ctx: &mut TxContext): Weapon {
