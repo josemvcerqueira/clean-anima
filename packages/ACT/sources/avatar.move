@@ -5,7 +5,7 @@ module act::avatar {
     use sui::{
         package, 
         display,
-        vec_map::{Self, VecMap},
+        vec_map::VecMap,
         transfer_policy::TransferPolicy,
         dynamic_object_field as dof,
         kiosk::{Kiosk, KioskOwnerCap},
@@ -46,7 +46,6 @@ module act::avatar {
         edition: String,
         attributes: VecMap<String, String>,
         attributes_hash: VecMap<String, vector<u8>>,
-        misc: VecMap<String, String>,
     }
 
     public struct AvatarSettings has key {
@@ -110,7 +109,6 @@ module act::avatar {
             edition: settings.edition,
             attributes: attributes::new(),
             attributes_hash: attributes::new_hashes(),
-            misc: vec_map::empty(),
         }
     }
 
@@ -363,7 +361,6 @@ module act::avatar {
             edition: b"Genesis".to_string(),
             attributes: attributes::new(),
             attributes_hash: attributes::new_hashes(),
-            misc: vec_map::empty(),
         }
     }
 
