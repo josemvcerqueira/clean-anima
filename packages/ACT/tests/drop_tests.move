@@ -7,7 +7,7 @@ module act::genesis_drop_tests {
         clock::{Self, Clock},
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk},
-        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
+        test_scenario::{Self as ts, Scenario},
     };
     use animalib::access_control::{Admin, AccessControl};
     use kiosk::personal_kiosk::{Self, PersonalKioskCap};
@@ -36,7 +36,6 @@ module act::genesis_drop_tests {
     }
 
     const OWNER: address = @0x0;
-    const ALICE: address = @0xa11c3;
     const TOTAL_ITEMS: u64 = 10;
     const FREE_MINT_PHASE: u64 = 1;
     const WHITELIST_PHASE: u64 = 2;

@@ -11,6 +11,8 @@ module animalib::admin_tests {
     const REPUTATION_ROLE: vector<u8> = b"REPUTATION_ROLE";
     const UPGRADES_ROLE: vector<u8> = b"UPGRADES_ROLE";
     const GENESIS_MINTER_ROLE: vector<u8> = b"GENESIS_MINTER_ROLE";
+    const PROFILE_PICTURES_ROLE: vector<u8> = b"PROFILE_PICTURES_ROLE";
+    const AVATAR_SETTINGS_ROLE: vector<u8> = b"AVATAR_SETTINGS_ROLE";
 
     #[test]
     fun test_init() {
@@ -20,11 +22,15 @@ module animalib::admin_tests {
         assert_eq(world.admin.has_role(&world.access_control, REPUTATION_ROLE), true);
         assert_eq(world.admin.has_role(&world.access_control, UPGRADES_ROLE), true);
         assert_eq(world.admin.has_role(&world.access_control, GENESIS_MINTER_ROLE), true);
+        assert_eq(world.admin.has_role(&world.access_control, PROFILE_PICTURES_ROLE), true);
+        assert_eq(world.admin.has_role(&world.access_control, AVATAR_SETTINGS_ROLE), true);
 
         admin::assert_accolades_role(&world.access_control, &world.admin);
         admin::assert_reputation_role(&world.access_control, &world.admin);
         admin::assert_upgrades_role(&world.access_control, &world.admin);
         admin::assert_genesis_minter_role(&world.access_control, &world.admin);
+        admin::assert_profile_pictures_role(&world.access_control, &world.admin);
+        admin::assert_avatar_settings_role(&world.access_control, &world.admin);
 
         world.end();
     }
@@ -65,6 +71,26 @@ module animalib::admin_tests {
         let world = start();
 
         admin::assert_genesis_minter_role(&world.access_control, &world.no_role_admin);
+
+        world.end();
+    }
+
+    #[test]
+    #[expected_failure(abort_code = admin::EInvalidRole)]
+    fun test_error_assert_profile_pictures_role() {
+        let world = start();
+
+        admin::assert_profile_pictures_role(&world.access_control, &world.no_role_admin);
+
+        world.end();
+    }
+
+    #[test]
+    #[expected_failure(abort_code = admin::EInvalidRole)]
+    fun test_error_assert_avatar_settings_role() {
+        let world = start();
+
+        admin::assert_avatar_settings_role(&world.access_control, &world.no_role_admin);
 
         world.end();
     }

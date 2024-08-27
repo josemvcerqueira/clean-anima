@@ -4,7 +4,7 @@ module act::avatar_tests {
         display::Display,
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk},
-        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
+        test_scenario::{Self as ts, Scenario},
         transfer_policy::{TransferPolicy, TransferPolicyCap},
     };
     use kiosk::personal_kiosk::{Self, PersonalKioskCap};

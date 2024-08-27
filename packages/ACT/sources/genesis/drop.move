@@ -1,8 +1,3 @@
-/// Sale stores all data relative to the mint, including all Avatar with equipments data
-/// Equipment data is stored in attributes in Drop, which corresponds to Avatar.attributes
-/// start_times and drops_left and passes are vector corresponding to the different phases
-/// passes are the whitelist object that will be airdropped to the users and destroyed upon mint
-
 module act::genesis_drop {
 
     use std::string::String;
@@ -12,7 +7,6 @@ module act::genesis_drop {
         sui::SUI,
         coin::Coin,
         clock::Clock,
-        table::{Self, Table},
         kiosk::{Kiosk, KioskOwnerCap},
     };
     use kiosk::personal_kiosk;
@@ -26,21 +20,20 @@ module act::genesis_drop {
         weapon,
         cosmetic,
         pseuso_random::rng,
-        genesis_shop::{Item, GenesisShop},
-        profile_pictures::{Self, ProfilePictures},
+        genesis_shop::GenesisShop,
+        profile_pictures::ProfilePictures
     };
 
     // === Errors ===
 
     const EPublicNotOpen: u64 = 1;
     const EWrongPass: u64 = 2;
-    const EInvalidTicket: u64 = 3;
-    const ESaleNotActive: u64 = 4;
-    const EWrongCoinValue: u64 = 5;
-    const ETooManyMints: u64 = 6;
-    const EInvalidPass: u64 = 7;
-    const ENoMoreDrops: u64 = 8;
-    const EMustBeAPersonalKiosk: u64 = 9;
+    const ESaleNotActive: u64 = 3;
+    const EWrongCoinValue: u64 = 4;
+    const ETooManyMints: u64 = 5;
+    const EInvalidPass: u64 = 6;
+    const ENoMoreDrops: u64 = 7;
+    const EMustBeAPersonalKiosk: u64 = 8;
 
     // === Constants ===
 
@@ -146,8 +139,7 @@ module act::genesis_drop {
             drop.push_back(item);
         };
 
-        let mut avatar = avatar::new(ctx);
-        avatar.set_edition(b"Genesis");
+        let mut avatar = avatar::new_genesis_edition(ctx);
         let (mut helm, mut chestpiece, mut upper_torso) = (vector[], vector[], vector[]);
 
         while (!drop.is_empty()) {
@@ -197,13 +189,11 @@ module act::genesis_drop {
             };
         };
 
-        let image_url = pfps.get_pfp(helm, chestpiece, upper_torso);
+        let image_url = pfps.get(helm, chestpiece, upper_torso);
         avatar.set_image(image_url);
 
         avatar
     }
-
-    // === Public-View Functions ===
 
     // === Admin functions ===
 

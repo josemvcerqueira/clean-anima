@@ -27,8 +27,6 @@ module act::item {
     const EItemTypeNotEquipped: u64 = 2;
     const EMustBeAPersonalKiosk: u64 = 3;
 
-    // === Constants ===
-
     // === Public-Mutative Functions ===
 
     #[allow(lint(share_owned, self_transfer))]

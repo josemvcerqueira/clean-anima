@@ -1,8 +1,5 @@
 #[test_only]
 module act::profile_pictures_tests {
-
-    use std::debug::print;
-    use std::string::String;
     
     use sui::{
         test_utils::{assert_eq, destroy},

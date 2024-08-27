@@ -12,8 +12,6 @@ module act::cosmetic {
         attributes,
     };
 
-    // === Constants ===
-
     // === Structs ===
 
     public struct COSMETIC has drop {}

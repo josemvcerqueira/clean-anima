@@ -1,4 +1,3 @@
-// ex utils
 module act::attributes {
     // === Imports ===
 

@@ -1,12 +1,3 @@
-/*
-* @title Act Shop
-*
-* @description Creates the Genesis Shop. 
-* 1 - Create each items shop using the AdminCap
-* 2 - Store all items in the Genesis Shop
-*
-* @dev Please call these functions only once.
-*/
 module act::genesis_shop {
     // === Imports ===
 

@@ -14,10 +14,7 @@ module animalib::admin {
     const UPGRADES_ROLE: vector<u8> = b"UPGRADES_ROLE";
     const GENESIS_MINTER_ROLE: vector<u8> = b"GENESIS_MINTER_ROLE";
     const PROFILE_PICTURES_ROLE: vector<u8> = b"PROFILE_PICTURES_ROLE";
-
-    // === Structs ===
-
-    // === Method Aliases ===
+    const AVATAR_SETTINGS_ROLE: vector<u8> = b"AVATAR_SETTINGS_ROLE";
 
     // === Public-Mutative Functions ===
 
@@ -32,12 +29,14 @@ module animalib::admin {
         super_admin.add(&mut access_control, UPGRADES_ROLE);
         super_admin.add(&mut access_control, GENESIS_MINTER_ROLE);
         super_admin.add(&mut access_control, PROFILE_PICTURES_ROLE);
+        super_admin.add(&mut access_control, AVATAR_SETTINGS_ROLE);
 
         super_admin.grant(&mut access_control, ACCOLADES_ROLE, admin.addy());
         super_admin.grant(&mut access_control, REPUTATION_ROLE, admin.addy());
         super_admin.grant(&mut access_control, UPGRADES_ROLE, admin.addy());
         super_admin.grant(&mut access_control, GENESIS_MINTER_ROLE, admin.addy());
         super_admin.grant(&mut access_control, PROFILE_PICTURES_ROLE, admin.addy());
+        super_admin.grant(&mut access_control, AVATAR_SETTINGS_ROLE, admin.addy());
 
         transfer::public_share_object(access_control);
         transfer::public_transfer(super_admin, ctx.sender());
@@ -64,6 +63,10 @@ module animalib::admin {
 
     public fun assert_profile_pictures_role(access_control: &AccessControl, admin: &Admin) {
         assert!(admin.has_role(access_control, PROFILE_PICTURES_ROLE), EInvalidRole);
+    }
+
+    public fun assert_avatar_settings_role(access_control: &AccessControl, admin: &Admin) {
+        assert!(admin.has_role(access_control, AVATAR_SETTINGS_ROLE), EInvalidRole);
     }
 
     // === Admin Functions ===

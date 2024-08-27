@@ -1,8 +1,5 @@
-
-//primary
-//secondary
-//tertiary
 module act::weapon {
+
     // === Imports ===
 
     use std::string::String;
@@ -14,8 +11,6 @@ module act::weapon {
     use act::{
         item,
     };
-
-    // === Constants ===
 
     // === Structs ===
 
