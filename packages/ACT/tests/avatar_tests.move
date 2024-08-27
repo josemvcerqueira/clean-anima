@@ -45,7 +45,7 @@ module act::avatar_tests {
 
         assert_eq(world.avatar_display.fields().size(), 5);
         assert_eq(*world.avatar_display.fields().get(&b"name".to_string()), b"ACT Avatar: {alias}".to_string());
-        assert_eq(*world.avatar_display.fields().get(&b"description".to_string()), b"ACT is a fast-paced, high-skill multiplayer FPS".to_string());
+        assert_eq(*world.avatar_display.fields().get(&b"description".to_string()), b"An avatar for traversing metaversal worlds, designed by Anima Lab.".to_string());
         assert_eq(*world.avatar_display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
         assert_eq(*world.avatar_display.fields().get(&b"project_url".to_string()), b"https://animalabs.io".to_string());
         assert_eq(*world.avatar_display.fields().get(&b"creator".to_string()), b"Anima Labs".to_string());
@@ -69,7 +69,7 @@ module act::avatar_tests {
         assert_eq(avatar.attributes().size(), 20);
         assert_eq(avatar.attributes().keys(), attributes::new().keys());
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 
@@ -86,7 +86,7 @@ module act::avatar_tests {
 
         assert_eq(avatar.has_weapon(attributes::primary()), true);
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 
@@ -103,7 +103,7 @@ module act::avatar_tests {
 
         assert_eq(avatar.has_cosmetic(attributes::helm()), true);
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 
@@ -133,7 +133,7 @@ module act::avatar_tests {
         assert_eq(world.kiosk.has_item(weapon_id), true);
         assert_eq(avatar.has_weapon(attributes::primary()), false);
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 
@@ -164,7 +164,7 @@ module act::avatar_tests {
         assert_eq(avatar.has_cosmetic(attributes::helm()), false);
         assert_eq(world.kiosk.has_item(cosmetic_id), true);
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }  
 
@@ -198,7 +198,7 @@ module act::avatar_tests {
         assert_eq(avatar.avatar_model(), b"upgrade_model_url".to_string());
         assert_eq(avatar.avatar_texture(), b"upgrade_texture_url".to_string());
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 
@@ -240,7 +240,7 @@ module act::avatar_tests {
         assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).model_url(), b"upgrade_model_url".to_string());
         assert_eq(avatar.borrow_equipped_weapon(attributes::primary()).texture_url(), b"upgrade_texture_url".to_string());
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 
@@ -282,7 +282,7 @@ module act::avatar_tests {
         assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).model_url(), b"upgrade_model_url".to_string());
         assert_eq(avatar.borrow_equipped_cosmetic(attributes::helm()).texture_url(), b"upgrade_texture_url".to_string());
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }  
 
@@ -380,7 +380,7 @@ module act::avatar_tests {
         assert_eq(avatar.image_url(), b"image2".to_string());
         assert_eq(avatar.equipped_cosmetics_hash(), b"hash2".to_string());
 
-        avatar.keep(world.scenario.ctx());
+        destroy(avatar);
         world.end();
     }
 

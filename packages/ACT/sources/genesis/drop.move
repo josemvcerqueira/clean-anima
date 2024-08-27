@@ -23,7 +23,7 @@ module act::genesis_drop {
     };
     use act::{
         attributes,
-        avatar::{Self, AvatarRegistry, AvatarImage},
+        avatar::{Self, Avatar, AvatarRegistry, AvatarImage},
         weapon,
         cosmetic,
         pseuso_random::rng,
@@ -87,8 +87,8 @@ module act::genesis_drop {
     fun init(otw: GENESIS_DROP, ctx: &mut TxContext) {
         let publisher = package::claim(otw, ctx);
 
-        let genesis_pass_display = display::new<GenesisPass>(&publisher, ctx);
-        genesis_pass_display.add(b"name".to_string(), b" {name}".to_string());
+        let mut genesis_pass_display = display::new<GenesisPass>(&publisher, ctx);
+        genesis_pass_display.add(b"name".to_string(), b"{name}".to_string());
         genesis_pass_display.add(b"description".to_string(), b"{description}".to_string());
         genesis_pass_display.add(b"phase".to_string(), b"{phase}".to_string());
         genesis_pass_display.add(b"image_url".to_string(), b"{image_url}".to_string());
@@ -99,7 +99,7 @@ module act::genesis_drop {
 
         transfer::share_object(Sale {
             id: object::new(ctx),
-            active: true,
+            active: false,
             start_times: vector::empty(),
             prices: vector::empty(),
             max_mints: vector::empty(),
@@ -117,7 +117,7 @@ module act::genesis_drop {
         kiosk: &mut Kiosk, 
         cap: &KioskOwnerCap,
         coin: Coin<SUI>, // exact amount
-        mut quantity: u64, // number of drops to mint
+        quantity: u64, // number of drops to mint
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
@@ -196,7 +196,7 @@ module act::genesis_drop {
         registry: &mut AvatarRegistry,
         clock: &Clock,
         ctx: &mut TxContext,
-    ) {
+    ): Avatar {
         assert_valid_ticket(&ticket);
         let AvatarTicket { id, mut drop, image_url, equipped_cosmetics_hash } = ticket;
         id.delete();
@@ -215,7 +215,6 @@ module act::genesis_drop {
                     model_url,
                     texture_url,
                     equipment,
-                    attributes::make_formatted_type(equipment),
                     colour_way,
                     b"Genesis".to_string(),
                     manufacturer,
@@ -244,7 +243,7 @@ module act::genesis_drop {
         };
 
 
-        avatar::transfer(avatar, ctx.sender());
+        avatar
     }
 
     // === Public-View Functions ===
@@ -295,7 +294,7 @@ module act::genesis_drop {
         genesis_shop: &mut GenesisShop,
         kiosk: &mut Kiosk, 
         cap: &KioskOwnerCap,
-        mut quantity: u64, // number of drops to mint
+        quantity: u64, // number of drops to mint
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
@@ -392,7 +391,6 @@ module act::genesis_drop {
                         model_url,
                         texture_url,
                         equipment,
-                        attributes::make_formatted_type(equipment),
                         colour_way,
                         b"Genesis".to_string(),
                         manufacturer,
@@ -503,6 +501,30 @@ module act::genesis_drop {
             description: b"description".to_string()
         }
     }
+
+    #[test_only]
+    public use fun pass_name as GenesisPass.name;
+    public fun pass_name(pass: &GenesisPass): String {
+        pass.name
+    }
+
+    #[test_only]
+    public use fun pass_phase as GenesisPass.phase;
+    public fun pass_phase(pass: &GenesisPass): u64 {
+        pass.phase
+    }
+
+    #[test_only]
+    public use fun pass_image_url as GenesisPass.image_url;
+    public fun pass_image_url(pass: &GenesisPass): String {
+        pass.image_url
+    }
+
+    #[test_only]
+    public use fun pass_description as GenesisPass.description;
+    public fun pass_description(pass: &GenesisPass): String {
+        pass.description
+    }    
 
     #[test_only]
     public fun new_empty_avatar_ticket(ctx: &mut TxContext): AvatarTicket {

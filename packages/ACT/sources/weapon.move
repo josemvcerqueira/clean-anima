@@ -72,63 +72,59 @@ module act::weapon {
         self.upgrades.push_back(upgrade);    
     }
 
-    // === Public-View Functions ===
+    // === Public-Package Functions ===
 
-    public fun slot(self: &Weapon): String {
+    public(package) fun slot(self: &Weapon): String {
         self.slot
     }
 
-    public fun hash(self: &Weapon): vector<u8> {
+    public(package) fun hash(self: &Weapon): vector<u8> {
         self.hash
     }
 
-    public fun name(self: &Weapon): String {
+    public(package) fun name(self: &Weapon): String {
         self.name
     }
 
-    public fun image_url(self: &Weapon): String {
+    public(package) fun image_url(self: &Weapon): String {
         self.image_url
     }
 
-    public fun model_url(self: &Weapon): String {
+    public(package) fun model_url(self: &Weapon): String {
         self.model_url
     }
 
-    public fun texture_url(self: &Weapon): String {
+    public(package) fun texture_url(self: &Weapon): String {
         self.texture_url
     }
 
-    public fun kill_count(self: &Weapon): u64 {
+    public(package) fun kill_count(self: &Weapon): u64 {
         self.kill_count
     }
 
-    public fun edition(self: &Weapon): String {
+    public(package) fun edition(self: &Weapon): String {
         self.edition
     }
 
-    public fun wear_rating(self: &Weapon): u64 {
+    public(package) fun wear_rating(self: &Weapon): u64 {
         self.wear_rating
     }
 
-    public fun colour_way(self: &Weapon): String {
+    public(package) fun colour_way(self: &Weapon): String {
         self.colour_way
     }
 
-    public fun rarity(self: &Weapon): String {
+    public(package) fun rarity(self: &Weapon): String {
         self.rarity
     }
 
-    public fun manufacturer(self: &Weapon): String {
+    public(package) fun manufacturer(self: &Weapon): String {
         self.manufacturer
     }
 
-    public fun upgrades(self: &Weapon): &vector<Upgrade> {
+    public(package) fun upgrades(self: &Weapon): &vector<Upgrade> {
         &self.upgrades
     }
-
-    // === Admin Functions ===
-
-    // === Public-Package Functions ===
 
     public(package) fun new(
         hash: vector<u8>,

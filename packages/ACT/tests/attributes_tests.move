@@ -130,6 +130,26 @@ module act::attributes_tests {
         assert_eq(attributes::tertiary(), TERTIARY.to_string());
     }
 
+    #[test]
+    fun test_formatted_types() {
+        assert_eq(attributes::make_formatted_type(attributes::helm()), HELM.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::chestpiece()), CHESTPIECE.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::backpiece()), BACKPIECE.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::upper_torso()), UPPER_TORSO.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::right_pauldron()), b"Pauldron (R)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::left_pauldron()), b"Pauldron (L)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::right_arm()), b"Arm (R)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::left_arm()), b"Arm (L)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::right_glove()), b"Glove (R)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::left_glove()), b"Glove (L)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::right_bracer()), b"Bracer (R)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::left_bracer()), b"Bracer (L)".to_string());
+        assert_eq(attributes::make_formatted_type(attributes::legs()), LEGS.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::shins()), SHINS.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::boots()), BOOTS.to_string());
+        assert_eq(attributes::make_formatted_type(attributes::accessory()), ACCESSORY.to_string());
+    }
+
     fun new_empty_values(): vector<String> {
         let mut data = vector[];
 

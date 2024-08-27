@@ -135,9 +135,9 @@ module act::assets {
         BAHA_2000
     ];
     const HELM_CHANCES: vector<vector<u64>> = vector[
-        vector[277, 75, 277, 275, 277, 275, 277, 275],
-        vector[277, 75, 277, 275, 277, 275, 277, 275],
-        vector[277, 75, 277, 275, 277, 275, 277, 275],
+        vector[277, 75, 277, 277, 277, 277, 277, 277],
+        vector[277, 75, 277, 277, 277, 277, 277, 277],
+        vector[277, 75, 277, 275, 277, 277, 277, 277],
         vector[277, 75, 277, 275, 277, 275, 277, 275],
         vector[277, 75, 277, 275, 277, 275, 277, 275]
     ];
@@ -167,9 +167,9 @@ module act::assets {
         NEO_SHOGUNATE
     ];
     const CHESTPIECE_CHANCES: vector<vector<u64>> = vector[
-        vector[800, 200, 400, 300, 400, 800, 800, 300],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200]
+        vector[802, 202, 403, 301, 403, 802, 802, 301],
+        vector[601, 103, 352, 202, 352, 601, 601, 202],
+        vector[601, 100, 350, 200, 350, 600, 600, 200]
     ];
     const CHESTPIECE_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
@@ -190,9 +190,9 @@ module act::assets {
 
     // BRACER
     const BRACER_CHANCES: vector<vector<u64>> = vector[
-        vector[800, 200, 400, 300, 400, 800, 800, 300],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200]
+        vector[802, 202, 403, 301, 403, 802, 802, 301],
+        vector[601, 103, 352, 202, 352, 601, 601, 202],
+        vector[601, 100, 350, 200, 350, 600, 600, 200]
     ];
     const BRACER_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -215,12 +215,12 @@ module act::assets {
     const GLOVE_MANUFACTURERS: vector<vector<u8>> = vector[
         EXO,
     ];
-    
+
     // Pauldron
     const PAULDRON_CHANCES: vector<vector<u64>> = vector[
-        vector[800, 200, 400, 300, 400, 800, 800, 300],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
-        vector[600, 100, 350, 200, 350, 600, 600, 200],
+        vector[802, 202, 403, 301, 403, 802, 802, 301],
+        vector[601, 103, 352, 202, 352, 601, 601, 202],
+        vector[601, 100, 350, 200, 350, 600, 600, 200],
     ];
     const PAULDRON_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV,
@@ -235,8 +235,8 @@ module act::assets {
 
     // Legs
     const LEGS_CHANCES: vector<vector<u64>> = vector[
-        vector[400, 1200, 1200, 1200, 1200],
-        vector[0, 1200, 1200, 1200, 1200]
+        vector[403, 1201, 1201, 1201, 1201],
+        vector[0, 1201, 1201, 1201, 1200]
     ];
     
     const LEGS_NAMES: vector<vector<u8>> = vector[
@@ -273,7 +273,7 @@ module act::assets {
 
     // Boots
     const BOOTS_CHANCES: vector<vector<u64>> = vector[
-        vector[1900, 500, 1900, 1900, 1900, 1900]
+        vector[1903, 500, 1903, 1900, 1900, 1900]
     ];
     const BOOTS_NAMES: vector<vector<u8>> = vector[
         FANG_MK_IV
@@ -286,9 +286,9 @@ module act::assets {
     // Primary Weapon
     const PRIMARY_CHANCES: vector<vector<u64>> = vector[
         vector[1000],
-        vector[3000],
-        vector[3000],
-        vector[3000],
+        vector[3001],
+        vector[3001],
+        vector[3001],
     ];
     const PRIMARY_NAMES: vector<vector<u8>> = vector[
         TALON,
@@ -306,7 +306,7 @@ module act::assets {
     // Secondary Weapon
     const SECONDARY_CHANCES: vector<vector<u64>> = vector[
         vector[7000],
-        vector[3000],
+        vector[3001],
     ];
     const SECONDARY_NAMES: vector<vector<u8>> = vector[
         ENFORCER,
@@ -321,7 +321,7 @@ module act::assets {
     const TERTIARY_CHANCES: vector<vector<u64>> = vector[
         vector[4000], 
         vector[4000], 
-        vector[2000],
+        vector[2002],
     ];
     const TERTIARY_NAMES: vector<vector<u8>> = vector[
         WAKIZASHI,

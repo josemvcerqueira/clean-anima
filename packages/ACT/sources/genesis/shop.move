@@ -27,6 +27,7 @@ module act::genesis_shop {
     };
 
     const EBuilderNotEmpty: u64 = 1;
+    const EWrongBuilderQuantities: u64 = 2;
 
     // === Constants ===
 
@@ -607,6 +608,12 @@ module act::genesis_shop {
         total_amount: u64,
         ctx: &mut TxContext
     ): Builder {
+        let quantities = chances.map!(|x| x.map!(|chance| mul_div(chance * PRECISION * PRECISION, total_amount, PRECISION * PRECISION * PRECISION)));
+
+        let total_items = quantities.fold!(0, |acc, elem| acc + elem.fold!(0, |acc, elem| acc + elem));
+
+        assert!(total_items == GENESIS_AMOUNT, EWrongBuilderQuantities);
+
         Builder { 
             id: object::new(ctx), 
             equipment, 
@@ -614,7 +621,7 @@ module act::genesis_shop {
             colour_ways, 
             manufacturers, 
             rarities, 
-            quantities: chances.map!(|x| x.map!(|chance| mul_div(chance, total_amount, PRECISION))), 
+            quantities
         }
     }
 
@@ -635,7 +642,7 @@ module act::genesis_shop {
     }
 
     #[test_only]
-    fun mul_div_up(x: u64, y: u64, z: u64): u64 {
+   fun mul_div_up(x: u64, y: u64, z: u64): u64 {
         let r = mul_div(x, y, z);
         r + if ((x * y) % z > 0) 1 else 0
     }

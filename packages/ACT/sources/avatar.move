@@ -132,10 +132,6 @@ module act::avatar {
         new_with_image(registry, b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string(), b"".to_string(), ctx)
     }
 
-    public fun keep(avatar: Avatar, ctx: &mut TxContext) {
-        transfer::transfer(avatar, ctx.sender());
-    }
-
     // used during the mint in a ptb
     public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
         assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
@@ -274,7 +270,6 @@ module act::avatar {
 
         id.delete();
     }
-
 
     public fun upgrade(
         self: &mut Avatar, 
@@ -426,10 +421,6 @@ module act::avatar {
         registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
 
         avatar
-    }
-
-    public(package) fun transfer(self: Avatar, recipient: address) {
-        transfer::transfer(self, recipient);
     }
 
     public(package) fun set_edition(self: &mut Avatar, edition: vector<u8>) {
