@@ -6,12 +6,10 @@ module act::cosmetic {
         kiosk::{Kiosk, KioskOwnerCap},
         transfer_policy::TransferPolicy, 
         vec_map::{Self, VecMap},
-        transfer::{public_receive, Receiving}
     };
     use act::{
         item,
         attributes,
-        upgrade::{Upgrade, LockedUpgrade},
     };
 
     // === Constants ===
@@ -36,7 +34,6 @@ module act::cosmetic {
         manufacturer: String,
         rarity: String,
         wear_rating: u64, // [0,1] scaled to 1B
-        upgrades: vector<Upgrade>,
         misc: VecMap<String, String>,
     }
 
@@ -52,22 +49,6 @@ module act::cosmetic {
             b"A cosmetic built in the laser forges of ACT, an Anima Nexus world.".to_string(), 
             ctx
         );
-    }
-
-
-    public fun upgrade(
-        self: &mut Cosmetic, 
-        receiving: Receiving<LockedUpgrade>
-    ) {
-        assert!(2 > self.upgrades.length());
-        let locked_upgrade = public_receive(&mut self.id, receiving);
-        let upgrade = locked_upgrade.destroy();
-
-        self.image_url = upgrade.image_url();
-        self.model_url = upgrade.model_url();
-        self.texture_url = upgrade.texture_url();
-
-        self.upgrades.push_back(upgrade);    
     }
 
     // === Public-Package Functions ===
@@ -120,10 +101,6 @@ module act::cosmetic {
         self.manufacturer
     }
 
-    public(package) fun upgrades(self: &Cosmetic): &vector<Upgrade> {
-        &self.upgrades
-    }
-
     public(package) fun new(
         hash: vector<u8>,
         name: String,
@@ -152,7 +129,6 @@ module act::cosmetic {
             manufacturer,
             rarity,
             wear_rating,
-            upgrades: vector[],
             misc: vec_map::empty(),
         }   
     }

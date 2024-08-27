@@ -10,11 +10,9 @@ module act::weapon {
         transfer_policy::TransferPolicy, 
         kiosk::{Kiosk, KioskOwnerCap},
         vec_map::{Self, VecMap},
-        transfer::{public_receive, Receiving}
     };
     use act::{
         item,
-        upgrade::{Upgrade, LockedUpgrade},
     };
 
     // === Constants ===
@@ -39,7 +37,6 @@ module act::weapon {
         rarity: String,
         wear_rating: u64,
         kill_count: u64,  
-        upgrades: vector<Upgrade>,
         misc: VecMap<String, String>,
     }
 
@@ -55,21 +52,6 @@ module act::weapon {
             b"A weapon built in the laser forges of ACT, an Anima Nexus world.".to_string(),
             ctx
         );
-    }
-
-    public fun upgrade(
-        self: &mut Weapon, 
-        receiving: Receiving<LockedUpgrade>
-    ) {
-        assert!(2 > self.upgrades.length());
-        let locked_upgrade = public_receive(&mut self.id, receiving);
-        let upgrade = locked_upgrade.destroy();
-
-        self.image_url = upgrade.image_url();
-        self.model_url = upgrade.model_url();
-        self.texture_url = upgrade.texture_url();
-
-        self.upgrades.push_back(upgrade);    
     }
 
     // === Public-Package Functions ===
@@ -122,10 +104,6 @@ module act::weapon {
         self.manufacturer
     }
 
-    public(package) fun upgrades(self: &Weapon): &vector<Upgrade> {
-        &self.upgrades
-    }
-
     public(package) fun new(
         hash: vector<u8>,
         name: String,
@@ -154,7 +132,6 @@ module act::weapon {
             rarity,
             wear_rating,
             kill_count: 0,
-            upgrades: vector::empty(),
             misc: vec_map::empty(),
         }
     }
