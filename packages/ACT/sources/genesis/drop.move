@@ -7,8 +7,10 @@ module act::genesis_drop {
 
     use std::string::String;
     use sui::{
-        coin::Coin,
+        package,
+        display,
         sui::SUI,
+        coin::Coin,
         clock::Clock,
         table::{Self, Table},
         kiosk::{Kiosk, KioskOwnerCap},
@@ -21,7 +23,7 @@ module act::genesis_drop {
     };
     use act::{
         attributes,
-        avatar::{Self, AvatarRegistry, AvatarImage},
+        avatar::{Self, Avatar, AvatarRegistry, AvatarImage},
         weapon,
         cosmetic,
         pseuso_random::rng,
@@ -48,10 +50,15 @@ module act::genesis_drop {
 
     // === Structs ===
 
+    public struct GENESIS_DROP has drop {}
+
     // pass for whitelist and free mint, public phase doesn't need a pass
-    public struct GenesisPass has key, store {
+    public struct GenesisPass has key {
         id: UID,
         phase: u64,
+        name: String,
+        image_url: String,
+        description: String
     }
 
     public struct Sale has key {
@@ -77,14 +84,26 @@ module act::genesis_drop {
 
     // === Public mutative Functions ===
 
-    fun init(ctx: &mut TxContext) {
+    fun init(otw: GENESIS_DROP, ctx: &mut TxContext) {
+        let publisher = package::claim(otw, ctx);
+
+        let mut genesis_pass_display = display::new<GenesisPass>(&publisher, ctx);
+        genesis_pass_display.add(b"name".to_string(), b"{name}".to_string());
+        genesis_pass_display.add(b"description".to_string(), b"{description}".to_string());
+        genesis_pass_display.add(b"phase".to_string(), b"{phase}".to_string());
+        genesis_pass_display.add(b"image_url".to_string(), b"{image_url}".to_string());
+        genesis_pass_display.update_version();
+
+        transfer::public_transfer(genesis_pass_display, ctx.sender());
+        transfer::public_transfer(publisher, ctx.sender());
+
         transfer::share_object(Sale {
             id: object::new(ctx),
-            active: true,
+            active: false,
             start_times: vector::empty(),
             prices: vector::empty(),
             max_mints: vector::empty(),
-            drops_left: 3000,
+            drops_left: 3150,
             ticket_map: table::new(ctx)
         });
     } 
@@ -98,63 +117,24 @@ module act::genesis_drop {
         kiosk: &mut Kiosk, 
         cap: &KioskOwnerCap,
         coin: Coin<SUI>, // exact amount
-        mut quantity: u64, // number of drops to mint
+        quantity: u64, // number of drops to mint
         clock: &Clock,
         ctx: &mut TxContext,
     ) {
-        assert!(personal_kiosk::is_personal(kiosk), EMustBeAPersonalKiosk);
         registry.assert_has_avatar(ctx.sender());
         assert_can_mint(sale, pass, coin.value(), quantity, clock.timestamp_ms());
         transfer::public_transfer(coin, @treasury);
 
         sale.drops_left = sale.drops_left - quantity;
 
-        while (quantity > 0) {
-            let mut attributes = attributes::genesis_mint_types();
-            while (!attributes.is_empty()) {
-                let x = attributes.pop_back();
-                let items = genesis_shop.borrow_item_mut(x);
-
-                let index = if (items.length() == 1) { 0 } else { rng(0, items.length() - 1, clock, ctx) };
-                let item = items.swap_remove(index);
-                let (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
-
-                if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
-                    let cosmetic = cosmetic::new(
-                        hash,
-                        name,
-                        image_url,
-                        model_url,
-                        texture_url,
-                        equipment,
-                        colour_way,
-                        b"Genesis".to_string(),
-                        manufacturer,
-                        rarity,
-                        rng(0, WEAR_RATING_MAX, clock, ctx),
-                        ctx
-                    );
-                    kiosk.place(cap, cosmetic);
-                } else {
-                    let weapon = weapon::new(
-                        hash,
-                        name,
-                        image_url,
-                        model_url,
-                        texture_url,
-                        equipment,
-                        colour_way,
-                        b"Genesis".to_string(),
-                        manufacturer,
-                        rarity,
-                        rng(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX, clock, ctx),
-                        ctx
-                    );
-                    kiosk.place(cap, weapon);
-                };
-            };
-            quantity = quantity - 1;
-        };
+        mint_to_kiosk_impl( 
+            genesis_shop, 
+            kiosk, 
+            cap, 
+            quantity, 
+            clock, 
+            ctx
+        );
     }
 
     // mint equipments to a ticket for generating the Avatar
@@ -216,7 +196,7 @@ module act::genesis_drop {
         registry: &mut AvatarRegistry,
         clock: &Clock,
         ctx: &mut TxContext,
-    ) {
+    ): Avatar {
         assert_valid_ticket(&ticket);
         let AvatarTicket { id, mut drop, image_url, equipped_cosmetics_hash } = ticket;
         id.delete();
@@ -263,7 +243,7 @@ module act::genesis_drop {
         };
 
 
-        avatar::transfer(avatar, ctx.sender());
+        avatar
     }
 
     // === Public-View Functions ===
@@ -277,7 +257,16 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         admin::assert_genesis_minter_role(access_control, admin);
-        transfer::public_transfer(GenesisPass { id: object::new(ctx), phase: 0 }, recipient);
+        transfer::transfer(
+            GenesisPass { 
+                id: object::new(ctx), 
+                name: b"Anima Labs’ Genesis Free Mint Pass".to_string(),
+                phase: 1, 
+                image_url: b"ipfs://QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string(),
+                description: b"A free mint ticket for Anima Labs’ Genesis drop.".to_string() 
+            }, 
+            recipient
+        );
     }
 
     public fun airdrop_whitelist(
@@ -287,7 +276,37 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         admin::assert_genesis_minter_role(access_control, admin);
-        transfer::public_transfer(GenesisPass { id: object::new(ctx), phase: 1 }, recipient);
+        transfer::transfer(
+            GenesisPass { 
+                id: object::new(ctx), 
+                name: b"Anima Labs’ Genesis Whitelist Pass".to_string(),
+                phase: 2, 
+                image_url: b"ipfs://QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string(), 
+                description: b"A whitelist ticket for Anima Labs’ Genesis drop.".to_string() 
+            }, 
+            recipient
+        );
+    }
+
+    public fun admin_mint_to_kiosk(
+        access_control: &AccessControl, 
+        admin: &Admin,
+        genesis_shop: &mut GenesisShop,
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,
+        quantity: u64, // number of drops to mint
+        clock: &Clock,
+        ctx: &mut TxContext,
+    ) {
+        admin::assert_genesis_minter_role(access_control, admin);
+        mint_to_kiosk_impl(
+            genesis_shop, 
+            kiosk, 
+            cap, 
+            quantity, 
+            clock, 
+            ctx
+        );
     }
 
     public fun set_active(
@@ -344,6 +363,64 @@ module act::genesis_drop {
 
     // === Private functions ===
 
+    fun mint_to_kiosk_impl(
+        genesis_shop: &mut GenesisShop,
+        kiosk: &mut Kiosk, 
+        cap: &KioskOwnerCap,
+        mut quantity: u64, // number of drops to mint
+        clock: &Clock,
+        ctx: &mut TxContext,
+    ) {
+        assert!(personal_kiosk::is_personal(kiosk), EMustBeAPersonalKiosk);
+
+        while (quantity > 0) {
+            let mut attributes = attributes::genesis_mint_types();
+            while (!attributes.is_empty()) {
+                let x = attributes.pop_back();
+                let items = genesis_shop.borrow_item_mut(x);
+
+                let index = if (items.length() == 1) { 0 } else { rng(0, items.length() - 1, clock, ctx) };
+                let item = items.swap_remove(index);
+                let (hash, name, equipment, colour_way, manufacturer, rarity, image_url, model_url, texture_url) = item.unpack();
+
+                if (equipment != attributes::primary() && equipment != attributes::secondary() && equipment != attributes::tertiary()) {
+                    let cosmetic = cosmetic::new(
+                        hash,
+                        name,
+                        image_url,
+                        model_url,
+                        texture_url,
+                        equipment,
+                        colour_way,
+                        b"Genesis".to_string(),
+                        manufacturer,
+                        rarity,
+                        rng(0, WEAR_RATING_MAX, clock, ctx),
+                        ctx
+                    );
+                    kiosk.place(cap, cosmetic);
+                } else {
+                    let weapon = weapon::new(
+                        hash,
+                        name,
+                        image_url,
+                        model_url,
+                        texture_url,
+                        equipment,
+                        colour_way,
+                        b"Genesis".to_string(),
+                        manufacturer,
+                        rarity,
+                        rng(MIN_WEAPON_WEAR_RATING, WEAR_RATING_MAX, clock, ctx),
+                        ctx
+                    );
+                    kiosk.place(cap, weapon);
+                };
+            };
+            quantity = quantity - 1;
+        };
+    }
+
     fun assert_can_mint(sale: &Sale, mut pass: vector<GenesisPass>, amount: u64, quantity: u64, now: u64) {
         assert!(sale.active && now > sale.start_times[0], ESaleNotActive);
         assert!(sale.drops_left >= quantity, ENoMoreDrops);
@@ -363,8 +440,8 @@ module act::genesis_drop {
         if (pass.is_empty()) { // public sale (idx = 2)
             assert!(now > sale.start_times[2], EPublicNotOpen);
         } else { // freemint or whitelist sale
-            let GenesisPass { id, phase } = pass.pop_back();
-            assert!(now > sale.start_times[phase], EWrongPass);
+            let GenesisPass { id, phase, .. } = pass.pop_back();
+            assert!(now > sale.start_times[phase - 1], EWrongPass);
             id.delete();
         };
         pass.destroy_empty();
@@ -381,7 +458,7 @@ module act::genesis_drop {
 
     #[test_only]
     public fun init_for_testing(ctx: &mut TxContext) {
-        init(ctx);
+        init(GENESIS_DROP {}, ctx);
     }
 
     #[test_only]
@@ -418,9 +495,36 @@ module act::genesis_drop {
     public fun new_genesis_pass(phase: u64, ctx: &mut TxContext): GenesisPass {
         GenesisPass {
             id: object::new(ctx),
-            phase
+            phase,
+            name: b"name".to_string(),
+            image_url: b"genesis_pass".to_string(),
+            description: b"description".to_string()
         }
     }
+
+    #[test_only]
+    public use fun pass_name as GenesisPass.name;
+    public fun pass_name(pass: &GenesisPass): String {
+        pass.name
+    }
+
+    #[test_only]
+    public use fun pass_phase as GenesisPass.phase;
+    public fun pass_phase(pass: &GenesisPass): u64 {
+        pass.phase
+    }
+
+    #[test_only]
+    public use fun pass_image_url as GenesisPass.image_url;
+    public fun pass_image_url(pass: &GenesisPass): String {
+        pass.image_url
+    }
+
+    #[test_only]
+    public use fun pass_description as GenesisPass.description;
+    public fun pass_description(pass: &GenesisPass): String {
+        pass.description
+    }    
 
     #[test_only]
     public fun new_empty_avatar_ticket(ctx: &mut TxContext): AvatarTicket {

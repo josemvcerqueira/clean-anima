@@ -54,8 +54,8 @@ module act::cosmetic_tests {
         let world = start_world();
 
         assert_eq(world.display.fields().size(), 5);
-        assert_eq(*world.display.fields().get(&b"name".to_string()), b"ACT Cosmetic: {name}".to_string());
-        assert_eq(*world.display.fields().get(&b"description".to_string()), b"ACT is a fast-paced, high-skill multiplayer FPS".to_string());
+        assert_eq(*world.display.fields().get(&b"name".to_string()), b"{name} {formatted_type}".to_string());
+        assert_eq(*world.display.fields().get(&b"description".to_string()), b"A cosmetic built in the laser forges of ACT, an Anima Nexus world.".to_string());
         assert_eq(*world.display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
         assert_eq(*world.display.fields().get(&b"project_url".to_string()), b"https://animalabs.io".to_string());
         assert_eq(*world.display.fields().get(&b"creator".to_string()), b"Anima Labs".to_string());
@@ -84,6 +84,7 @@ module act::cosmetic_tests {
         assert_eq(cosmetic.name(), b"cursed vision of sargeras".to_string());
         assert_eq(cosmetic.image_url(), b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string());
         assert_eq(cosmetic.model_url(), b"head".to_string());
+        assert_eq(cosmetic.formatted_type(), b"leather".to_string());
         assert_eq(cosmetic.texture_url(), b"texture".to_string());
         assert_eq(cosmetic.type_(), b"leather".to_string());
         assert_eq(cosmetic.colour_way(), b"red".to_string());

@@ -75,6 +75,19 @@ module act::attributes {
         attributes
     }
 
+    public(package) fun make_formatted_type(type_: String): String {
+        if (type_ == LEFT_ARM.to_string()) return b"Arm (L)".to_string();
+        if (type_ == RIGHT_ARM.to_string()) return b"Arm (R)".to_string();
+        if (type_ == LEFT_BRACER.to_string()) return b"Bracer (L)".to_string();
+        if (type_ == RIGHT_BRACER.to_string()) return b"Bracer (R)".to_string();
+        if (type_ == LEFT_GLOVE.to_string()) return b"Glove (L)".to_string();
+        if (type_ == RIGHT_GLOVE.to_string()) return b"Glove (R)".to_string();
+        if (type_ == LEFT_PAULDRON.to_string()) return b"Pauldron (L)".to_string();
+        if (type_ == RIGHT_PAULDRON.to_string()) return b"Pauldron (R)".to_string();
+
+        type_
+    }
+
     public(package) fun assert_is_valid_cosmetic(str: &String) {
         assert!(cosmetic_types().contains(str), EInvalidAttribute);
     }

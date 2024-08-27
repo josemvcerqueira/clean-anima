@@ -10,6 +10,7 @@ module act::cosmetic {
     };
     use act::{
         item,
+        attributes,
         upgrade::{Upgrade, LockedUpgrade},
     };
 
@@ -29,6 +30,7 @@ module act::cosmetic {
         model_url: String,
         texture_url: String,
         `type`: String, 
+        formatted_type: String,
         colour_way: String,
         edition: String,
         manufacturer: String,
@@ -44,7 +46,12 @@ module act::cosmetic {
 
     #[allow(lint(share_owned))]
     fun init(otw: COSMETIC, ctx: &mut TxContext) {
-        item::init_state<COSMETIC, Equip, Cosmetic>(otw, b"ACT Cosmetic: {name}".to_string(), ctx);
+        item::init_state<COSMETIC, Equip, Cosmetic>(
+            otw, 
+            b"{name} {formatted_type}".to_string(),
+            b"A cosmetic built in the laser forges of ACT, an Anima Nexus world.".to_string(), 
+            ctx
+        );
     }
 
 
@@ -63,59 +70,59 @@ module act::cosmetic {
         self.upgrades.push_back(upgrade);    
     }
 
-    // === Public-View Functions ===
+    // === Public-Package Functions ===
 
-    public fun type_(self: &Cosmetic): String {
+    public(package) fun type_(self: &Cosmetic): String {
         self.`type`
     }
 
-    public fun hash(self: &Cosmetic): vector<u8> {
+    public(package) fun formatted_type(self: &Cosmetic): String {
+        self.formatted_type
+    }
+
+    public(package) fun hash(self: &Cosmetic): vector<u8> {
         self.hash
     }
 
-    public fun name(self: &Cosmetic): String {
+    public(package) fun name(self: &Cosmetic): String {
         self.name
     }
 
-    public fun image_url(self: &Cosmetic): String {
+    public(package) fun image_url(self: &Cosmetic): String {
         self.image_url
     }
 
-    public fun model_url(self: &Cosmetic): String {
+    public(package) fun model_url(self: &Cosmetic): String {
         self.model_url
     }
 
-    public fun texture_url(self: &Cosmetic): String {
+    public(package) fun texture_url(self: &Cosmetic): String {
         self.texture_url
     }
 
-    public fun edition(self: &Cosmetic): String {
+    public(package) fun edition(self: &Cosmetic): String {
         self.edition
     }
 
-    public fun wear_rating(self: &Cosmetic): u64 {
+    public(package) fun wear_rating(self: &Cosmetic): u64 {
         self.wear_rating
     }
 
-    public fun colour_way(self: &Cosmetic): String {
+    public(package) fun colour_way(self: &Cosmetic): String {
         self.colour_way
     }
 
-    public fun rarity(self: &Cosmetic): String {
+    public(package) fun rarity(self: &Cosmetic): String {
         self.rarity
     }
 
-    public fun manufacturer(self: &Cosmetic): String {
+    public(package) fun manufacturer(self: &Cosmetic): String {
         self.manufacturer
     }
 
-    public fun upgrades(self: &Cosmetic): &vector<Upgrade> {
+    public(package) fun upgrades(self: &Cosmetic): &vector<Upgrade> {
         &self.upgrades
     }
-
-    // === Admin Functions ===
-
-    // === Public-Package Functions ===
 
     public(package) fun new(
         hash: vector<u8>,
@@ -139,6 +146,7 @@ module act::cosmetic {
             model_url,
             texture_url,
             `type`,
+            formatted_type: attributes::make_formatted_type(`type`),
             colour_way,
             edition,
             manufacturer,

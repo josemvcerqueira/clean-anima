@@ -32,7 +32,12 @@ module act::item {
     // === Public-Mutative Functions ===
 
     #[allow(lint(share_owned, self_transfer))]
-    public(package) fun init_state<OTW: drop, Rule: drop, Item: key + store>(otw: OTW, name: String, ctx: &mut TxContext) {
+    public(package) fun init_state<OTW: drop, Rule: drop, Item: key + store>(
+        otw: OTW, 
+        name: String, 
+        description: String,
+        ctx: &mut TxContext
+    ) {
         assert!(is_one_time_witness(&otw), ENotAOneTimeWitness);
 
         // create Display
@@ -45,7 +50,7 @@ module act::item {
         ];
         let values = vector[
             name,
-            b"ACT is a fast-paced, high-skill multiplayer FPS".to_string(),
+            description,
             b"{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // TODO: change with ACT game page
             b"Anima Labs".to_string(),

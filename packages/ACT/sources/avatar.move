@@ -68,7 +68,7 @@ module act::avatar {
     public struct WeaponKey(String) has copy, store, drop;
 
     // @dev key only ability to prevent transfers
-    public struct Avatar has key {
+    public struct Avatar has key, store {
         id: UID,
         image_url: String,
         equipped_cosmetics_hash: String,
@@ -109,7 +109,7 @@ module act::avatar {
         ];
         let values = vector[
             b"ACT Avatar: {alias}".to_string(),
-            b"ACT is a fast-paced, high-skill multiplayer FPS".to_string(),
+            b"An avatar for traversing metaversal worlds, designed by Anima Lab.".to_string(),
             b"{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // to change with ACT game page
             b"Anima Labs".to_string(),
@@ -130,10 +130,6 @@ module act::avatar {
         ctx: &mut TxContext
     ): Avatar {
         new_with_image(registry, b"QmXdqWcqFWNp6RrTy8t2Np1xyNL7TatQGEiRQC1f4iW87x".to_string(), b"".to_string(), ctx)
-    }
-
-    public fun keep(avatar: Avatar, ctx: &mut TxContext) {
-        transfer::transfer(avatar, ctx.sender());
     }
 
     // used during the mint in a ptb
@@ -274,7 +270,6 @@ module act::avatar {
 
         id.delete();
     }
-
 
     public fun upgrade(
         self: &mut Avatar, 
@@ -426,10 +421,6 @@ module act::avatar {
         registry.accounts.add(ctx.sender(), avatar.id.uid_to_inner());
 
         avatar
-    }
-
-    public(package) fun transfer(self: Avatar, recipient: address) {
-        transfer::transfer(self, recipient);
     }
 
     public(package) fun set_edition(self: &mut Avatar, edition: vector<u8>) {

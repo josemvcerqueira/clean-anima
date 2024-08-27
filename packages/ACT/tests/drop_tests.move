@@ -2,11 +2,12 @@
 module act::genesis_drop_tests {
 
     use sui::{
+        display::Display,
         coin::mint_for_testing,
         clock::{Self, Clock},
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk},
-       test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
+        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
     };
     use animalib::access_control::{Admin, AccessControl};
     use kiosk::personal_kiosk::{Self, PersonalKioskCap};
@@ -15,7 +16,7 @@ module act::genesis_drop_tests {
         attributes,
         set_up_tests::set_up_admins,
         avatar::{Self, AvatarRegistry, Avatar},
-        genesis_drop::{Self, Sale, AvatarTicket},
+        genesis_drop::{Self, Sale, AvatarTicket, GenesisPass},
         genesis_shop::{Self, new_builder_for_testing, GenesisShop}, 
     };
 
@@ -30,24 +31,65 @@ module act::genesis_drop_tests {
         avatar: Avatar,
         kiosk: Kiosk,
         kiosk_cap: PersonalKioskCap,
+        pass_display: Display<GenesisPass>
     }
 
     const OWNER: address = @0x0;
     const ALICE: address = @0xa11c3;
     const TOTAL_ITEMS: u64 = 10;
-    const FREE_MINT_PHASE: u64 = 0;
-    const WHITELIST_PHASE: u64 = 1;
+    const FREE_MINT_PHASE: u64 = 1;
+    const WHITELIST_PHASE: u64 = 2;
 
     #[test]
     fun test_init() {
         let world = start_world();
 
-        assert_eq(world.sale.active(), true);
         assert_eq(world.sale.start_times(), vector[]);
         assert_eq(world.sale.prices(), vector[]);
         assert_eq(world.sale.max_mints(), vector[]);
-        assert_eq(world.sale.drops_left(), 3000);
+        assert_eq(world.sale.drops_left(), 3150);
 
+        assert_eq(world.pass_display.fields().size(), 4);
+        assert_eq(*world.pass_display.fields().get(&b"name".to_string()), b"{name}".to_string());
+        assert_eq(*world.pass_display.fields().get(&b"description".to_string()), b"{description}".to_string());
+        assert_eq(*world.pass_display.fields().get(&b"phase".to_string()), b"{phase}".to_string());
+        assert_eq(*world.pass_display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
+
+        world.end();
+    }
+
+    #[test]
+    fun test_genesis_passes() {
+        let mut world = start_world();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        genesis_drop::airdrop_freemint(access_control, admin_cap, OWNER, world.scenario.ctx());
+
+        world.scenario.next_tx(OWNER);
+
+        let pass = world.scenario.take_from_sender<GenesisPass>();
+
+        assert_eq(pass.name(), b"Anima Labs’ Genesis Free Mint Pass".to_string());
+        assert_eq(pass.phase(), 1);
+        assert_eq(pass.image_url(), b"ipfs://QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string());
+        assert_eq(pass.description(), b"A free mint ticket for Anima Labs’ Genesis drop.".to_string());
+
+        destroy(pass);
+
+        genesis_drop::airdrop_whitelist(access_control, admin_cap, OWNER, world.scenario.ctx());
+
+        world.scenario.next_tx(OWNER);
+
+        let pass = world.scenario.take_from_sender<GenesisPass>();
+
+        assert_eq(pass.name(), b"Anima Labs’ Genesis Whitelist Pass".to_string());
+        assert_eq(pass.phase(), 2);
+        assert_eq(pass.image_url(), b"ipfs://QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string());
+        assert_eq(pass.description(), b"A whitelist ticket for Anima Labs’ Genesis drop.".to_string());
+
+        destroy(pass);
         world.end();
     }
 
@@ -168,6 +210,109 @@ module act::genesis_drop_tests {
         world.end();
     }
 
+
+    // Should work exact same way as the mint above with no payment
+    #[test]
+    fun test_admin_mint_to_kiosk() {
+        let mut world = start_world();
+
+        world.add_genesis_shop();
+
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
+
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+
+        {        // Now we can do the free mint phase - index 0.
+            world.clock.set_for_testing(8);
+
+            let admin_cap = &world.super_admin;
+            let access_control = &world.access_control;
+            let sale = &world.sale;
+
+            let cap = &world.kiosk_cap;
+            let quantity = 3;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            assert_eq(kiosk.item_count(), 0);
+            assert_eq(sale.drops_left(), TOTAL_ITEMS);
+
+            genesis_drop::admin_mint_to_kiosk(
+                access_control,
+                admin_cap,
+                genesis_shop, 
+                kiosk, 
+                cap.borrow(), 
+                quantity, 
+                clock, 
+                ctx
+            );
+
+            assert_eq(kiosk.item_count(), 18 * 3);
+            assert_eq(world.sale.drops_left(), TOTAL_ITEMS);
+        };
+
+        {
+            // === PHASE 1 ===
+
+            world.clock.set_for_testing(15);
+
+            let cap = &world.kiosk_cap;
+            let quantity = 3;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            genesis_drop::admin_mint_to_kiosk(
+                access_control,
+                admin_cap,
+                genesis_shop, 
+                kiosk, 
+                cap.borrow(), 
+                quantity, 
+                clock, 
+                ctx
+            );
+
+            assert_eq(kiosk.item_count(), 18 * 6);
+        };
+
+        {
+            // === PHASE 2 ===
+
+            world.clock.set_for_testing(21);
+
+            let cap = &world.kiosk_cap;
+            let quantity = 4;
+            let clock = &world.clock;
+            let ctx = world.scenario.ctx();
+        
+            let genesis_shop = &mut world.genesis_shop;
+            let kiosk = &mut world.kiosk;
+
+            genesis_drop::admin_mint_to_kiosk(
+                access_control,
+                admin_cap,
+                genesis_shop, 
+                kiosk, 
+                cap.borrow(), 
+                quantity, 
+                clock, 
+                ctx
+            );
+        };
+
+        world.end();
+    }
+
     #[test]
     fun test_mint_to_ticket_and_avatar() {
         let mut world = start_world();
@@ -232,17 +377,10 @@ module act::genesis_drop_tests {
 
         avatar_ticket.update_image(receiving_ticket_by_id(effects.created()[0]));
 
-        {
-            let clock = &world.clock;
-            let avatar_registry = &mut world.avatar_registry;
+        let clock = &world.clock;
+        let avatar_registry = &mut world.avatar_registry;
 
-            avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());
-
-        };
-
-        world.scenario.next_tx(ALICE);
-
-        let avatar = world.scenario.take_from_sender<Avatar>();
+        let avatar = avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());
 
         // all avatar attr values are filled so equipped all items
         assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
@@ -353,8 +491,9 @@ module act::genesis_drop_tests {
 
         let avatar_ticket = genesis_drop::new_empty_avatar_ticket(world.scenario.ctx());
 
-        avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());    
+        let avatar = avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());    
 
+        destroy(avatar);
         world.end(); 
     }    
 
@@ -908,7 +1047,7 @@ module act::genesis_drop_tests {
 
         let (access_control, super_admin) = set_up_admins(&mut scenario);
         let genesis_shop = scenario.take_shared<GenesisShop>();
-        let sale = scenario.take_shared<Sale>();
+        let mut sale = scenario.take_shared<Sale>();
         let mut avatar_registry = scenario.take_shared<AvatarRegistry>();
         let clock = clock::create_for_testing(scenario.ctx());
 
@@ -923,6 +1062,10 @@ module act::genesis_drop_tests {
 
         let kiosk_cap = personal_kiosk::new(&mut kiosk, kiosk_cap, scenario.ctx());
 
+        let pass_display = scenario.take_from_sender<Display<GenesisPass>>();
+
+        sale.set_active(&access_control, &super_admin, true);
+
         World {
             sale,
             kiosk,
@@ -932,6 +1075,7 @@ module act::genesis_drop_tests {
             super_admin,
             genesis_shop,
             avatar_registry,
+            pass_display,
             clock,
             avatar
         }

@@ -12,7 +12,7 @@ module act::genesis_shop_tests {
     };
 
     const OWNER: address = @0xBABE;
-    const TOTAL_ITEMS: u64 = 3000;
+    const TOTAL_ITEMS: u64 = 3333;
 
     #[test]
     fun test_add_primary() {
@@ -39,28 +39,28 @@ module act::genesis_shop_tests {
 
         let mut index = 0;
         
-        index = index + 899;
+        index = index + 999;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
         assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Valenti".to_string());
         assert_eq(item.name(), b"Valenti 12".to_string());
 
-        index = index + 900;
+        index = index + 1000;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
         assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Aegis Tactical".to_string());
         assert_eq(item.name(), b"Raptor".to_string());
 
-        index = index + 900;
+        index = index + 1000;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
         assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Voloslav Industrial".to_string());
         assert_eq(item.name(), b"Renegade".to_string());
 
-        index = index + 300;
+        index = index + 333;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::primary())[index];
         assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
@@ -98,14 +98,14 @@ module act::genesis_shop_tests {
 
         let mut index = 0;
 
-        index = index + 899;
+        index = index + 999;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
         assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
         assert_eq(item.manufacturer(), b"Precisione Milano".to_string());
         assert_eq(item.name(), b"Whisper 9mm".to_string());
 
-        index = index + 2100;
+        index = index + 2333;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::secondary())[index];
         assert_eq(item.rarity(), b"Common".to_string());
         assert_eq(item.colour_way(), b"Gunmetal".to_string());
@@ -142,21 +142,21 @@ module act::genesis_shop_tests {
 
         let mut index = 0;
 
-        index = index + 599;
+        index = index + 666;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
         assert_eq(item.rarity(), b"Mythic".to_string());
         assert_eq(item.colour_way(), b"Future".to_string());
         assert_eq(item.manufacturer(), b"ハイパーブレード CORPORATION".to_string());
         assert_eq(item.name(), b"Neo-Katana".to_string());
 
-        index = index + 1200;
+        index = index + 1333;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
         assert_eq(item.rarity(), b"Ultra Rare".to_string());
         assert_eq(item.colour_way(), b"Viceroy".to_string());
         assert_eq(item.manufacturer(), b"Eclipse Steel Forging LTD".to_string());
         assert_eq(item.name(), b"Scalper".to_string());
         
-        index = index + 1200;
+        index = index + 1333;
         let item = world.genesis_shop.borrow_mut().borrow(attributes::tertiary())[index];
         assert_eq(item.rarity(), b"Ultra Rare".to_string());
         assert_eq(item.colour_way(), b"K1TSUN3".to_string());
@@ -196,7 +196,7 @@ module act::genesis_shop_tests {
 
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
-        let chances = vector[81, 83, 82, 83, 82, 83, 22, 83];
+        let chances = vector[90, 92, 91, 92, 91, 91, 25, 92]; 
 
         let mut i = 0;
         
@@ -207,7 +207,7 @@ module act::genesis_shop_tests {
             i  = i + 1;
         };
 
-        let chances = vector[82, 83, 82, 83, 82, 83, 22, 83];
+        let chances = vector[91, 92, 91, 92, 91, 91, 25, 92]; 
 
         let mut i = 0;
         
@@ -218,6 +218,8 @@ module act::genesis_shop_tests {
             i  = i + 1;
         };
 
+        let chances = vector[92, 92, 92, 92, 91, 92, 24, 92];
+
         let mut i = 0;
         
         while (chances.length() > i) {
@@ -226,6 +228,8 @@ module act::genesis_shop_tests {
 
             i  = i + 1;
         };
+
+        let chances = vector[92, 92, 92, 92, 92, 92, 24, 92]; 
 
         let mut i = 0;
         
@@ -281,14 +285,14 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
         let chances = vector[
-            59,
-            180,
-            180,
-            105,
-            60, 
-            105,
-            30,
-            180
+            65,
+            199,
+            199,
+            116,
+            66, 
+            116,
+            33,
+            200
         ];
 
         let mut i = 0;
@@ -305,14 +309,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            60,
-            180,
-            180,
-            105,
-            60, 
-            105,
-            30,
-            180
+            67,
+            200,
+            200,
+            117,
+            67, 
+            117,
+            34,
+            200
         ];
 
         let mut i = 0;
@@ -329,14 +333,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            90,
-            240,
-            240,
-            120,
-            90,
-            120,
-            60,
-            240
+            100,
+            267,
+            267,
+            134,
+            100, 
+            134,
+            67,
+            267
         ];
 
         let mut i = 0;
@@ -392,14 +396,14 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
         let chances = vector[
-            59,
-            180,
-            180,
-            105,
-            60,
-            105,
-            30,
-            180
+            65,
+            199,
+            199,
+            116,
+            66,
+            116,
+            33,
+            200
         ];
 
         let mut i = 0;
@@ -422,14 +426,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            60,
-            180,
-            180,
-            105,
-            60,
-            105,
-            30,
-            180
+            67,
+            200,
+            200,
+            117,
+            67,
+            117,
+            34,
+            200
         ];
 
         let mut i = 0;
@@ -452,14 +456,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            90,
-            240,
-            240,
-            120,
-            90,
-            120,
-            60,
-            240
+            100,
+            267,
+            267,
+            134,
+            100,
+            134,
+            67,
+            267
         ];
 
         let mut i = 0;
@@ -522,14 +526,14 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Viceroy", b"Dusk", b"Digital Winter", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
         let chances = vector[
-            59,
-            180,
-            180,
-            105,
-            60,
-            105,
-            30,
-            180
+            65,
+            199,
+            199,
+            116,
+            66,
+            116,
+            33,
+            200
         ];
 
         let mut i = 0;
@@ -552,14 +556,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            60,
-            180,
-            180,
-            105,
-            60,
-            105,
-            30,
-            180
+            67,
+            200,
+            200,
+            117,
+            67,
+            117,
+            34,
+            200
         ];
 
         let mut i = 0;
@@ -582,14 +586,14 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            90,
-            240,
-            240,
-            120,
-            90,
-            120,
-            60,
-            240
+            100,
+            267,
+            267,
+            134,
+            100,
+            134,
+            67,
+            267
         ];
 
         let mut i = 0;
@@ -648,10 +652,10 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Digital Winter", b"Dusk", b"Blood Ivory", b"Volt", b"Hikari"];
 
         let chances = vector[
-            359, 
-            360,
-            360,
-            360,
+            398, 
+            400,
+            400,
+            400,
         ];
 
         let mut i = 0;
@@ -668,11 +672,11 @@ module act::genesis_shop_tests {
         };
 
         let chances = vector[
-            360,
-            360,
-            360,
-            360,
-            120
+            400,
+            400,
+            400,
+            400,
+            134
         ];
 
         let mut i = 0;
@@ -731,7 +735,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            2999
+            3332
         ];
 
         let mut i = 0;
@@ -798,7 +802,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            2999
+            3332
         ];
 
         let mut i = 0;
@@ -865,7 +869,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            2999
+            3332
         ];
 
         let mut i = 0;
@@ -927,7 +931,7 @@ module act::genesis_shop_tests {
         let colour_way = vector[b"Obsidian"];
 
         let chances = vector[
-            2999
+            3332
         ];
 
         let mut i = 0;
@@ -981,7 +985,7 @@ module act::genesis_shop_tests {
 
         let colour_way = vector[b"Dusk", b"Red Damascus", b"Blood Ivory", b"Volt", b"Hikari", b"Vesper"];
 
-        let chances = vector[569, 570, 570, 570, 150, 570];
+        let chances = vector[632, 633, 633, 634, 166, 634];
 
         let mut i = 0;
         
