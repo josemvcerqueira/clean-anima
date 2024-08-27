@@ -9,6 +9,8 @@ module act::profile_pictures {
         admin,
     };
 
+    const EProfilePictureNotFound: u64 = 0;
+
     public struct ProfilePictures has key {
         id: UID,
         hash_to_ipfs: Table<vector<u8>, String>,
@@ -43,6 +45,7 @@ module act::profile_pictures {
         upper_torso: vector<u8>
     ): String {
         let hash = cosmetic_to_pfp_hash(helm, chestpiece, upper_torso);
+        assert!(profile_pictures.hash_to_ipfs.contains(hash), EProfilePictureNotFound);
         *profile_pictures.hash_to_ipfs.borrow(hash)
     }
 
@@ -57,6 +60,10 @@ module act::profile_pictures {
         vec.append(if (upper_torso.is_empty()) b"empty" else upper_torso);
 
         hash::blake2b256(&vec)
+    }
+
+    public fun hash_to_ipfs(profile_pictures: &ProfilePictures): &Table<vector<u8>, String> {
+        &profile_pictures.hash_to_ipfs
     }
 
     #[test_only]
