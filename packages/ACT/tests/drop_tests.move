@@ -36,6 +36,7 @@ module act::genesis_drop_tests {
     }
 
     const OWNER: address = @0x0;
+    const ALICE: address = @0xa11c3;
     const TOTAL_ITEMS: u64 = 10;
     const FREE_MINT_PHASE: u64 = 1;
     const WHITELIST_PHASE: u64 = 2;
@@ -307,48 +308,48 @@ module act::genesis_drop_tests {
         world.end();
     }
 
-    // #[test]
-    // fun test_mint_to_avatar() {
-    //     let mut world = start_world();
+    #[test]
+    fun test_mint_to_avatar() {
+        let mut world = start_world();
 
-    //     world.add_genesis_shop();
+        world.add_genesis_shop();
 
-    //     let admin_cap = &world.super_admin;
-    //     let access_control = &world.access_control;
+        let admin_cap = &world.super_admin;
+        let access_control = &world.access_control;
 
-    //     world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
-    //     world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
-    //     world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
+        world.sale.set_prices(access_control, admin_cap, vector[10, 25, 50]);
+        world.sale.set_start_times(access_control, admin_cap, vector[7, 14, 20]);
+        world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
 
-    //     world.scenario.next_tx(ALICE);
+        world.scenario.next_tx(ALICE);
+        world.clock.set_for_testing(8);
 
-    //     let access_control = &world.access_control;
-    //     let admin = &world.super_admin;
+        add_pfps(&mut world);
 
-    //     let genesis_pass = vector[
-    //         genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
-    //     ];
-    //     let clock = &world.clock;
-    //     let pfps = &world.pfps;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+        ];
+        let clock = &world.clock;
+        let pfps = &world.pfps;
 
-    //     let avatar = world.sale.mint_to_avatar(
-    //         &mut world.genesis_shop,
-    //         genesis_pass, 
-    //         pfps,
-    //         mint_for_testing(10, world.scenario.ctx()), 
-    //         clock, 
-    //         world.scenario.ctx()
-    //     );
+        let avatar = world.sale.mint_to_avatar(
+            &mut world.genesis_shop,
+            genesis_pass, 
+            pfps,
+            mint_for_testing(10, world.scenario.ctx()), 
+            clock, 
+            world.scenario.ctx()
+        );
 
-    //     assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
-    //     // all avatar attr values are filled so equipped all items
-    //     assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
-    //     assert_eq(avatar.image_url(), b"".to_string());
+        assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
+        // all avatar attr values are filled so equipped all items
+        assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
+        assert_eq(avatar.image_url(), b"image".to_string());
 
-    //     assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
-    //     destroy(avatar);    
-    //     world.end();
-    // }
+        assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
+        destroy(avatar);    
+        world.end();
+    }
 
     #[test]
     #[expected_failure(abort_code = genesis_drop::EPublicNotOpen)] 
@@ -961,6 +962,20 @@ module act::genesis_drop_tests {
         destroy(upper_torso);
         destroy(boots);
     }
+
+    fun add_pfps(world: &mut World) {
+        let access_control = &world.access_control;
+        let admin_cap = &world.super_admin;
+
+        world.pfps.add(
+            access_control, 
+            admin_cap, 
+            x"1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9", 
+            x"261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492", 
+            x"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", 
+            b"image".to_string()
+        );
+    }
  
     fun start_world(): World {
         let mut scenario = ts::begin(OWNER);
@@ -978,8 +993,7 @@ module act::genesis_drop_tests {
         let pfps = scenario.take_shared<ProfilePictures>();
         let clock = clock::create_for_testing(scenario.ctx());
 
-        let avatar = avatar::new_with_image(
-            b"image_url".to_string(),
+        let avatar = avatar::new_genesis_edition(
             scenario.ctx()
         );
 

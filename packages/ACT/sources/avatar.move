@@ -225,7 +225,7 @@ module act::avatar {
         });
     }
 
-    public fun unequip_cosmetic(
+    public fun unequip_cosmetics(
         self: &mut Avatar, 
         pfps: &ProfilePictures,
         cosmetic_types: vector<String>,
@@ -373,6 +373,36 @@ module act::avatar {
     #[test_only]
     public fun init_for_testing(ctx: &mut TxContext) {
         init(AVATAR {}, ctx);
+    }
+
+    #[test_only]
+    public use fun settings_edition as AvatarSettings.edition;
+    public fun settings_edition(settings: &AvatarSettings): String {
+        settings.edition
+    }
+
+    #[test_only]
+    public use fun settings_image_url as AvatarSettings.image_url;
+    public fun settings_image_url(settings: &AvatarSettings): String {
+        settings.image_url
+    }
+
+    #[test_only]
+    public use fun settings_avatar_model as AvatarSettings.avatar_model;
+    public fun settings_avatar_model(settings: &AvatarSettings): String {
+        settings.avatar_model
+    }
+
+    #[test_only]
+    public use fun settings_avatar_texture as AvatarSettings.avatar_texture;
+    public fun settings_avatar_texture(settings: &AvatarSettings): String {
+        settings.avatar_texture
+    }
+
+    #[test_only]
+    public use fun settings_avatar_active as AvatarSettings.active;
+    public fun settings_avatar_active(settings: &AvatarSettings): bool {
+        settings.active
     }
 
     #[test_only]
