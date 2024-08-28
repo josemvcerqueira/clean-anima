@@ -55,7 +55,7 @@ module act::weapon_tests {
         assert_eq(world.display.fields().size(), 5);
         assert_eq(*world.display.fields().get(&b"name".to_string()), b"{name}".to_string());
         assert_eq(*world.display.fields().get(&b"description".to_string()), b"A weapon built in the laser forges of ACT, an Anima Nexus world.".to_string());
-        assert_eq(*world.display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
+        assert_eq(*world.display.fields().get(&b"image_url".to_string()), b"ipfs://{image_url}".to_string());
         assert_eq(*world.display.fields().get(&b"project_url".to_string()), b"https://animalabs.io".to_string());
         assert_eq(*world.display.fields().get(&b"creator".to_string()), b"Anima Labs".to_string());
 

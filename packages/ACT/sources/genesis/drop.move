@@ -71,7 +71,7 @@ module act::genesis_drop {
         genesis_pass_display.add(b"name".to_string(), b"{name}".to_string());
         genesis_pass_display.add(b"description".to_string(), b"{description}".to_string());
         genesis_pass_display.add(b"phase".to_string(), b"{phase}".to_string());
-        genesis_pass_display.add(b"image_url".to_string(), b"{image_url}".to_string());
+        genesis_pass_display.add(b"image_url".to_string(), b"ipfs://{image_url}".to_string());
         genesis_pass_display.update_version();
 
         transfer::public_transfer(genesis_pass_display, ctx.sender());
@@ -209,7 +209,7 @@ module act::genesis_drop {
                 id: object::new(ctx), 
                 name: b"Anima Labs’ Genesis Free Mint Pass".to_string(),
                 phase: 1, 
-                image_url: b"ipfs://QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string(),
+                image_url: b"QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string(),
                 description: b"A free mint ticket for Anima Labs’ Genesis drop.".to_string() 
             }, 
             recipient
@@ -228,7 +228,7 @@ module act::genesis_drop {
                 id: object::new(ctx), 
                 name: b"Anima Labs’ Genesis Whitelist Pass".to_string(),
                 phase: 2, 
-                image_url: b"ipfs://QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string(), 
+                image_url: b"QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string(), 
                 description: b"A whitelist ticket for Anima Labs’ Genesis drop.".to_string() 
             }, 
             recipient

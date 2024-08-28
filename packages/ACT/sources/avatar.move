@@ -72,7 +72,7 @@ module act::avatar {
         let values = vector[
             b"ACT Avatar: {alias}".to_string(),
             b"An avatar for traversing metaversal worlds, designed by Anima Lab.".to_string(),
-            b"{image_url}".to_string(),
+            b"ipfs://{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // to change with ACT game page
             b"Anima Labs".to_string(),
         ];
@@ -355,7 +355,7 @@ module act::avatar {
     ): Avatar {
         Avatar {
             id: object::new(ctx),
-            image_url: b"ipfs://QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
+            image_url: b"QmWCfdKVUDLaKyJiyy3rKaHAVYhAGS7k1gXaWoLRX8mjcD".to_string(),
             avatar_model: b"QmaKS7RQCZaLSq6XfmDakZC5boPCDhgGU8AK1Tdn5Xj3oi".to_string(),
             avatar_texture: b"QmefuZMw2GeveTYEmcaJf7QTHtyE99srP6FRK6bHPK2fNe".to_string(),
             edition: b"Genesis".to_string(),

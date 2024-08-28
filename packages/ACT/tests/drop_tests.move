@@ -54,7 +54,7 @@ module act::genesis_drop_tests {
         assert_eq(*world.pass_display.fields().get(&b"name".to_string()), b"{name}".to_string());
         assert_eq(*world.pass_display.fields().get(&b"description".to_string()), b"{description}".to_string());
         assert_eq(*world.pass_display.fields().get(&b"phase".to_string()), b"{phase}".to_string());
-        assert_eq(*world.pass_display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
+        assert_eq(*world.pass_display.fields().get(&b"image_url".to_string()), b"ipfs://{image_url}".to_string());
 
         world.end();
     }
@@ -74,7 +74,7 @@ module act::genesis_drop_tests {
 
         assert_eq(pass.name(), b"Anima Labs’ Genesis Free Mint Pass".to_string());
         assert_eq(pass.phase(), 1);
-        assert_eq(pass.image_url(), b"ipfs://QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string());
+        assert_eq(pass.image_url(), b"QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string());
         assert_eq(pass.description(), b"A free mint ticket for Anima Labs’ Genesis drop.".to_string());
 
         destroy(pass);
@@ -87,7 +87,7 @@ module act::genesis_drop_tests {
 
         assert_eq(pass.name(), b"Anima Labs’ Genesis Whitelist Pass".to_string());
         assert_eq(pass.phase(), 2);
-        assert_eq(pass.image_url(), b"ipfs://QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string());
+        assert_eq(pass.image_url(), b"QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string());
         assert_eq(pass.description(), b"A whitelist ticket for Anima Labs’ Genesis drop.".to_string());
 
         destroy(pass);
