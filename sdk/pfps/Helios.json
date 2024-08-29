@@ -1,0 +1,5618 @@
+[
+  {
+    "number": "ACT PFPS #0",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e788f89ebbff3036302735fe012b2f846a337a25594512e11cc2620ecead2189",
+    "dropBoxImageName": "HeliosHelm0000.png",
+    "ipfsHash": "bafybeih3kly2nevh53ykiisnxwtjnlm2dstwahjlddtj7lxaoa2tvcpy4i"
+  },
+  {
+    "number": "ACT PFPS #1",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "28cfdc17a429257b38a0f4e2cec73afd62111fdaee2698f001453bd3ed41e461",
+    "dropBoxImageName": "HeliosHelm0001.png",
+    "ipfsHash": "bafybeihfxvpcu6v53zz6atadquo7n5itwy5hdykikn2jlp7xlwwq7zsvwy"
+  },
+  {
+    "number": "ACT PFPS #2",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "72ff1561347dd0f1c5ef81463721f3617f460fd659bfc6b739fb3c5394192ef5",
+    "dropBoxImageName": "HeliosHelm0002.png",
+    "ipfsHash": "bafybeiftglvyq7boys4y7wzhbozzb5i4guhcxf3y6vodew4ytfk2dah7ye"
+  },
+  {
+    "number": "ACT PFPS #3",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "de3f987a53643e6cbd3939406d90fe4626ef6c8cc6e17b28c8511ccd4e4bb4f5",
+    "dropBoxImageName": "HeliosHelm0003.png",
+    "ipfsHash": "bafybeihfww5oxws7bmpdjmrvalalwntu4j7prnrgd22vrprb3iaxciugp4"
+  },
+  {
+    "number": "ACT PFPS #4",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8c4816bf69730e0fa764942245c581e771a752c6d442a9d112e55ba9b1f70583",
+    "dropBoxImageName": "HeliosHelm0004.png",
+    "ipfsHash": "bafybeifyjtzo2sa7mawgacyp4wya5o66bhni5qs57p3laachyhnh5yqdva"
+  },
+  {
+    "number": "ACT PFPS #5",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "dacd4f3acda3673e7856d1d9f7c5c3877a271abeff01e11cceea62af8bdeb175",
+    "dropBoxImageName": "HeliosHelm0005.png",
+    "ipfsHash": "bafybeigsz5zqmuomuwawtfygs37z4h3eah6qryhoow6seocomarf4wj5am"
+  },
+  {
+    "number": "ACT PFPS #6",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "85a0a8bd4648129be30ab101e6860f1229f06b2bed82b8ad2669aee919d6007e",
+    "dropBoxImageName": "HeliosHelm0006.png",
+    "ipfsHash": "bafybeig2ytnnl6oysug7a6xuqy5z6jqbxjmhksnfzglq23gvoectqcc4ne"
+  },
+  {
+    "number": "ACT PFPS #7",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "3f2f1df730526464e14e3c907d8c6f0820a72d93344cf829041d93f5999e33de",
+    "dropBoxImageName": "HeliosHelm0007.png",
+    "ipfsHash": "bafybeiarlhbrctghmfnsw2levbqqjmcjk6dsywlbbzbi2fy5p2ri6mttrq"
+  },
+  {
+    "number": "ACT PFPS #8",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "fa58c7ae0553b023df8f91cae1a1192acd4c43c2d0f76d66dc0ce5a0514a79fc",
+    "dropBoxImageName": "HeliosHelm0008.png",
+    "ipfsHash": "bafybeihkds4t6jj7qyqqb4ep7l4nkspjjgtrzdikspy4dciwv7lgb676sy"
+  },
+  {
+    "number": "ACT PFPS #9",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "1e0cfb1c3d846b292ebefdf9b3ba572177757d435a8d8b5d51bc9a3bdc2c66b5",
+    "dropBoxImageName": "HeliosHelm0009.png",
+    "ipfsHash": "bafybeiezee6a4cwowr7riibaxozqgajkq7h4rmlqywwivl6oblkttft2wi"
+  },
+  {
+    "number": "ACT PFPS #10",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "1ee0d88d9c45a4b1c713f01394dc3126c76c0fd7910d3d3e798dff142ee6af34",
+    "dropBoxImageName": "HeliosHelm0010.png",
+    "ipfsHash": "bafybeifbnjco3gp4yj4cionh6q5fcrrmo75opwdu6kmhzhrbgwhg53tk5q"
+  },
+  {
+    "number": "ACT PFPS #11",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "fc9e4b1108db16a86a1d9dbeb52d9fc6c639a32f383cb7d72d5f8d35c45bd30a",
+    "dropBoxImageName": "HeliosHelm0011.png",
+    "ipfsHash": "bafybeibxo6efeukdildrtshuk2zqpxemxwhasoqrupgmioebks2osuugzi"
+  },
+  {
+    "number": "ACT PFPS #12",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "34696eb0ab34cce8a52c253be1056ed31a535d01e7cc6bda3fe27b426aebd996",
+    "dropBoxImageName": "HeliosHelm0012.png",
+    "ipfsHash": "bafybeihfttwmtzryspm2ganlyncoqydd64gxoxuiny4ocra4trpm2jtzyi"
+  },
+  {
+    "number": "ACT PFPS #13",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "682a1cde7185d1ad3d914fe738eb4d070ebdf40a642e35a309f39673726017ad",
+    "dropBoxImageName": "HeliosHelm0013.png",
+    "ipfsHash": "bafybeifyjkbhnas5aitz7gl6ltbq2fdqysexn6wsvdb72v2ikpf4myiodq"
+  },
+  {
+    "number": "ACT PFPS #14",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b46d80f1cad7ed9765c0f860b89777cb31e7f84ba2a1422f5dd92d9516dc280c",
+    "dropBoxImageName": "HeliosHelm0014.png",
+    "ipfsHash": "bafybeiackts2ighdqrcis6e5j7dq6xbi73atidd524pi7j76gockv6x23i"
+  },
+  {
+    "number": "ACT PFPS #15",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "ab84106d21c5ac197b563500be31562c12dcc7a4f90e8102a78662df201e39e8",
+    "dropBoxImageName": "HeliosHelm0015.png",
+    "ipfsHash": "bafybeihugdvcbvkjwhjmysldwv2niooieqoqd44fywa2pbkn3gkz4o37ni"
+  },
+  {
+    "number": "ACT PFPS #16",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4933ce24e154a76d829e56e3875a04fac166aaec141a5186f635ab4110f64cd1",
+    "dropBoxImageName": "HeliosHelm0016.png",
+    "ipfsHash": "bafybeih75ol4tjyf4qmscputyq3vzxy2f47alpaq7yesypznttx7kgx2xm"
+  },
+  {
+    "number": "ACT PFPS #17",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "4f013906feaaa3167340bdc59ed027ef846652fbe8a06b6b430e4cce1cc82040",
+    "dropBoxImageName": "HeliosHelm0017.png",
+    "ipfsHash": "bafybeihkjc3eonstrb4x5xhx2ecucxyyquirr5dady6qgc2jczfrkunypy"
+  },
+  {
+    "number": "ACT PFPS #18",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "173a96be1ffa5a05809cff712c5b504f98c5aaea39a597410418e65282d0dc62",
+    "dropBoxImageName": "HeliosHelm0018.png",
+    "ipfsHash": "bafybeihswtlhzob4tuyrkzptozx7elahhlultcvfbawbdwuvxquwqvzrwe"
+  },
+  {
+    "number": "ACT PFPS #19",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "acab01bcbfa47594bc392210cf1b2a21ff8957eb6a73ddee2772eb81b472a3ae",
+    "dropBoxImageName": "HeliosHelm0019.png",
+    "ipfsHash": "bafybeigq47tm3luaf64for56vfqxf7o55oecbzod54p2h66ox4gep2ogzi"
+  },
+  {
+    "number": "ACT PFPS #20",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "08ded5bceaa8a514b923ce62d49f0fd0554ab8026f1565502975cc155da8422f",
+    "dropBoxImageName": "HeliosHelm0020.png",
+    "ipfsHash": "bafybeihu3krjeiy7m6al5xp2j2ny6qlxpxf53kfw7va2xywyffayc2enla"
+  },
+  {
+    "number": "ACT PFPS #21",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "ad6d0c1d15ba9389c5c52a43c93a30de18e4b5c40bbe291d9e6fb64aed46eedb",
+    "dropBoxImageName": "HeliosHelm0021.png",
+    "ipfsHash": "bafybeidorrkdcl2pbou24kcvu6hbxnsfmurhfvxufn4t43tw4tjf37ik5m"
+  },
+  {
+    "number": "ACT PFPS #22",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c28ca4c7f7dbf7cf0daef1c144eb01c65d5b490015abeddc9907aaf2072dd078",
+    "dropBoxImageName": "HeliosHelm0022.png",
+    "ipfsHash": "bafybeiczusfuiejypol7ilmtg4iudeqa4lu72whkzkt6pfcigqh7xgtdfa"
+  },
+  {
+    "number": "ACT PFPS #23",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "761d2b90d7d3bc1fd65dccde7fd286f86eada45790212015c1a5dbbe4b997709",
+    "dropBoxImageName": "HeliosHelm0023.png",
+    "ipfsHash": "bafybeif4lpoaf43vte2i5b5zltcfw67m2baakyqxribjc5yfwparjs5ndy"
+  },
+  {
+    "number": "ACT PFPS #24",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5d1f22319dc54bc5d42da04f27484cd27a394441f1e30f239f2eabff71284ec9",
+    "dropBoxImageName": "HeliosHelm0024.png",
+    "ipfsHash": "bafybeieo2c67kvam34g2xvqytdmvk3mp6olwixrr4bxxlnjuhdqkzi25jq"
+  },
+  {
+    "number": "ACT PFPS #25",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5a20b372ee48dbfb60ae188d2f3c3074e557abd635af84e86d172b99783f0337",
+    "dropBoxImageName": "HeliosHelm0025.png",
+    "ipfsHash": "bafybeihcjtngefmx3sssa4cutjob4uqlhmruhquurrnfjfcahwtcxua44m"
+  },
+  {
+    "number": "ACT PFPS #26",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "83324869d7e5b00d43fc11c0f4045da390d3c238bb85e0ba03ff48cf39477ff2",
+    "dropBoxImageName": "HeliosHelm0026.png",
+    "ipfsHash": "bafybeihpevi5salmc4cfyigld22ijusglhuwo4yer6nzkvvc4ckxmmim4m"
+  },
+  {
+    "number": "ACT PFPS #27",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f9b9fc46482717ca035250e2a3f55f6bd3fcbc6f7f2eecc1d9e33bf2c92da1f3",
+    "dropBoxImageName": "HeliosHelm0027.png",
+    "ipfsHash": "bafybeiekeihg3iwa5mxpfn2luj6wdrxjo7xmubkkaaoxiyfav2rtymqy7e"
+  },
+  {
+    "number": "ACT PFPS #28",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "ab84106d21c5ac197b563500be31562c12dcc7a4f90e8102a78662df201e39e8",
+    "dropBoxImageName": "HeliosHelm0028.png",
+    "ipfsHash": "bafybeih2ok4fumkeg5ckomufxit4e5gy5qe5ea3auwl5hs4wmi6tkcjh5m"
+  },
+  {
+    "number": "ACT PFPS #29",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8d9aede142cea4b394b492b018546132107fa42437230763d0a5b283c1b16914",
+    "dropBoxImageName": "HeliosHelm0029.png",
+    "ipfsHash": "bafybeifwel34ikg2qc4qh4hflo2sgclyd47yb3ub3x7j2hy26inub657hu"
+  },
+  {
+    "number": "ACT PFPS #30",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "abaa59787121cee36489ea4fd5c49cb93f2ed5f65c6b051556e041be000818db",
+    "dropBoxImageName": "HeliosHelm0030.png",
+    "ipfsHash": "bafybeigsshix3soazexp4btfvualpa22o3vx7rvbfjyesg6rnvnyl7bzey"
+  },
+  {
+    "number": "ACT PFPS #31",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "79c42db41c927afbf1e5270b0b579cb9e29ac4926eaf95c24307ea05a4bec29a",
+    "dropBoxImageName": "HeliosHelm0031.png",
+    "ipfsHash": "bafybeibl2ehb6fnqnp2bpivqotu63vzc4wgqjn5ttay4vfez67lvtbacoq"
+  },
+  {
+    "number": "ACT PFPS #32",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "d8cdab913cee8e3d3241dbf2efb8408bd7bfc98fc44baddcfdce5a433cb967be",
+    "dropBoxImageName": "HeliosHelm0032.png",
+    "ipfsHash": "bafybeieiicotbg26rngoostq52ehslgu45npyahua4wstjvfdx7monnxsm"
+  },
+  {
+    "number": "ACT PFPS #33",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "34639d3e20c333e98aa59cff4e08100791ba7d919401c0fe8e3e08f75a55839f",
+    "dropBoxImageName": "HeliosHelm0033.png",
+    "ipfsHash": "bafybeiano7n2dbbg5xxbzrulfglezkp4iicdeehsv4bq5znprp426mffcm"
+  },
+  {
+    "number": "ACT PFPS #34",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b2220a9830d8f5efde946a69ae7553bf2df5aa7795012f19693736aadfe4fc1f",
+    "dropBoxImageName": "HeliosHelm0034.png",
+    "ipfsHash": "bafybeidxlezhquybx2kqjiofqulthxvsm4kggpat5gi5kgpdlyaebdkvqm"
+  },
+  {
+    "number": "ACT PFPS #35",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "1c272c90202c70569e9773930429508fdad61c9d451fc65ac88c854e90b89522",
+    "dropBoxImageName": "HeliosHelm0035.png",
+    "ipfsHash": "bafybeieitz4kjtsgmaqblqt5phtv3fms4siz5t6agkwf66rdrhjtydmbjm"
+  },
+  {
+    "number": "ACT PFPS #36",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0ac5ebdd2fd20c49f2286c37236514aa32904f24e8bed5669b49530b70e9c3cd",
+    "dropBoxImageName": "HeliosHelm0036.png",
+    "ipfsHash": "bafybeifowib63nkl5ry75ozswt7wqp74i6pq3tm6wq4injxy6gj3tlodgm"
+  },
+  {
+    "number": "ACT PFPS #37",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f82fc2184b5eccec352c0b823e9f3e6b40c42c0c394f1ddc635ae6e009aafa2e",
+    "dropBoxImageName": "HeliosHelm0037.png",
+    "ipfsHash": "bafybeidiyrtkfliimqhn2o7qfctcy64fddx3k4dhnoad4q27h4gosp77dm"
+  },
+  {
+    "number": "ACT PFPS #38",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "9b13206df8f1bec32f829c6aae72c2e73eb0b29d28b40900dfdd2d4040598abb",
+    "dropBoxImageName": "HeliosHelm0038.png",
+    "ipfsHash": "bafybeibgexpramuzqwdxrdvgtn6otstbcjsdcl66bmrdd5mfvsjnmbbh5e"
+  },
+  {
+    "number": "ACT PFPS #39",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "08ded5bceaa8a514b923ce62d49f0fd0554ab8026f1565502975cc155da8422f",
+    "dropBoxImageName": "HeliosHelm0039.png",
+    "ipfsHash": "bafybeieoah7aqnglm57qckkqpxpsbhx7ndqurylh2qsqt32ghi3iinmydq"
+  },
+  {
+    "number": "ACT PFPS #40",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "d00c1242a48cdf09b04f6fd55d2a561dd3e6d6fc7ea59129dce4fe7288ead88a",
+    "dropBoxImageName": "HeliosHelm0040.png",
+    "ipfsHash": "bafybeidhhkqyzq6my2xwclbydy2dg4b3expvwxova2ixowoyykth2ymaba"
+  },
+  {
+    "number": "ACT PFPS #41",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "7053b2addda9dd7b32ddc51736d6fe944053e8bb3f96f78d80d681e55b43c922",
+    "dropBoxImageName": "HeliosHelm0041.png",
+    "ipfsHash": "bafybeidejljf5e6etmywychbha3sdforzrv4ufhfoej2audlg7iuah2vvq"
+  },
+  {
+    "number": "ACT PFPS #42",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "ab1689d1df569b1ac4c1feccb098bc1bfad31d33ed4001a771ead322c57c8491",
+    "dropBoxImageName": "HeliosHelm0042.png",
+    "ipfsHash": "bafybeifj6kptobviliauu4xll7f24ieplggvzcqyf7otdjd6ghglw6nlue"
+  },
+  {
+    "number": "ACT PFPS #43",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "11202e9d7087d3cf23b28fdd1765bd36c31e1e24068f80365c3b94b993b89a33",
+    "dropBoxImageName": "HeliosHelm0043.png",
+    "ipfsHash": "bafybeia3j6chxai5bls5ebqrnc6cnpx2jxkca6nlxxu2qvf5qntrbmor5y"
+  },
+  {
+    "number": "ACT PFPS #44",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c6fbd8d6fb382adba528906d01d91315ad34414f3d345508a184d89f2d4adc94",
+    "dropBoxImageName": "HeliosHelm0044.png",
+    "ipfsHash": "bafybeicmn36zhrd3uhpno4kayfc432owapw74zjbwdscmdlzxumkcxmhva"
+  },
+  {
+    "number": "ACT PFPS #45",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "14fd3bd4150d4d7dc40d0960b47dcbbd8309a13a2eab487e89c64f0abd2f7fce",
+    "dropBoxImageName": "HeliosHelm0045.png",
+    "ipfsHash": "bafybeififkpvj2u4losmytookyys6zxcheres5jj2cgxdfiaslyetgb7rq"
+  },
+  {
+    "number": "ACT PFPS #46",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "38194cedcecdaf9578ceebbc6b8a52248b1c254f06980d5525e9c2bf8a7c5d5c",
+    "dropBoxImageName": "HeliosHelm0046.png",
+    "ipfsHash": "bafybeidfhcz4aw3gb3vhxtxuouiktxgsf5zucplqkhnxd3yom6hxcxide4"
+  },
+  {
+    "number": "ACT PFPS #47",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "bc18412f105954b7b756a99871db31424a7d1f96d2fdb525e02c9535e4de9316",
+    "dropBoxImageName": "HeliosHelm0047.png",
+    "ipfsHash": "bafybeihevjblx7jag32fgc3pzizzk6jijls2b6squyptdp2zaofbro5fm4"
+  },
+  {
+    "number": "ACT PFPS #48",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "12f8f92bbc56e7db596f6010d224107d869347d73c2b9893b28a044aeada762b",
+    "dropBoxImageName": "HeliosHelm0048.png",
+    "ipfsHash": "bafybeict63am4dwtby3mofnrdmmaenu7rqv5wcxfmpgk6eqeg6h4rpsyeu"
+  },
+  {
+    "number": "ACT PFPS #49",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8294ba493806625f279c73538e53de8bd9d17994599e339e2bb3c4d4ed7fa833",
+    "dropBoxImageName": "HeliosHelm0049.png",
+    "ipfsHash": "bafybeif7aum3pfs3p2vpgdz75kje2umwttmtpncdbshho5cwpobik5v6li"
+  },
+  {
+    "number": "ACT PFPS #50",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "7d5890f9081a20267335d477900b3ce338c213feeccf29b41756a1859f8c0024",
+    "dropBoxImageName": "HeliosHelm0050.png",
+    "ipfsHash": "bafybeighwb2zkwroe2vfbsh75czw56y3q3iodhgnzkwygijs6golzlsw3q"
+  },
+  {
+    "number": "ACT PFPS #51",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "fd31e919541c35448c87ccd10897573dfe53aefe0c9305328e04557a039a2bf0",
+    "dropBoxImageName": "HeliosHelm0051.png",
+    "ipfsHash": "bafybeiehx3iexgderisgw7kre4uj6eclwdbxjsnyzogjou76ckghbpwg3y"
+  },
+  {
+    "number": "ACT PFPS #52",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "95523a8d0bc548f4d2705f8037b3bd760887b930f46ba1f4dddcbedfe8b4f829",
+    "dropBoxImageName": "HeliosHelm0052.png",
+    "ipfsHash": "bafybeid7l7k4gjodzqh4yj34xfdw6icvoz5ehsz3jn4bajuxajn5tl62qu"
+  },
+  {
+    "number": "ACT PFPS #53",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "69e48324e78af61142f58be8749f37ee3719305da3e326551e08c690fb186bbf",
+    "dropBoxImageName": "HeliosHelm0053.png",
+    "ipfsHash": "bafybeigwswujropxzd4ks4rvkddb3ztiux5wlrbnlxp3pjdsts4fwvdm44"
+  },
+  {
+    "number": "ACT PFPS #54",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2cff3e99371700ac3cee2d6dd44d8f69d11394283612cb9154af0fcbeb3b2a54",
+    "dropBoxImageName": "HeliosHelm0054.png",
+    "ipfsHash": "bafybeibjkyiujuwer7eolosg6sstpehvdqyuy6xicd7cw7oihxcycds45i"
+  },
+  {
+    "number": "ACT PFPS #55",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "3ae10bb4fd3bf99cc9c4fb81f5dfc840b2e8d35b851590c2176333755a5b935f",
+    "dropBoxImageName": "HeliosHelm0055.png",
+    "ipfsHash": "bafybeicp2l3o2esybkzj2kcm5wt4ys3n7sbnvpmsb6bm25suj6e75wi56m"
+  },
+  {
+    "number": "ACT PFPS #56",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2fd9d5f34d87330b492cd18eff05f085352df34c3cee82dd0b82c0106a5d92a0",
+    "dropBoxImageName": "HeliosHelm0056.png",
+    "ipfsHash": "bafybeidzrctnoeogsspb6vkwzwavwckqtzhxpmcf7p64loot77zj4ouq2q"
+  },
+  {
+    "number": "ACT PFPS #57",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "6d0006d199b819200df7da3b1bac797af4881ff92333a6dc965a3c79b0620b95",
+    "dropBoxImageName": "HeliosHelm0057.png",
+    "ipfsHash": "bafybeiaflw3z4qbdamedu4wy4mggqnke5z7owd33oxst4nqltvovp2wz4a"
+  },
+  {
+    "number": "ACT PFPS #58",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8c26ae0a6633fd2e08a84cad1c03aa3174ae8a61c49d8c881ec9190fe0699253",
+    "dropBoxImageName": "HeliosHelm0058.png",
+    "ipfsHash": "bafybeidv6cj44grasd7hdnpjrmdyqdpdim64ugrxcibxw3wy5kcmvksqka"
+  },
+  {
+    "number": "ACT PFPS #59",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "fbaa393742d83e86b4d48afd0f3389e3871c81daef805ad8b86baccf22c469de",
+    "dropBoxImageName": "HeliosHelm0059.png",
+    "ipfsHash": "bafybeie66vl7pbtolp3me6mmysh7bvuciatn7zkhlkn2o6thoboh3i3n3m"
+  },
+  {
+    "number": "ACT PFPS #60",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "acbfc474b29af909a79be381007bd2ec82b990debf97f069f529af60bc82d0ed",
+    "dropBoxImageName": "HeliosHelm0060.png",
+    "ipfsHash": "bafybeiaaxp7gfi2lux3oka3ymiyg3i75rhgybiooc7kwguvndw3y6ay4pq"
+  },
+  {
+    "number": "ACT PFPS #61",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "ed773e1c6a64ad51a5c3213ae5f3bccaa8ba9670a95598eef9b8f9723b8637eb",
+    "dropBoxImageName": "HeliosHelm0061.png",
+    "ipfsHash": "bafybeibf3lk743n3va7ywwciuggsi2rbvsep2lxmgldvgirwk4uvtpjjyy"
+  },
+  {
+    "number": "ACT PFPS #62",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "29691e9dfa137b6fcb7277117b05e79d2dc64eab2e96270cbb782856703774a2",
+    "dropBoxImageName": "HeliosHelm0062.png",
+    "ipfsHash": "bafybeibmi3tjulglac6henwz4pu3waeffpddrvfetuqpi3rhux2rp7jvfi"
+  },
+  {
+    "number": "ACT PFPS #63",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "cabf629f287ab5c60fea281070341423c8cfe560af59fd3523f8eb54c16fda23",
+    "dropBoxImageName": "HeliosHelm0063.png",
+    "ipfsHash": "bafybeig4xoablqc7exhm4wf25ilpelbs56sy443unq7c4luwcjglwdm5xu"
+  },
+  {
+    "number": "ACT PFPS #64",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "9b5bcd4b1292adb33c4dc152b3c5f2cd2187568a8582ea87fdfb660bec0efd75",
+    "dropBoxImageName": "HeliosHelm0064.png",
+    "ipfsHash": "bafybeiaadixty4z6n7a2m65iu4nnysbidkkkqkyeahhomvlc6a44rvebru"
+  },
+  {
+    "number": "ACT PFPS #65",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "82bd85148e299c4bf9fcced574d2f994e4c0c1f65672d7bbf8c49c58e0c135fb",
+    "dropBoxImageName": "HeliosHelm0065.png",
+    "ipfsHash": "bafybeie724ntg73daqhkl7f4tunh73n5ohxmbijsurgpgxc2xnqttnwyli"
+  },
+  {
+    "number": "ACT PFPS #66",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "acbfc474b29af909a79be381007bd2ec82b990debf97f069f529af60bc82d0ed",
+    "dropBoxImageName": "HeliosHelm0066.png",
+    "ipfsHash": "bafybeib6jg5tyfxxs27otwwkjz4igylbrcvkt4npzopl6tnjuxhg4fxf3u"
+  },
+  {
+    "number": "ACT PFPS #67",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4d05c0124bb6a32ae3c501f18b09dca3652fa5b7bc07498bead8819b394c6e38",
+    "dropBoxImageName": "HeliosHelm0067.png",
+    "ipfsHash": "bafybeie7kiyo3opai34h65tabpwbbeb7mzolljbdcl2fljddcozrj6wvca"
+  },
+  {
+    "number": "ACT PFPS #68",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "48eca63eadd32265be2345fccbe1ebac0eea7f4ce81b006ddc8b2c27ee417480",
+    "dropBoxImageName": "HeliosHelm0068.png",
+    "ipfsHash": "bafybeih4qpjkyenti7yxchxxykskjoacmyyvfkrqrlto5o3w6xuk34sm5q"
+  },
+  {
+    "number": "ACT PFPS #69",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "636eac0ef4ea5c26f49bac0e3452f755f4a4a8ff0231228ced5c8689eff4a794",
+    "dropBoxImageName": "HeliosHelm0069.png",
+    "ipfsHash": "bafybeih6fz3uzrkhgvtygjkayhc5xccambzxy4ylvp2bmwjvhnqd7qeuru"
+  },
+  {
+    "number": "ACT PFPS #70",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "65a1324f3f23dd20216465c494017e3f0447292fe762e59f88ba607107756f4e",
+    "dropBoxImageName": "HeliosHelm0070.png",
+    "ipfsHash": "bafybeibimgize6f2yruil7lch2ftjwbgzpj44hu3lxjifukgyv6ayn3o54"
+  },
+  {
+    "number": "ACT PFPS #71",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "406c6d12459f92aadf3f7795848d782c969a344177dc58554394698ffecad50c",
+    "dropBoxImageName": "HeliosHelm0071.png",
+    "ipfsHash": "bafybeifamqegc7edcgxhkmqhatc42mzyboqw56gzkdfm3hndvassubzsa4"
+  },
+  {
+    "number": "ACT PFPS #72",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "dc3ff02be7794c2f8819eb69b756fd8c613e46ff8ec2623c8e036d58f4484140",
+    "dropBoxImageName": "HeliosHelm0072.png",
+    "ipfsHash": "bafybeifrbsch4nr4cbdtba3tkmww6gz3sbbm57vyar2jondyy3etjomtqm"
+  },
+  {
+    "number": "ACT PFPS #73",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a3249e1ae0f5ede008587a12380eae89226d22f17fa9a981481157b42f1d210f",
+    "dropBoxImageName": "HeliosHelm0073.png",
+    "ipfsHash": "bafybeia4ryj5gzwj6sw6xp762hxn2run6tag24wp2tkr6dpi5oq6acfxga"
+  },
+  {
+    "number": "ACT PFPS #74",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "99f4adee7151445c3ca082bf2024bf4cd650655cb4bc3f50abb4c56afa799c9d",
+    "dropBoxImageName": "HeliosHelm0074.png",
+    "ipfsHash": "bafybeiefeki63ze3zykov2pvrbo5uyqliyuffxbjh6r2q5amf63tzhti3i"
+  },
+  {
+    "number": "ACT PFPS #75",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "628ae2bdf450ef07853d59b43abcf2d752ffd45bec223919e3ff4b89cfdc94be",
+    "dropBoxImageName": "HeliosHelm0075.png",
+    "ipfsHash": "bafybeiboj3vtea3btzyal647hxvlpb3qqqpjnarkeqxwe47wljundtwpwi"
+  },
+  {
+    "number": "ACT PFPS #76",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e80b00aff5083ffaf2b68c8faa13da9d1ceeba33bc4875b4700e68e08194b26d",
+    "dropBoxImageName": "HeliosHelm0076.png",
+    "ipfsHash": "bafybeid7r2dcjkh2cmdbdltvvqrjrvpt6xeiiqvw2a6e7y4lksuxxkn4zu"
+  },
+  {
+    "number": "ACT PFPS #77",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a182bce40dc3720170d86b67f0d2fa9ba536b729ace0491f8d8ae3793beb4ff2",
+    "dropBoxImageName": "HeliosHelm0077.png",
+    "ipfsHash": "bafybeifjiamwjhrdwtc42ejzepckt7q3s2tinado7bkvamlyqo2ryyzgia"
+  },
+  {
+    "number": "ACT PFPS #78",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "46a91c52d7a39b967ed10ce450e5b22b446572998748ebaac5dc9771f2466ffb",
+    "dropBoxImageName": "HeliosHelm0078.png",
+    "ipfsHash": "bafybeiarfo3rxzsxeweoyzis3fmscvrvgjlmfyjicfrdb5iurrcqdoxjpy"
+  },
+  {
+    "number": "ACT PFPS #79",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "3c5013c6177a7f9ce0a1258560ff848d892024c217daa2357365e15f1ca83649",
+    "dropBoxImageName": "HeliosHelm0079.png",
+    "ipfsHash": "bafybeifonfzpfi7wv7d2ersko5ezk2ovaydtoqrt7srnsrdxcfxrau4hou"
+  },
+  {
+    "number": "ACT PFPS #80",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "3b37db019fc8c5558a73dae592852dd830910e33f45b74a51d74ff916c3f8db0",
+    "dropBoxImageName": "HeliosHelm0080.png",
+    "ipfsHash": "bafybeiclbofz5zivg74cplwivw6ybksprgdazrzg7yogpk5qteng73o3cm"
+  },
+  {
+    "number": "ACT PFPS #81",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "18d387f04ab456ab2f67cf7594131d4059c85910b2418ed15fd5721b901fe5d0",
+    "dropBoxImageName": "HeliosHelm0081.png",
+    "ipfsHash": "bafybeievagpgp7ipzmrzfm5uu4o7o6bvlaoiispnla226mozzi4xuxxrgm"
+  },
+  {
+    "number": "ACT PFPS #82",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c878b018ef9dc2ecccdc2566d19ecac48e06a8b3b12c85191fa3a2df380989cc",
+    "dropBoxImageName": "HeliosHelm0082.png",
+    "ipfsHash": "bafybeictousqamdkr7jjhmnhehh5zkxfhzqp5uc3eyxv766fwdik6nmxiy"
+  },
+  {
+    "number": "ACT PFPS #83",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b3bb3c77d2fc20e3a4aa81ac4265782dec5e1d99bcd66365dd14edb305ca3f91",
+    "dropBoxImageName": "HeliosHelm0083.png",
+    "ipfsHash": "bafybeiednhxrfz2t7g4znxt7vaqybvbwmy3z6vmys3d7cjgecdl2px5w5e"
+  },
+  {
+    "number": "ACT PFPS #84",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0dfde82ade3c2dd169d218ca34258820a06aa0fe2e146a8a3b1aecdb4141b135",
+    "dropBoxImageName": "HeliosHelm0084.png",
+    "ipfsHash": "bafybeidmmvtvk74or47ospkwdgd3hvv3rztwfu7stv7y43btf4ifb7jrvq"
+  },
+  {
+    "number": "ACT PFPS #85",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "df7b3a0f60655ff0014af6cce926c6bb091491e9c50270ffb4040cb1857f0e9c",
+    "dropBoxImageName": "HeliosHelm0085.png",
+    "ipfsHash": "bafybeifgm3xk5zavx5lasvbypbqf55ztnv7fouoh6dsob37zb465mnka7q"
+  },
+  {
+    "number": "ACT PFPS #86",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0cab990a5086652f6d652b0e38a753abc90db65068654c323d40276831708933",
+    "dropBoxImageName": "HeliosHelm0086.png",
+    "ipfsHash": "bafybeidtingf4hcfey2i6ygugkxzc5tlngikr5zob5r2qzko5qcabsgi2i"
+  },
+  {
+    "number": "ACT PFPS #87",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "105fba1e6143bcbb3f481b6f1ba3ead4b9ee2c480522b4a8a96a9f118e82d622"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2bcaa1f22d3d11e29b1480657a8da00f3792d759e9b2b18002f992fcae37752d",
+    "dropBoxImageName": "HeliosHelm0087.png",
+    "ipfsHash": "bafybeihgitoanak6biaa6njpj7j7dngipkk6ui3wnyr3ldjhyxhppn7lam"
+  },
+  {
+    "number": "ACT PFPS #88",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0f9b4359eacbad04ac38c908b73b421d13de52f126e24f979cdb385d39033180",
+    "dropBoxImageName": "HeliosHelm0088.png",
+    "ipfsHash": "bafybeifozbcdvnfodjgqsyumhby7ztkvapyabt26hqkfuv3jwol6lrr4ay"
+  },
+  {
+    "number": "ACT PFPS #89",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "3d228ee667f30d7d435e99bed867e56e6ee7d10b4a3fa39692f5c379ee56c9f7",
+    "dropBoxImageName": "HeliosHelm0089.png",
+    "ipfsHash": "bafybeievopxr4s4gnahxjlnu6ywgnvhn32zhuwlssfr73naxovvkx6r47u"
+  },
+  {
+    "number": "ACT PFPS #90",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "de1df39455c4e5abc8f15c5bcf365dac654e16fbecb6ca849e0d29962a35bf32",
+    "dropBoxImageName": "HeliosHelm0090.png",
+    "ipfsHash": "bafybeicxsu4xh4vglzck5ppn2fdi2j67dmy7alhedtpn2frpj7a4qzmxqa"
+  },
+  {
+    "number": "ACT PFPS #91",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "20d0c9b18166c37a48e6ec70a4c8ac1f67c950251d0c4e4fb4666be49e079301",
+    "dropBoxImageName": "HeliosHelm0091.png",
+    "ipfsHash": "bafybeih4nxh4kc4sb3qkxseqw2qt265jm3cumik2aevfvqfzjyso6hle7i"
+  },
+  {
+    "number": "ACT PFPS #92",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "1e2a3dccbec8364434431e3338ff38b3c2bd24c1fec857e0593dd755eaced055",
+    "dropBoxImageName": "HeliosHelm0092.png",
+    "ipfsHash": "bafybeicxnmjjy5xqdih56ks3tdy3utc42zvxssokhqmu5vtwqjgrrhityu"
+  },
+  {
+    "number": "ACT PFPS #93",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b79dd05a2cb7c92638d2d13cdac690424fc7739e5d4f6ab2aa983bed5cb9729c",
+    "dropBoxImageName": "HeliosHelm0093.png",
+    "ipfsHash": "bafybeifr4da75o67zbljmu6wyznosduj2s5oxzthokxvxhpjspjakc6nju"
+  },
+  {
+    "number": "ACT PFPS #94",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0eafadd3bf649a38c6d5dc12122d021a582034dda093e9bddbe26eab84c0c055",
+    "dropBoxImageName": "HeliosHelm0094.png",
+    "ipfsHash": "bafybeidxf3tg45h4y3pjhuk52gyt4zqmmjsgtpvrcce4ntbcspqicwhhuq"
+  },
+  {
+    "number": "ACT PFPS #95",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "81f0d4d5142fcff1950aaac5466eae86336d3bcc6bd8401f863dd988f01bdf90",
+    "dropBoxImageName": "HeliosHelm0095.png",
+    "ipfsHash": "bafybeibhbb57rj2jcqcvxmlx4scsk4lof6mm3eklka73yz52lnrapazigy"
+  },
+  {
+    "number": "ACT PFPS #96",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c4b31232a3fd0ce20bccdd2c588e367e6d60ada581ff1145e01d23ede8993313",
+    "dropBoxImageName": "HeliosHelm0096.png",
+    "ipfsHash": "bafybeihmwz3b4xoti6yzyz2wt6hujlngsum5qhomabidirc4mytitwowxe"
+  },
+  {
+    "number": "ACT PFPS #97",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "dce5e1c5c7d228e589fca930d00d74cf19dcf4ea08e2d8a73753ce1f499cff89",
+    "dropBoxImageName": "HeliosHelm0097.png",
+    "ipfsHash": "bafybeiaasvrc2tsry6cqswyrq3llin2woevzvsmtqyfvtfdta7wvu4xs2m"
+  },
+  {
+    "number": "ACT PFPS #98",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a0cdb0c6f763d2776f20dacbb2279b2784c02b7428054341b7179a88d5c8b8eb",
+    "dropBoxImageName": "HeliosHelm0098.png",
+    "ipfsHash": "bafybeidw2awopzn2lpjjrx46umjkzqrosdwsl5wlehnchvdbnpjfqibhcm"
+  },
+  {
+    "number": "ACT PFPS #99",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "afe050dce62a16b489c22ea589f7db218b8cf0a4d644864f1b73da22f52470b9",
+    "dropBoxImageName": "HeliosHelm0099.png",
+    "ipfsHash": "bafybeibtevkpcneval5v6jvzlzw77wah6gwm6cgl2qbwzmw6pm7hq55smu"
+  },
+  {
+    "number": "ACT PFPS #100",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5b880f624f4e662df996bc6842890e4e9e1631a0b0efa8cc322a75f0bc60dd57",
+    "dropBoxImageName": "HeliosHelm0100.png",
+    "ipfsHash": "bafybeiafzdba6zbbdgmw3g4mjp7t42trd3woglcrvdhi2wfh5bqymlzkly"
+  },
+  {
+    "number": "ACT PFPS #101",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5bade6212da79b667a4b1d37ec36e527261328a5ac058de879cf5534187b6795",
+    "dropBoxImageName": "HeliosHelm0101.png",
+    "ipfsHash": "bafybeiacz4vu2dlsfg4xj5gnsr44lcvlmd4kizwu4vessnnio5bz24pyk4"
+  },
+  {
+    "number": "ACT PFPS #102",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "6f4bfd4ac32aafefbc979e11f1e0223c2ce52b7e87d82cc44163cae2e0b2654e",
+    "dropBoxImageName": "HeliosHelm0102.png",
+    "ipfsHash": "bafybeihikwzuvpaarix5d72ms46yolawtkxk7vnjwva4aij2u6cqlwod2y"
+  },
+  {
+    "number": "ACT PFPS #103",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f064aa8d889a451d9e6f66b9a2de7b10ad49d16fbf2d734824dc294941c73a6c",
+    "dropBoxImageName": "HeliosHelm0103.png",
+    "ipfsHash": "bafybeign3mei274odlrwh6j5yb3ggi6lsx6pn2zhw6cahhm36kjjfvhl6a"
+  },
+  {
+    "number": "ACT PFPS #104",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b2224d151ebaada81ab332895bb7805e022b58790385a1f4a02d6730a52daebf",
+    "dropBoxImageName": "HeliosHelm0104.png",
+    "ipfsHash": "bafybeibicms7a2j2myhh2g23rnpckfzmg762iql76gwkcvy2cmo72jw6fm"
+  },
+  {
+    "number": "ACT PFPS #105",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c9c38706a18792f293bf2c6c75d047a60556e03747a892a9ad1225ebdeb88fa7",
+    "dropBoxImageName": "HeliosHelm0105.png",
+    "ipfsHash": "bafybeiandnxok6z7hnyn6755gvq5c7m4fe77v6oyqcygnfc4v7ivxdy2ie"
+  },
+  {
+    "number": "ACT PFPS #106",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "1bb9b8fafae1c8c8d01f51004a8bc1126ac5f8a688bc041b677b9a0d57c77a81",
+    "dropBoxImageName": "HeliosHelm0106.png",
+    "ipfsHash": "bafybeibfkscfjrnckq2qouxz6wt72ivrd3a7z74ao3olzmm3cdxm4w5k4q"
+  },
+  {
+    "number": "ACT PFPS #107",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a0be342b57bcc6774a3b79f499deee48cb49fe7448177a31f9c76be2c7fbce96",
+    "dropBoxImageName": "HeliosHelm0107.png",
+    "ipfsHash": "bafybeic7fgbpg2te53j5rvs6z7trd3zwwnrlxcsm7lmkljblfim2zgbfpi"
+  },
+  {
+    "number": "ACT PFPS #108",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4f3786625e83d63baaa5817ae20e6d83e8f78f546a59bd870d16ff8cde7aa890",
+    "dropBoxImageName": "HeliosHelm0108.png",
+    "ipfsHash": "bafybeic5dcdcict37xnpgq4cb2h32nwcyaao36mjvbzzzztitwvqljmabu"
+  },
+  {
+    "number": "ACT PFPS #109",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0258342e9dc922c6737132bbb507f937eea1061dda26c16742bc1b13ca24b9db",
+    "dropBoxImageName": "HeliosHelm0109.png",
+    "ipfsHash": "bafybeihu5lzogcbqxturh5slx4vgsgzc2kvcbmne34kxnssywbp7b25ety"
+  },
+  {
+    "number": "ACT PFPS #110",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a036a1e587b8fe85215590c437fa7c28d5689db2ca7ab6e4467a2ae3f8fa7689",
+    "dropBoxImageName": "HeliosHelm0110.png",
+    "ipfsHash": "bafybeie4dohgty4q55adktjjeu3gqut3cnf4zlrmdekwlbn5ibcxwwh2ay"
+  },
+  {
+    "number": "ACT PFPS #111",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "070a63b96bb8a24a177d754a0483a2766748da53e3de1814e979533a7b7a257d",
+    "dropBoxImageName": "HeliosHelm0111.png",
+    "ipfsHash": "bafybeiapwr6b7lmjwd3nkd47j3miexts5dz4d5a4rv22estv7tmd5agtfy"
+  },
+  {
+    "number": "ACT PFPS #112",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4b84797fe0ccf2e5a807a714223947a3f3980c443f6389bb947353423b9fe6af",
+    "dropBoxImageName": "HeliosHelm0112.png",
+    "ipfsHash": "bafybeigbsm6utbwfeox4grkywafb5vweobpd2ngfcktptlvde7dh4jukje"
+  },
+  {
+    "number": "ACT PFPS #113",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c040fcf5546cc9c6b750aaf98ff0111ef04191eb2016af47127bf5e1d9bc7a49",
+    "dropBoxImageName": "HeliosHelm0113.png",
+    "ipfsHash": "bafybeif24j4xlg2dw3likkiyallxwccg5mkyonmznnslp544ugsow4pkge"
+  },
+  {
+    "number": "ACT PFPS #114",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "abc9b75a40d92b92241ca8572783bb0fdfb1f294c69a9cfa69138bc91e9fdbd1",
+    "dropBoxImageName": "HeliosHelm0114.png",
+    "ipfsHash": "bafybeignmw4d2i3hwjltnfekxsxgjoc3exwcs5npjgyo7qckfjkyug2zle"
+  },
+  {
+    "number": "ACT PFPS #115",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "6c1e9a2220279f02e0dbad732ef0ebfa65b60081c56bc04c05e10b705c7bf4e1",
+    "dropBoxImageName": "HeliosHelm0115.png",
+    "ipfsHash": "bafybeifpclz4ocf2icjhzqogpui3wz6skk2avmdmguqexxdtx4yywk2dii"
+  },
+  {
+    "number": "ACT PFPS #116",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "85ccab6c6a3564f88d8b851911304790f302bfdb569d69c74d3969f6807f209c",
+    "dropBoxImageName": "HeliosHelm0116.png",
+    "ipfsHash": "bafybeigtbhbkzg2iabeetz2bqfdirmvwjbazxnpa5kolwaoc7stjg7gxta"
+  },
+  {
+    "number": "ACT PFPS #117",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "6d238e723e1da5a715f682dc1a0fdb6c36e2ecd40067a1cb87f8343c0b700f13",
+    "dropBoxImageName": "HeliosHelm0117.png",
+    "ipfsHash": "bafybeia5z6eqiz3wphbti7b5lb7kyi3cnoxj3zldnbiyvmv6pbw4oxrgy4"
+  },
+  {
+    "number": "ACT PFPS #118",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "07d0f9a7eb6a031c0021316c4562f1c10ff914e0d50c11672553a6d3d55233bf",
+    "dropBoxImageName": "HeliosHelm0118.png",
+    "ipfsHash": "bafybeig6uzylcvrs4yichfigj5fuloicep7jg6ldssbpgndb7xtgo7csmq"
+  },
+  {
+    "number": "ACT PFPS #119",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "9173dec1ee6c38c565f324cd71dafedb6ae31bb330ac18260c31793263a28893",
+    "dropBoxImageName": "HeliosHelm0119.png",
+    "ipfsHash": "bafybeih3njusjvf4vz5xijjehslsqcelzrhawat57xgrcphd6p4x6ns4ti"
+  },
+  {
+    "number": "ACT PFPS #120",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "10c91643bf919366671a544e8e572ac06f32e8ff70102835d1c802dee28c6a39",
+    "dropBoxImageName": "HeliosHelm0120.png",
+    "ipfsHash": "bafybeigsnd2y5jcthlcfk6rk2ofbztcf2axgowk7spajdupzvpsxyxnbsq"
+  },
+  {
+    "number": "ACT PFPS #121",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f56d280bc340b7cf48b45e46043921d1c0b635787b9db377bc46847665a85ba9",
+    "dropBoxImageName": "HeliosHelm0121.png",
+    "ipfsHash": "bafybeibhe2s5o4hxghbjcxhvjxhlxusf37bskgqbewjbhshqgc3wuljrmi"
+  },
+  {
+    "number": "ACT PFPS #122",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "b2224d151ebaada81ab332895bb7805e022b58790385a1f4a02d6730a52daebf",
+    "dropBoxImageName": "HeliosHelm0122.png",
+    "ipfsHash": "bafybeihpk2n73eswyemft4ozfi2hhtg6bnovsrq5os2cv4ywiu2ggjet54"
+  },
+  {
+    "number": "ACT PFPS #123",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0b05843a620bc668d2829974eed6fbabc01e8b2f79c34427a976d6dfc71b9bba",
+    "dropBoxImageName": "HeliosHelm0123.png",
+    "ipfsHash": "bafybeifh22k3vb3oki76wmdkc4gvxzrg6ee4cxclwfq23mcoxfgloqfbyi"
+  },
+  {
+    "number": "ACT PFPS #124",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "75655edb9a142c5005a664bfd510706eaaf4fc8bfa5140f6bfc20a136e4e7b3b",
+    "dropBoxImageName": "HeliosHelm0124.png",
+    "ipfsHash": "bafybeiezm66r753sfyyxw6wx43w5w2df4auqde6lu4s7us73lsqxja47re"
+  },
+  {
+    "number": "ACT PFPS #125",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5922c89f37e5f513745b9ea77afb7d5289fe84e5b3cf82493a355a117ba6264d",
+    "dropBoxImageName": "HeliosHelm0125.png",
+    "ipfsHash": "bafybeih623og23lroxbqiamppasiw36ae5bhwgt34iv744gnicdvufjzfm"
+  },
+  {
+    "number": "ACT PFPS #126",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5a37dde14f9ff71a27b9e60cc9e296b8ca2c6e11d2ea45d8d01c067e6e778074",
+    "dropBoxImageName": "HeliosHelm0126.png",
+    "ipfsHash": "bafybeicklhxwae55lnfv6mzhduqyglogazqgtgac7wbzqxf7xvggo7ctgy"
+  },
+  {
+    "number": "ACT PFPS #127",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "c84e656faecd34cb76002c9d2217dc0c111fc65efd11a9e624a7d08ea67be439",
+    "dropBoxImageName": "HeliosHelm0127.png",
+    "ipfsHash": "bafybeic6szysakazzwt725kcr5j6d2rgkfzdbpdnxbiqauks2eyhuoys3y"
+  },
+  {
+    "number": "ACT PFPS #128",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f125562483849c89aff60e90216926a78d49f4f69781bb7b8369e8c786ada955",
+    "dropBoxImageName": "HeliosHelm0128.png",
+    "ipfsHash": "bafybeidihbm4h6whdq34xaqpnvfjaped4uwtz6ffunp3r53ydxrys226xm"
+  },
+  {
+    "number": "ACT PFPS #129",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "6eccf9437abc8e2cf6547eca3b23b6c955407f2175f82344f17b2a66496b7511",
+    "dropBoxImageName": "HeliosHelm0129.png",
+    "ipfsHash": "bafybeiaeq3q2ypu3csww6hq652hkfohbuwzpkohuu7o3jygrpua5w5bs64"
+  },
+  {
+    "number": "ACT PFPS #130",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8e5283349f1c290b994a08ff643b137f9c226ac2595ffe6aec9208dabe97cc0a",
+    "dropBoxImageName": "HeliosHelm0130.png",
+    "ipfsHash": "bafybeihh5scygicxqlq3zd456rx6jwjtmbz6oig2u5tofa2kiou7egavsa"
+  },
+  {
+    "number": "ACT PFPS #131",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "bc18412f105954b7b756a99871db31424a7d1f96d2fdb525e02c9535e4de9316",
+    "dropBoxImageName": "HeliosHelm0131.png",
+    "ipfsHash": "bafybeiajockwz7ktr4lufwsxerpogi52wfqnpe4qylupytttstas4uerne"
+  },
+  {
+    "number": "ACT PFPS #132",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "07785dfe08e2e96bf94461db5673205e8d13e3815ba375b63b32a1a4e88e5aa7",
+    "dropBoxImageName": "HeliosHelm0132.png",
+    "ipfsHash": "bafybeif6n4g2hqhg2bkpl6lz35ufi6uu4brewkor5hjxliv7t3ctblcmpu"
+  },
+  {
+    "number": "ACT PFPS #133",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4f88799351b9a921aafb49abcd04bc69e7ca1ef058539d2a55da8d6bf034ad63",
+    "dropBoxImageName": "HeliosHelm0133.png",
+    "ipfsHash": "bafybeiaj7opih2nezd2syl6pir47ywhdwmwcc2txegvhsv3lo7r2fyuwli"
+  },
+  {
+    "number": "ACT PFPS #134",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "678451f2af08f347ce1d214fc36fbd6b4665838b92800f636b41dd86429bbd55",
+    "dropBoxImageName": "HeliosHelm0134.png",
+    "ipfsHash": "bafybeiadk3wmwnhzt5jv2dd2zfzvb6ya7nexdccfnytuznawlrt73e3sa4"
+  },
+  {
+    "number": "ACT PFPS #135",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f668fa4e8fbf2672ddb3b8f448d44c10ae102eb6ad1722c5e0d2a78a94be31e4",
+    "dropBoxImageName": "HeliosHelm0135.png",
+    "ipfsHash": "bafybeihywrh2zk4fsycxuz3z5uyxygjzmx4epthdhslkcaaraehyshr6gi"
+  },
+  {
+    "number": "ACT PFPS #136",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "28c7472fe6786b47cf9e7d78650d552e9f35657085877016bb33ec443accba3c",
+    "dropBoxImageName": "HeliosHelm0136.png",
+    "ipfsHash": "bafybeiagp5fiimg3facduypwyjesbsbzygr6wpf3bscaq2cz6g3lvoygnq"
+  },
+  {
+    "number": "ACT PFPS #137",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "d5fbe7c8eca7daa889b4153b932c07d9acd369eb86304e290179830fca78edbd",
+    "dropBoxImageName": "HeliosHelm0137.png",
+    "ipfsHash": "bafybeidx5v7vanfshv7afw5rvggso632elx2v4474nnwbyo3iguomdkrzq"
+  },
+  {
+    "number": "ACT PFPS #138",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "31a1d443d94aae37d387d344dd6a49090f7467b80aed2aa151aae5faec7be89b",
+    "dropBoxImageName": "HeliosHelm0138.png",
+    "ipfsHash": "bafybeigaqwbd2w2egynexqv6vvn3wmehdo6j4ef2z4griwixrb2xiz5ygi"
+  },
+  {
+    "number": "ACT PFPS #139",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b7e7e8e334057156b8f8547ec1cc7b33cf1a21e28a8c38cd4d6b8f5512034096",
+    "dropBoxImageName": "HeliosHelm0139.png",
+    "ipfsHash": "bafybeid7jdk3orukpm6ii4d6wadpxompvgfkxhwb6llnwms62ocfkjap4e"
+  },
+  {
+    "number": "ACT PFPS #140",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c47753ad7345b789a83a1a42ac2e50c3f80ac908eb834ed11045d5db8a1cbcb7",
+    "dropBoxImageName": "HeliosHelm0140.png",
+    "ipfsHash": "bafybeicnmugqfhbhccozi4zoxqkzf4abayrjjeh5ypxrsnysavp2suie7y"
+  },
+  {
+    "number": "ACT PFPS #141",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2c02b7a24221a977c4521e2fd5cae7528cdbd2874aa14a8b4b51a37f0fedf1b5",
+    "dropBoxImageName": "HeliosHelm0141.png",
+    "ipfsHash": "bafybeiawac6s4ehkhkcrrbkltnzu2wv5szrhttbu7wzxwzlir2rvyaakuu"
+  },
+  {
+    "number": "ACT PFPS #142",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8b5b059df048d462848de246b6de0a6f0a7c9ff96418ffce1aa15c9fba5774d9",
+    "dropBoxImageName": "HeliosHelm0142.png",
+    "ipfsHash": "bafybeigrkf5fr3n2mxj2b5ushblr4fcmloo3nwo2lize3josdkzz4qeoey"
+  },
+  {
+    "number": "ACT PFPS #143",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "bace83c83a2b2641cf5aedb1453580f5bf74310846218307b1376e7af6096b56",
+    "dropBoxImageName": "HeliosHelm0143.png",
+    "ipfsHash": "bafybeib6mp5ahlcl3ml3gfkpm6oumahz4yd34eo2dfti6j3pdpc3jdaigi"
+  },
+  {
+    "number": "ACT PFPS #144",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "40e972447c2581fe79a14ab0d5ca28b0ba80c0cd5ba22d32a7cda8ce54312fbc",
+    "dropBoxImageName": "HeliosHelm0144.png",
+    "ipfsHash": "bafybeidg6vpnnba53erg46ybas3pcqc2ckzdscvi56shxtsi3tnwkwrud4"
+  },
+  {
+    "number": "ACT PFPS #145",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "bab2f2dd0ff2e9912904a85dd10e6a583c04b57cbbb6b439fcef030357fbc3ff",
+    "dropBoxImageName": "HeliosHelm0145.png",
+    "ipfsHash": "bafybeichwvvf5igz3xowrfnfwsa24dpl74gfrocsmqlliiivnfeyagpfky"
+  },
+  {
+    "number": "ACT PFPS #146",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "d581683b47e23bbd03b23c77a465aff850ae3f249090ab91013c04c07ed79537",
+    "dropBoxImageName": "HeliosHelm0146.png",
+    "ipfsHash": "bafybeiguzqvov3ytbpml7jayeo7nhqtvl5abyedavi4pgbay6vxnbjqxmy"
+  },
+  {
+    "number": "ACT PFPS #147",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "87572aef056a0d244f1d5c3ee31bbe3bf994803cbe8d5b62f2f0699360f58638",
+    "dropBoxImageName": "HeliosHelm0147.png",
+    "ipfsHash": "bafybeicp2yqr2anzzpzxo7tumqeztm2ixodrd4lh6zjy6gpu7sbsq2bimi"
+  },
+  {
+    "number": "ACT PFPS #148",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "53de5a43e3f4840c48ef2e409e4ee4e947dcf06ca93d50081a493ac89a2d1b7d",
+    "dropBoxImageName": "HeliosHelm0148.png",
+    "ipfsHash": "bafybeic4bu3s74obwwgzf4ol7opjl2mcx7vcxdff3cwbrzwv7n4felmpiu"
+  },
+  {
+    "number": "ACT PFPS #149",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "61e069019a0566a7294418395c71473278d8b3ce2e0f10cdbcd704a353a1e601",
+    "dropBoxImageName": "HeliosHelm0149.png",
+    "ipfsHash": "bafybeiep7bc4ayugqiz7vidxzwykn4nx7cenu7msk4zjewv27yemtb3weu"
+  },
+  {
+    "number": "ACT PFPS #150",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c84e656faecd34cb76002c9d2217dc0c111fc65efd11a9e624a7d08ea67be439",
+    "dropBoxImageName": "HeliosHelm0150.png",
+    "ipfsHash": "bafybeigauwtxlmic7fgei7y26cq6ejb6jzasvhrlvaclgljbnemagftjum"
+  },
+  {
+    "number": "ACT PFPS #151",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "68f49ddd441349b5bf284c15eb67a730688d1b80a4a43463a1392295239294d6",
+    "dropBoxImageName": "HeliosHelm0151.png",
+    "ipfsHash": "bafybeibk4acr3rdkgto4gtgpcie2dfrzqo2booej7pwvehj4dwsu5im6pa"
+  },
+  {
+    "number": "ACT PFPS #152",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a1981d83123ebf99783d824ec38bd65ab7cfa263cdb6e44e90752d379af89540",
+    "dropBoxImageName": "HeliosHelm0152.png",
+    "ipfsHash": "bafybeiav3ps42vhbuipbcma7wzk6u7sgx455uuhcmenu4uiifwqiipbvm4"
+  },
+  {
+    "number": "ACT PFPS #153",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "579e780b378eff69b5c8f73c569a4f295a461576c96e14752f0c855b4f53c3ae",
+    "dropBoxImageName": "HeliosHelm0153.png",
+    "ipfsHash": "bafybeibget2tfhuqxavqkiuc2cjmbtazelwdqur76cmlu4srieqdrrjzcm"
+  },
+  {
+    "number": "ACT PFPS #154",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e34259d5ad740532e2ee069c0bc3aa338f5ad9ae04938851452b85e935bbd5a0",
+    "dropBoxImageName": "HeliosHelm0154.png",
+    "ipfsHash": "bafybeihkccpem6f2vcup32zskjqyx62kctncxlvu7hdwm6ndrglmpouxwe"
+  },
+  {
+    "number": "ACT PFPS #155",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8387c581cca040b600b4950e13de6e8f9d9fb04d4d39badd583bb481c601f650",
+    "dropBoxImageName": "HeliosHelm0155.png",
+    "ipfsHash": "bafybeihxdflbgwahcvje6b2lbt67r2ocxpcoz76j5ie36lvlek3qmcojeu"
+  },
+  {
+    "number": "ACT PFPS #156",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4d040102522a747f17045624f7afd1c83cd99eef6578094e37249b94a88655e0",
+    "dropBoxImageName": "HeliosHelm0156.png",
+    "ipfsHash": "bafybeiglyjioa47nxuo5ebnp47fmx2o6njsb3ojtwr3b5nizcojzvaly2m"
+  },
+  {
+    "number": "ACT PFPS #157",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "791de40b56786fd71c96a50e310a21654b6da634e169be4fd6a102c82a4d49c4",
+    "dropBoxImageName": "HeliosHelm0157.png",
+    "ipfsHash": "bafybeihgszq2cllc64xgs3vped6wpdgexvyz5n3nczn4tm5mr2ou5gjm6m"
+  },
+  {
+    "number": "ACT PFPS #158",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c6d1c89f585f8994308e8ff8cb6ca07eabc0571585c0f6b4dfc54129b9422e92",
+    "dropBoxImageName": "HeliosHelm0158.png",
+    "ipfsHash": "bafybeihaezv4zbpjjfrr2s7caceqs6jq7yaaapvvnxu2roqn77irrd7r7i"
+  },
+  {
+    "number": "ACT PFPS #159",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2064b329b1d5047224c3d6ef3f45eeb97c360f18d5498678dff95f6cf18501d3",
+    "dropBoxImageName": "HeliosHelm0159.png",
+    "ipfsHash": "bafybeiets35v6myrdymusic6n65fsveijzt5a6oov5nuqsgzgiphh6pimq"
+  },
+  {
+    "number": "ACT PFPS #160",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "6b712a4d504b76d6f7e9305dd8860c65b7c7341332abf00682940ace6d88349f",
+    "dropBoxImageName": "HeliosHelm0160.png",
+    "ipfsHash": "bafybeifg5po32zhpvffltfdsrve5cxw52kqxociwfawzdibagkushlatfe"
+  },
+  {
+    "number": "ACT PFPS #161",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "3461dc32bcf53af2790c280d8c5c260e8459f90d32276d3550298d06a18a1f74",
+    "dropBoxImageName": "HeliosHelm0161.png",
+    "ipfsHash": "bafybeieiphpy2ctk4lzomkgf2rxgbhs75hbhwreek4ujemqsckb4qgk6yy"
+  },
+  {
+    "number": "ACT PFPS #162",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "5e5f8f2ffc94d97d8d899a1edaa318b3a5394b27b101b97397f597a8bec2d968",
+    "dropBoxImageName": "HeliosHelm0162.png",
+    "ipfsHash": "bafybeifirobqlpxesgsfki4eq4xgujkhkriflw2acsqj6ynhy5cgzrrugi"
+  },
+  {
+    "number": "ACT PFPS #163",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b6234b0d5666dc3acfe75f771f51f9ef8161c84cf44d401f1912525c6d063496",
+    "dropBoxImageName": "HeliosHelm0163.png",
+    "ipfsHash": "bafybeigctkuqj2shlelhvr2a5rnhzmmifxiaclroxk66syz4tmlpvxway4"
+  },
+  {
+    "number": "ACT PFPS #164",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "750c607a4034ff76822fa9973662180a1baf6190f93a5b5b811d0976415b288f",
+    "dropBoxImageName": "HeliosHelm0164.png",
+    "ipfsHash": "bafybeibnq62eojbddhkj6tyicahcmoigzp4nr7ccahmttqsrenyhg4m2gy"
+  },
+  {
+    "number": "ACT PFPS #165",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e4a2fe4df7e218d838cf24e071866c4ae8338d3b42645f91cb453c886e31be64",
+    "dropBoxImageName": "HeliosHelm0165.png",
+    "ipfsHash": "bafybeiesrw72qte2vwl7t5qbzenm437dvonuk5g4d67i6bkqar5q4csulu"
+  },
+  {
+    "number": "ACT PFPS #166",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "627b4df3b73c5b589b00b7dc8f7ca17ac8a5910f0442edecd0ddf03a575e5e4c",
+    "dropBoxImageName": "HeliosHelm0166.png",
+    "ipfsHash": "bafybeibacotnsercf763cz3wqoeak32vspss2hz6sqk7aupfwe2k4g3lyi"
+  },
+  {
+    "number": "ACT PFPS #167",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "fcb60da0cba90d292e7a4746b656e15be83695c0d48d47f92c6742302597089d",
+    "dropBoxImageName": "HeliosHelm0167.png",
+    "ipfsHash": "bafybeifnccjkhtgpvsmx45qlwjqthwjrirpooayn5j2lxw6qbumgkh23nq"
+  },
+  {
+    "number": "ACT PFPS #168",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "84dfe467dd6900e2782efb9141e226168cbe7f23b692f9cf7ca7437e25d99ea9",
+    "dropBoxImageName": "HeliosHelm0168.png",
+    "ipfsHash": "bafybeierdcovw4zifrjccjz43pzwv32zzeonnch5njhr33le32hydl7shq"
+  },
+  {
+    "number": "ACT PFPS #169",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "105cc2dabf9664230e03d6df0d692c435e5d8a847c1facdaa44e6d5ae2e10b22",
+    "dropBoxImageName": "HeliosHelm0169.png",
+    "ipfsHash": "bafybeighaonl5pzjncis3zcgg5cz24cqtuowslqppjqhxrdxvenaqc2ga4"
+  },
+  {
+    "number": "ACT PFPS #170",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "fd08a8db379d2923be320064df27381698a2b68350f8ef84c4c42ac094b798d7",
+    "dropBoxImageName": "HeliosHelm0170.png",
+    "ipfsHash": "bafybeiekas35qg5sl57mejod3d5aminagekehmk5klhqjod2lctmfhe7jq"
+  },
+  {
+    "number": "ACT PFPS #171",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "9db3dbc0288859a3a6927566eb983f64c373dc8b49e05cb0b737c86e90a9fbd9",
+    "dropBoxImageName": "HeliosHelm0171.png",
+    "ipfsHash": "bafybeih2njf5p3wuyo6xq5zp5gwbjxfyqzfic4gworlpfcafu6yihbsvgu"
+  },
+  {
+    "number": "ACT PFPS #172",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "983785cdb1ee80a689be36b0111adf648bc96a0a78eeef62d4b1792838600004",
+    "dropBoxImageName": "HeliosHelm0172.png",
+    "ipfsHash": "bafybeifre4ystf5ski5fmndvhk47lpjd54z4iewokxr7niv4ixkwqvjvde"
+  },
+  {
+    "number": "ACT PFPS #173",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "c9649821ebdb0ef5f15312060503de6773c731010c9e72d381ffb5d5dbb79387",
+    "dropBoxImageName": "HeliosHelm0173.png",
+    "ipfsHash": "bafybeiexfkbtscjiegoz3qdmri4ywrfs4ppyzv5v3jgaul4skgm6jmem4q"
+  },
+  {
+    "number": "ACT PFPS #174",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e5646e5baf78a262486afec51835c2a546c7f49a39903918e73d7cdfd894e75c",
+    "dropBoxImageName": "HeliosHelm0174.png",
+    "ipfsHash": "bafybeid5ptyggpfywvbnxytxyig26gjmhtdjvjwkotdil5wc7wcfblxb6y"
+  },
+  {
+    "number": "ACT PFPS #175",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "7cf679bd51fb7e7c67e7f76488b067b1bae7aec9b0c7f9ccecc33072bad5ca56",
+    "dropBoxImageName": "HeliosHelm0175.png",
+    "ipfsHash": "bafybeib2cinexq4kopko3ufllobws6tkrqciaw34eqlzc66ueszi7y5boa"
+  },
+  {
+    "number": "ACT PFPS #176",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Viceroy",
+        "style_hash": "519795687189d31ec00e7f234383dd0ef79867d1aa5f35a89ae91a6826c3d20d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e8a068e7f6ff7d8c0a4fb741f5e55fd32e3e120252184c14b16ecbaf0ae2265c",
+    "dropBoxImageName": "HeliosHelm0176.png",
+    "ipfsHash": "bafybeiekdwfig6v3iolrou6e2mkj2xhv6n3kn72lrz3ajipyx24kyxsfnu"
+  },
+  {
+    "number": "ACT PFPS #177",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2c2b59546eadc4ebb49a9c5c170913c92e6b6bfc49fde89541a19c32706f88c0",
+    "dropBoxImageName": "HeliosHelm0177.png",
+    "ipfsHash": "bafybeic75j46sqykeipou4pejaysjyv5e6wllpzfeymbzvhqgkzvcvnkt4"
+  },
+  {
+    "number": "ACT PFPS #178",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "3b32c9ae5d7237c1b361782dc8661533b61a17855ca48afa3beedee0a6b2788a"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Blood Ivory",
+        "style_hash": "ff233c608fdbaf9aeb6ae1807190182d6616771aca83011993fd5651625defe0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "60fa046539ea4b4b762bd2bfcba5f06a4043d672c0338bf41bcebdef9048772e",
+    "dropBoxImageName": "HeliosHelm0178.png",
+    "ipfsHash": "bafybeigetocexntpabzdxpsnm6g75dkykghtijzrrwvgmuaygoif4kcsga"
+  },
+  {
+    "number": "ACT PFPS #179",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Hikari",
+        "style_hash": "52122bec62b22b465dded84c51b5ff107bcb7e3bf95c2fff28492af3c16d6e69"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "704a0833071108af778b2ea3835ddaa21cb3a7edb30033888fcc7d4a2fce9a85",
+    "dropBoxImageName": "HeliosHelm0179.png",
+    "ipfsHash": "bafybeifdhsrrgbawrdpzwxz2hyerrcksephtijxtuettipghz5amevofla"
+  },
+  {
+    "number": "ACT PFPS #180",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Volt",
+        "style_hash": "57a1055488ecd849d9b7212a4c805a6d9409d5c3d04b8dd3e092d41c8529e2f7"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a2ddc1765afcf8f1a162272c1b2acfabd5f52c869a74d2d200a5110a00491311",
+    "dropBoxImageName": "HeliosHelm0180.png",
+    "ipfsHash": "bafybeibgkzfd6oye2krp5ofnvyjfkii44jkmdxspnnmrraoqizyfnvuptu"
+  },
+  {
+    "number": "ACT PFPS #181",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Digital Winter",
+        "style_hash": "ad1bcc8425043577efb2ba44ffa93eed96ace0c62699b0a3123e77e19a5c952e"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a373037934e0e049fdfccfdaa789b0bf0b6991538e90a3ee5ba7d5482782edae",
+    "dropBoxImageName": "HeliosHelm0181.png",
+    "ipfsHash": "bafybeiaaaqdqx4vlcpp4cxzvmemlqluwj43faa6dmkbsxslmvhr5hfzkvm"
+  },
+  {
+    "number": "ACT PFPS #182",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Hikari",
+        "style_hash": "3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f72596ef6f9f5d10ce3e117ea830a1f78587e2b0452e83ce954c814b4b1708b6",
+    "dropBoxImageName": "HeliosHelm0182.png",
+    "ipfsHash": "bafybeihlp7we2secteph4xrlhci2t4d4eec7mtt7rddkxdvw4hc374qqku"
+  },
+  {
+    "number": "ACT PFPS #183",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Digital Winter",
+        "style_hash": "036e3110ea47849c0f8dc02d04551e301ea9107ce3dba28e7f1610ff92510a4f"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "31f6da7ad9bf47c242df1b46bf6381dee9922bbaeeec81698e8a85d530ace734",
+    "dropBoxImageName": "HeliosHelm0183.png",
+    "ipfsHash": "bafybeicmm6z6a7gldxxi2quhh6gbedl5kioy6o67va26spotuabcc4uupa"
+  },
+  {
+    "number": "ACT PFPS #184",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Vesper",
+        "style_hash": "261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "31bd107bb2c3a64ec97be1cb254c3ea2fbc8baa19c83b918a4efbaaf844505ad",
+    "dropBoxImageName": "HeliosHelm0184.png",
+    "ipfsHash": "bafybeie5pwpsoa5kn6ecdpgbhdyzozmc6gyd7okqfhnoorg3ayat32jd3e"
+  },
+  {
+    "number": "ACT PFPS #185",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "c5316008538c882ee54b59f2082041f973fe1f4e50b874a9becee72c8fabd0bb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "d63796758daf449cbe9fce6313eacd632999764ffb00ee2503218a87a5a50c89",
+    "dropBoxImageName": "HeliosHelm0185.png",
+    "ipfsHash": "bafybeiede2undj3p3cflzohwomzbgqw4ygvktq2a24xvkubtp4ffzsuvve"
+  },
+  {
+    "number": "ACT PFPS #186",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "21ee53478598ee32a1cddd02df849f7005691521c40107bb7d2b9c4ccd3122f0"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "e6b303a2c9a2ccfd9bd7628ac8032c6a869b8da6bbab158285a788002cacb324",
+    "dropBoxImageName": "HeliosHelm0186.png",
+    "ipfsHash": "bafybeie4raaertg4n4uk3uwtetjmtdbmzmxjxt2nh5jx2edyi7bfvupsla"
+  },
+  {
+    "number": "ACT PFPS #187",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "3e7240067a4ebd5865ee263e1e78f442a5ffcd19342de55187b25bf486b11f51"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "bddab227e12baa7d2a234e2f39fdc16b1a6232648a38d9180fe682ac5a08630f",
+    "dropBoxImageName": "HeliosHelm0187.png",
+    "ipfsHash": "bafybeigc3i2afb3blolyhhgvxsxfs6gym5sztlrwgt2sfhehw3qonw3emy"
+  },
+  {
+    "number": "ACT PFPS #188",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "a1e17e7797ba8a2c7639916e001c605c8217abc2816426bfa5693c790b8a5cc8"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f5711e919dd1f9f6834016518e402b46e5209829c860484e8f8e190ae47e0e2c",
+    "dropBoxImageName": "HeliosHelm0188.png",
+    "ipfsHash": "bafybeic4uherb4jvy6ynr5nojwdk6yrcmlxtibo3ni2d3fymzng4nyi6e4"
+  },
+  {
+    "number": "ACT PFPS #189",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "b8b27767fe20a4e081137ffe6f9747073bc12fd6172d242ba459044dce67bee1",
+    "dropBoxImageName": "HeliosHelm0189.png",
+    "ipfsHash": "bafybeibtaeecl5mvk5ixrtky2tmom45tbvq32mcxecgfamko2mpinm4qca"
+  },
+  {
+    "number": "ACT PFPS #190",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "8a106dabed6f41ac5467d3502da52ae1fcbaff46f9e5b0c7f5ae6ec77ec73df3",
+    "dropBoxImageName": "HeliosHelm0190.png",
+    "ipfsHash": "bafybeic5q762m5kbgcsbqpeieksqqd256tuanpowfx774xhfpr6wzvqude"
+  },
+  {
+    "number": "ACT PFPS #191",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0d0fc1b38892f98b82db83a9b8b71e79fdc888b22caa2d66aee0e56246fc84b5",
+    "dropBoxImageName": "HeliosHelm0191.png",
+    "ipfsHash": "bafybeib4g2nascmcyummfhp6jutl454uw2tmthls3w5oazhdxb7niip56i"
+  },
+  {
+    "number": "ACT PFPS #192",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Digital Winter",
+        "style_hash": "00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f69d1f34c304be17bd2b35ea70523179bc588fc60d99f918a4fe196847f9e02a",
+    "dropBoxImageName": "HeliosHelm0192.png",
+    "ipfsHash": "bafybeiafi2urx7dhym7hzefl3hhlim2japkrm42r7pslawy4gpkwffu46a"
+  },
+  {
+    "number": "ACT PFPS #193",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "671da36861862bb5f36c56f11a48b0c7c08fb85deb8516783d3c046d20ddc0a2",
+    "dropBoxImageName": "HeliosHelm0193.png",
+    "ipfsHash": "bafybeigfctqjqjn4rbwjstzuo7hmum2cszwmgceggr5t3jzdtfcqk7wgiq"
+  },
+  {
+    "number": "ACT PFPS #194",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Blood Ivory",
+        "style_hash": "e848f3c2cc52f7602628e0ff8705521567524337866202e4b53a4c2020175957"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "2dda18d43d6535f1df0f2e232ce1e79776a48c0051024c959c728d4523950630",
+    "dropBoxImageName": "HeliosHelm0194.png",
+    "ipfsHash": "bafybeiaxheenp3yrqmenqh3shyprda26dcxsippwc2lhq7hkl3ur5kjz5m"
+  },
+  {
+    "number": "ACT PFPS #195",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "",
+        "style_hash": "",
+        "color_way": ""
+      },
+      {
+        "name": "",
+        "type": "upperTorso",
+        "style_hash": "",
+        "color_way": ""
+      }
+    ],
+    "equipmentHash": "69e48324e78af61142f58be8749f37ee3719305da3e326551e08c690fb186bbf",
+    "dropBoxImageName": "HeliosHelm0195.png",
+    "ipfsHash": "bafybeie3dzf4avvq4tmvoqi4vqtpiedbohb7uxl5rfqnw3dkr4u7bu6hq4"
+  },
+  {
+    "number": "ACT PFPS #196",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Viceroy",
+        "style_hash": "1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "a4ac904ad500de8a13303df50fcbec0681523c8871736e0bce73104949f6184b",
+    "dropBoxImageName": "HeliosHelm0196.png",
+    "ipfsHash": "bafybeiej5bhnymj55jatkznpsbysbin26npmx5dnvryy5ugctx6tadn2x4"
+  },
+  {
+    "number": "ACT PFPS #197",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "94a8aadf76e933c34e5796b6ed26113321d2142ccae03595d10a4f608e012f94",
+    "dropBoxImageName": "HeliosHelm0197.png",
+    "ipfsHash": "bafybeihbb242hveue7erqo7kteahusubev4x46n73un5s2ztttbafv2vya"
+  },
+  {
+    "number": "ACT PFPS #198",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Hikari",
+        "style_hash": "8c2bc8747bec5023cb5aa6e08945d0985cf65b3674a362ecf8879ca5ee052845"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Under",
+        "color_way": "NO Chest",
+        "style_hash": ""
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "4f013906feaaa3167340bdc59ed027ef846652fbe8a06b6b430e4cce1cc82040",
+    "dropBoxImageName": "HeliosHelm0198.png",
+    "ipfsHash": "bafybeifofaz6noxa6xs2x47fqoh4dlftl6os236hwo6qfypy2y7t45k6ha"
+  },
+  {
+    "number": "ACT PFPS #199",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "c7ff914d3594f1868ba5c9c31bde65de75ada71fc116fb117643e28bf911d976"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "69ffa4fd4ae6a9cf02b3f259be335913ce97d12e4dd84f2ec410fd039289e1ef",
+    "dropBoxImageName": "HeliosHelm0199.png",
+    "ipfsHash": "bafybeihpom3v4tdczb3px2uara7iq7dqb2ruo4w2tu4tle667nebjipxde"
+  },
+  {
+    "number": "ACT PFPS #200",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Dusk",
+        "style_hash": "55d61a7a576d154ba08a69a2318513301c5a7bca876a00c6bfc743237b6be7d4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "9fbb71c26e6d86552354236e9136f9791224bffd680db358b5974ef27a6e795e",
+    "dropBoxImageName": "HeliosHelm0200.png",
+    "ipfsHash": "bafybeieoiqa7h6ha52ajaey4aszhenpno7jgwqxj26doqc377uyj5nukly"
+  },
+  {
+    "number": "ACT PFPS #201",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Vesper",
+        "style_hash": "429be44271abd39b27aec559c39bde5f997fb092c51bdf0c899cc49b1352fbbb"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Volt",
+        "style_hash": "579acc657eee32af051f8e087dc579d6760172b6d57e0102333ca24fd08584c2"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f27a2f3ae57236d67514c9ef9b8fc4bbfc0df058708a438a3a97a67b4b678843",
+    "dropBoxImageName": "HeliosHelm0201.png",
+    "ipfsHash": "bafybeifansrxuzf6cat2x3jxyfj4wzb3ejnckn4ixvt74drcc7exwfsiom"
+  },
+  {
+    "number": "ACT PFPS #202",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "6c3ef4ea92bd15c02929d2ad0f7b7f65b360485577c37bf9623925b0f768539f"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Red Damascus",
+        "style_hash": "c2ada722f2025208e42732e5ea6fd3012d5db816dd1a7e41f879d991c79bdd76"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "93085afb13ca85d09ac911ef559990d1d64a370633a4a4f68a3f1d93f53a1943",
+    "dropBoxImageName": "HeliosHelm0202.png",
+    "ipfsHash": "bafybeiawufkevamosi4eyrt7cmnmxtpdtvpjfc45zaqqwbmvnmazrn7bti"
+  },
+  {
+    "number": "ACT PFPS #203",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Red Damascus",
+        "style_hash": "0dffa8cbd2b58da89e05c865296808102f56449376af5287c5873e1c42130b0d"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "9b08820f87966d15e177163f321b841677be445b9985f099ec38e4509c1b65c7",
+    "dropBoxImageName": "HeliosHelm0203.png",
+    "ipfsHash": "bafybeifjv7yfunhi3bkdhnajtlbrirzhftvralnul5kvd6w3pbfq2i563m"
+  },
+  {
+    "number": "ACT PFPS #204",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Neo-Shogunate",
+        "color_way": "Dusk",
+        "style_hash": "8a2d12dc16824ed8395999a1c4601e984d5051a297f58f8bd743450d196a63a3"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "f352dbd8250f034a350fbc64c1f38aac82aaea28874f08030ba21085c12a259c",
+    "dropBoxImageName": "HeliosHelm0204.png",
+    "ipfsHash": "bafybeigqvxz4nmixdq43kbvqbcm2xzkeazwe2lvsnao5s6cgxq2ogjbhma"
+  },
+  {
+    "number": "ACT PFPS #205",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Volt",
+        "style_hash": "da1a27b2748aeaa253d94ac2397200b1b28650f6a5fa311f9dfc054008528036"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Vesper",
+        "style_hash": "f0aaa3abfcd8f5450f5cbcc882724125eee12cad3d55a2fc3739e1eee14020fb"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "58e1f8110fde606db10a98d0d754cac77690399d9bb5d2c59ec92a35076da43f",
+    "dropBoxImageName": "HeliosHelm0205.png",
+    "ipfsHash": "bafybeiavw6b6fyb6konaevzlihmdc2quhntm5uw4b2fnznkyp7zmdd7m7y"
+  },
+  {
+    "number": "ACT PFPS #206",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Red Damascus",
+        "style_hash": "f48b6d69d1f8026f5703ab832fde471160d3e2f23215d9e5b38fb53e50c08d8b"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Helios",
+        "color_way": "Dusk",
+        "style_hash": "bda28564bace214c83575e740611aca7f0ddcbbf8c82120fa87559031d9c94e4"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "0fe91552a60747bed9a1f9783ed5b6deac4759bccfb3099bc9d6bc5cc3a71ea9",
+    "dropBoxImageName": "HeliosHelm0206.png",
+    "ipfsHash": "bafybeiggbva7xn6hzuowhf6p5nwm44qc3w56dwiqh2gwpxf65ll7defpxy"
+  },
+  {
+    "number": "ACT PFPS #207",
+    "description": "headshot",
+    "attributes": [
+      {
+        "type": "helm",
+        "name": "Helios",
+        "color_way": "Blood Ivory",
+        "style_hash": "8aec42f03c7993350c9761d85aa89ef89ab5bbb4af5eee521df304d52a847716"
+      },
+      {
+        "type": "chestpiece",
+        "name": "Fang MK IV",
+        "color_way": "Viceroy",
+        "style_hash": "1cf2fe31b67abaf05817520e08541526e33d0ac0aad51b56a4ecad94f42d5d18"
+      },
+      {
+        "name": "Fang MK IV",
+        "type": "upperTorso",
+        "style_hash": "3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354",
+        "color_way": "Obsidian"
+      }
+    ],
+    "equipmentHash": "87619dca4ffa98c0a18fa07af99deb8b5e4a358b2e9c4a2b468e6cd6ec5b703a",
+    "dropBoxImageName": "HeliosHelm0207.png",
+    "ipfsHash": "bafybeidihrilsjpeub2yyc5y7zkpuhdwpfkyh7uuv3lfilstjpxowpekjm"
+  }
+]
