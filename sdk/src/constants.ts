@@ -107,6 +107,16 @@ export const SHARED_OBJECTS = {
     mutable: true,
     initialSharedVersion: '',
   }),
+  PROFILE_PICTURES: Inputs.SharedObjectRef({
+    objectId: '',
+    mutable: false,
+    initialSharedVersion: '',
+  }),
+  PROFILE_PICTURES_MUT: Inputs.SharedObjectRef({
+    objectId: '',
+    mutable: true,
+    initialSharedVersion: '',
+  }),
 };
 
 export const OWNED_OBJECTS = {
