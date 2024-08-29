@@ -58,6 +58,12 @@ export interface MintToKioskArgs extends MaybeTx {
   passId?: string;
 }
 
+export interface MintToAvatarArgs extends MaybeTx {
+  suiValue: bigint;
+  sender: string;
+  passId?: string;
+}
+
 export interface EquipWeaponsArgs extends MaybeTx {
   weaponIds: string[];
   weaponSlots: string[];
@@ -107,6 +113,10 @@ export interface Avatar extends SuiObjectRef {
   misc: Record<string, string>;
 }
 
+export interface NewAvatarArgs extends MaybeTx {
+  recipient: string;
+}
+
 export interface NewAnimaAccountArgs extends MaybeTx {
   alias: string;
   username: string;
@@ -147,4 +157,36 @@ export interface AddAccoladeArgs extends MaybeTx, AdminFn {
 export interface RemoveAccoladeArgs extends MaybeTx, AdminFn {
   account: string;
   index: bigint;
+}
+
+export interface SetAvatarSettingsEdition extends MaybeTx, AdminFn {
+  edition: string;
+}
+
+export interface SetAvatarSettingsImageUrl extends MaybeTx, AdminFn {
+  imageUrl: string;
+  texture: string;
+  model: string;
+}
+
+export interface SetAvatarSettingsActive extends MaybeTx, AdminFn {
+  active: boolean;
+}
+
+export interface AddProfilePicture extends MaybeTx, AdminFn {
+  helmHash: string;
+  chestpieceHash: string;
+  upperTorsoHash: string;
+  ipfsUrl: string;
+}
+
+export interface RemoveProfilePicture extends MaybeTx, AdminFn {
+  helmHash: string;
+  chestpieceHash: string;
+  upperTorsoHash: string;
+}
+
+export interface AdminMintToKioskArgs extends MaybeTx, AdminFn {
+  nftQuantity: bigint;
+  sender: string;
 }

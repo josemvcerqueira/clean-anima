@@ -2,12 +2,12 @@ import { KioskClient, KioskTransaction, Network } from '@mysten/kiosk';
 import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 import {
+  fromHEX,
   isValidSuiAddress,
   isValidSuiObjectId,
   normalizeStructTag,
   normalizeSuiObjectId,
   SUI_CLOCK_OBJECT_ID,
-  toHEX,
 } from '@mysten/sui/utils';
 import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
 import * as changeCase from 'change-case';
@@ -22,6 +22,8 @@ import {
 } from './constants';
 import {
   AddAccoladeArgs,
+  AddProfilePicture,
+  AdminMintToKioskArgs,
   AirdropFreeMintArgs,
   AirdropWhitelistArgs,
   AnimaConstructorArgs,
@@ -31,11 +33,16 @@ import {
   GenesisPass,
   GenesisShopItem,
   GiveReputationArgs,
-  MaybeTx,
+  MintToAvatarArgs,
   MintToKioskArgs,
   NewAnimaAccountArgs,
+  NewAvatarArgs,
   RemoveAccoladeArgs,
+  RemoveProfilePicture,
   RemoveReputationArgs,
+  SetAvatarSettingsActive,
+  SetAvatarSettingsEdition,
+  SetAvatarSettingsImageUrl,
   SetDropsLeftArgs,
   SetMaxMintsArgs,
   SetPricesArgs,
@@ -46,11 +53,7 @@ import {
   UpdateAliasArgs,
   UpdateUsernameArgs,
 } from './types';
-import {
-  parseGenesisShopItem,
-  parseImageObjectResponse,
-  parseKioskItem,
-} from './utils';
+import { parseGenesisShopItem, parseKioskItem } from './utils';
 
 export class AnimaSDK {
   #packages: typeof PACKAGES;
@@ -295,6 +298,7 @@ export class AnimaSDK {
     invariant(weaponSlots.length, 'You must unequip at leas one weapon');
 
     invariant(isValidSuiObjectId(avatarId), 'Not a valid avatar id');
+
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
     });
@@ -413,10 +417,10 @@ export class AnimaSDK {
     }
 
     tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::unequip_cosmetic`,
+      target: `${this.#packages.ACT}::avatar::unequip_cosmetics`,
       arguments: [
         tx.object(avatarId),
-        tx.object(this.#sharedObjects.AVATAR_SETTINGS),
+        tx.object(this.#sharedObjects.PROFILE_PICTURES),
         tx.pure.vector('string', cosmeticTypes),
         kioskTx.getKiosk(),
         kioskTx.getKioskCap(),
@@ -507,16 +511,55 @@ export class AnimaSDK {
     }));
   }
 
-  createAvatar({ tx = new Transaction() }: MaybeTx) {
+  newAvatar({ tx = new Transaction(), recipient }: NewAvatarArgs) {
+    invariant(isValidSuiAddress(recipient), 'Please pass a valid sui address');
+
     const avatar = tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new`,
       arguments: [tx.object(this.#sharedObjects.AVATAR_SETTINGS)],
     });
 
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::keep`,
-      arguments: [avatar],
+    tx.transferObjects([avatar], tx.pure.address(recipient));
+
+    return tx;
+  }
+
+  async mintToAvatar({
+    tx = new Transaction(),
+    suiValue,
+    sender,
+    passId,
+  }: MintToAvatarArgs) {
+    invariant(
+      isValidSuiAddress(sender),
+      'Please pass a valid Sui address for sender'
+    );
+
+    const payment = tx.splitCoins(tx.gas, [tx.pure.u64(suiValue)]);
+
+    const avatar = tx.moveCall({
+      target: `${this.#packages.ACT}::genesis_drop::mint_to_avatar`,
+      arguments: [
+        tx.object(this.#sharedObjects.SALE_MUT),
+        tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
+        passId
+          ? tx.makeMoveVec({
+              elements: [passId],
+              type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+            })
+          : tx.moveCall({
+              target: '0x1::vector::empty',
+              typeArguments: [
+                `${this.#packages.ACT}::genesis_drop::GenesisPass`,
+              ],
+            }),
+        tx.object(this.#sharedObjects.PROFILE_PICTURES),
+        payment,
+        tx.object(SUI_CLOCK_OBJECT_ID),
+      ],
     });
+
+    tx.transferObjects([avatar], tx.pure.address(sender));
 
     return tx;
   }
@@ -553,7 +596,6 @@ export class AnimaSDK {
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
-
         passId
           ? tx.makeMoveVec({
               elements: [passId],
@@ -823,6 +865,9 @@ export class AnimaSDK {
     return tx;
   }
 
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
   removeReputation({
     account,
     index,
@@ -842,6 +887,9 @@ export class AnimaSDK {
     return tx;
   }
 
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
   addAccolade({
     description,
     recipient,
@@ -865,6 +913,9 @@ export class AnimaSDK {
     return tx;
   }
 
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
   removeAccolade({
     account,
     index,
@@ -881,6 +932,203 @@ export class AnimaSDK {
         tx.pure.u64(index),
       ],
     });
+    return tx;
+  }
+
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
+  setAvatarSettingsEdition({
+    edition,
+    adminCap,
+    tx = new Transaction(),
+  }: SetAvatarSettingsEdition) {
+    invariant(edition, 'Edition must not be empty');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::set_settings_edition`,
+      arguments: [
+        tx.object(this.#sharedObjects.AVATAR_SETTINGS_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.string(edition),
+      ],
+    });
+
+    return tx;
+  }
+
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
+  setAvatarSettingsImageUrl({
+    imageUrl,
+    adminCap,
+    model,
+    texture,
+    tx = new Transaction(),
+  }: SetAvatarSettingsImageUrl) {
+    invariant(imageUrl, 'Do not pass an empty image');
+    invariant(model, 'Do not pass an empty model');
+    invariant(texture, 'Do not pass an empty texture');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::set_settings_image_url`,
+      arguments: [
+        tx.object(this.#sharedObjects.AVATAR_SETTINGS_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.string(imageUrl),
+      ],
+    });
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::set_settings_avatar_model`,
+      arguments: [
+        tx.object(this.#sharedObjects.AVATAR_SETTINGS_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.string(model),
+      ],
+    });
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::set_settings_avatar_texture`,
+      arguments: [
+        tx.object(this.#sharedObjects.AVATAR_SETTINGS_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.string(texture),
+      ],
+    });
+
+    return tx;
+  }
+
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
+  setAvatarSettingsActive({
+    adminCap,
+    active,
+    tx = new Transaction(),
+  }: SetAvatarSettingsActive) {
+    invariant(active, 'Do not pass an empty image');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::set_settings_image_url`,
+      arguments: [
+        tx.object(this.#sharedObjects.AVATAR_SETTINGS_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.bool(active),
+      ],
+    });
+
+    return tx;
+  }
+
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
+  addProfilePicture({
+    adminCap,
+    chestpieceHash,
+    helmHash,
+    ipfsUrl,
+    upperTorsoHash,
+    tx = new Transaction(),
+  }: AddProfilePicture) {
+    invariant(
+      chestpieceHash && helmHash && ipfsUrl && upperTorsoHash,
+      'Do not pass empty values'
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::profile_pictures::add`,
+      arguments: [
+        tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.vector('u8', fromHEX(helmHash)),
+        tx.pure.vector('u8', fromHEX(chestpieceHash)),
+        tx.pure.vector('u8', fromHEX(upperTorsoHash)),
+        tx.pure.string(ipfsUrl),
+      ],
+    });
+
+    return tx;
+  }
+
+  /**
+   * @notice This account must hold an AdminCap with sufficient permissions
+   */
+  removeProfilePicture({
+    adminCap,
+    chestpieceHash,
+    helmHash,
+    upperTorsoHash,
+    tx = new Transaction(),
+  }: RemoveProfilePicture) {
+    invariant(
+      chestpieceHash && helmHash && upperTorsoHash,
+      'Do not pass empty values'
+    );
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::profile_pictures::remove`,
+      arguments: [
+        tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.pure.vector('u8', fromHEX(helmHash)),
+        tx.pure.vector('u8', fromHEX(chestpieceHash)),
+        tx.pure.vector('u8', fromHEX(upperTorsoHash)),
+      ],
+    });
+
+    return tx;
+  }
+
+  async adminMintToKiosk({
+    tx = new Transaction(),
+    nftQuantity,
+    adminCap,
+    sender,
+  }: AdminMintToKioskArgs) {
+    invariant(nftQuantity > 0, 'You must mint at least one kiosk');
+
+    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
+      address: sender,
+    });
+
+    const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
+
+    const kioskTx = new KioskTransaction({
+      kioskClient: this.#kioskClient,
+      transaction: tx,
+      cap,
+    });
+
+    if (!cap) {
+      kioskTx.createPersonal(true);
+    }
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::genesis_drop::admin_mint_to_kiosk`,
+      arguments: [
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.object(adminCap),
+        tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
+        kioskTx.getKiosk(),
+        kioskTx.getKioskCap(),
+        tx.pure.u64(nftQuantity),
+        tx.object(SUI_CLOCK_OBJECT_ID),
+      ],
+    });
+
+    kioskTx.finalize();
+
     return tx;
   }
 }
