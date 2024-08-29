@@ -7,7 +7,7 @@ module act::genesis_drop_tests {
         clock::{Self, Clock},
         test_utils::{assert_eq, destroy},
         kiosk::{Self, Kiosk},
-        test_scenario::{Self as ts, receiving_ticket_by_id, Scenario},
+        test_scenario::{Self as ts, Scenario},
     };
     use animalib::access_control::{Admin, AccessControl};
     use kiosk::personal_kiosk::{Self, PersonalKioskCap};
@@ -15,8 +15,9 @@ module act::genesis_drop_tests {
         assets,
         attributes,
         set_up_tests::set_up_admins,
-        avatar::{Self, AvatarRegistry, Avatar},
-        genesis_drop::{Self, Sale, AvatarTicket, GenesisPass},
+        avatar::{Self, Avatar},
+        profile_pictures::{Self, ProfilePictures},
+        genesis_drop::{Self, Sale, GenesisPass},
         genesis_shop::{Self, new_builder_for_testing, GenesisShop}, 
     };
 
@@ -27,7 +28,7 @@ module act::genesis_drop_tests {
         access_control: AccessControl,
         genesis_shop: GenesisShop,
         sale: Sale,
-        avatar_registry: AvatarRegistry,
+        pfps: ProfilePictures,
         avatar: Avatar,
         kiosk: Kiosk,
         kiosk_cap: PersonalKioskCap,
@@ -53,7 +54,7 @@ module act::genesis_drop_tests {
         assert_eq(*world.pass_display.fields().get(&b"name".to_string()), b"{name}".to_string());
         assert_eq(*world.pass_display.fields().get(&b"description".to_string()), b"{description}".to_string());
         assert_eq(*world.pass_display.fields().get(&b"phase".to_string()), b"{phase}".to_string());
-        assert_eq(*world.pass_display.fields().get(&b"image_url".to_string()), b"{image_url}".to_string());
+        assert_eq(*world.pass_display.fields().get(&b"image_url".to_string()), b"ipfs://{image_url}".to_string());
 
         world.end();
     }
@@ -73,7 +74,7 @@ module act::genesis_drop_tests {
 
         assert_eq(pass.name(), b"Anima Labs’ Genesis Free Mint Pass".to_string());
         assert_eq(pass.phase(), 1);
-        assert_eq(pass.image_url(), b"ipfs://QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string());
+        assert_eq(pass.image_url(), b"QmX3vh5JiiArsDkxDuzPYGExsNm3UpjPHFH3P47sNUwzFD".to_string());
         assert_eq(pass.description(), b"A free mint ticket for Anima Labs’ Genesis drop.".to_string());
 
         destroy(pass);
@@ -86,7 +87,7 @@ module act::genesis_drop_tests {
 
         assert_eq(pass.name(), b"Anima Labs’ Genesis Whitelist Pass".to_string());
         assert_eq(pass.phase(), 2);
-        assert_eq(pass.image_url(), b"ipfs://QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string());
+        assert_eq(pass.image_url(), b"QmaDx1VF1kpR4CKYzTzPRryUusnivWV6GwVFgELS65A8Fd".to_string());
         assert_eq(pass.description(), b"A whitelist ticket for Anima Labs’ Genesis drop.".to_string());
 
         destroy(pass);
@@ -110,7 +111,6 @@ module act::genesis_drop_tests {
             world.clock.set_for_testing(8);
 
             let sale = &world.sale;
-            let avatar_registry = &world.avatar_registry;
             let genesis_pass = vector[
                 genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
             ];
@@ -127,7 +127,6 @@ module act::genesis_drop_tests {
 
             world.sale.mint_to_kiosk(
                 genesis_shop, 
-                avatar_registry, 
                 genesis_pass, 
                 kiosk, 
                 cap.borrow(), 
@@ -146,7 +145,6 @@ module act::genesis_drop_tests {
 
             world.clock.set_for_testing(15);
 
-            let avatar_registry = &world.avatar_registry;
             let cap = &world.kiosk_cap;
             let quantity = 3;
             let clock = &world.clock;
@@ -161,7 +159,6 @@ module act::genesis_drop_tests {
 
             world.sale.mint_to_kiosk(
                 genesis_shop, 
-                avatar_registry, 
                 genesis_pass, 
                 kiosk, 
                 cap.borrow(), 
@@ -180,7 +177,6 @@ module act::genesis_drop_tests {
 
             world.clock.set_for_testing(21);
 
-            let avatar_registry = &world.avatar_registry;
             let cap = &world.kiosk_cap;
             let quantity = 4;
             let clock = &world.clock;
@@ -193,7 +189,6 @@ module act::genesis_drop_tests {
 
             world.sale.mint_to_kiosk(
                 genesis_shop, 
-                avatar_registry, 
                 genesis_pass, 
                 kiosk, 
                 cap.borrow(), 
@@ -314,7 +309,7 @@ module act::genesis_drop_tests {
     }
 
     #[test]
-    fun test_mint_to_ticket_and_avatar() {
+    fun test_mint_to_avatar() {
         let mut world = start_world();
 
         world.add_genesis_shop();
@@ -327,65 +322,29 @@ module act::genesis_drop_tests {
         world.sale.set_max_mints(access_control, admin_cap, vector[3, 3, 4]);
 
         world.scenario.next_tx(ALICE);
+        world.clock.set_for_testing(8);
 
-        {        // Now we can do the free mint phase - index 0.
-            world.clock.set_for_testing(8);
+        add_pfps(&mut world);
 
-            let sale = &world.sale;
-            let avatar_registry = &world.avatar_registry;
-            let genesis_pass = vector[
-                genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
-            ];
-            let clock = &world.clock;
-            let ctx = world.scenario.ctx();
-        
-            let genesis_shop = &mut world.genesis_shop;
+        let genesis_pass = vector[
+            genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
+        ];
+        let clock = &world.clock;
+        let pfps = &world.pfps;
 
-            assert_eq(sale.drops_left(), TOTAL_ITEMS);
-
-            world.sale.mint_to_ticket(
-                genesis_shop, 
-                avatar_registry, 
-                genesis_pass, 
-                mint_for_testing(10, ctx), 
-                clock, 
-                ctx
-            );
-
-            assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
-        };
-
-        world.scenario.next_tx(ALICE);
-
-        let mut avatar_ticket = world.scenario.take_from_sender<AvatarTicket>();
-
-        assert_eq(avatar_ticket.drop().length(), 18);
-
-        let access_control = &world.access_control;
-        let admin = &world.super_admin;
-
-        avatar::new_avatar_image(
-            access_control, 
-            admin, 
-            b"image2".to_string(), 
-            b"hash2".to_string(),
-            object::id(&avatar_ticket).to_address(),
+        let avatar = world.sale.mint_to_avatar(
+            &mut world.genesis_shop,
+            genesis_pass, 
+            pfps,
+            mint_for_testing(10, world.scenario.ctx()), 
+            clock, 
             world.scenario.ctx()
         );
 
-        let effects = world.scenario.next_tx(ALICE);
-
-        avatar_ticket.update_image(receiving_ticket_by_id(effects.created()[0]));
-
-        let clock = &world.clock;
-        let avatar_registry = &mut world.avatar_registry;
-
-        let avatar = avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());
-
+        assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
         // all avatar attr values are filled so equipped all items
         assert_eq(attributes::genesis_mint_types().all!(|k| avatar.attributes()[k] != b"".to_string()), true);
-        assert_eq(avatar.image_url(), b"image2".to_string());
-        assert_eq(avatar.equipped_cosmetics_hash(), b"hash2".to_string());
+        assert_eq(avatar.image_url(), b"image".to_string());
 
         assert_eq(world.sale.drops_left(), TOTAL_ITEMS - 1);
         destroy(avatar);    
@@ -410,7 +369,6 @@ module act::genesis_drop_tests {
             // We do not have a pass.  
             world.clock.set_for_testing(8);
 
-            let avatar_registry = &world.avatar_registry;
             let genesis_pass = vector[];
             let cap = &world.kiosk_cap;
             let quantity = 3;
@@ -422,7 +380,6 @@ module act::genesis_drop_tests {
 
             world.sale.mint_to_kiosk(
                 genesis_shop, 
-                avatar_registry, 
                 genesis_pass, 
                 kiosk, 
                 cap.borrow(), 
@@ -453,7 +410,6 @@ module act::genesis_drop_tests {
         {   // Free mint phase 
             world.clock.set_for_testing(8);
 
-            let avatar_registry = &world.avatar_registry;
             let genesis_pass = vector[
                 genesis_drop::new_genesis_pass(WHITELIST_PHASE, world.scenario.ctx())
             ];
@@ -467,7 +423,6 @@ module act::genesis_drop_tests {
 
             world.sale.mint_to_kiosk(
                 genesis_shop, 
-                avatar_registry, 
                 genesis_pass, 
                 kiosk, 
                 cap.borrow(), 
@@ -480,22 +435,6 @@ module act::genesis_drop_tests {
 
         world.end(); 
     }
-
-    #[test]
-    #[expected_failure(abort_code = genesis_drop::EInvalidTicket)] 
-    fun test_mint_to_avatar_error_invalid_ticket() {
-        let mut world = start_world();
-
-        let clock = &world.clock;
-        let avatar_registry = &mut world.avatar_registry;
-
-        let avatar_ticket = genesis_drop::new_empty_avatar_ticket(world.scenario.ctx());
-
-        let avatar = avatar_ticket.mint_to_avatar(avatar_registry, clock, world.scenario.ctx());    
-
-        destroy(avatar);
-        world.end(); 
-    }    
 
     #[test]
     #[expected_failure(abort_code = genesis_drop::ESaleNotActive)] 
@@ -514,7 +453,6 @@ module act::genesis_drop_tests {
         // starts at 8
         world.clock.set_for_testing(7);
 
-        let avatar_registry = &world.avatar_registry;
         let genesis_pass = vector[
             genesis_drop::new_genesis_pass(WHITELIST_PHASE, world.scenario.ctx())
         ];
@@ -528,7 +466,6 @@ module act::genesis_drop_tests {
 
         world.sale.mint_to_kiosk(
             genesis_shop, 
-            avatar_registry, 
             genesis_pass, 
             kiosk, 
             cap.borrow(), 
@@ -559,7 +496,6 @@ module act::genesis_drop_tests {
         // starts at 8
         world.clock.set_for_testing(8);
 
-        let avatar_registry = &world.avatar_registry;
         let genesis_pass = vector[
             genesis_drop::new_genesis_pass(WHITELIST_PHASE, world.scenario.ctx())
         ];
@@ -573,7 +509,6 @@ module act::genesis_drop_tests {
 
         world.sale.mint_to_kiosk(
             genesis_shop, 
-            avatar_registry, 
             genesis_pass, 
             kiosk, 
             cap.borrow(), 
@@ -603,7 +538,6 @@ module act::genesis_drop_tests {
         // starts at 8
         world.clock.set_for_testing(8);
 
-        let avatar_registry = &world.avatar_registry;
         let genesis_pass = vector[
             genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
         ];
@@ -617,7 +551,6 @@ module act::genesis_drop_tests {
 
         world.sale.mint_to_kiosk(
             genesis_shop, 
-            avatar_registry, 
             genesis_pass, 
             kiosk, 
             cap.borrow(), 
@@ -647,7 +580,6 @@ module act::genesis_drop_tests {
         // starts at 8
         world.clock.set_for_testing(8);
 
-        let avatar_registry = &world.avatar_registry;
         let genesis_pass = vector[
             genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
         ];
@@ -661,7 +593,6 @@ module act::genesis_drop_tests {
 
         world.sale.mint_to_kiosk(
             genesis_shop, 
-            avatar_registry, 
             genesis_pass, 
             kiosk, 
             cap.borrow(), 
@@ -691,7 +622,6 @@ module act::genesis_drop_tests {
         // starts at 8
         world.clock.set_for_testing(8);
 
-        let avatar_registry = &world.avatar_registry;
         let genesis_pass = vector[
             genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx()),
             genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
@@ -706,7 +636,6 @@ module act::genesis_drop_tests {
 
         world.sale.mint_to_kiosk(
             genesis_shop, 
-            avatar_registry, 
             genesis_pass, 
             kiosk, 
             cap.borrow(), 
@@ -736,7 +665,6 @@ module act::genesis_drop_tests {
         // starts at 8
         world.clock.set_for_testing(8);
 
-        let avatar_registry = &world.avatar_registry;
         let genesis_pass = vector[
             genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx()),
             genesis_drop::new_genesis_pass(FREE_MINT_PHASE, world.scenario.ctx())
@@ -751,7 +679,6 @@ module act::genesis_drop_tests {
 
         world.sale.mint_to_kiosk(
             genesis_shop, 
-            avatar_registry, 
             genesis_pass, 
             kiosk, 
             cap.borrow(), 
@@ -1035,6 +962,20 @@ module act::genesis_drop_tests {
         destroy(upper_torso);
         destroy(boots);
     }
+
+    fun add_pfps(world: &mut World) {
+        let access_control = &world.access_control;
+        let admin_cap = &world.super_admin;
+
+        world.pfps.add(
+            access_control, 
+            admin_cap, 
+            x"1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9", 
+            x"261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492", 
+            x"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", 
+            b"image".to_string()
+        );
+    }
  
     fun start_world(): World {
         let mut scenario = ts::begin(OWNER);
@@ -1042,19 +983,17 @@ module act::genesis_drop_tests {
         avatar::init_for_testing(scenario.ctx());
         genesis_shop::init_for_testing(scenario.ctx());
         genesis_drop::init_for_testing(scenario.ctx());
+        profile_pictures::init_for_testing(scenario.ctx());
 
         scenario.next_tx(OWNER);
 
         let (access_control, super_admin) = set_up_admins(&mut scenario);
         let genesis_shop = scenario.take_shared<GenesisShop>();
         let mut sale = scenario.take_shared<Sale>();
-        let mut avatar_registry = scenario.take_shared<AvatarRegistry>();
+        let pfps = scenario.take_shared<ProfilePictures>();
         let clock = clock::create_for_testing(scenario.ctx());
 
-        let avatar = avatar::new_with_image(
-            &mut avatar_registry, 
-            b"image_url".to_string(),
-            b"".to_string(),
+        let avatar = avatar::new_genesis_edition(
             scenario.ctx()
         );
 
@@ -1073,8 +1012,8 @@ module act::genesis_drop_tests {
             scenario,
             access_control,
             super_admin,
+            pfps,
             genesis_shop,
-            avatar_registry,
             pass_display,
             clock,
             avatar

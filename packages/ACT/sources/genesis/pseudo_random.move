@@ -1,20 +1,12 @@
 module act::pseuso_random {
+
     // === Imports ===
+    
     use std::hash;
     use sui::{
         bcs,
         clock::Clock
     };
-
-    // === Constants ===
-
-    // === Structs ===
-
-    // === Public mutative functions ===
-
-    // === Public view functions === 
-
-    // === Admin functions ===
 
     // === Package functions ===
 

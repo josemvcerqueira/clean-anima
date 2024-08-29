@@ -1,5 +1,8 @@
 module act::uris {
-    public fun get_helm(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+
+    // === Public-Package Functions ===
+
+    public(package) fun get_helm(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"SK-Viper"	&& colour_way ==	b"Vesper")	(b"QmUKit1spLEV4XbTwe9Gq7VfUekQG3ecUzp9nW8PgmqASq",	b"QmTZam75o41LtAjsnDiWcWvtE1ovky45fs47z8bqxFcQiG",	b"QmaKdSMdsB2ztf7VwqaAfmEWN6uiKKe6mGX9qamJka4mgW")
         else if (name == b"SK-Viper"	&& colour_way ==	b"Hikari")	(b"QmdqUhNe5M5H1j5TJBpGHsoWKFXL8sTa6xEeA4jcAdzkh9",	b"QmTZam75o41LtAjsnDiWcWvtE1ovky45fs47z8bqxFcQiG",	b"Qmdx6hHzGwS9fUXaFo88te8UAhnZqcRhnHV2R3oZHogTdQ")
         else if (name == b"SK-Viper"	&& colour_way ==	b"Volt")	(b"QmPUDBHzDT5Siig8YqVoiyyKQWNRZE9Ea14ynvinVxJP7k",	b"QmTZam75o41LtAjsnDiWcWvtE1ovky45fs47z8bqxFcQiG",	b"QmT3Nfsoq1B99Gcrm3gbeawm3oRGHoJctWsbdGYD247qZP")
@@ -48,7 +51,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_chestpiece(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+    public(package) fun get_chestpiece(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"Fang MK IV" && colour_way ==	b"Vesper")	(b"QmPUiVDsuvN9VLkhCpiL5u7qk7UQrgxUbBhScJXMvEDkMD",	b"QmQiQtAXNVM9E627Nuug2S7eE4p3gJLpaJ7XZu9sHRzMze",	b"Qma7qxAH1p2SBbJdnDJUyhTABqHuFyu6pf5wRykM47vtid")
         else if (name == b"Fang MK IV" && colour_way ==	b"Hikari")	(b"QmbBhF7sJKpWmkqQE1qSax6cG8tXkMB4NYGyNDdD86C7cf",	b"QmQiQtAXNVM9E627Nuug2S7eE4p3gJLpaJ7XZu9sHRzMze",	b"QmR7k6YEUj8VTk8dSdvYFZWsvYNqUKo6PQjMND94iV8oQQ")
         else if (name == b"Fang MK IV" && colour_way ==	b"Volt")	(b"QmUQ3Cq4VZYmSdewiu5KgR5drHKR8ucGcUh8tefKz6zaqF",	b"QmQiQtAXNVM9E627Nuug2S7eE4p3gJLpaJ7XZu9sHRzMze",	b"Qma7tkYqJ83eXnvWi37CjhrYJYnVvfFPB1axW5miR344Ct")
@@ -79,7 +82,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_left_pauldron(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {                            
+    public(package) fun get_left_pauldron(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {                            
         if (name == b"Fang MK IV" && colour_way ==	b"Vesper")	(b"QmZGG2NML9LwAZdyAWXHtpzS2PHaCh1kbqiKcw2mQR2dHT",	b"QmdGRF8PHaY5vgh3kt92HJudc7KKLMYCMYHNw1dT3hyuMR",	b"Qma7qxAH1p2SBbJdnDJUyhTABqHuFyu6pf5wRykM47vtid")
         else if (name == b"Fang MK IV" && colour_way ==	b"Hikari")	(b"QmVytpnN9upw3zWisAowATG3pr43XtNuuLJjvYJcD64REk",	b"QmdGRF8PHaY5vgh3kt92HJudc7KKLMYCMYHNw1dT3hyuMR",	b"QmR7k6YEUj8VTk8dSdvYFZWsvYNqUKo6PQjMND94iV8oQQ")
         else if (name == b"Fang MK IV" && colour_way ==	b"Volt")	(b"Qmc9aVWctf6MFm3zmUkNCWRpJ3itzyPhs1uqCYX471PXLb",	b"QmdGRF8PHaY5vgh3kt92HJudc7KKLMYCMYHNw1dT3hyuMR",	b"Qma7tkYqJ83eXnvWi37CjhrYJYnVvfFPB1axW5miR344Ct")
@@ -110,7 +113,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_right_pauldron(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+    public(package) fun get_right_pauldron(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"Fang MK IV" && colour_way ==	b"Vesper")	(b"Qmf4Sjhbtk7ou1epHrB4uWNJhXZ42HAPgkM2EujdjQ2K8J",	b"QmdGRF8PHaY5vgh3kt92HJudc7KKLMYCMYHNw1dT3hyuMR",	b"Qma7qxAH1p2SBbJdnDJUyhTABqHuFyu6pf5wRykM47vtid")
         else if (name == b"Fang MK IV" && colour_way ==	b"Hikari")	(b"QmaFwkN2NQBw6v3PAqUv9fN9Z3DP3CeznY6j71ZUWRBdaz",	b"QmdGRF8PHaY5vgh3kt92HJudc7KKLMYCMYHNw1dT3hyuMR",	b"QmR7k6YEUj8VTk8dSdvYFZWsvYNqUKo6PQjMND94iV8oQQ")
         else if (name == b"Fang MK IV" && colour_way ==	b"Volt")	(b"QmZWQLPu1FKYMoXNxjLwFqDrgJ29sUX5XRM7r8cPFoyoZh",	b"QmdGRF8PHaY5vgh3kt92HJudc7KKLMYCMYHNw1dT3hyuMR",	b"Qma7tkYqJ83eXnvWi37CjhrYJYnVvfFPB1axW5miR344Ct")
@@ -141,7 +144,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_right_bracer(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+    public(package) fun get_right_bracer(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"Fang MK IV" && colour_way ==	b"Vesper")	(b"QmSiGmYpj6TxQ6J6ZJmXsjDJ3eew1qCDDeguARVcj1CZgP",	b"QmfBZ5aYwQWzArLR7jEUR1g7UDLNykRzyW8s3QyqjErH6A",	b"Qma7qxAH1p2SBbJdnDJUyhTABqHuFyu6pf5wRykM47vtid")
         else if (name == b"Fang MK IV" && colour_way ==	b"Hikari")	(b"QmaWRjDzNYUcdwvLHXacxFfPktbop7Pz1UQ1xp8ytKVvkP",	b"QmfBZ5aYwQWzArLR7jEUR1g7UDLNykRzyW8s3QyqjErH6A",	b"QmR7k6YEUj8VTk8dSdvYFZWsvYNqUKo6PQjMND94iV8oQQ")
         else if (name == b"Fang MK IV" && colour_way ==	b"Volt")	(b"QmUjKRxCaoa7jj9wPtLVP99535cuZstKw61DSKHZomgzuC",	b"QmfBZ5aYwQWzArLR7jEUR1g7UDLNykRzyW8s3QyqjErH6A",	b"Qma7tkYqJ83eXnvWi37CjhrYJYnVvfFPB1axW5miR344Ct")
@@ -172,7 +175,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_left_bracer(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+    public(package) fun get_left_bracer(name: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"Fang MK IV" && colour_way ==	b"Vesper")	(b"QmXqWBynqUrfRhdhaxSq7o8VeeDnYE22s3duc3yYQaKwNY",	b"QmfBZ5aYwQWzArLR7jEUR1g7UDLNykRzyW8s3QyqjErH6A",	b"Qma7qxAH1p2SBbJdnDJUyhTABqHuFyu6pf5wRykM47vtid")
         else if (name == b"Fang MK IV" && colour_way ==	b"Hikari")	(b"QmdDyDpGZHnhK389ESC8XHNVE6wj5SkBsPjDXfewh6vaSY",	b"QmfBZ5aYwQWzArLR7jEUR1g7UDLNykRzyW8s3QyqjErH6A",	b"QmR7k6YEUj8VTk8dSdvYFZWsvYNqUKo6PQjMND94iV8oQQ")
         else if (name == b"Fang MK IV" && colour_way ==	b"Volt")	(b"QmedxC4QSmHd6g9WYraPnf3yxZnjaKPgMnmB4RfWDLhPUj",	b"QmfBZ5aYwQWzArLR7jEUR1g7UDLNykRzyW8s3QyqjErH6A",	b"Qma7tkYqJ83eXnvWi37CjhrYJYnVvfFPB1axW5miR344Ct")
@@ -203,7 +206,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_other(name: vector<u8>, equipment: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+    public(package) fun get_other(name: vector<u8>, equipment: vector<u8>, colour_way: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"Fang MK IV" && equipment ==	b"Right Arm" && colour_way ==	b"Obsidian")	(b"Qmf5XuQHbBzaGkbmawgPTo6pQbjEYDPFwtGYsxqDv29W6Y",	b"QmPKgzaUHgiVaejnVhmKYe8ySvN9QoPejBfGmAvV8EDTAk",	b"Qme91xCktjvK2ohEe5Z1m7fqrW9zhmwXEqvcR9tUsQxmxQ")				
         else if (name == b"Fang MK IV" && equipment ==	b"Left Arm" && colour_way ==	b"Obsidian")	(b"QmPoRhkiGPfV36FPuH5eNmJzhN5jjoE4rZKjGfVPA3JPTH",	b"QmUpMGFHtrbGtWVF4UY3ALkN7144osEyc3agie27xUsDst",	b"Qme91xCktjvK2ohEe5Z1m7fqrW9zhmwXEqvcR9tUsQxmxQ")
         else if (name == b"Fang MK IV" && equipment ==	b"Right Glove" && colour_way ==	b"Obsidian")	(b"QmSFTFWX5x8b3yHu9DhBdAf7oQ3FpK3z4X5sDur3YcAuBZ",	b"QmQREkRpofc9k6AdSr7jjqfakc7v8iUnCbDm9tR7wTq633",	b"Qme91xCktjvK2ohEe5Z1m7fqrW9zhmwXEqvcR9tUsQxmxQ")
@@ -233,7 +236,7 @@ module act::uris {
         else (vector<u8>[], vector<u8>[], vector<u8>[])            
     }
 
-    public fun get_weapon(name: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
+    public(package) fun get_weapon(name: vector<u8>): (vector<u8>, vector<u8>, vector<u8>) {
         if (name == b"Talon")	(b"QmZJsZjQUDw4p9kdW5iJVMvAW1Kq1rZmkR5R3MTXHw8yLC",	b"QmWevevsHSTACBdR339Vm37pHuzqCszmh2n5mKw6pKsAxk",	b"Qmc1c6nfpGaE5L5GJpzf9frMrfFwyNPn4K8ANuBoVH6526")
         else if (name == b"Renegade")	(b"QmVcRFLdZVQCVx7CnR5wUZaBfhQvK8vEDPJJWv6zYLddNU",	b"QmPM7UQqdDNyo8Y6XGwnAofJwRAqLUoShb7V5kdp6uLrmX",	b"QmYvCYnYpgv1a5wvtnDU5yJ3VFTXES21A2WGUv4iV2zqi9")
         else if (name == b"Raptor")	(b"QmXSU8KtxG6sfrtWxHYHp3fBdy9MLqVusz3s7BRYVkotUD",	b"QmfVixneV9iNhKnFc8LNuMwxB46cPwpcZoYuKEtGsuBWVn",	b"QmPuhiTscBhBkDZePiVoPS3hcoMQ2vZb56pEo3pmxBWQW6")

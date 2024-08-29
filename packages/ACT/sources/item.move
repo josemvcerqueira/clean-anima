@@ -27,8 +27,6 @@ module act::item {
     const EItemTypeNotEquipped: u64 = 2;
     const EMustBeAPersonalKiosk: u64 = 3;
 
-    // === Constants ===
-
     // === Public-Mutative Functions ===
 
     #[allow(lint(share_owned, self_transfer))]
@@ -51,7 +49,7 @@ module act::item {
         let values = vector[
             name,
             description,
-            b"{image_url}".to_string(),
+            b"ipfs://{image_url}".to_string(),
             b"https://animalabs.io".to_string(), // TODO: change with ACT game page
             b"Anima Labs".to_string(),
         ];
