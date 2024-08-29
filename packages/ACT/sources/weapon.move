@@ -35,8 +35,6 @@ module act::weapon {
         misc: VecMap<String, String>,
     }
 
-    // === Method Aliases ===
-
     // === Public-Mutative Functions ===
 
     #[allow(lint(share_owned))]

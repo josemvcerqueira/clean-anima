@@ -51,6 +51,10 @@ export interface GenesisPass extends SuiObjectRef {
   type: string;
 }
 
+export interface UpdateImage extends MaybeTx {
+  avatarId: string;
+}
+
 export interface MintToKioskArgs extends MaybeTx {
   nftQuantity: bigint;
   suiValue: bigint;
@@ -58,39 +62,35 @@ export interface MintToKioskArgs extends MaybeTx {
   passId?: string;
 }
 
-export interface MintToTicketArgs extends MaybeTx {
+export interface MintToAvatarArgs extends MaybeTx {
   suiValue: bigint;
-  passId?: string;
-}
-
-export interface CreateAvatarArgs extends MaybeTx {
-  imageUrl: string;
-}
-
-export interface UpdateAvatarTicketImageArgs extends MaybeTx {
-  image: string;
   sender: string;
+  passId?: string;
 }
 
 export interface EquipWeaponsArgs extends MaybeTx {
   weaponIds: string[];
   weaponSlots: string[];
   sender: string;
+  avatarId: string;
 }
 
 export interface UnequipWeaponsArgs extends MaybeTx {
   weaponSlots: string[];
   sender: string;
+  avatarId: string;
 }
 
 export interface EquipCosmeticsArgs extends MaybeTx {
   cosmeticIds: string[];
+  avatarId: string;
   cosmeticTypes: string[];
   sender: string;
 }
 
 export interface UnequipCosmeticsArgs extends MaybeTx {
   cosmeticTypes: string[];
+  avatarId: string;
   sender: string;
 }
 
@@ -107,23 +107,18 @@ export interface GenesisShopItem extends SuiObjectRef {
 }
 
 export interface Avatar extends SuiObjectRef {
-  imageUrl: string;
-  equippedCosmeticsHash: string;
   type: string;
-  avatarImage: string;
+  imageUrl: string;
   avatarModel: string;
   avatarTexture: string;
   edition: string;
-  upgrades: any;
   attributes: Record<string, string>;
+  attributesHash: Record<string, string>;
   misc: Record<string, string>;
 }
 
-export interface AvatarTicket extends SuiObjectRef {
-  imageUrl: string;
-  equippedCosmeticsHash: string;
-  drops: ReadonlyArray<GenesisShopItem>;
-  type: string;
+export interface NewAvatarArgs extends MaybeTx {
+  recipient: string;
 }
 
 export interface NewAnimaAccountArgs extends MaybeTx {
@@ -168,50 +163,30 @@ export interface RemoveAccoladeArgs extends MaybeTx, AdminFn {
   index: bigint;
 }
 
-export interface UpdateAvatarArgs extends MaybeTx {
-  avatar: string;
-  image: string;
+export interface SetAvatarSettingsEdition extends MaybeTx, AdminFn {
+  edition: string;
 }
 
-export interface UpgradeAvatarArgs extends MaybeTx {
-  avatar: string;
-  lockedUpgrade: string;
-}
-
-export interface UpgradeAvatarWeaponArgs extends MaybeTx {
-  avatar: string;
-  lockedUpgrade: string;
-  slot: string;
-}
-
-export interface UpgradeAvatarCosmeticArgs extends MaybeTx {
-  avatar: string;
-  lockedUpgrade: string;
-  type: string;
-}
-
-export interface UpgradeEquippedCosmeticArgs extends MaybeTx {
-  avatar: string;
-  lockedUpgrade: string;
-  type: string;
-}
-
-export interface UpgradeEquippedWeaponArgs extends MaybeTx {
-  avatar: string;
-  lockedUpgrade: string;
-  slot: string;
-}
-
-export interface NewAvatarImageArgs extends MaybeTx, AdminFn {
+export interface SetAvatarSettingsImageUrl extends MaybeTx, AdminFn {
   imageUrl: string;
-  equippedCosmeticHash: string;
-  recipient: string;
+  texture: string;
+  model: string;
 }
 
-export interface NewUpgradeArgs extends MaybeTx, AdminFn {
-  imageUrl: string;
-  name: string;
-  modelUrl: string;
-  textureUrl: string;
-  recipient: string;
+export interface SetAvatarSettingsActive extends MaybeTx, AdminFn {
+  active: boolean;
+}
+
+export interface AddProfilePicture extends MaybeTx, AdminFn {
+  hash: string;
+  ipfsUrl: string;
+}
+
+export interface RemoveProfilePicture extends MaybeTx, AdminFn {
+  hash: string;
+}
+
+export interface AdminMintToKioskArgs extends MaybeTx, AdminFn {
+  nftQuantity: bigint;
+  sender: string;
 }

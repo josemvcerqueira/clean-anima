@@ -15,7 +15,7 @@ module act::avatar_tests {
         cosmetic::{Self, Cosmetic}, 
         set_up_tests::set_up_admins,
         avatar::{Self, Avatar, AvatarSettings},
-        profile_pictures::{Self, ProfilePictures}
+        profile_pictures::{Self, cosmetic_to_pfp_hash, ProfilePictures}
     };
 
     const OWNER: address = @0xBABE;
@@ -190,9 +190,9 @@ module act::avatar_tests {
 
         assert_eq(avatar.has_weapon(slot), false);
 
-        avatar.equip_weapons(
-            vector[weapon_id], 
-            vector[slot], 
+        avatar.equip_weapon(
+            weapon_id, 
+            slot, 
             &mut world.kiosk, 
             kiosk_cap.borrow(), 
             equip_transfer_policy, 
@@ -223,10 +223,10 @@ module act::avatar_tests {
 
         assert_eq(avatar.has_cosmetic(type_), false);
 
-        avatar.equip_cosmetics(
+        avatar.equip_cosmetic(
             &world.pfps,
-            vector[cosmetic_id], 
-            vector[type_], 
+            cosmetic_id, 
+            type_, 
             &mut world.kiosk, 
             kiosk_cap.borrow(), 
             equip_transfer_policy, 
@@ -234,99 +234,6 @@ module act::avatar_tests {
         );
 
         assert_eq(avatar.has_cosmetic(type_), true);
-
-        destroy(avatar);
-        world.end();
-    }
-
-    #[test]
-    fun test_equip_2_weapons() {
-        let mut world = start_world();
-
-        let weapon = new_weapon(world.scenario.ctx());
-
-        let weapon_id = object::id(&weapon);
-        let slot = weapon.slot();
-
-        let kiosk_cap = &world.kiosk_cap;
-        let equip_transfer_policy = &world.weapon_equip_transfer_policy;
-
-        world.kiosk.place(kiosk_cap.borrow(), weapon);
-
-        let weapon_2 = new_weapon_2(world.scenario.ctx());
-
-        let weapon_2_id = object::id(&weapon_2);
-        let slot_2 = weapon_2.slot();
-
-        world.kiosk.place(kiosk_cap.borrow(), weapon_2);
-
-        let mut avatar = avatar::new_genesis_edition(world.scenario.ctx());
-
-        assert_eq(avatar.has_weapon(slot), false);
-        assert_eq(avatar.has_weapon(slot_2), false);
-        assert_eq(avatar.attributes()[&slot], b"".to_string());
-        assert_eq(avatar.attributes()[&slot_2], b"".to_string());
-
-        avatar.equip_weapons(
-            vector[weapon_id, weapon_2_id], 
-            vector[slot, slot_2], 
-            &mut world.kiosk, 
-            kiosk_cap.borrow(), 
-            equip_transfer_policy, 
-            world.scenario.ctx()
-        );
-
-        assert_eq(avatar.attributes()[&slot], b"warglaive of azzinoth".to_string());
-        assert_eq(avatar.attributes()[&slot_2], b"weapon2".to_string());
-        assert_eq(avatar.has_weapon(slot_2), true);
-        assert_eq(avatar.has_weapon(slot), true);
-
-        destroy(avatar);
-        world.end();
-    }
-
-    #[test]
-    fun test_equip_2_cosmetics() {
-        let mut world = start_world();
-
-        let cosmetic = new_cosmetic(world.scenario.ctx());
-
-        let cosmetic_id = object::id(&cosmetic);
-        let type_ = cosmetic.type_();
-
-        let kiosk_cap = &world.kiosk_cap;
-        let equip_transfer_policy = &world.cosmetic_equip_transfer_policy;
-
-        world.kiosk.place(kiosk_cap.borrow(), cosmetic);
-
-        let cosmetic_2 = new_cosmetic_2(world.scenario.ctx());
-
-        let cosmetic_2_id = object::id(&cosmetic_2);
-        let type_2 = cosmetic_2.type_();
-
-        world.kiosk.place(kiosk_cap.borrow(), cosmetic_2);
-
-        let mut avatar = avatar::new_genesis_edition(world.scenario.ctx());
-
-        assert_eq(avatar.has_cosmetic(type_), false);
-        assert_eq(avatar.has_cosmetic(type_2), false);
-        assert_eq(avatar.attributes()[&type_], b"".to_string());
-        assert_eq(avatar.attributes()[&type_2], b"".to_string());
-
-        avatar.equip_cosmetics(
-            &world.pfps,
-            vector[cosmetic_id, cosmetic_2_id], 
-            vector[type_, type_2], 
-            &mut world.kiosk, 
-            kiosk_cap.borrow(), 
-            equip_transfer_policy, 
-            world.scenario.ctx()
-        );
-
-        assert_eq(avatar.has_cosmetic(type_), true);
-        assert_eq(avatar.has_cosmetic(type_2), true);
-        assert_eq(avatar.attributes()[&type_], b"cursed vision of sargeras".to_string());
-        assert_eq(avatar.attributes()[&type_2], b"glove".to_string());
 
         destroy(avatar);
         world.end();
@@ -348,9 +255,9 @@ module act::avatar_tests {
 
         let mut avatar = avatar::new_genesis_edition(world.scenario.ctx());
 
-        avatar.equip_weapons(
-            vector[weapon_id], 
-            vector[attributes::secondary()], 
+        avatar.equip_weapon(
+            weapon_id, 
+            attributes::secondary(), 
             &mut world.kiosk, 
             kiosk_cap.borrow(), 
             equip_transfer_policy, 
@@ -405,10 +312,10 @@ module act::avatar_tests {
 
         let mut avatar = avatar::new_genesis_edition(world.scenario.ctx());
 
-        avatar.equip_cosmetics(
+        avatar.equip_cosmetic(
             &world.pfps,
-            vector[cosmetic_id], 
-            vector[attributes::chestpiece()], 
+            cosmetic_id, 
+            attributes::chestpiece(), 
             &mut world.kiosk, 
             kiosk_cap.borrow(), 
             equip_transfer_policy, 
@@ -454,27 +361,33 @@ module act::avatar_tests {
         pfps.add(
             &access_control, 
             &super_admin, 
-            x"1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9", 
-            x"261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492", 
-            x"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", 
+            cosmetic_to_pfp_hash(
+                x"1e5f8f12e2ea31bfbf9a0a23df3b428a8214430f07546dc31f676075ea8f3ac9", 
+                x"261eca532eda70cad058ae4e5f1f71f477e6828d344d73b6ea66015bfcb29492", 
+                x"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", 
+            ),
             b"image".to_string()
         );
 
         pfps.add(
             &access_control, 
             &super_admin, 
-            x"68617368", 
-            x"", 
-            x"", 
+            cosmetic_to_pfp_hash(
+                x"68617368", 
+                x"", 
+                x"", 
+            ),
             b"image".to_string()
         );
 
         pfps.add(
             &access_control, 
             &super_admin, 
-            x"", 
-            x"", 
-            x"", 
+            cosmetic_to_pfp_hash(
+                            x"", 
+                x"", 
+                x"", 
+            ),
             b"image".to_string()
         );
 
@@ -521,23 +434,6 @@ module act::avatar_tests {
         )
     }
 
-    fun new_weapon_2(ctx: &mut TxContext): Weapon {
-        weapon::new(
-            b"hash",
-            b"weapon2".to_string(),
-            b"".to_string(),
-            b"".to_string(),
-            b"texture".to_string(),
-            attributes::secondary(),
-            b"green".to_string(),
-            b"".to_string(),
-            b"".to_string(),
-            b"epic".to_string(),
-            95,
-            ctx
-        )
-    }
-
     fun new_cosmetic(ctx: &mut TxContext): Cosmetic {
         cosmetic::new(
             b"hash",
@@ -546,23 +442,6 @@ module act::avatar_tests {
             b"head".to_string(),
             b"texture".to_string(),
             attributes::helm(),
-            b"red".to_string(),
-            b"soulbound".to_string(),
-            b"Illidan Stormrage".to_string(),
-            b"epic".to_string(),
-            95,
-            ctx
-        )
-    }
-
-    fun new_cosmetic_2(ctx: &mut TxContext): Cosmetic {
-        cosmetic::new(
-            b"hash",
-            b"glove".to_string(),
-            b"https://wow.zamimg.com/uploads/screenshots/normal/446667-cursed-vision-of-sargeras.jpg".to_string(),
-            b"head".to_string(),
-            b"texture".to_string(),
-            attributes::right_glove(),
             b"red".to_string(),
             b"soulbound".to_string(),
             b"Illidan Stormrage".to_string(),

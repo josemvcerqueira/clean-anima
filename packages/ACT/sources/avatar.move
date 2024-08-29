@@ -140,67 +140,69 @@ module act::avatar {
         dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic);  
     }
 
-    public fun equip_weapons(
+    public fun equip_weapon(
         self: &mut Avatar, 
-        weapon_ids: vector<ID>,
-        weapon_slots: vector<String>,
+        weapon_id: ID,
+        weapon_slot: String,
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Weapon>, // equipping policy
         ctx: &mut TxContext
     ) {
-        weapon_ids.zip_do!(weapon_slots, |weapon_id, weapon_slot| {
-            let (weapon_name, slot, hash) = weapon::equip(
-                &mut self.id, 
-                WeaponKey(weapon_slot), 
-                weapon_id, 
-                kiosk,
-                cap,
-                policy,
-                ctx
-            );
+        let (weapon_name, slot, hash) = weapon::equip(
+            &mut self.id, 
+            WeaponKey(weapon_slot), 
+            weapon_id, 
+            kiosk,
+            cap,
+            policy,
+            ctx
+        );
 
-            assert!(weapon_slot == slot, EWrongWeaponSlot);
+        assert!(weapon_slot == slot, EWrongWeaponSlot);
 
-            let weapon_val = &mut self.attributes[&weapon_slot];
-            *weapon_val = weapon_name;
+        let weapon_val = &mut self.attributes[&weapon_slot];
+        *weapon_val = weapon_name;
 
-            let weapon_val = &mut self.attributes_hash[&weapon_slot];
-            *weapon_val = hash;
-        });
+        let weapon_val = &mut self.attributes_hash[&weapon_slot];
+        *weapon_val = hash;
     }
 
-    public fun equip_cosmetics(
-        self: &mut Avatar, 
+    public fun equip_cosmetic(
+        self: &mut Avatar,
         pfps: &ProfilePictures,
-        cosmetic_ids: vector<ID>,
-        cosmetic_types: vector<String>,
+        cosmetic_id: ID,
+        cosmetic_type: String,
         kiosk: &mut Kiosk,
         cap: &KioskOwnerCap,
         policy: &TransferPolicy<Cosmetic>, // equipping policy
         ctx: &mut TxContext
     ) {
-        cosmetic_ids.zip_do!(cosmetic_types, |cosmetic_id, cosmetic_type| {
-            let (cosmetic_name, type_, hash) = cosmetic::equip(
-                &mut self.id, 
-                CosmeticKey(cosmetic_type), 
-                cosmetic_id, 
-                kiosk,
-                cap,
-                policy,
-                ctx
-            );
+        let (cosmetic_name, type_, hash) = cosmetic::equip(
+            &mut self.id, 
+            CosmeticKey(cosmetic_type), 
+            cosmetic_id, 
+            kiosk,
+            cap,
+            policy,
+            ctx
+        );
 
-            assert!(cosmetic_type == type_, EWrongCosmeticType);
+        assert!(cosmetic_type == type_, EWrongCosmeticType);
 
-            let cosmetic_val = &mut self.attributes[&cosmetic_type];
-            *cosmetic_val = cosmetic_name;
+        let cosmetic_val = &mut self.attributes[&cosmetic_type];
+        *cosmetic_val = cosmetic_name;
 
-            let cosmetic_val = &mut self.attributes_hash[&cosmetic_type];
-            *cosmetic_val = hash;
-        });
+        let cosmetic_val = &mut self.attributes_hash[&cosmetic_type];
+        *cosmetic_val = hash;
 
-        self.update_image(pfps);
+        if (
+            cosmetic_type == attributes::helm() || 
+            cosmetic_type == attributes::upper_torso() || 
+            cosmetic_type == attributes::chestpiece()
+        ) {
+            self.update_image(pfps);
+        }
     }
 
     public fun unequip_weapons(
@@ -228,7 +230,7 @@ module act::avatar {
     }
 
     public fun unequip_cosmetics(
-        self: &mut Avatar, 
+        self: &mut Avatar,
         pfps: &ProfilePictures,
         cosmetic_types: vector<String>,
         kiosk: &mut Kiosk,
@@ -250,7 +252,6 @@ module act::avatar {
                 policy,
             );
         });
-
         self.update_image(pfps);
     }
 
