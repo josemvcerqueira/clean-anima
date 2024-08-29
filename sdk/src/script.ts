@@ -5,10 +5,12 @@ import {
   SerialTransactionExecutor,
   Transaction,
 } from '@mysten/sui/transactions';
-import { fetchAllDynamicFields } from '@polymedia/suitcase-core';
+import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
 import dotenv from 'dotenv';
+import * as fs from 'fs';
 import invariant from 'tiny-invariant';
 import util from 'util';
+import { promisify } from 'util';
 
 import { AnimaSDK } from './anima';
 import {
@@ -19,6 +21,11 @@ import {
 } from './constants';
 
 dotenv.config();
+import path from 'path';
+import { slice } from 'ramda';
+
+const read = promisify(fs.readFile);
+const write = promisify(fs.writeFile);
 
 const client = new SuiClient({
   url: getFullnodeUrl('testnet'),
@@ -314,3 +321,71 @@ const builders = [
 
 //   log(digests.length);
 // })();
+
+(async () => {
+  const data = await read(
+    path.join(__dirname, `../pfps/flat-v2.json`),
+    'utf-8'
+  );
+  console.log(data);
+  const x = JSON.parse(data);
+
+  console.log(Object.values(x).length);
+
+  // const parsed = x.map((elem: any) => {
+  //   return {
+  //     helm: elem.attributes[0].style_hash,
+  //     chest: elem.attributes[1].style_hash,
+  //     upperTorso: elem.attributes[1].style_hash,
+  //     ipfs: elem.ipfsHash,
+  //     equipmentHash: elem.equipmentHash,
+  //   };
+  // });
+
+  // const uniq = Object.values(
+  //   parsed.reduce(
+  //     (
+  //       acc: Record<string, Record<string, string>>,
+  //       elem: Record<string, string>
+  //     ) => {
+  //       return {
+  //         ...acc,
+  //         [elem.equipmentHash]: elem,
+  //       };
+  //     },
+  //     {} as Record<string, Record<string, string>>
+  //   )
+  // );
+
+  // const chunks = chunkArray(uniq, 50);
+
+  // const executor = new SerialTransactionExecutor({
+  //   client,
+  //   signer: adminKeypair,
+  // });
+
+  // const promises = [];
+
+  // for (const elem of chunks) {
+  //   const tx = new Transaction();
+
+  //   tx.setGasBudget(1_000_000_000);
+
+  //   elem.forEach((elem: any) => {
+  //     sdk.addProfilePicture({
+  //       adminCap: OWNED_OBJECTS.ADMIN,
+  //       chestpieceHash: elem.chest,
+  //       helmHash: elem.helm,
+  //       ipfsUrl: elem.ipfs,
+  //       upperTorsoHash: elem.upperTorso,
+  //       tx,
+  //     });
+  //   });
+
+  //   promises.push(executor.executeTransaction(tx));
+  // }
+
+  // const digests = await Promise.all(promises);
+
+  // log(digests.length);
+})();

@@ -8,7 +8,7 @@ module act::profile_pictures_tests {
     };
 
     use act::{
-        profile_pictures::{Self, ProfilePictures},
+        profile_pictures::{Self, cosmetic_to_pfp_hash, ProfilePictures},
         set_up_tests::set_up_admins,
     };
 
@@ -49,14 +49,14 @@ module act::profile_pictures_tests {
 
         assert_eq(x"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", upper_torso_hash);
 
-        pfps.add(&access_control, &super_admin, helm_hash, chestpiece_hash, upper_torso_hash, b"test".to_string());
+        pfps.add(&access_control, &super_admin, cosmetic_to_pfp_hash(helm_hash, chestpiece_hash, upper_torso_hash), b"test".to_string());
 
         let pfp = pfps.get(helm_hash, chestpiece_hash, upper_torso_hash);
         assert_eq(pfp, b"test".to_string());
 
         assert_eq(pfps.contains(helm_hash, chestpiece_hash, upper_torso_hash), true);
 
-        pfps.remove(&access_control, &super_admin, helm_hash, chestpiece_hash, upper_torso_hash);
+        pfps.remove(&access_control, &super_admin, cosmetic_to_pfp_hash(helm_hash, chestpiece_hash, upper_torso_hash));
 
        assert_eq(pfps.contains(helm_hash, chestpiece_hash, upper_torso_hash), false);
 
@@ -95,7 +95,7 @@ module act::profile_pictures_tests {
 
         let upper_torso_hash = vector<u8>[];
 
-        pfps.add(&access_control, &super_admin, helm_hash, chestpiece_hash, upper_torso_hash, b"test".to_string());
+        pfps.add(&access_control, &super_admin, cosmetic_to_pfp_hash(helm_hash, chestpiece_hash, upper_torso_hash), b"test".to_string());
 
         let pfp = pfps.get(helm_hash, chestpiece_hash, upper_torso_hash);
         assert_eq(pfp, b"test".to_string());

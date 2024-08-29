@@ -1039,10 +1039,7 @@ export class AnimaSDK {
     upperTorsoHash,
     tx = new Transaction(),
   }: AddProfilePicture) {
-    invariant(
-      chestpieceHash && helmHash && ipfsUrl && upperTorsoHash,
-      'Do not pass empty values'
-    );
+    invariant(ipfsUrl, 'You  must provide an ipfs url');
 
     tx.moveCall({
       target: `${this.#packages.ACT}::profile_pictures::add`,

@@ -28,14 +28,10 @@ module act::profile_pictures {
         profile_pictures: &mut ProfilePictures,
         access_control: &AccessControl,
         admin: &Admin,
-        helm: vector<u8>,
-        chestpiece: vector<u8>,
-        upper_torso: vector<u8>,
+        hash: vector<u8>,
         ipfs_url: String,
     ) {
         admin::assert_profile_pictures_role(access_control, admin);
-
-        let hash = cosmetic_to_pfp_hash(helm, chestpiece, upper_torso);
         profile_pictures.hash_to_ipfs.add(hash, ipfs_url);
     }
 
@@ -43,13 +39,9 @@ module act::profile_pictures {
         profile_pictures: &mut ProfilePictures,
         access_control: &AccessControl,
         admin: &Admin,
-        helm: vector<u8>,
-        chestpiece: vector<u8>,
-        upper_torso: vector<u8>,
+        hash: vector<u8>, 
     ) {
         admin::assert_profile_pictures_role(access_control, admin);
-
-        let hash = cosmetic_to_pfp_hash(helm, chestpiece, upper_torso);
         profile_pictures.hash_to_ipfs.remove(hash);
     }
 
