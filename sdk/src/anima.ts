@@ -62,6 +62,7 @@ export class AnimaSDK {
   #genesisShopItemsId: string;
   #client: SuiClient;
   #kioskClient: KioskClient;
+  #saleId: string;
 
   constructor(args: AnimaConstructorArgs | null | undefined = null) {
     const data = args
@@ -70,13 +71,16 @@ export class AnimaSDK {
           packages: PACKAGES,
           sharedObjects: SHARED_OBJECTS,
           genesisShopItemsId: OWNED_OBJECTS.GENESIS_SHOP_ITEMS_ID,
+          saleId: OWNED_OBJECTS.SALE_OBJECT_ID,
           fullNodeUrl: getFullnodeUrl('testnet'),
         };
 
     this.#packages = data.packages || PACKAGES;
+
     this.#sharedObjects = data.sharedObjects || SHARED_OBJECTS;
     this.#genesisShopItemsId =
       data.genesisShopItemsId || OWNED_OBJECTS.GENESIS_SHOP_ITEMS_ID;
+    this.#saleId = data.saleId || OWNED_OBJECTS.SALE_OBJECT_ID;
 
     this.#client = new SuiClient({
       url: data.fullNodeUrl || getFullnodeUrl('testnet'),
@@ -714,6 +718,26 @@ export class AnimaSDK {
       digest: pathOr('', ['data', 'digest'], elem),
       version: pathOr('', ['data', 'version'], elem),
     }));
+  }
+
+  async getSales() {
+    const data = await this.#client.getObject({
+      id: this.#saleId,
+      options: { showContent: true },
+    });
+
+    return {
+      objectId: pathOr('', ['data', 'content', 'fields', 'id', 'id'], data),
+      active: pathOr(false, ['data', 'content', 'fields', 'active'], data),
+      prices: pathOr([], ['data', 'content', 'fields', 'prices'], data),
+      maxMints: pathOr([], ['data', 'content', 'fields', 'max_mints'], data),
+      dropsLeft: BigInt(
+        pathOr(0n, ['data', 'content', 'fields', 'drops_left'], data)
+      ),
+      type: pathOr('', ['data', 'content', 'type'], data),
+      digest: pathOr('', ['data', 'digest'], data),
+      version: pathOr('', ['data', 'version'], data),
+    };
   }
 
   /**
