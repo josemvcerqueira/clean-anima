@@ -196,8 +196,13 @@ module act::avatar {
         let cosmetic_val = &mut self.attributes_hash[&cosmetic_type];
         *cosmetic_val = hash;
 
-        if (cosmetic_type == attributes::helm() || cosmetic_type == attributes::upper_torso() || cosmetic_type == attributes::chestpiece())
+        if (
+            cosmetic_type == attributes::helm() || 
+            cosmetic_type == attributes::upper_torso() || 
+            cosmetic_type == attributes::chestpiece()
+        ) {
             self.update_image(pfps);
+        }
     }
 
     public fun unequip_weapons(

@@ -154,21 +154,6 @@ export class AnimaSDK {
     return results.flat().map((x) => parseKioskItem(x));
   }
 
-  async getOwnedAvatarImages(objectId: string) {
-    const data = await this.#client.getOwnedObjects({
-      owner: objectId,
-      options: { showType: true, showContent: true },
-    });
-
-    const avatarImages = data.data.filter(
-      (elem) => elem.data?.type === `${this.#packages.ACT}::avatar::AvatarImage`
-    );
-
-    if (!avatarImages.length) return [];
-
-    return data.data.map((elem) => parseImageObjectResponse(elem));
-  }
-
   async getPersonalKiosks(address: string) {
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address,
@@ -402,6 +387,7 @@ export class AnimaSDK {
 
   async unequipCosmetics({
     cosmeticTypes,
+    avatarId,
     sender,
     tx = new Transaction(),
   }: UnequipCosmeticsArgs) {
@@ -409,11 +395,10 @@ export class AnimaSDK {
       cosmeticTypes.length != 0,
       'You must unequip at least one cosmetic'
     );
-    const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
     });
-    invariant(avatar, 'Please mint an avatar first');
+    invariant(avatarId, 'Not a valid avatar id');
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
@@ -430,7 +415,7 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${this.#packages.ACT}::avatar::unequip_cosmetic`,
       arguments: [
-        tx.object(avatar.objectId),
+        tx.object(avatarId),
         tx.object(this.#sharedObjects.AVATAR_SETTINGS),
         tx.pure.vector('string', cosmeticTypes),
         kioskTx.getKiosk(),
