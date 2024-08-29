@@ -51,6 +51,7 @@ import {
   UnequipCosmeticsArgs,
   UnequipWeaponsArgs,
   UpdateAliasArgs,
+  UpdateImage,
   UpdateUsernameArgs,
 } from './types';
 import { parseGenesisShopItem, parseKioskItem } from './utils';
@@ -433,6 +434,20 @@ export class AnimaSDK {
     return tx;
   }
 
+  updateImage({ avatarId, tx = new Transaction() }: UpdateImage) {
+    invariant(isValidSuiObjectId(avatarId), 'Invalid avatar id');
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::update_image`,
+      arguments: [
+        tx.object(avatarId),
+        tx.object(this.#sharedObjects.PROFILE_PICTURES),
+      ],
+    });
+
+    return tx;
+  }
+
   async getAvatars(address: string): Promise<Avatar[]> {
     invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
 
@@ -688,6 +703,13 @@ export class AnimaSDK {
     return passes.data.map((elem) => ({
       objectId: pathOr('', ['data', 'content', 'fields', 'id', 'id'], elem),
       phase: BigInt(pathOr(0n, ['data', 'content', 'fields', 'phase'], elem)),
+      name: pathOr('', ['data', 'content', 'fields', 'name'], elem),
+      imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
+      description: pathOr(
+        '',
+        ['data', 'content', 'fields', 'description'],
+        elem
+      ),
       type: pathOr('', ['data', 'type'], elem),
       digest: pathOr('', ['data', 'digest'], elem),
       version: pathOr('', ['data', 'version'], elem),

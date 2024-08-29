@@ -51,6 +51,10 @@ export interface GenesisPass extends SuiObjectRef {
   type: string;
 }
 
+export interface UpdateImage extends MaybeTx {
+  avatarId: string;
+}
+
 export interface MintToKioskArgs extends MaybeTx {
   nftQuantity: bigint;
   suiValue: bigint;
