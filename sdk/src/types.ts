@@ -7,6 +7,7 @@ export interface AnimaConstructorArgs {
   fullNodeUrl?: string;
   packages?: typeof PACKAGES;
   genesisShopItemsId?: string;
+  saleId?: string;
   sharedObjects?: typeof SHARED_OBJECTS;
 }
 

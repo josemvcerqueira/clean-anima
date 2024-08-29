@@ -1,43 +1,43 @@
-// import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
-// import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-// import {
-//   GasData,
-//   SerialTransactionExecutor,
-//   Transaction,
-// } from '@mysten/sui/transactions';
-// import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
-// import dotenv from 'dotenv';
-// import * as fs from 'fs';
-// import invariant from 'tiny-invariant';
-// import util from 'util';
-// import { promisify } from 'util';
+import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+import {
+  GasData,
+  SerialTransactionExecutor,
+  Transaction,
+} from '@mysten/sui/transactions';
+import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
+import dotenv from 'dotenv';
+import * as fs from 'fs';
+import invariant from 'tiny-invariant';
+import util from 'util';
+import { promisify } from 'util';
 
-// import { AnimaSDK } from './anima';
-// import {
-//   BUILDER_FN_NAMES,
-//   OWNED_OBJECTS,
-//   PACKAGES,
-//   SHARED_OBJECTS,
-// } from './constants';
+import { AnimaSDK } from './anima';
+import {
+  BUILDER_FN_NAMES,
+  OWNED_OBJECTS,
+  PACKAGES,
+  SHARED_OBJECTS,
+} from './constants';
 
-// dotenv.config();
-// import { toHEX } from '@mysten/sui/utils';
-// import path from 'path';
-// import { slice } from 'ramda';
+dotenv.config();
+import { fromHEX, toHEX } from '@mysten/sui/utils';
+import path from 'path';
+import { slice } from 'ramda';
 
-// const read = promisify(fs.readFile);
-// const write = promisify(fs.writeFile);
+const read = promisify(fs.readFile);
+const write = promisify(fs.writeFile);
 
-// const client = new SuiClient({
-//   url: getFullnodeUrl('testnet'),
-// });
+const client = new SuiClient({
+  url: getFullnodeUrl('testnet'),
+});
 
-// export const log = (x: unknown) =>
-//   console.log(util.inspect(x, false, null, true));
+export const log = (x: unknown) =>
+  console.log(util.inspect(x, false, null, true));
 
-// const adminKeypair = Ed25519Keypair.fromSecretKey(
-//   Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
-// );
+const adminKeypair = Ed25519Keypair.fromSecretKey(
+  Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
+);
 
 // const addItem = (builder: string, tx = new Transaction()) => {
 //   tx.setGasBudget(5_000_000_000);
@@ -84,39 +84,39 @@
 //   return tx;
 // };
 
-// export const executeTx = async (tx: Transaction) => {
-//   const result = await client.signAndExecuteTransaction({
-//     signer: adminKeypair,
-//     transaction: tx,
-//     options: {
-//       showEffects: true,
-//     },
-//     requestType: 'WaitForLocalExecution',
-//   });
+export const executeTx = async (tx: Transaction) => {
+  const result = await client.signAndExecuteTransaction({
+    signer: adminKeypair,
+    transaction: tx,
+    options: {
+      showEffects: true,
+    },
+    requestType: 'WaitForLocalExecution',
+  });
 
-//   // return if the tx hasn't succeed
-//   if (result.effects?.status?.status !== 'success') {
-//     console.log('\n\nCreating a new stable pool failed');
-//     return;
-//   }
+  // return if the tx hasn't succeed
+  if (result.effects?.status?.status !== 'success') {
+    console.log('\n\nCreating a new stable pool failed');
+    return;
+  }
 
-//   console.log('SUCCESS!');
+  console.log('SUCCESS!');
 
-//   // get all created objects IDs
-//   const createdObjectIds = result.effects.created?.map(
-//     (item: OwnedObjectRef) => item.reference.objectId
-//   );
+  // get all created objects IDs
+  const createdObjectIds = result.effects.created?.map(
+    (item: OwnedObjectRef) => item.reference.objectId
+  );
 
-//   if (createdObjectIds)
-//     // fetch objects data
-//     return client.multiGetObjects({
-//       ids: createdObjectIds,
-//       options: { showContent: true, showType: true, showOwner: true },
-//     });
-// };
+  if (createdObjectIds)
+    // fetch objects data
+    return client.multiGetObjects({
+      ids: createdObjectIds,
+      options: { showContent: true, showType: true, showOwner: true },
+    });
+};
 
-// const sdk = new AnimaSDK();
-// const DAY = 86400000;
+const sdk = new AnimaSDK();
+const DAY = 86400000;
 
 // (async () => {
 //   const avatar = await sdk.getAvatar(adminKeypair.toSuiAddress());
@@ -298,3 +298,7 @@
 //     '0x23db92f4373fa9353ab56f8be76263432f9f93b2974e50e613265266f5d3d3e7'
 //   );
 // })();
+
+(async () => {
+  console.log(await sdk.getSales());
+})();
