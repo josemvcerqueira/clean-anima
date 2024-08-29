@@ -49,18 +49,6 @@ export const SHARED_OBJECTS = {
     mutable: true,
     initialSharedVersion: '111160775',
   }),
-  AVATAR_REGISTRY: Inputs.SharedObjectRef({
-    objectId:
-      '0x6e0b1b286454bce33e8c350d247bcf0249e6dad2bcba1862d0dc6d355b9c815a',
-    mutable: false,
-    initialSharedVersion: '111160775',
-  }),
-  AVATAR_REGISTRY_MUT: Inputs.SharedObjectRef({
-    objectId:
-      '0x6e0b1b286454bce33e8c350d247bcf0249e6dad2bcba1862d0dc6d355b9c815a',
-    mutable: true,
-    initialSharedVersion: '111160775',
-  }),
   SALE: Inputs.SharedObjectRef({
     objectId:
       '0xf0bd997a605a337d059d0c9bae619e73509bf9b4792b068681e2909176740e5c',
@@ -108,6 +96,16 @@ export const SHARED_OBJECTS = {
       '0x9648141334cd1c5d4077fca7ded88eff01b6fd5366297925027cd4ac67c50ea1',
     mutable: true,
     initialSharedVersion: '111160775',
+  }),
+  AVATAR_SETTINGS: Inputs.SharedObjectRef({
+    objectId: '',
+    mutable: false,
+    initialSharedVersion: '',
+  }),
+  AVATAR_SETTINGS_MUT: Inputs.SharedObjectRef({
+    objectId: '',
+    mutable: true,
+    initialSharedVersion: '',
   }),
 };
 

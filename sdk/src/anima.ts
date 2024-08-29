@@ -7,7 +7,6 @@ import {
   normalizeStructTag,
   normalizeSuiObjectId,
   SUI_CLOCK_OBJECT_ID,
-  toHEX,
 } from '@mysten/sui/utils';
 import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
 import * as changeCase from 'change-case';
@@ -26,19 +25,13 @@ import {
   AirdropWhitelistArgs,
   AnimaConstructorArgs,
   Avatar,
-  AvatarTicket,
-  CreateAvatarArgs,
   EquipCosmeticsArgs,
   EquipWeaponsArgs,
   GenesisPass,
   GenesisShopItem,
   GiveReputationArgs,
-  MaybeTx,
   MintToKioskArgs,
-  MintToTicketArgs,
   NewAnimaAccountArgs,
-  NewAvatarImageArgs,
-  NewUpgradeArgs,
   RemoveAccoladeArgs,
   RemoveReputationArgs,
   SetDropsLeftArgs,
@@ -49,14 +42,7 @@ import {
   UnequipCosmeticsArgs,
   UnequipWeaponsArgs,
   UpdateAliasArgs,
-  UpdateAvatarArgs,
-  UpdateAvatarTicketImageArgs,
   UpdateUsernameArgs,
-  UpgradeAvatarArgs,
-  UpgradeAvatarCosmeticArgs,
-  UpgradeAvatarWeaponArgs,
-  UpgradeEquippedCosmeticArgs,
-  UpgradeEquippedWeaponArgs,
 } from './types';
 import {
   parseGenesisShopItem,
@@ -259,6 +245,7 @@ export class AnimaSDK {
   }
 
   async equipWeapons({
+    avatarId,
     weaponIds,
     weaponSlots,
     sender,
@@ -268,9 +255,7 @@ export class AnimaSDK {
       weaponIds.length === weaponSlots.length && weaponIds.length != 0,
       'Mismatch configuration'
     );
-
-    const avatar = await this.getAvatar(sender);
-    invariant(avatar, 'Please mint an avatar first');
+    invariant(isValidSuiObjectId(avatarId), 'Invalid avatar id');
     const allItems = await this.getItemsInKiosk(sender);
 
     const record = weaponIds.reduce(
@@ -287,43 +272,48 @@ export class AnimaSDK {
         .includes(normalizeSuiObjectId(item.objectId))
     );
 
-    items.forEach((item) => {
-      const [cap, borrow] = tx.moveCall({
-        target: `${this.#packages.KIOSK}::personal_kiosk::borrow_val`,
-        arguments: [tx.object(item.cap)],
-      });
-
-      tx.moveCall({
-        target: `${this.#packages.ACT}::avatar::equip_weapon`,
-        arguments: [
-          tx.object(avatar.objectId),
-          tx.pure.id(item.objectId),
-          tx.pure.string(record[item.objectId]),
-          tx.object(item.kioskId),
-          tx.object(cap),
-          tx.object(this.#sharedObjects.WEAPON_TRANSFER_POLICY_EQUIP),
-        ],
-      });
-
-      tx.moveCall({
-        target: `${this.#packages.KIOSK}::personal_kiosk::return_val`,
-        arguments: [tx.object(item.cap), cap, borrow],
-      });
+    const [cap, borrow] = tx.moveCall({
+      target: `${this.#packages.KIOSK}::personal_kiosk::borrow_val`,
+      arguments: [tx.object(item.cap)],
     });
+
+    tx.moveCall({
+      target: `${this.#packages.ACT}::avatar::equip_weapons`,
+      arguments: [
+        tx.object(avatarId),
+        tx.pure.vector(
+          'id',
+          items.map((elem) => elem.objectId)
+        ),
+        tx.pure.vector(
+          'string',
+          items.map((elem) => record[elem.objectId])
+        ),
+        tx.object(item.kioskId),
+        tx.object(cap),
+        tx.object(this.#sharedObjects.WEAPON_TRANSFER_POLICY_EQUIP),
+      ],
+    });
+
+    tx.moveCall({
+      target: `${this.#packages.KIOSK}::personal_kiosk::return_val`,
+      arguments: [tx.object(item.cap), cap, borrow],
+    });
+
     return tx;
   }
 
   async unequipWeapons({
+    avatarId,
     weaponSlots,
     sender,
     tx = new Transaction(),
   }: UnequipWeaponsArgs) {
     invariant(weaponSlots.length, 'You must unequip at leas one weapon');
-    const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
     });
-    invariant(avatar, 'Please mint an avatar first');
+    invariant(isValidSuiObjectId(avatarId), 'Invalid avatar id');
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
@@ -341,7 +331,7 @@ export class AnimaSDK {
       tx.moveCall({
         target: `${this.#packages.ACT}::avatar::unequip_weapon`,
         arguments: [
-          tx.object(avatar.objectId),
+          tx.object(avatarId),
           tx.pure.string(slot),
           kioskTx.getKiosk(),
           kioskTx.getKioskCap(),
@@ -355,7 +345,8 @@ export class AnimaSDK {
     return tx;
   }
 
-  async equipCosmetic({
+  async equipCosmetics({
+    avatarId,
     cosmeticIds,
     cosmeticTypes,
     sender,
@@ -366,10 +357,7 @@ export class AnimaSDK {
       'Mismatch configuration'
     );
 
-    const avatar = await this.getAvatar(sender);
-
-    invariant(avatar, 'Please mint an avatar first');
-
+    invariant(isValidSuiObjectId(avatarId), 'Invalid avatar id');
     const allItems = await this.getItemsInKiosk(sender);
 
     const record = cosmeticIds.reduce(
@@ -395,7 +383,7 @@ export class AnimaSDK {
       tx.moveCall({
         target: `${this.#packages.ACT}::avatar::equip_cosmetic`,
         arguments: [
-          tx.object(avatar.objectId),
+          tx.object(avatarId),
           tx.pure.id(item.objectId),
           tx.pure.string(record[item.objectId]),
           tx.object(item.kioskId),
@@ -414,20 +402,19 @@ export class AnimaSDK {
   }
 
   async unequipCosmetics({
+    avatarId,
     cosmeticTypes,
     sender,
-
     tx = new Transaction(),
   }: UnequipCosmeticsArgs) {
     invariant(
       cosmeticTypes.length != 0,
       'You must unequip at least one cosmetic'
     );
-    const avatar = await this.getAvatar(sender);
     const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
       address: sender,
     });
-    invariant(avatar, 'Please mint an avatar first');
+    invariant(isValidSuiObjectId(avatarId), 'Invalid avatar id');
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
@@ -445,7 +432,7 @@ export class AnimaSDK {
       tx.moveCall({
         target: `${this.#packages.ACT}::avatar::unequip_cosmetic`,
         arguments: [
-          tx.object(avatar.objectId),
+          tx.object(avatarId),
           tx.pure.string(type),
           kioskTx.getKiosk(),
           kioskTx.getKioskCap(),
@@ -459,287 +446,7 @@ export class AnimaSDK {
     return tx;
   }
 
-  async updateAvatar({
-    tx = new Transaction(),
-    avatar,
-    image,
-  }: UpdateAvatarArgs) {
-    const obj = await this.#client.getObject({
-      id: image,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::avatar::AvatarImage`,
-      `The object type must be equal to ${this.#packages.ACT}::avatar::AvatarImage`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::update_avatar`,
-      arguments: [
-        tx.object(avatar),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-      ],
-    });
-
-    return tx;
-  }
-
-  async upgradeAvatar({
-    avatar,
-    lockedUpgrade,
-    tx = new Transaction(),
-  }: UpgradeAvatarArgs) {
-    const obj = await this.#client.getObject({
-      id: lockedUpgrade,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
-      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::upgrade`,
-      arguments: [
-        tx.object(avatar),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-      ],
-    });
-
-    return tx;
-  }
-
-  async upgradeAvatarWeapon({
-    avatar,
-    lockedUpgrade,
-    slot,
-    tx = new Transaction(),
-  }: UpgradeAvatarWeaponArgs) {
-    const obj = await this.#client.getObject({
-      id: lockedUpgrade,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
-      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::upgrade_equipped_weapon`,
-      arguments: [
-        tx.object(avatar),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-        tx.pure.string(slot),
-      ],
-    });
-
-    return tx;
-  }
-
-  async upgradeAvatarCosmetic({
-    avatar,
-    lockedUpgrade,
-    type,
-    tx = new Transaction(),
-  }: UpgradeAvatarCosmeticArgs) {
-    const obj = await this.#client.getObject({
-      id: lockedUpgrade,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
-      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::upgrade_equipped_cosmetic`,
-      arguments: [
-        tx.object(avatar),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-        tx.pure.string(type),
-      ],
-    });
-
-    return tx;
-  }
-
-  async upgradeEquippedCosmetic({
-    avatar,
-    lockedUpgrade,
-    type,
-    tx = new Transaction(),
-  }: UpgradeEquippedCosmeticArgs) {
-    const obj = await this.#client.getObject({
-      id: lockedUpgrade,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
-      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::upgrade_equipped_cosmetic`,
-      arguments: [
-        tx.object(avatar),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-        tx.pure.string(type),
-      ],
-    });
-
-    return tx;
-  }
-
-  async upgradeEquippedWeapon({
-    avatar,
-    lockedUpgrade,
-    slot,
-    tx = new Transaction(),
-  }: UpgradeEquippedWeaponArgs) {
-    const obj = await this.#client.getObject({
-      id: lockedUpgrade,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::upgrade::LockedUpgrade`,
-      `The object type must be equal to ${this.#packages.ACT}::upgrade::LockedUpgrade`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::upgrade_equipped_weapon`,
-      arguments: [
-        tx.object(avatar),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-        tx.pure.string(slot),
-      ],
-    });
-
-    return tx;
-  }
-
-  async getAvatarTicket(address: string): Promise<AvatarTicket | null> {
-    invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
-
-    const res = await this.#client.getOwnedObjects({
-      owner: address,
-      filter: {
-        StructType: normalizeStructTag(
-          `${this.#packages.ACT}::genesis_drop::AvatarTicket`
-        ),
-      },
-      options: {
-        showType: true,
-        showContent: true,
-      },
-    });
-
-    if (!res.data.length) return null;
-
-    const elem = res.data[0];
-
-    pathOr(null, ['data', 'content', 'fields', 'drop', 0, 'fields'], elem);
-
-    return {
-      objectId: pathOr('', ['data', 'objectId'], elem),
-      version: pathOr('', ['data', 'version'], elem),
-      digest: pathOr('', ['data', 'digest'], elem),
-      type: pathOr('', ['data', 'type'], elem),
-      imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
-      equippedCosmeticsHash: pathOr(
-        '',
-        ['data', 'content', 'fields', 'equipped_cosmetics_hash'],
-        elem
-      ),
-      drops: pathOr([], ['data', 'content', 'fields', 'drop'], elem).map(
-        (x) => {
-          const fields = pathOr(null, ['fields'], x);
-          invariant(fields, 'Failed to get item fields');
-
-          return Object.keys(fields).reduce(
-            (acc, elem) => ({
-              ...acc,
-              [changeCase.camelCase(elem)]:
-                elem === 'hash' ? toHEX(fields[elem]) : fields[elem],
-            }),
-            {} as GenesisShopItem
-          );
-        }
-      ),
-    };
-  }
-
-  async updateAvatarTicketImage({
-    tx = new Transaction(),
-    image,
-    sender,
-  }: UpdateAvatarTicketImageArgs) {
-    const ticket = await this.getAvatarTicket(sender);
-
-    invariant(ticket, 'Mint an AvatarTicket first');
-
-    const obj = await this.#client.getObject({
-      id: image,
-      options: { showType: true },
-    });
-
-    invariant(obj.data, 'Image does not exist');
-    invariant(
-      obj.data.type === `${this.#packages.ACT}::avatar::AvatarImage`,
-      `The object type must be equal to ${this.#packages.ACT}::avatar::AvatarImage`
-    );
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::genesis_drop::update_image`,
-      arguments: [
-        tx.object(ticket?.objectId),
-        tx.receivingRef({
-          objectId: obj.data.objectId,
-          digest: obj.data.digest,
-          version: obj.data.version,
-        }),
-      ],
-    });
-
-    return tx;
-  }
-
-  async getAvatar(address: string): Promise<Avatar | null> {
+  async getAvatars(address: string): Promise<Avatar[] | null> {
     invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
 
     const res = await this.#client.getOwnedObjects({
@@ -755,99 +462,88 @@ export class AnimaSDK {
 
     if (!res.data.length) return null;
 
-    const elem = res.data[0];
+    const x = res.data;
 
-    return {
-      objectId: pathOr('', ['data', 'objectId'], elem),
-      version: pathOr('', ['data', 'version'], elem),
-      digest: pathOr('', ['data', 'digest'], elem),
-      type: pathOr('', ['data', 'type'], elem),
-      avatarImage: pathOr(
-        '',
-        ['data', 'content', 'fields', 'avatar_image'],
-        elem
-      ),
-      avatarModel: pathOr(
-        '',
-        ['data', 'content', 'fields', 'avatar_model'],
-        elem
-      ),
-      avatarTexture: pathOr(
-        '',
-        ['data', 'content', 'fields', 'avatar_texture'],
-        elem
-      ),
-      edition: pathOr('', ['data', 'content', 'fields', 'edition'], elem),
-      imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
-      equippedCosmeticsHash: pathOr(
-        '',
-        ['data', 'content', 'fields', 'equipped_cosmetics_hash'],
-        elem
-      ),
-      upgrades: pathOr([], ['data', 'content', 'fields', 'upgrades'], elem),
-      attributes: pathOr(
-        [] as Record<string, string>[],
-        ['data', 'content', 'fields', 'attributes', 'fields', 'contents'],
-        elem
-      ).reduce(
-        (acc, elem) => {
-          const data = pathOr({} as Record<string, string>, ['fields'], elem);
-          return {
-            ...acc,
-            [changeCase.camelCase(data.key)]: data.value,
-          };
-        },
-        {} as Record<string, string>
-      ),
-      misc: pathOr(
-        [] as Record<string, string>[],
-        ['data', 'content', 'fields', 'misc', 'fields', 'contents'],
-        elem
-      ).reduce(
-        (acc, elem) => {
-          const data = pathOr({} as Record<string, string>, ['fields'], elem);
-          return {
-            ...acc,
-            [changeCase.camelCase(data.key)]: data.value,
-          };
-        },
-        {} as Record<string, string>
-      ),
-    };
+    return x.map((elem) => {
+      return {
+        objectId: pathOr('', ['data', 'objectId'], elem),
+        version: pathOr('', ['data', 'version'], elem),
+        digest: pathOr('', ['data', 'digest'], elem),
+        type: pathOr('', ['data', 'type'], elem),
+        avatarModel: pathOr(
+          '',
+          ['data', 'content', 'fields', 'avatar_model'],
+          elem
+        ),
+        avatarTexture: pathOr(
+          '',
+          ['data', 'content', 'fields', 'avatar_texture'],
+          elem
+        ),
+        edition: pathOr('', ['data', 'content', 'fields', 'edition'], elem),
+        imageUrl: pathOr('', ['data', 'content', 'fields', 'image_url'], elem),
+        attributes: pathOr(
+          [] as Record<string, string>[],
+          ['data', 'content', 'fields', 'attributes', 'fields', 'contents'],
+          elem
+        ).reduce(
+          (acc, elem) => {
+            const data = pathOr({} as Record<string, string>, ['fields'], elem);
+            return {
+              ...acc,
+              [changeCase.camelCase(data.key)]: data.value,
+            };
+          },
+          {} as Record<string, string>
+        ),
+        attributesHash: pathOr(
+          [] as Record<string, string>[],
+          [
+            'data',
+            'content',
+            'fields',
+            'attributes_hash',
+            'fields',
+            'contents',
+          ],
+          elem
+        ).reduce(
+          (acc, elem) => {
+            const data = pathOr({} as Record<string, string>, ['fields'], elem);
+            return {
+              ...acc,
+              [changeCase.camelCase(data.key)]: data.value,
+            };
+          },
+          {} as Record<string, string>
+        ),
+        misc: pathOr(
+          [] as Record<string, string>[],
+          ['data', 'content', 'fields', 'misc', 'fields', 'contents'],
+          elem
+        ).reduce(
+          (acc, elem) => {
+            const data = pathOr({} as Record<string, string>, ['fields'], elem);
+            return {
+              ...acc,
+              [changeCase.camelCase(data.key)]: data.value,
+            };
+          },
+          {} as Record<string, string>
+        ),
+      };
+    });
   }
 
-  createAvatar({ tx = new Transaction(), imageUrl }: CreateAvatarArgs) {
+  newAvatar({ tx = new Transaction() }) {
     const avatar = tx.moveCall({
       target: `${this.#packages.ACT}::avatar::new`,
-      arguments: [
-        tx.object(this.#sharedObjects.AVATAR_REGISTRY_MUT),
-        tx.pure.string(imageUrl),
-      ],
+      arguments: [tx.object(this.#sharedObjects.AVATAR_SETTINGS)],
     });
 
     tx.moveCall({
       target: `${this.#packages.ACT}::avatar::keep`,
       arguments: [avatar],
-    });
-
-    return tx;
-  }
-
-  async mintToAvatar({
-    tx = new Transaction(),
-    sender,
-  }: MaybeTx & { sender: string }) {
-    const ticket = await this.getAvatarTicket(sender);
-
-    invariant(ticket, 'Mint an AvatarTicket first');
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::genesis_drop::mint_to_avatar`,
-      arguments: [
-        tx.object(ticket.objectId),
-        tx.object(this.#sharedObjects.AVATAR_REGISTRY_MUT),
-        tx.object(SUI_CLOCK_OBJECT_ID),
-      ],
     });
 
     return tx;
@@ -885,7 +581,6 @@ export class AnimaSDK {
       arguments: [
         tx.object(this.#sharedObjects.SALE_MUT),
         tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
-        tx.object(this.#sharedObjects.AVATAR_REGISTRY),
         passId
           ? tx.makeMoveVec({
               elements: [passId],
@@ -906,38 +601,6 @@ export class AnimaSDK {
     });
 
     kioskTx.finalize();
-
-    return tx;
-  }
-
-  async mintToTicket({
-    tx = new Transaction(),
-    suiValue,
-    passId,
-  }: MintToTicketArgs) {
-    const payment = tx.splitCoins(tx.gas, [tx.pure.u64(suiValue)]);
-
-    tx.moveCall({
-      target: `${this.#packages.ACT}::genesis_drop::mint_to_ticket`,
-      arguments: [
-        tx.object(this.#sharedObjects.SALE_MUT),
-        tx.object(this.#sharedObjects.GENESIS_SHOP_MUT),
-        tx.object(this.#sharedObjects.AVATAR_REGISTRY),
-        passId
-          ? tx.makeMoveVec({
-              elements: [passId],
-              type: `${this.#packages.ACT}::genesis_drop::GenesisPass`,
-            })
-          : tx.moveCall({
-              target: '0x1::vector::empty',
-              typeArguments: [
-                `${this.#packages.ACT}::genesis_drop::GenesisPass`,
-              ],
-            }),
-        payment,
-        tx.object(SUI_CLOCK_OBJECT_ID),
-      ],
-    });
 
     return tx;
   }
@@ -1245,52 +908,6 @@ export class AnimaSDK {
         tx.pure.u64(index),
       ],
     });
-    return tx;
-  }
-
-  newAvatarImage({
-    equippedCosmeticHash,
-    imageUrl,
-    recipient,
-    adminCap,
-    tx = new Transaction(),
-  }: NewAvatarImageArgs) {
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::new_avatar_image`,
-      arguments: [
-        tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(adminCap),
-        tx.pure.string(imageUrl),
-        tx.pure.string(equippedCosmeticHash),
-        tx.pure.address(recipient),
-      ],
-    });
-
-    return tx;
-  }
-
-  newUpgrade({
-    imageUrl,
-    modelUrl,
-    name,
-    recipient,
-    textureUrl,
-    adminCap,
-    tx = new Transaction(),
-  }: NewUpgradeArgs) {
-    tx.moveCall({
-      target: `${this.#packages.ACT}::avatar::new_upgrade`,
-      arguments: [
-        tx.object(this.#sharedObjects.ACCESS_CONTROL),
-        tx.object(adminCap),
-        tx.pure.string(name),
-        tx.pure.string(imageUrl),
-        tx.pure.string(modelUrl),
-        tx.pure.string(textureUrl),
-        tx.pure.address(recipient),
-      ],
-    });
-
     return tx;
   }
 }
