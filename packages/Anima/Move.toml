@@ -5,7 +5,7 @@ license = "MIT"           # e.g., "MIT", "GPL", "Apache 2.0"
 authors = ["Good Move"]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev="framework/mainnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev="testnet" }
 AnimaLib = { local = "../AnimaLib" }
 
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
@@ -20,8 +20,8 @@ AnimaLib = { local = "../AnimaLib" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-anima = "0x79e474a77c5ebefa5dad1b20f998c65f4477f69e69a4df23cd058beb5bb8d737"
-animalib = "0xbccf5774041fd8a3dc5f247c482aed6a40a391070c41f08d65a9bc68f8e1ccbc"
+anima = "0x1888fbf408a5c30f279c499f4f6c7bac78367e198fbcfdee75b36181f11ee557"
+animalib = "0x28bb1ad72138d9886efb358e746aae38b15adaf74af449a866b65680f17d746b"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.
