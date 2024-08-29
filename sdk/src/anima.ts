@@ -1033,10 +1033,8 @@ export class AnimaSDK {
    */
   addProfilePicture({
     adminCap,
-    chestpieceHash,
-    helmHash,
+    hash,
     ipfsUrl,
-    upperTorsoHash,
     tx = new Transaction(),
   }: AddProfilePicture) {
     invariant(ipfsUrl, 'You  must provide an ipfs url');
@@ -1047,9 +1045,7 @@ export class AnimaSDK {
         tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
         tx.object(adminCap),
-        tx.pure.vector('u8', fromHEX(helmHash)),
-        tx.pure.vector('u8', fromHEX(chestpieceHash)),
-        tx.pure.vector('u8', fromHEX(upperTorsoHash)),
+        tx.pure.vector('u8', fromHEX(hash)),
         tx.pure.string(ipfsUrl),
       ],
     });
@@ -1062,15 +1058,10 @@ export class AnimaSDK {
    */
   removeProfilePicture({
     adminCap,
-    chestpieceHash,
-    helmHash,
-    upperTorsoHash,
+    hash,
     tx = new Transaction(),
   }: RemoveProfilePicture) {
-    invariant(
-      chestpieceHash && helmHash && upperTorsoHash,
-      'Do not pass empty values'
-    );
+    invariant(hash, 'Do not pass an empty hash');
 
     tx.moveCall({
       target: `${this.#packages.ACT}::profile_pictures::remove`,
@@ -1078,9 +1069,7 @@ export class AnimaSDK {
         tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
         tx.object(adminCap),
-        tx.pure.vector('u8', fromHEX(helmHash)),
-        tx.pure.vector('u8', fromHEX(chestpieceHash)),
-        tx.pure.vector('u8', fromHEX(upperTorsoHash)),
+        tx.pure.vector('u8', fromHEX(hash)),
       ],
     });
 
