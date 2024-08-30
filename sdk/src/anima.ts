@@ -1088,7 +1088,7 @@ export class AnimaSDK {
     invariant(ipfsUrl, 'You  must provide an ipfs url');
 
     const hash = tx.moveCall({
-      target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
+      target: `${this.#packages.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
       arguments: [
         tx.pure.vector('u8', fromHEX(helm)),
         tx.pure.vector('u8', fromHEX(chestpiece)),
@@ -1097,7 +1097,7 @@ export class AnimaSDK {
     });
 
     tx.moveCall({
-      target: `${PACKAGES.ACT}::profile_pictures::add`,
+      target: `${this.#packages.ACT}::profile_pictures::add`,
       arguments: [
         tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
@@ -1121,7 +1121,7 @@ export class AnimaSDK {
     tx = new Transaction(),
   }: RemoveProfilePicture) {
     const hash = tx.moveCall({
-      target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
+      target: `${this.#packages.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
       arguments: [
         tx.pure.vector('u8', fromHEX(helm)),
         tx.pure.vector('u8', fromHEX(chestpiece)),
