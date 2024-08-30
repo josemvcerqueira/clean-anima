@@ -85,39 +85,39 @@
 //   return tx;
 // };
 
-export const executeTx = async (tx: Transaction) => {
-  const result = await client.signAndExecuteTransaction({
-    signer: adminKeypair,
-    transaction: tx,
-    options: {
-      showEffects: true,
-    },
-    requestType: 'WaitForLocalExecution',
-  });
+// export const executeTx = async (tx: Transaction) => {
+//   const result = await client.signAndExecuteTransaction({
+//     signer: adminKeypair,
+//     transaction: tx,
+//     options: {
+//       showEffects: true,
+//     },
+//     requestType: 'WaitForLocalExecution',
+//   });
 
-  // return if the tx hasn't succeed
-  if (result.effects?.status?.status !== 'success') {
-    console.log('\n\nCreating a new stable pool failed');
-    return;
-  }
+//   // return if the tx hasn't succeed
+//   if (result.effects?.status?.status !== 'success') {
+//     console.log('\n\nCreating a new stable pool failed');
+//     return;
+//   }
 
-  console.log('SUCCESS!');
+//   console.log('SUCCESS!');
 
-  // get all created objects IDs
-  const createdObjectIds = result.effects.created?.map(
-    (item: OwnedObjectRef) => item.reference.objectId
-  );
+//   // get all created objects IDs
+//   const createdObjectIds = result.effects.created?.map(
+//     (item: OwnedObjectRef) => item.reference.objectId
+//   );
 
-  if (createdObjectIds)
-    // fetch objects data
-    return client.multiGetObjects({
-      ids: createdObjectIds,
-      options: { showContent: true, showType: true, showOwner: true },
-    });
-};
+//   if (createdObjectIds)
+//     // fetch objects data
+//     return client.multiGetObjects({
+//       ids: createdObjectIds,
+//       options: { showContent: true, showType: true, showOwner: true },
+//     });
+// };
 
-const sdk = new AnimaSDK();
-const DAY = 86400000;
+// const sdk = new AnimaSDK();
+// const DAY = 86400000;
 
 // (async () => {
 //   const avatar = await sdk.getAvatar(adminKeypair.toSuiAddress());

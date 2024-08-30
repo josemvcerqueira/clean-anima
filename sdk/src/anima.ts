@@ -1099,8 +1099,8 @@ export class AnimaSDK {
     tx.moveCall({
       target: `${PACKAGES.ACT}::profile_pictures::add`,
       arguments: [
-        tx.object(SHARED_OBJECTS.PROFILE_PICTURES_MUT),
-        tx.object(SHARED_OBJECTS.ACCESS_CONTROL),
+        tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
+        tx.object(this.#sharedObjects.ACCESS_CONTROL),
         tx.object(adminCap),
         hash,
         tx.pure.string(ipfsUrl),
