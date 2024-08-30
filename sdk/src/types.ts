@@ -179,12 +179,16 @@ export interface SetAvatarSettingsActive extends MaybeTx, AdminFn {
 }
 
 export interface AddProfilePicture extends MaybeTx, AdminFn {
-  hash: string;
+  chestpiece: string;
+  helm: string;
+  upperTorso: string;
   ipfsUrl: string;
 }
 
 export interface RemoveProfilePicture extends MaybeTx, AdminFn {
-  hash: string;
+  helm: string;
+  upperTorso: string;
+  chestpiece: string;
 }
 
 export interface AdminMintToKioskArgs extends MaybeTx, AdminFn {
