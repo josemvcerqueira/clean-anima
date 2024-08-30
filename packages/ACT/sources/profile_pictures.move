@@ -1,5 +1,5 @@
 module act::profile_pictures {
- 
+    
     use std::string::String;
     use sui::{
         table::{Self, Table},

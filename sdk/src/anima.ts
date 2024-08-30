@@ -1079,19 +1079,30 @@ export class AnimaSDK {
    */
   addProfilePicture({
     adminCap,
-    hash,
     ipfsUrl,
+    chestpiece,
+    helm,
+    upperTorso,
     tx = new Transaction(),
   }: AddProfilePicture) {
     invariant(ipfsUrl, 'You  must provide an ipfs url');
 
-    tx.moveCall({
-      target: `${this.#packages.ACT}::profile_pictures::add`,
+    const hash = tx.moveCall({
+      target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
       arguments: [
-        tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
-        tx.object(this.#sharedObjects.ACCESS_CONTROL),
+        tx.pure.vector('u8', fromHEX(helm)),
+        tx.pure.vector('u8', fromHEX(chestpiece)),
+        tx.pure.vector('u8', fromHEX(upperTorso)),
+      ],
+    });
+
+    tx.moveCall({
+      target: `${PACKAGES.ACT}::profile_pictures::add`,
+      arguments: [
+        tx.object(SHARED_OBJECTS.PROFILE_PICTURES_MUT),
+        tx.object(SHARED_OBJECTS.ACCESS_CONTROL),
         tx.object(adminCap),
-        tx.pure.vector('u8', fromHEX(hash)),
+        hash,
         tx.pure.string(ipfsUrl),
       ],
     });
@@ -1104,10 +1115,19 @@ export class AnimaSDK {
    */
   removeProfilePicture({
     adminCap,
-    hash,
+    helm,
+    upperTorso,
+    chestpiece,
     tx = new Transaction(),
   }: RemoveProfilePicture) {
-    invariant(hash, 'Do not pass an empty hash');
+    const hash = tx.moveCall({
+      target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
+      arguments: [
+        tx.pure.vector('u8', fromHEX(helm)),
+        tx.pure.vector('u8', fromHEX(chestpiece)),
+        tx.pure.vector('u8', fromHEX(upperTorso)),
+      ],
+    });
 
     tx.moveCall({
       target: `${this.#packages.ACT}::profile_pictures::remove`,
@@ -1115,7 +1135,7 @@ export class AnimaSDK {
         tx.object(this.#sharedObjects.PROFILE_PICTURES_MUT),
         tx.object(this.#sharedObjects.ACCESS_CONTROL),
         tx.object(adminCap),
-        tx.pure.vector('u8', fromHEX(hash)),
+        hash,
       ],
     });
 

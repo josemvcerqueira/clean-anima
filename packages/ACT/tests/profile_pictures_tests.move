@@ -31,7 +31,7 @@ module act::profile_pictures_tests {
         helm.append(b"Volt");
         let helm_hash = hash::blake2b256(&helm);
 
-        assert_eq(b"cb514bf2488716e8b52d2dd7d4d398fc361981ed885c63a085a6f5a03e6ad089", helm_hash);
+        assert_eq(x"cb514bf2488716e8b52d2dd7d4d398fc361981ed885c63a085a6f5a03e6ad089", helm_hash);
 
         let mut chestpiece = vector[];
         chestpiece.append(b"Fang MK IV");
@@ -39,7 +39,7 @@ module act::profile_pictures_tests {
         chestpiece.append(b"Digital Winter");
         let chestpiece_hash = hash::blake2b256(&chestpiece);
  
-        assert_eq(b"00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1", chestpiece_hash);
+        assert_eq(x"00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1", chestpiece_hash);
 
         let mut upper_torso = vector[];
         upper_torso.append(b"Fang MK IV");
@@ -47,7 +47,7 @@ module act::profile_pictures_tests {
         upper_torso.append(b"Obsidian");
         let upper_torso_hash = hash::blake2b256(&upper_torso);
 
-        assert_eq(b"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", upper_torso_hash);
+        assert_eq(x"3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354", upper_torso_hash);
 
         pfps.add(&access_control, &super_admin, cosmetic_to_pfp_hash(helm_hash, chestpiece_hash, upper_torso_hash), b"test".to_string());
 
