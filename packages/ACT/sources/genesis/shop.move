@@ -480,15 +480,11 @@ module act::genesis_shop {
 
         *quantity = *quantity - 1;
 
-        let mut rarity = b"";
-        let mut colour = b"";
-        if (builder.equipment == attributes::tertiary_bytes()) {
+        let (rarity, colour) = if (builder.equipment == attributes::tertiary_bytes()) {
             let last_idx = builder.rarities.length() - 1;
-            rarity = builder.rarities[last_idx];
-            colour = builder.colour_ways[last_idx];
+            (builder.rarities[last_idx], builder.colour_ways[last_idx])
         } else {
-            rarity = builder.rarities[len];
-            colour = builder.colour_ways[len];
+            (builder.rarities[len], builder.colour_ways[len])
         };
 
         let (image_url, model_url, texture_url) = if (builder.equipment == attributes::primary_bytes() || builder.equipment == attributes::secondary_bytes() || builder.equipment == attributes::tertiary_bytes()) {

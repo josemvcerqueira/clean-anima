@@ -1,44 +1,78 @@
-// import { bcs } from '@mysten/sui/bcs';
-// import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
-// import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-// import {
-//   GasData,
-//   SerialTransactionExecutor,
-//   Transaction,
-// } from '@mysten/sui/transactions';
-// import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
-// import dotenv from 'dotenv';
-// import * as fs from 'fs';
-// import invariant from 'tiny-invariant';
-// import util from 'util';
-// import { promisify } from 'util';
+import { bcs } from '@mysten/sui/bcs';
+import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+import {
+  GasData,
+  SerialTransactionExecutor,
+  Transaction,
+} from '@mysten/sui/transactions';
+import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
+import dotenv from 'dotenv';
+import * as fs from 'fs';
+import invariant from 'tiny-invariant';
+import util from 'util';
+import { promisify } from 'util';
 
-// import { AnimaSDK } from './anima';
-// import {
-//   BUILDER_FN_NAMES,
-//   OWNED_OBJECTS,
-//   PACKAGES,
-//   SHARED_OBJECTS,
-// } from './constants';
+import { AnimaSDK } from './anima';
+import {
+  BUILDER_FN_NAMES,
+  OWNED_OBJECTS,
+  PACKAGES,
+  SHARED_OBJECTS,
+} from './constants';
 
-// dotenv.config();
-// import { fromHEX, toHEX } from '@mysten/sui/utils';
-// import path from 'path';
-// import { slice } from 'ramda';
+dotenv.config();
+import { fromHEX, toHEX } from '@mysten/sui/utils';
+import path from 'path';
+import { slice } from 'ramda';
 
-// const read = promisify(fs.readFile);
-// const write = promisify(fs.writeFile);
+const read = promisify(fs.readFile);
+const write = promisify(fs.writeFile);
 
-// const client = new SuiClient({
-//   url: getFullnodeUrl('testnet'),
-// });
+const client = new SuiClient({
+  url: getFullnodeUrl('testnet'),
+});
 
-// export const log = (x: unknown) =>
-//   console.log(util.inspect(x, false, null, true));
+export const log = (x: unknown) =>
+  console.log(util.inspect(x, false, null, true));
 
-// const adminKeypair = Ed25519Keypair.fromSecretKey(
-//   Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
-// );
+const adminKeypair = Ed25519Keypair.fromSecretKey(
+  Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
+);
+
+export const executeTx = async (tx: Transaction) => {
+  const result = await client.signAndExecuteTransaction({
+    signer: adminKeypair,
+    transaction: tx,
+    options: {
+      showEffects: true,
+    },
+    requestType: 'WaitForLocalExecution',
+  });
+
+  // return if the tx hasn't succeed
+  if (result.effects?.status?.status !== 'success') {
+    console.log('\n\nCreating a new stable pool failed');
+    return;
+  }
+
+  console.log('SUCCESS!');
+
+  // get all created objects IDs
+  const createdObjectIds = result.effects.created?.map(
+    (item: OwnedObjectRef) => item.reference.objectId
+  );
+
+  if (createdObjectIds)
+    // fetch objects data
+    return client.multiGetObjects({
+      ids: createdObjectIds,
+      options: { showContent: true, showType: true, showOwner: true },
+    });
+};
+
+const sdk = new AnimaSDK();
+const DAY = 86400000;
 
 // const addItem = (builder: string, tx = new Transaction()) => {
 //   tx.setGasBudget(5_000_000_000);
@@ -85,141 +119,145 @@
 //   return tx;
 // };
 
-// export const executeTx = async (tx: Transaction) => {
-//   const result = await client.signAndExecuteTransaction({
-//     signer: adminKeypair,
-//     transaction: tx,
-//     options: {
-//       showEffects: true,
-//     },
-//     requestType: 'WaitForLocalExecution',
-//   });
-
-//   // return if the tx hasn't succeed
-//   if (result.effects?.status?.status !== 'success') {
-//     console.log('\n\nCreating a new stable pool failed');
-//     return;
-//   }
-
-//   console.log('SUCCESS!');
-
-//   // get all created objects IDs
-//   const createdObjectIds = result.effects.created?.map(
-//     (item: OwnedObjectRef) => item.reference.objectId
-//   );
-
-//   if (createdObjectIds)
-//     // fetch objects data
-//     return client.multiGetObjects({
-//       ids: createdObjectIds,
-//       options: { showContent: true, showType: true, showOwner: true },
-//     });
-// };
-
-// const sdk = new AnimaSDK();
-// const DAY = 86400000;
-
 // (async () => {
 //   const avatar = await sdk.getAvatar(adminKeypair.toSuiAddress());
 //   invariant(avatar);
 //   console.log(await sdk.getAvatarItems(avatar.objectId));
 // })();
 
-// const giveAllAdminRoles = async (recipient: string) => {
-//   const tx = new Transaction();
+const giveAllAdminRoles = async (recipient: string) => {
+  const tx = new Transaction();
 
-//   const admin = tx.moveCall({
-//     target: `${PACKAGES.ANIMA_LIB}::access_control::new_admin`,
-//     arguments: [tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT)],
-//   });
+  const admin = tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::new_admin`,
+    arguments: [tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT)],
+  });
 
-//   tx.moveCall({
-//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-//     arguments: [
-//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-//       tx.pure.vector(
-//         'u8',
-//         [83, 85, 80, 69, 82, 95, 65, 68, 77, 73, 78, 95, 82, 79, 76, 69]
-//       ),
-//       tx.moveCall({
-//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-//         arguments: [admin],
-//       }),
-//     ],
-//   });
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [83, 85, 80, 69, 82, 95, 65, 68, 77, 73, 78, 95, 82, 79, 76, 69]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
 
-//   tx.moveCall({
-//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-//     arguments: [
-//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-//       tx.pure.vector(
-//         'u8',
-//         [65, 67, 67, 79, 76, 65, 68, 69, 83, 95, 82, 79, 76, 69]
-//       ),
-//       tx.moveCall({
-//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-//         arguments: [admin],
-//       }),
-//     ],
-//   });
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [65, 67, 67, 79, 76, 65, 68, 69, 83, 95, 82, 79, 76, 69]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
 
-//   tx.moveCall({
-//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-//     arguments: [
-//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-//       tx.pure.vector(
-//         'u8',
-//         [82, 69, 80, 85, 84, 65, 84, 73, 79, 78, 95, 82, 79, 76, 69]
-//       ),
-//       tx.moveCall({
-//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-//         arguments: [admin],
-//       }),
-//     ],
-//   });
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [82, 69, 80, 85, 84, 65, 84, 73, 79, 78, 95, 82, 79, 76, 69]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
 
-//   tx.moveCall({
-//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-//     arguments: [
-//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-//       tx.pure.vector(
-//         'u8',
-//         [85, 80, 71, 82, 65, 68, 69, 83, 95, 82, 79, 76, 69]
-//       ),
-//       tx.moveCall({
-//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-//         arguments: [admin],
-//       }),
-//     ],
-//   });
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [85, 80, 71, 82, 65, 68, 69, 83, 95, 82, 79, 76, 69]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
 
-//   tx.moveCall({
-//     target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
-//     arguments: [
-//       tx.object(OWNED_OBJECTS.SUPER_ADMIN),
-//       tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
-//       tx.pure.vector(
-//         'u8',
-//         [
-//           71, 69, 78, 69, 83, 73, 83, 95, 77, 73, 78, 84, 69, 82, 95, 82, 79,
-//           76, 69,
-//         ]
-//       ),
-//       tx.moveCall({
-//         target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
-//         arguments: [admin],
-//       }),
-//     ],
-//   });
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [
+          71, 69, 78, 69, 83, 73, 83, 95, 77, 73, 78, 84, 69, 82, 95, 82, 79,
+          76, 69,
+        ]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
 
-//   tx.transferObjects([admin], tx.pure.address(recipient));
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [
+          80, 82, 79, 70, 73, 76, 69, 95, 80, 73, 67, 84, 85, 82, 69, 83, 95,
+          82, 79, 76, 69,
+        ]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
 
-//   await executeTx(tx);
-// };
+  tx.moveCall({
+    target: `${PACKAGES.ANIMA_LIB}::access_control::grant`,
+    arguments: [
+      tx.object(OWNED_OBJECTS.SUPER_ADMIN),
+      tx.object(SHARED_OBJECTS.ACCESS_CONTROL_MUT),
+      tx.pure.vector(
+        'u8',
+        [
+          65, 86, 65, 84, 65, 82, 95, 83, 69, 84, 84, 73, 78, 71, 83, 95, 82,
+          79, 76, 69,
+        ]
+      ),
+      tx.moveCall({
+        target: `${PACKAGES.ANIMA_LIB}::access_control::addy`,
+        arguments: [admin],
+      }),
+    ],
+  });
+
+  tx.transferObjects([admin], tx.pure.address(recipient));
+
+  await executeTx(tx);
+};
 
 // (async () => {
 //   const executor = new SerialTransactionExecutor({
@@ -250,35 +288,30 @@
 // })();
 
 (async () => {
-  // console.log(await sdk.getGenesisPasses(adminKeypair.toSuiAddress()));
-  // const tx = await sdk.mintToAvatar({
-  //   suiValue: 0n,
-  //   sender: adminKeypair.toSuiAddress(),
-  //   passId:
-  //     '0x267c9824851b7b87a0e542fcb435d42ea57bffe85fcbe57d9021d9343e5c6b3c',
-  // });
-  // await executeTx(tx);
+  // const avatar = await sdk.getAvatars(
+  //   '0x3cf8b73df4aa8c60f89108f9d7ab32222c15b53eac02bc58fad179d59d503d12'
+  // );
+  // log(avatar);
   // const tx = new Transaction();
   // tx.moveCall({
-  //   target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
+  //   target: `${PACKAGES.ACT}::profile_pictures::get`,
   //   arguments: [
+  //     tx.object(SHARED_OBJECTS.PROFILE_PICTURES),
+  //     tx.pure.vector('u8', []),
   //     tx.pure.vector(
   //       'u8',
-  //       fromHEX(
-  //         'cb514bf2488716e8b52d2dd7d4d398fc361981ed885c63a085a6f5a03e6ad089'
-  //       )
+  //       [
+  //         50, 151, 55, 124, 15, 255, 204, 222, 229, 39, 90, 166, 235, 243, 188,
+  //         149, 126, 223, 179, 165, 103, 38, 118, 235, 220, 120, 161, 60, 32, 32,
+  //         34, 41,
+  //       ]
   //     ),
   //     tx.pure.vector(
   //       'u8',
-  //       fromHEX(
-  //         '00cadb649a8fc5c820c1ea3de178dc96348f73cb54398d30348808cc34038be1'
-  //       )
-  //     ),
-  //     tx.pure.vector(
-  //       'u8',
-  //       fromHEX(
-  //         '3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354'
-  //       )
+  //       [
+  //         62, 225, 28, 94, 36, 73, 169, 176, 119, 139, 205, 55, 172, 33, 33, 14,
+  //         60, 131, 210, 86, 157, 98, 196, 75, 94, 143, 134, 223, 153, 45, 3, 84,
+  //       ]
   //     ),
   //   ],
   // });
@@ -290,9 +323,17 @@
   // console.log(
   //   toHEX(
   //     Uint8Array.from([
-  //       32, 225, 244, 2, 25, 247, 89, 119, 173, 28, 215, 140, 250, 223, 186, 98,
-  //       89, 165, 99, 238, 147, 44, 252, 203, 241, 109, 174, 191, 54, 151, 214,
-  //       12, 73,
+  //       50, 151, 55, 124, 15, 255, 204, 222, 229, 39, 90, 166, 235, 243, 188,
+  //       149, 126, 223, 179, 165, 103, 38, 118, 235, 220, 120, 161, 60, 32, 32,
+  //       34, 41,
+  //     ])
+  //   )
+  // );
+  // console.log(
+  //   toHEX(
+  //     Uint8Array.from([
+  //       62, 225, 28, 94, 36, 73, 169, 176, 119, 139, 205, 55, 172, 33, 33, 14,
+  //       60, 131, 210, 86, 157, 98, 196, 75, 94, 143, 134, 223, 153, 45, 3, 84,
   //     ])
   //   )
   // );
@@ -301,6 +342,25 @@
   //   'utf-8'
   // );
   // const parsedData = JSON.parse(data);
+  // const x = parsedData.find(
+  //   (elem: any) =>
+  //     elem.chest ===
+  //       '3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229' &&
+  //     !elem.helm &&
+  //     elem.torso ===
+  //       '3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354'
+  // );
+  // log(x);
+  // const tx = sdk.addProfilePicture({
+  //   adminCap: OWNED_OBJECTS.ADMIN,
+  //   ipfsUrl: 'bafybeifupy7fr7vmeu7wkbb57uzgyl64jru2vee3sunp34moo4dvp2naui',
+  //   chestpiece:
+  //     '3297377c0fffccdee5275aa6ebf3bc957edfb3a5672676ebdc78a13c20202229',
+  //   helm: '',
+  //   upperTorso:
+  //     '3ee11c5e2449a9b0778bcd37ac21210e3c83d2569d62c44b5e8f86df992d0354',
+  // });
+  // await executeTx(tx);
   // const executor = new SerialTransactionExecutor({
   //   client,
   //   signer: adminKeypair,
