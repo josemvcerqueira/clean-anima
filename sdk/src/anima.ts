@@ -1141,7 +1141,7 @@ export class AnimaSDK {
   }: AdminMintToKioskArgs) {
     invariant(nftQuantity > 0, 'You must mint at least one kiosk');
 
-    const kioskOwnerCaps = await this.#getAllPersonalKiosks(sender);
+    const kioskOwnerCaps = await this.#getAllOwnedKiosks(sender);
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
