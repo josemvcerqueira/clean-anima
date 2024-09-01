@@ -36,7 +36,6 @@ module act::genesis_shop {
         colour_ways: vector<vector<u8>>,
         manufacturers: vector<vector<u8>>,
         rarities: vector<vector<u8>>,
-        // never modified because used for each name 
         quantities: vector<vector<u64>>
     }
 

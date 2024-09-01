@@ -20,7 +20,7 @@ module act::cosmetic {
 
     public struct Cosmetic has key, store {
         id: UID,
-        hash: vector<u8>, // unique id of cosmetic type
+        hash: vector<u8>, 
         name: String,
         image_url: String,
         model_url: String,
@@ -31,7 +31,7 @@ module act::cosmetic {
         edition: String,
         manufacturer: String,
         rarity: String,
-        wear_rating: u64, // [0,1] scaled to 1B
+        wear_rating: u64,
         misc: VecMap<String, String>,
     }
 

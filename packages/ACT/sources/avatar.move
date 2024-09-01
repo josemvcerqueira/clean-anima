@@ -114,32 +114,6 @@ module act::avatar {
         }
     }
 
-    // used during the mint in a ptb
-    public fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
-        assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
-
-        let weapon_val = &mut self.attributes[&weapon.slot()];
-        *weapon_val = weapon.name();
-
-        let weapon_val = &mut self.attributes_hash[&weapon.slot()];
-        *weapon_val = weapon.hash();
-
-        dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon);
-    }
-
-    // used during the mint in a ptb
-    public fun equip_minted_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
-        assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.type_())), ECosmeticSlotAlreadyEquipped);
-
-        let cosmetic_val = &mut self.attributes[&cosmetic.type_()];
-        *cosmetic_val = cosmetic.name();
-
-        let cosmetic_val = &mut self.attributes_hash[&cosmetic.type_()];
-        *cosmetic_val = cosmetic.hash();
-
-        dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic);  
-    }
-
     public fun equip_weapon(
         self: &mut Avatar, 
         weapon_id: ID,
@@ -370,6 +344,30 @@ module act::avatar {
 
     public(package) fun set_image(self: &mut Avatar, image_url: String) {
         self.image_url = image_url;
+    }
+    
+    public(package) fun equip_minted_weapon(self: &mut Avatar, weapon: Weapon) {
+        assert!(!dof::exists_(&self.id, WeaponKey(weapon.slot())), EWeaponSlotAlreadyEquipped);
+
+        let weapon_val = &mut self.attributes[&weapon.slot()];
+        *weapon_val = weapon.name();
+
+        let weapon_val = &mut self.attributes_hash[&weapon.slot()];
+        *weapon_val = weapon.hash();
+
+        dof::add(&mut self.id, WeaponKey(weapon.slot()), weapon);
+    }
+
+    public(package) fun equip_minted_cosmetic(self: &mut Avatar, cosmetic: Cosmetic) {
+        assert!(!dof::exists_(&self.id, CosmeticKey(cosmetic.type_())), ECosmeticSlotAlreadyEquipped);
+
+        let cosmetic_val = &mut self.attributes[&cosmetic.type_()];
+        *cosmetic_val = cosmetic.name();
+
+        let cosmetic_val = &mut self.attributes_hash[&cosmetic.type_()];
+        *cosmetic_val = cosmetic.hash();
+
+        dof::add(&mut self.id, CosmeticKey(cosmetic.type_()), cosmetic);  
     }
 
     // === Test Functions === 
