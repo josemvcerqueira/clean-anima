@@ -10,8 +10,7 @@
     "build:types": "tsc --project tsconfig.json",
     "build": "npm run clean && npm run build:tsup && npm run build:types",
     "prepublishOnly": "npm run clean && npm run build",
-    "script": "tsx ./src/script.ts",
-    "again": "tsx ./src/again.ts"
+    "script": "tsx ./src/script.ts"
   },
   "keywords": [],
   "author": "",
