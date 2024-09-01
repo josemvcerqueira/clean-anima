@@ -163,9 +163,7 @@ export class AnimaSDK {
   }
 
   async getPersonalKiosks(address: string) {
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address,
-    });
+    const kioskOwnerCaps = await this.#getAllOwnedKiosks(address);
 
     return kioskOwnerCaps.filter((cap) => cap.isPersonal);
   }
@@ -173,9 +171,7 @@ export class AnimaSDK {
   async getItemsInKiosk(address: string) {
     invariant(isValidSuiAddress(address), 'Please pass a valid Sui address');
 
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address,
-    });
+    const kioskOwnerCaps = await this.#getAllOwnedKiosks(address);
 
     if (!kioskOwnerCaps.length) return [];
 
@@ -304,9 +300,7 @@ export class AnimaSDK {
 
     invariant(isValidSuiObjectId(avatarId), 'Not a valid avatar id');
 
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address: sender,
-    });
+    const kioskOwnerCaps = await this.#getAllOwnedKiosks(sender);
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
@@ -404,9 +398,8 @@ export class AnimaSDK {
       cosmeticTypes.length != 0,
       'You must unequip at least one cosmetic'
     );
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address: sender,
-    });
+    const kioskOwnerCaps = await this.#getAllOwnedKiosks(sender);
+
     invariant(avatarId, 'Not a valid avatar id');
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
@@ -594,9 +587,7 @@ export class AnimaSDK {
 
     const payment = tx.splitCoins(tx.gas, [tx.pure.u64(suiValue)]);
 
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address: sender,
-    });
+    const kioskOwnerCaps = await this.#getAllOwnedKiosks(sender);
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
@@ -1150,9 +1141,7 @@ export class AnimaSDK {
   }: AdminMintToKioskArgs) {
     invariant(nftQuantity > 0, 'You must mint at least one kiosk');
 
-    const { kioskOwnerCaps } = await this.#kioskClient.getOwnedKiosks({
-      address: sender,
-    });
+    const kioskOwnerCaps = await this.#getAllPersonalKiosks(sender);
 
     const cap = kioskOwnerCaps.find((cap) => cap.isPersonal);
 
@@ -1182,5 +1171,28 @@ export class AnimaSDK {
     kioskTx.finalize();
 
     return tx;
+  }
+
+  // Private
+
+  async #getAllOwnedKiosks(address: string) {
+    const caps = [];
+
+    let hasNextPage = true as boolean;
+    let cursor: string | undefined | null;
+
+    while (hasNextPage) {
+      const data = await this.#kioskClient.getOwnedKiosks({
+        address,
+        pagination: { cursor: cursor || undefined },
+      });
+
+      hasNextPage = data.hasNextPage;
+      cursor = data.nextCursor;
+
+      caps.push(...data.kioskOwnerCaps);
+    }
+
+    return caps;
   }
 }
