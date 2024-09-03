@@ -8,11 +8,11 @@ export function new_( tx: Transaction, settings: TransactionObjectInput ) { retu
 
 export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::init`, arguments: [ obj(tx, otw) ], }) }
 
-export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::image_url`, arguments: [ obj(tx, self) ], }) }
-
 export function attributes( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::attributes`, arguments: [ obj(tx, self) ], }) }
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::edition`, arguments: [ obj(tx, self) ], }) }
+
+export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export function avatarModel( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::avatar::avatar_model`, arguments: [ obj(tx, self) ], }) }
 

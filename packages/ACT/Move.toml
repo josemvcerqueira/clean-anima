@@ -5,8 +5,8 @@ license = "MIT"           # e.g., "MIT", "GPL", "Apache 2.0"
 authors = ["Good Move"]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev="testnet", override = true }
-Kiosk = { git = "https://github.com/MystenLabs/apps.git", subdir = "kiosk", rev = "testnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev="framework/mainnet", override = true }
+Kiosk = { git = "https://github.com/MystenLabs/apps.git", subdir = "kiosk", rev = "main" }
 AnimaLib = { local = "../AnimaLib" }
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
 # Revision can be a branch, a tag, and a commit hash.
@@ -20,9 +20,10 @@ AnimaLib = { local = "../AnimaLib" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-act = "0xe86adff06b4e996c92649331daea74ce597e26819d7c81a75a9a9a1ae9d845f7"
-animalib = "0x9d4fcbdcdc69cc8a07c70724cff3a8ffb454b772381689810a30cf648133a9a4"
-kiosk = "0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585"
+act = "0x75cab45b9cba2d0b06a91d1f5fa51a4569da07374cf42c1bd2802846a61efe33"
+animalib = "0xa51314ed1206259abaa92da73c5b685082755e3b7797462a879033d06eb0a60c"
+kiosk = "0x434b5bd8f6a7b05fede0ff46c6e511d71ea326ed38056e3bcd681d2d7c2a7879"
+# kiosk = "0xbd8fc1947cf119350184107a3087e2dc27efefa0dd82e25a1f699069fe81a585" # testnet
 treasury = "0xa5ecbb1b4199a962418ec18b2a7f6f60d9160f11f3c81d3c9438cf623d52a43d"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:

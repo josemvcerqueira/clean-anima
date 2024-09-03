@@ -2,14 +2,14 @@ import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
 import {Vector} from "../../../../_framework/vector";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {BcsType, bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
 import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Entry =============================== */
 
-export function isEntry(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::vec_map::Entry` + '<'); }
+export function isEntry(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::vec_map::Entry` + '<'); }
 
 export interface EntryFields<K extends TypeArgument, V extends TypeArgument> { key: ToField<K>; value: ToField<V> }
 
@@ -17,17 +17,17 @@ export type EntryReified<K extends TypeArgument, V extends TypeArgument> = Reifi
 
 export class Entry<K extends TypeArgument, V extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::vec_map::Entry`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,false,] as const;
+ static readonly $typeName = `${PKG_V25}::vec_map::Entry`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,false,] as const;
 
- readonly $typeName = Entry.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::vec_map::Entry<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, ToTypeStr<V>]; readonly $isPhantom = Entry.$isPhantom;
+ readonly $typeName = Entry.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::vec_map::Entry<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, ToTypeStr<V>]; readonly $isPhantom = Entry.$isPhantom;
 
  readonly key: ToField<K>; readonly value: ToField<V>
 
- private constructor(typeArgs: [ToTypeStr<K>, ToTypeStr<V>], fields: EntryFields<K, V>, ) { this.$fullTypeName = composeSuiType( Entry.$typeName, ...typeArgs ) as `${typeof PKG_V22}::vec_map::Entry<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<K>, ToTypeStr<V>], fields: EntryFields<K, V>, ) { this.$fullTypeName = composeSuiType( Entry.$typeName, ...typeArgs ) as `${typeof PKG_V25}::vec_map::Entry<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; this.$typeArgs = typeArgs;
 
  this.key = fields.key;; this.value = fields.value; }
 
- static reified<K extends Reified<TypeArgument, any>, V extends Reified<TypeArgument, any>>( K: K, V: V ): EntryReified<ToTypeArgument<K>, ToTypeArgument<V>> { return { typeName: Entry.$typeName, fullTypeName: composeSuiType( Entry.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V22}::vec_map::Entry<${ToTypeStr<ToTypeArgument<K>>}, ${ToTypeStr<ToTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, ToTypeStr<ToTypeArgument<V>>], isPhantom: Entry.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => Entry.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Entry.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => Entry.fromBcs( [K, V], data, ), bcs: Entry.bcs(toBcs(K), toBcs(V)), fromJSONField: (field: any) => Entry.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => Entry.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => Entry.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => Entry.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => Entry.fetch( client, [K, V], id, ), new: ( fields: EntryFields<ToTypeArgument<K>, ToTypeArgument<V>>, ) => { return new Entry( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
+ static reified<K extends Reified<TypeArgument, any>, V extends Reified<TypeArgument, any>>( K: K, V: V ): EntryReified<ToTypeArgument<K>, ToTypeArgument<V>> { return { typeName: Entry.$typeName, fullTypeName: composeSuiType( Entry.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V25}::vec_map::Entry<${ToTypeStr<ToTypeArgument<K>>}, ${ToTypeStr<ToTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, ToTypeStr<ToTypeArgument<V>>], isPhantom: Entry.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => Entry.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Entry.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => Entry.fromBcs( [K, V], data, ), bcs: Entry.bcs(toBcs(K), toBcs(V)), fromJSONField: (field: any) => Entry.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => Entry.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => Entry.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => Entry.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => Entry.fetch( client, [K, V], id, ), new: ( fields: EntryFields<ToTypeArgument<K>, ToTypeArgument<V>>, ) => { return new Entry( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Entry.reified }
 
@@ -79,7 +79,7 @@ export class Entry<K extends TypeArgument, V extends TypeArgument> implements St
 
 /* ============================== VecMap =============================== */
 
-export function isVecMap(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::vec_map::VecMap` + '<'); }
+export function isVecMap(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::vec_map::VecMap` + '<'); }
 
 export interface VecMapFields<K extends TypeArgument, V extends TypeArgument> { contents: ToField<Vector<Entry<K, V>>> }
 
@@ -87,17 +87,17 @@ export type VecMapReified<K extends TypeArgument, V extends TypeArgument> = Reif
 
 export class VecMap<K extends TypeArgument, V extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::vec_map::VecMap`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,false,] as const;
+ static readonly $typeName = `${PKG_V25}::vec_map::VecMap`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,false,] as const;
 
- readonly $typeName = VecMap.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::vec_map::VecMap<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, ToTypeStr<V>]; readonly $isPhantom = VecMap.$isPhantom;
+ readonly $typeName = VecMap.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::vec_map::VecMap<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, ToTypeStr<V>]; readonly $isPhantom = VecMap.$isPhantom;
 
  readonly contents: ToField<Vector<Entry<K, V>>>
 
- private constructor(typeArgs: [ToTypeStr<K>, ToTypeStr<V>], fields: VecMapFields<K, V>, ) { this.$fullTypeName = composeSuiType( VecMap.$typeName, ...typeArgs ) as `${typeof PKG_V22}::vec_map::VecMap<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<K>, ToTypeStr<V>], fields: VecMapFields<K, V>, ) { this.$fullTypeName = composeSuiType( VecMap.$typeName, ...typeArgs ) as `${typeof PKG_V25}::vec_map::VecMap<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; this.$typeArgs = typeArgs;
 
  this.contents = fields.contents; }
 
- static reified<K extends Reified<TypeArgument, any>, V extends Reified<TypeArgument, any>>( K: K, V: V ): VecMapReified<ToTypeArgument<K>, ToTypeArgument<V>> { return { typeName: VecMap.$typeName, fullTypeName: composeSuiType( VecMap.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V22}::vec_map::VecMap<${ToTypeStr<ToTypeArgument<K>>}, ${ToTypeStr<ToTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, ToTypeStr<ToTypeArgument<V>>], isPhantom: VecMap.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => VecMap.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VecMap.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => VecMap.fromBcs( [K, V], data, ), bcs: VecMap.bcs(toBcs(K), toBcs(V)), fromJSONField: (field: any) => VecMap.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => VecMap.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => VecMap.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => VecMap.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => VecMap.fetch( client, [K, V], id, ), new: ( fields: VecMapFields<ToTypeArgument<K>, ToTypeArgument<V>>, ) => { return new VecMap( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
+ static reified<K extends Reified<TypeArgument, any>, V extends Reified<TypeArgument, any>>( K: K, V: V ): VecMapReified<ToTypeArgument<K>, ToTypeArgument<V>> { return { typeName: VecMap.$typeName, fullTypeName: composeSuiType( VecMap.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V25}::vec_map::VecMap<${ToTypeStr<ToTypeArgument<K>>}, ${ToTypeStr<ToTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, ToTypeStr<ToTypeArgument<V>>], isPhantom: VecMap.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => VecMap.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VecMap.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => VecMap.fromBcs( [K, V], data, ), bcs: VecMap.bcs(toBcs(K), toBcs(V)), fromJSONField: (field: any) => VecMap.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => VecMap.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => VecMap.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => VecMap.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => VecMap.fetch( client, [K, V], id, ), new: ( fields: VecMapFields<ToTypeArgument<K>, ToTypeArgument<V>>, ) => { return new VecMap( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return VecMap.reified }
 

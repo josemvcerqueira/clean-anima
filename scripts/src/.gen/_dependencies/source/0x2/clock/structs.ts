@@ -1,6 +1,6 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {UID} from "../object/structs";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -8,7 +8,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Clock =============================== */
 
-export function isClock(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::clock::Clock`; }
+export function isClock(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::clock::Clock`; }
 
 export interface ClockFields { id: ToField<UID>; timestampMs: ToField<"u64"> }
 
@@ -16,17 +16,17 @@ export type ClockReified = Reified< Clock, ClockFields >;
 
 export class Clock implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::clock::Clock`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::clock::Clock`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = Clock.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::clock::Clock`; readonly $typeArgs: []; readonly $isPhantom = Clock.$isPhantom;
+ readonly $typeName = Clock.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::clock::Clock`; readonly $typeArgs: []; readonly $isPhantom = Clock.$isPhantom;
 
  readonly id: ToField<UID>; readonly timestampMs: ToField<"u64">
 
- private constructor(typeArgs: [], fields: ClockFields, ) { this.$fullTypeName = composeSuiType( Clock.$typeName, ...typeArgs ) as `${typeof PKG_V22}::clock::Clock`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ClockFields, ) { this.$fullTypeName = composeSuiType( Clock.$typeName, ...typeArgs ) as `${typeof PKG_V25}::clock::Clock`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.timestampMs = fields.timestampMs; }
 
- static reified( ): ClockReified { return { typeName: Clock.$typeName, fullTypeName: composeSuiType( Clock.$typeName, ...[] ) as `${typeof PKG_V22}::clock::Clock`, typeArgs: [ ] as [], isPhantom: Clock.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Clock.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Clock.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Clock.fromBcs( data, ), bcs: Clock.bcs, fromJSONField: (field: any) => Clock.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Clock.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Clock.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Clock.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Clock.fetch( client, id, ), new: ( fields: ClockFields, ) => { return new Clock( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ClockReified { return { typeName: Clock.$typeName, fullTypeName: composeSuiType( Clock.$typeName, ...[] ) as `${typeof PKG_V25}::clock::Clock`, typeArgs: [ ] as [], isPhantom: Clock.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Clock.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Clock.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Clock.fromBcs( data, ), bcs: Clock.bcs, fromJSONField: (field: any) => Clock.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Clock.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Clock.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Clock.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Clock.fetch( client, id, ), new: ( fields: ClockFields, ) => { return new Clock( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Clock.reified() }
 

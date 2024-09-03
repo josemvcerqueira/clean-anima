@@ -5,7 +5,7 @@ license = "MIT"           # e.g., "MIT", "GPL", "Apache 2.0"
 authors = ["Good Move"]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev="testnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev="framework/mainnet" }
 
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
 # Revision can be a branch, a tag, and a commit hash.
@@ -19,7 +19,7 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-animalib = "0x9d4fcbdcdc69cc8a07c70724cff3a8ffb454b772381689810a30cf648133a9a4"
+animalib = "0xa51314ed1206259abaa92da73c5b685082755e3b7797462a879033d06eb0a60c"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.

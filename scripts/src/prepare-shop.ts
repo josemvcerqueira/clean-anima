@@ -4,23 +4,23 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 
 (async () => {
 	const functions = [
-		shop.addHelm,
-		shop.addUpperTorso,
-		shop.addChestpiece,
+		// shop.addHelm,
+		// shop.addUpperTorso,
+		// shop.addChestpiece,
 		shop.addLeftArm,
-		shop.addRightArm,
-		shop.addLeftBracer,
-		shop.addRightBracer,
-		shop.addLeftGlove,
-		shop.addRightGlove,
-		shop.addLeftPauldron,
-		shop.addRightPauldron,
-		shop.addLegs,
-		shop.addShins,
-		shop.addBoots,
-		shop.addPrimary,
-		shop.addSecondary,
-		shop.addTertiary,
+		// shop.addRightArm,
+		// shop.addLeftBracer,
+		// shop.addRightBracer,
+		// shop.addLeftGlove,
+		// shop.addRightGlove,
+		// shop.addLeftPauldron,
+		// shop.addRightPauldron,
+		// shop.addLegs,
+		// shop.addShins,
+		// shop.addBoots,
+		// shop.addPrimary,
+		// shop.addSecondary,
+		// shop.addTertiary,
 	];
 
 	const args = {
@@ -35,8 +35,8 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 		for (let fun of functions) {
 			console.log(fun.name);
 
-			let builderId = "";
-			let j = 0;
+			let builderId = "0xc5380d05bff7bd9c6b3c4fb8d19825097204337f7c44d561c4844b2b90f8f3f9";
+			let j = 1;
 			while (j < 7) {
 				const tx = new Transaction();
 				tx.setGasBudget(10000000000);

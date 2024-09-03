@@ -1,13 +1,13 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V2} from "../index";
+import {PKG_V3} from "../index";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
 import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Config =============================== */
 
-export function isConfig(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V2}::floor_price_rule::Config`; }
+export function isConfig(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V3}::floor_price_rule::Config`; }
 
 export interface ConfigFields { floorPrice: ToField<"u64"> }
 
@@ -15,17 +15,17 @@ export type ConfigReified = Reified< Config, ConfigFields >;
 
 export class Config implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V2}::floor_price_rule::Config`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V3}::floor_price_rule::Config`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = Config.$typeName; readonly $fullTypeName: `${typeof PKG_V2}::floor_price_rule::Config`; readonly $typeArgs: []; readonly $isPhantom = Config.$isPhantom;
+ readonly $typeName = Config.$typeName; readonly $fullTypeName: `${typeof PKG_V3}::floor_price_rule::Config`; readonly $typeArgs: []; readonly $isPhantom = Config.$isPhantom;
 
  readonly floorPrice: ToField<"u64">
 
- private constructor(typeArgs: [], fields: ConfigFields, ) { this.$fullTypeName = composeSuiType( Config.$typeName, ...typeArgs ) as `${typeof PKG_V2}::floor_price_rule::Config`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ConfigFields, ) { this.$fullTypeName = composeSuiType( Config.$typeName, ...typeArgs ) as `${typeof PKG_V3}::floor_price_rule::Config`; this.$typeArgs = typeArgs;
 
  this.floorPrice = fields.floorPrice; }
 
- static reified( ): ConfigReified { return { typeName: Config.$typeName, fullTypeName: composeSuiType( Config.$typeName, ...[] ) as `${typeof PKG_V2}::floor_price_rule::Config`, typeArgs: [ ] as [], isPhantom: Config.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Config.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Config.fromBcs( data, ), bcs: Config.bcs, fromJSONField: (field: any) => Config.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Config.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Config.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Config.fetch( client, id, ), new: ( fields: ConfigFields, ) => { return new Config( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ConfigReified { return { typeName: Config.$typeName, fullTypeName: composeSuiType( Config.$typeName, ...[] ) as `${typeof PKG_V3}::floor_price_rule::Config`, typeArgs: [ ] as [], isPhantom: Config.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Config.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Config.fromBcs( data, ), bcs: Config.bcs, fromJSONField: (field: any) => Config.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Config.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Config.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Config.fetch( client, id, ), new: ( fields: ConfigFields, ) => { return new Config( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Config.reified() }
 
@@ -75,7 +75,7 @@ export class Config implements StructClass { __StructClass = true as const;
 
 /* ============================== Rule =============================== */
 
-export function isRule(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V2}::floor_price_rule::Rule`; }
+export function isRule(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V3}::floor_price_rule::Rule`; }
 
 export interface RuleFields { dummyField: ToField<"bool"> }
 
@@ -83,17 +83,17 @@ export type RuleReified = Reified< Rule, RuleFields >;
 
 export class Rule implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V2}::floor_price_rule::Rule`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V3}::floor_price_rule::Rule`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = Rule.$typeName; readonly $fullTypeName: `${typeof PKG_V2}::floor_price_rule::Rule`; readonly $typeArgs: []; readonly $isPhantom = Rule.$isPhantom;
+ readonly $typeName = Rule.$typeName; readonly $fullTypeName: `${typeof PKG_V3}::floor_price_rule::Rule`; readonly $typeArgs: []; readonly $isPhantom = Rule.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: RuleFields, ) { this.$fullTypeName = composeSuiType( Rule.$typeName, ...typeArgs ) as `${typeof PKG_V2}::floor_price_rule::Rule`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: RuleFields, ) { this.$fullTypeName = composeSuiType( Rule.$typeName, ...typeArgs ) as `${typeof PKG_V3}::floor_price_rule::Rule`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): RuleReified { return { typeName: Rule.$typeName, fullTypeName: composeSuiType( Rule.$typeName, ...[] ) as `${typeof PKG_V2}::floor_price_rule::Rule`, typeArgs: [ ] as [], isPhantom: Rule.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Rule.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Rule.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Rule.fromBcs( data, ), bcs: Rule.bcs, fromJSONField: (field: any) => Rule.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Rule.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Rule.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Rule.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Rule.fetch( client, id, ), new: ( fields: RuleFields, ) => { return new Rule( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): RuleReified { return { typeName: Rule.$typeName, fullTypeName: composeSuiType( Rule.$typeName, ...[] ) as `${typeof PKG_V3}::floor_price_rule::Rule`, typeArgs: [ ] as [], isPhantom: Rule.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Rule.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Rule.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Rule.fromBcs( data, ), bcs: Rule.bcs, fromJSONField: (field: any) => Rule.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Rule.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Rule.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Rule.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Rule.fetch( client, id, ), new: ( fields: RuleFields, ) => { return new Rule( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Rule.reified() }
 

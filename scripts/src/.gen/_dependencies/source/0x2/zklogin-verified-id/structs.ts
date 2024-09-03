@@ -1,7 +1,7 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {String} from "../../0x1/string/structs";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {UID} from "../object/structs";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -9,7 +9,7 @@ import {fromB64, fromHEX, toHEX} from "@mysten/sui/utils";
 
 /* ============================== VerifiedID =============================== */
 
-export function isVerifiedID(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::zklogin_verified_id::VerifiedID`; }
+export function isVerifiedID(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::zklogin_verified_id::VerifiedID`; }
 
 export interface VerifiedIDFields { id: ToField<UID>; owner: ToField<"address">; keyClaimName: ToField<String>; keyClaimValue: ToField<String>; issuer: ToField<String>; audience: ToField<String> }
 
@@ -17,17 +17,17 @@ export type VerifiedIDReified = Reified< VerifiedID, VerifiedIDFields >;
 
 export class VerifiedID implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::zklogin_verified_id::VerifiedID`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::zklogin_verified_id::VerifiedID`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = VerifiedID.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::zklogin_verified_id::VerifiedID`; readonly $typeArgs: []; readonly $isPhantom = VerifiedID.$isPhantom;
+ readonly $typeName = VerifiedID.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::zklogin_verified_id::VerifiedID`; readonly $typeArgs: []; readonly $isPhantom = VerifiedID.$isPhantom;
 
  readonly id: ToField<UID>; readonly owner: ToField<"address">; readonly keyClaimName: ToField<String>; readonly keyClaimValue: ToField<String>; readonly issuer: ToField<String>; readonly audience: ToField<String>
 
- private constructor(typeArgs: [], fields: VerifiedIDFields, ) { this.$fullTypeName = composeSuiType( VerifiedID.$typeName, ...typeArgs ) as `${typeof PKG_V22}::zklogin_verified_id::VerifiedID`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: VerifiedIDFields, ) { this.$fullTypeName = composeSuiType( VerifiedID.$typeName, ...typeArgs ) as `${typeof PKG_V25}::zklogin_verified_id::VerifiedID`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.owner = fields.owner;; this.keyClaimName = fields.keyClaimName;; this.keyClaimValue = fields.keyClaimValue;; this.issuer = fields.issuer;; this.audience = fields.audience; }
 
- static reified( ): VerifiedIDReified { return { typeName: VerifiedID.$typeName, fullTypeName: composeSuiType( VerifiedID.$typeName, ...[] ) as `${typeof PKG_V22}::zklogin_verified_id::VerifiedID`, typeArgs: [ ] as [], isPhantom: VerifiedID.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => VerifiedID.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VerifiedID.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => VerifiedID.fromBcs( data, ), bcs: VerifiedID.bcs, fromJSONField: (field: any) => VerifiedID.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => VerifiedID.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => VerifiedID.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => VerifiedID.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => VerifiedID.fetch( client, id, ), new: ( fields: VerifiedIDFields, ) => { return new VerifiedID( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): VerifiedIDReified { return { typeName: VerifiedID.$typeName, fullTypeName: composeSuiType( VerifiedID.$typeName, ...[] ) as `${typeof PKG_V25}::zklogin_verified_id::VerifiedID`, typeArgs: [ ] as [], isPhantom: VerifiedID.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => VerifiedID.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VerifiedID.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => VerifiedID.fromBcs( data, ), bcs: VerifiedID.bcs, fromJSONField: (field: any) => VerifiedID.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => VerifiedID.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => VerifiedID.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => VerifiedID.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => VerifiedID.fetch( client, id, ), new: ( fields: VerifiedIDFields, ) => { return new VerifiedID( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return VerifiedID.reified() }
 

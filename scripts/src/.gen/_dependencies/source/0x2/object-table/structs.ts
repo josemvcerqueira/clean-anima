@@ -1,6 +1,6 @@
 import {PhantomReified, PhantomToTypeStr, PhantomTypeArgument, Reified, StructClass, ToField, ToPhantomTypeArgument, ToTypeStr, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {UID} from "../object/structs";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -8,7 +8,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== ObjectTable =============================== */
 
-export function isObjectTable(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::object_table::ObjectTable` + '<'); }
+export function isObjectTable(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::object_table::ObjectTable` + '<'); }
 
 export interface ObjectTableFields<K extends PhantomTypeArgument, V extends PhantomTypeArgument> { id: ToField<UID>; size: ToField<"u64"> }
 
@@ -16,17 +16,17 @@ export type ObjectTableReified<K extends PhantomTypeArgument, V extends PhantomT
 
 export class ObjectTable<K extends PhantomTypeArgument, V extends PhantomTypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::object_table::ObjectTable`; static readonly $numTypeParams = 2; static readonly $isPhantom = [true,true,] as const;
+ static readonly $typeName = `${PKG_V25}::object_table::ObjectTable`; static readonly $numTypeParams = 2; static readonly $isPhantom = [true,true,] as const;
 
- readonly $typeName = ObjectTable.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::object_table::ObjectTable<${PhantomToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; readonly $typeArgs: [PhantomToTypeStr<K>, PhantomToTypeStr<V>]; readonly $isPhantom = ObjectTable.$isPhantom;
+ readonly $typeName = ObjectTable.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::object_table::ObjectTable<${PhantomToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; readonly $typeArgs: [PhantomToTypeStr<K>, PhantomToTypeStr<V>]; readonly $isPhantom = ObjectTable.$isPhantom;
 
  readonly id: ToField<UID>; readonly size: ToField<"u64">
 
- private constructor(typeArgs: [PhantomToTypeStr<K>, PhantomToTypeStr<V>], fields: ObjectTableFields<K, V>, ) { this.$fullTypeName = composeSuiType( ObjectTable.$typeName, ...typeArgs ) as `${typeof PKG_V22}::object_table::ObjectTable<${PhantomToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [PhantomToTypeStr<K>, PhantomToTypeStr<V>], fields: ObjectTableFields<K, V>, ) { this.$fullTypeName = composeSuiType( ObjectTable.$typeName, ...typeArgs ) as `${typeof PKG_V25}::object_table::ObjectTable<${PhantomToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.size = fields.size; }
 
- static reified<K extends PhantomReified<PhantomTypeArgument>, V extends PhantomReified<PhantomTypeArgument>>( K: K, V: V ): ObjectTableReified<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> { return { typeName: ObjectTable.$typeName, fullTypeName: composeSuiType( ObjectTable.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V22}::object_table::ObjectTable<${PhantomToTypeStr<ToPhantomTypeArgument<K>>}, ${PhantomToTypeStr<ToPhantomTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [PhantomToTypeStr<ToPhantomTypeArgument<K>>, PhantomToTypeStr<ToPhantomTypeArgument<V>>], isPhantom: ObjectTable.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => ObjectTable.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ObjectTable.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => ObjectTable.fromBcs( [K, V], data, ), bcs: ObjectTable.bcs, fromJSONField: (field: any) => ObjectTable.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => ObjectTable.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => ObjectTable.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => ObjectTable.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => ObjectTable.fetch( client, [K, V], id, ), new: ( fields: ObjectTableFields<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>>, ) => { return new ObjectTable( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
+ static reified<K extends PhantomReified<PhantomTypeArgument>, V extends PhantomReified<PhantomTypeArgument>>( K: K, V: V ): ObjectTableReified<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> { return { typeName: ObjectTable.$typeName, fullTypeName: composeSuiType( ObjectTable.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V25}::object_table::ObjectTable<${PhantomToTypeStr<ToPhantomTypeArgument<K>>}, ${PhantomToTypeStr<ToPhantomTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [PhantomToTypeStr<ToPhantomTypeArgument<K>>, PhantomToTypeStr<ToPhantomTypeArgument<V>>], isPhantom: ObjectTable.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => ObjectTable.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ObjectTable.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => ObjectTable.fromBcs( [K, V], data, ), bcs: ObjectTable.bcs, fromJSONField: (field: any) => ObjectTable.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => ObjectTable.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => ObjectTable.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => ObjectTable.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => ObjectTable.fetch( client, [K, V], id, ), new: ( fields: ObjectTableFields<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>>, ) => { return new ObjectTable( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return ObjectTable.reified }
 

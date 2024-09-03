@@ -1,13 +1,13 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
 import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== G1 =============================== */
 
-export function isG1(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::bls12381::G1`; }
+export function isG1(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::bls12381::G1`; }
 
 export interface G1Fields { dummyField: ToField<"bool"> }
 
@@ -15,17 +15,17 @@ export type G1Reified = Reified< G1, G1Fields >;
 
 export class G1 implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::bls12381::G1`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::bls12381::G1`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = G1.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::bls12381::G1`; readonly $typeArgs: []; readonly $isPhantom = G1.$isPhantom;
+ readonly $typeName = G1.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::bls12381::G1`; readonly $typeArgs: []; readonly $isPhantom = G1.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: G1Fields, ) { this.$fullTypeName = composeSuiType( G1.$typeName, ...typeArgs ) as `${typeof PKG_V22}::bls12381::G1`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: G1Fields, ) { this.$fullTypeName = composeSuiType( G1.$typeName, ...typeArgs ) as `${typeof PKG_V25}::bls12381::G1`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): G1Reified { return { typeName: G1.$typeName, fullTypeName: composeSuiType( G1.$typeName, ...[] ) as `${typeof PKG_V22}::bls12381::G1`, typeArgs: [ ] as [], isPhantom: G1.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => G1.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => G1.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => G1.fromBcs( data, ), bcs: G1.bcs, fromJSONField: (field: any) => G1.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => G1.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => G1.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => G1.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => G1.fetch( client, id, ), new: ( fields: G1Fields, ) => { return new G1( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): G1Reified { return { typeName: G1.$typeName, fullTypeName: composeSuiType( G1.$typeName, ...[] ) as `${typeof PKG_V25}::bls12381::G1`, typeArgs: [ ] as [], isPhantom: G1.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => G1.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => G1.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => G1.fromBcs( data, ), bcs: G1.bcs, fromJSONField: (field: any) => G1.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => G1.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => G1.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => G1.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => G1.fetch( client, id, ), new: ( fields: G1Fields, ) => { return new G1( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return G1.reified() }
 
@@ -75,7 +75,7 @@ export class G1 implements StructClass { __StructClass = true as const;
 
 /* ============================== G2 =============================== */
 
-export function isG2(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::bls12381::G2`; }
+export function isG2(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::bls12381::G2`; }
 
 export interface G2Fields { dummyField: ToField<"bool"> }
 
@@ -83,17 +83,17 @@ export type G2Reified = Reified< G2, G2Fields >;
 
 export class G2 implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::bls12381::G2`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::bls12381::G2`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = G2.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::bls12381::G2`; readonly $typeArgs: []; readonly $isPhantom = G2.$isPhantom;
+ readonly $typeName = G2.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::bls12381::G2`; readonly $typeArgs: []; readonly $isPhantom = G2.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: G2Fields, ) { this.$fullTypeName = composeSuiType( G2.$typeName, ...typeArgs ) as `${typeof PKG_V22}::bls12381::G2`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: G2Fields, ) { this.$fullTypeName = composeSuiType( G2.$typeName, ...typeArgs ) as `${typeof PKG_V25}::bls12381::G2`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): G2Reified { return { typeName: G2.$typeName, fullTypeName: composeSuiType( G2.$typeName, ...[] ) as `${typeof PKG_V22}::bls12381::G2`, typeArgs: [ ] as [], isPhantom: G2.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => G2.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => G2.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => G2.fromBcs( data, ), bcs: G2.bcs, fromJSONField: (field: any) => G2.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => G2.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => G2.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => G2.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => G2.fetch( client, id, ), new: ( fields: G2Fields, ) => { return new G2( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): G2Reified { return { typeName: G2.$typeName, fullTypeName: composeSuiType( G2.$typeName, ...[] ) as `${typeof PKG_V25}::bls12381::G2`, typeArgs: [ ] as [], isPhantom: G2.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => G2.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => G2.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => G2.fromBcs( data, ), bcs: G2.bcs, fromJSONField: (field: any) => G2.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => G2.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => G2.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => G2.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => G2.fetch( client, id, ), new: ( fields: G2Fields, ) => { return new G2( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return G2.reified() }
 
@@ -143,7 +143,7 @@ export class G2 implements StructClass { __StructClass = true as const;
 
 /* ============================== GT =============================== */
 
-export function isGT(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::bls12381::GT`; }
+export function isGT(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::bls12381::GT`; }
 
 export interface GTFields { dummyField: ToField<"bool"> }
 
@@ -151,17 +151,17 @@ export type GTReified = Reified< GT, GTFields >;
 
 export class GT implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::bls12381::GT`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::bls12381::GT`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = GT.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::bls12381::GT`; readonly $typeArgs: []; readonly $isPhantom = GT.$isPhantom;
+ readonly $typeName = GT.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::bls12381::GT`; readonly $typeArgs: []; readonly $isPhantom = GT.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: GTFields, ) { this.$fullTypeName = composeSuiType( GT.$typeName, ...typeArgs ) as `${typeof PKG_V22}::bls12381::GT`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: GTFields, ) { this.$fullTypeName = composeSuiType( GT.$typeName, ...typeArgs ) as `${typeof PKG_V25}::bls12381::GT`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): GTReified { return { typeName: GT.$typeName, fullTypeName: composeSuiType( GT.$typeName, ...[] ) as `${typeof PKG_V22}::bls12381::GT`, typeArgs: [ ] as [], isPhantom: GT.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => GT.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => GT.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => GT.fromBcs( data, ), bcs: GT.bcs, fromJSONField: (field: any) => GT.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => GT.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => GT.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => GT.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => GT.fetch( client, id, ), new: ( fields: GTFields, ) => { return new GT( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): GTReified { return { typeName: GT.$typeName, fullTypeName: composeSuiType( GT.$typeName, ...[] ) as `${typeof PKG_V25}::bls12381::GT`, typeArgs: [ ] as [], isPhantom: GT.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => GT.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => GT.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => GT.fromBcs( data, ), bcs: GT.bcs, fromJSONField: (field: any) => GT.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => GT.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => GT.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => GT.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => GT.fetch( client, id, ), new: ( fields: GTFields, ) => { return new GT( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return GT.reified() }
 
@@ -211,7 +211,7 @@ export class GT implements StructClass { __StructClass = true as const;
 
 /* ============================== Scalar =============================== */
 
-export function isScalar(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::bls12381::Scalar`; }
+export function isScalar(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::bls12381::Scalar`; }
 
 export interface ScalarFields { dummyField: ToField<"bool"> }
 
@@ -219,17 +219,17 @@ export type ScalarReified = Reified< Scalar, ScalarFields >;
 
 export class Scalar implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::bls12381::Scalar`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::bls12381::Scalar`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = Scalar.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::bls12381::Scalar`; readonly $typeArgs: []; readonly $isPhantom = Scalar.$isPhantom;
+ readonly $typeName = Scalar.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::bls12381::Scalar`; readonly $typeArgs: []; readonly $isPhantom = Scalar.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: ScalarFields, ) { this.$fullTypeName = composeSuiType( Scalar.$typeName, ...typeArgs ) as `${typeof PKG_V22}::bls12381::Scalar`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ScalarFields, ) { this.$fullTypeName = composeSuiType( Scalar.$typeName, ...typeArgs ) as `${typeof PKG_V25}::bls12381::Scalar`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): ScalarReified { return { typeName: Scalar.$typeName, fullTypeName: composeSuiType( Scalar.$typeName, ...[] ) as `${typeof PKG_V22}::bls12381::Scalar`, typeArgs: [ ] as [], isPhantom: Scalar.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Scalar.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Scalar.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Scalar.fromBcs( data, ), bcs: Scalar.bcs, fromJSONField: (field: any) => Scalar.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Scalar.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Scalar.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Scalar.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Scalar.fetch( client, id, ), new: ( fields: ScalarFields, ) => { return new Scalar( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ScalarReified { return { typeName: Scalar.$typeName, fullTypeName: composeSuiType( Scalar.$typeName, ...[] ) as `${typeof PKG_V25}::bls12381::Scalar`, typeArgs: [ ] as [], isPhantom: Scalar.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Scalar.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Scalar.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Scalar.fromBcs( data, ), bcs: Scalar.bcs, fromJSONField: (field: any) => Scalar.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Scalar.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Scalar.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Scalar.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Scalar.fetch( client, id, ), new: ( fields: ScalarFields, ) => { return new Scalar( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Scalar.reified() }
 

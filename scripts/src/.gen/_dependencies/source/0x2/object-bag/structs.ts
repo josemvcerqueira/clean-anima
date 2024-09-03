@@ -1,6 +1,6 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {UID} from "../object/structs";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -8,7 +8,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== ObjectBag =============================== */
 
-export function isObjectBag(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::object_bag::ObjectBag`; }
+export function isObjectBag(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::object_bag::ObjectBag`; }
 
 export interface ObjectBagFields { id: ToField<UID>; size: ToField<"u64"> }
 
@@ -16,17 +16,17 @@ export type ObjectBagReified = Reified< ObjectBag, ObjectBagFields >;
 
 export class ObjectBag implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::object_bag::ObjectBag`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::object_bag::ObjectBag`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = ObjectBag.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::object_bag::ObjectBag`; readonly $typeArgs: []; readonly $isPhantom = ObjectBag.$isPhantom;
+ readonly $typeName = ObjectBag.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::object_bag::ObjectBag`; readonly $typeArgs: []; readonly $isPhantom = ObjectBag.$isPhantom;
 
  readonly id: ToField<UID>; readonly size: ToField<"u64">
 
- private constructor(typeArgs: [], fields: ObjectBagFields, ) { this.$fullTypeName = composeSuiType( ObjectBag.$typeName, ...typeArgs ) as `${typeof PKG_V22}::object_bag::ObjectBag`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ObjectBagFields, ) { this.$fullTypeName = composeSuiType( ObjectBag.$typeName, ...typeArgs ) as `${typeof PKG_V25}::object_bag::ObjectBag`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.size = fields.size; }
 
- static reified( ): ObjectBagReified { return { typeName: ObjectBag.$typeName, fullTypeName: composeSuiType( ObjectBag.$typeName, ...[] ) as `${typeof PKG_V22}::object_bag::ObjectBag`, typeArgs: [ ] as [], isPhantom: ObjectBag.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ObjectBag.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ObjectBag.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ObjectBag.fromBcs( data, ), bcs: ObjectBag.bcs, fromJSONField: (field: any) => ObjectBag.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ObjectBag.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ObjectBag.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ObjectBag.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ObjectBag.fetch( client, id, ), new: ( fields: ObjectBagFields, ) => { return new ObjectBag( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ObjectBagReified { return { typeName: ObjectBag.$typeName, fullTypeName: composeSuiType( ObjectBag.$typeName, ...[] ) as `${typeof PKG_V25}::object_bag::ObjectBag`, typeArgs: [ ] as [], isPhantom: ObjectBag.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ObjectBag.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ObjectBag.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ObjectBag.fromBcs( data, ), bcs: ObjectBag.bcs, fromJSONField: (field: any) => ObjectBag.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ObjectBag.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ObjectBag.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ObjectBag.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ObjectBag.fetch( client, id, ), new: ( fields: ObjectBagFields, ) => { return new ObjectBag( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return ObjectBag.reified() }
 

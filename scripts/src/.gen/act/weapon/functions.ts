@@ -14,8 +14,6 @@ export function name( tx: Transaction, self: TransactionObjectInput ) { return t
 
 export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::init`, arguments: [ obj(tx, otw) ], }) }
 
-export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::image_url`, arguments: [ obj(tx, self) ], }) }
-
 export interface EquipArgs { uidMut: TransactionObjectInput; key: GenericArg; weaponId: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
 
 export function equip( tx: Transaction, typeArg: string, args: EquipArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::equip`, typeArguments: [typeArg], arguments: [ obj(tx, args.uidMut), generic(tx, `${typeArg}`, args.key), pure(tx, args.weaponId, `${ID.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy) ], }) }
@@ -27,6 +25,8 @@ export function unequip( tx: Transaction, typeArg: string, args: UnequipArgs ) {
 export function colourWay( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::colour_way`, arguments: [ obj(tx, self) ], }) }
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::edition`, arguments: [ obj(tx, self) ], }) }
+
+export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export function killCount( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::kill_count`, arguments: [ obj(tx, self) ], }) }
 

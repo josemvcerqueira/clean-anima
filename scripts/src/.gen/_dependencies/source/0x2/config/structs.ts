@@ -1,7 +1,7 @@
 import {PhantomReified, PhantomToTypeStr, PhantomTypeArgument, Reified, StructClass, ToField, ToPhantomTypeArgument, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
 import {Option} from "../../0x1/option/structs";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {UID} from "../object/structs";
 import {BcsType, bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -9,7 +9,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Config =============================== */
 
-export function isConfig(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::config::Config` + '<'); }
+export function isConfig(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::config::Config` + '<'); }
 
 export interface ConfigFields<WriteCap extends PhantomTypeArgument> { id: ToField<UID> }
 
@@ -17,17 +17,17 @@ export type ConfigReified<WriteCap extends PhantomTypeArgument> = Reified< Confi
 
 export class Config<WriteCap extends PhantomTypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::config::Config`; static readonly $numTypeParams = 1; static readonly $isPhantom = [true,] as const;
+ static readonly $typeName = `${PKG_V25}::config::Config`; static readonly $numTypeParams = 1; static readonly $isPhantom = [true,] as const;
 
- readonly $typeName = Config.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::config::Config<${PhantomToTypeStr<WriteCap>}>`; readonly $typeArgs: [PhantomToTypeStr<WriteCap>]; readonly $isPhantom = Config.$isPhantom;
+ readonly $typeName = Config.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::config::Config<${PhantomToTypeStr<WriteCap>}>`; readonly $typeArgs: [PhantomToTypeStr<WriteCap>]; readonly $isPhantom = Config.$isPhantom;
 
  readonly id: ToField<UID>
 
- private constructor(typeArgs: [PhantomToTypeStr<WriteCap>], fields: ConfigFields<WriteCap>, ) { this.$fullTypeName = composeSuiType( Config.$typeName, ...typeArgs ) as `${typeof PKG_V22}::config::Config<${PhantomToTypeStr<WriteCap>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [PhantomToTypeStr<WriteCap>], fields: ConfigFields<WriteCap>, ) { this.$fullTypeName = composeSuiType( Config.$typeName, ...typeArgs ) as `${typeof PKG_V25}::config::Config<${PhantomToTypeStr<WriteCap>}>`; this.$typeArgs = typeArgs;
 
  this.id = fields.id; }
 
- static reified<WriteCap extends PhantomReified<PhantomTypeArgument>>( WriteCap: WriteCap ): ConfigReified<ToPhantomTypeArgument<WriteCap>> { return { typeName: Config.$typeName, fullTypeName: composeSuiType( Config.$typeName, ...[extractType(WriteCap)] ) as `${typeof PKG_V22}::config::Config<${PhantomToTypeStr<ToPhantomTypeArgument<WriteCap>>}>`, typeArgs: [ extractType(WriteCap) ] as [PhantomToTypeStr<ToPhantomTypeArgument<WriteCap>>], isPhantom: Config.$isPhantom, reifiedTypeArgs: [WriteCap], fromFields: (fields: Record<string, any>) => Config.fromFields( WriteCap, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes( WriteCap, item, ), fromBcs: (data: Uint8Array) => Config.fromBcs( WriteCap, data, ), bcs: Config.bcs, fromJSONField: (field: any) => Config.fromJSONField( WriteCap, field, ), fromJSON: (json: Record<string, any>) => Config.fromJSON( WriteCap, json, ), fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData( WriteCap, content, ), fromSuiObjectData: (content: SuiObjectData) => Config.fromSuiObjectData( WriteCap, content, ), fetch: async (client: SuiClient, id: string) => Config.fetch( client, WriteCap, id, ), new: ( fields: ConfigFields<ToPhantomTypeArgument<WriteCap>>, ) => { return new Config( [extractType(WriteCap)], fields ) }, kind: "StructClassReified", } }
+ static reified<WriteCap extends PhantomReified<PhantomTypeArgument>>( WriteCap: WriteCap ): ConfigReified<ToPhantomTypeArgument<WriteCap>> { return { typeName: Config.$typeName, fullTypeName: composeSuiType( Config.$typeName, ...[extractType(WriteCap)] ) as `${typeof PKG_V25}::config::Config<${PhantomToTypeStr<ToPhantomTypeArgument<WriteCap>>}>`, typeArgs: [ extractType(WriteCap) ] as [PhantomToTypeStr<ToPhantomTypeArgument<WriteCap>>], isPhantom: Config.$isPhantom, reifiedTypeArgs: [WriteCap], fromFields: (fields: Record<string, any>) => Config.fromFields( WriteCap, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes( WriteCap, item, ), fromBcs: (data: Uint8Array) => Config.fromBcs( WriteCap, data, ), bcs: Config.bcs, fromJSONField: (field: any) => Config.fromJSONField( WriteCap, field, ), fromJSON: (json: Record<string, any>) => Config.fromJSON( WriteCap, json, ), fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData( WriteCap, content, ), fromSuiObjectData: (content: SuiObjectData) => Config.fromSuiObjectData( WriteCap, content, ), fetch: async (client: SuiClient, id: string) => Config.fetch( client, WriteCap, id, ), new: ( fields: ConfigFields<ToPhantomTypeArgument<WriteCap>>, ) => { return new Config( [extractType(WriteCap)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Config.reified }
 
@@ -79,7 +79,7 @@ export class Config<WriteCap extends PhantomTypeArgument> implements StructClass
 
 /* ============================== Setting =============================== */
 
-export function isSetting(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::config::Setting` + '<'); }
+export function isSetting(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::config::Setting` + '<'); }
 
 export interface SettingFields<Value extends TypeArgument> { data: ToField<Option<SettingData<Value>>> }
 
@@ -87,17 +87,17 @@ export type SettingReified<Value extends TypeArgument> = Reified< Setting<Value>
 
 export class Setting<Value extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::config::Setting`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
+ static readonly $typeName = `${PKG_V25}::config::Setting`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $typeName = Setting.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::config::Setting<${ToTypeStr<Value>}>`; readonly $typeArgs: [ToTypeStr<Value>]; readonly $isPhantom = Setting.$isPhantom;
+ readonly $typeName = Setting.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::config::Setting<${ToTypeStr<Value>}>`; readonly $typeArgs: [ToTypeStr<Value>]; readonly $isPhantom = Setting.$isPhantom;
 
  readonly data: ToField<Option<SettingData<Value>>>
 
- private constructor(typeArgs: [ToTypeStr<Value>], fields: SettingFields<Value>, ) { this.$fullTypeName = composeSuiType( Setting.$typeName, ...typeArgs ) as `${typeof PKG_V22}::config::Setting<${ToTypeStr<Value>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<Value>], fields: SettingFields<Value>, ) { this.$fullTypeName = composeSuiType( Setting.$typeName, ...typeArgs ) as `${typeof PKG_V25}::config::Setting<${ToTypeStr<Value>}>`; this.$typeArgs = typeArgs;
 
  this.data = fields.data; }
 
- static reified<Value extends Reified<TypeArgument, any>>( Value: Value ): SettingReified<ToTypeArgument<Value>> { return { typeName: Setting.$typeName, fullTypeName: composeSuiType( Setting.$typeName, ...[extractType(Value)] ) as `${typeof PKG_V22}::config::Setting<${ToTypeStr<ToTypeArgument<Value>>}>`, typeArgs: [ extractType(Value) ] as [ToTypeStr<ToTypeArgument<Value>>], isPhantom: Setting.$isPhantom, reifiedTypeArgs: [Value], fromFields: (fields: Record<string, any>) => Setting.fromFields( Value, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Setting.fromFieldsWithTypes( Value, item, ), fromBcs: (data: Uint8Array) => Setting.fromBcs( Value, data, ), bcs: Setting.bcs(toBcs(Value)), fromJSONField: (field: any) => Setting.fromJSONField( Value, field, ), fromJSON: (json: Record<string, any>) => Setting.fromJSON( Value, json, ), fromSuiParsedData: (content: SuiParsedData) => Setting.fromSuiParsedData( Value, content, ), fromSuiObjectData: (content: SuiObjectData) => Setting.fromSuiObjectData( Value, content, ), fetch: async (client: SuiClient, id: string) => Setting.fetch( client, Value, id, ), new: ( fields: SettingFields<ToTypeArgument<Value>>, ) => { return new Setting( [extractType(Value)], fields ) }, kind: "StructClassReified", } }
+ static reified<Value extends Reified<TypeArgument, any>>( Value: Value ): SettingReified<ToTypeArgument<Value>> { return { typeName: Setting.$typeName, fullTypeName: composeSuiType( Setting.$typeName, ...[extractType(Value)] ) as `${typeof PKG_V25}::config::Setting<${ToTypeStr<ToTypeArgument<Value>>}>`, typeArgs: [ extractType(Value) ] as [ToTypeStr<ToTypeArgument<Value>>], isPhantom: Setting.$isPhantom, reifiedTypeArgs: [Value], fromFields: (fields: Record<string, any>) => Setting.fromFields( Value, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Setting.fromFieldsWithTypes( Value, item, ), fromBcs: (data: Uint8Array) => Setting.fromBcs( Value, data, ), bcs: Setting.bcs(toBcs(Value)), fromJSONField: (field: any) => Setting.fromJSONField( Value, field, ), fromJSON: (json: Record<string, any>) => Setting.fromJSON( Value, json, ), fromSuiParsedData: (content: SuiParsedData) => Setting.fromSuiParsedData( Value, content, ), fromSuiObjectData: (content: SuiObjectData) => Setting.fromSuiObjectData( Value, content, ), fetch: async (client: SuiClient, id: string) => Setting.fetch( client, Value, id, ), new: ( fields: SettingFields<ToTypeArgument<Value>>, ) => { return new Setting( [extractType(Value)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Setting.reified }
 
@@ -151,7 +151,7 @@ export class Setting<Value extends TypeArgument> implements StructClass { __Stru
 
 /* ============================== SettingData =============================== */
 
-export function isSettingData(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::config::SettingData` + '<'); }
+export function isSettingData(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::config::SettingData` + '<'); }
 
 export interface SettingDataFields<Value extends TypeArgument> { newerValueEpoch: ToField<"u64">; newerValue: ToField<Option<Value>>; olderValueOpt: ToField<Option<Value>> }
 
@@ -159,17 +159,17 @@ export type SettingDataReified<Value extends TypeArgument> = Reified< SettingDat
 
 export class SettingData<Value extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::config::SettingData`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
+ static readonly $typeName = `${PKG_V25}::config::SettingData`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $typeName = SettingData.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::config::SettingData<${ToTypeStr<Value>}>`; readonly $typeArgs: [ToTypeStr<Value>]; readonly $isPhantom = SettingData.$isPhantom;
+ readonly $typeName = SettingData.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::config::SettingData<${ToTypeStr<Value>}>`; readonly $typeArgs: [ToTypeStr<Value>]; readonly $isPhantom = SettingData.$isPhantom;
 
  readonly newerValueEpoch: ToField<"u64">; readonly newerValue: ToField<Option<Value>>; readonly olderValueOpt: ToField<Option<Value>>
 
- private constructor(typeArgs: [ToTypeStr<Value>], fields: SettingDataFields<Value>, ) { this.$fullTypeName = composeSuiType( SettingData.$typeName, ...typeArgs ) as `${typeof PKG_V22}::config::SettingData<${ToTypeStr<Value>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<Value>], fields: SettingDataFields<Value>, ) { this.$fullTypeName = composeSuiType( SettingData.$typeName, ...typeArgs ) as `${typeof PKG_V25}::config::SettingData<${ToTypeStr<Value>}>`; this.$typeArgs = typeArgs;
 
  this.newerValueEpoch = fields.newerValueEpoch;; this.newerValue = fields.newerValue;; this.olderValueOpt = fields.olderValueOpt; }
 
- static reified<Value extends Reified<TypeArgument, any>>( Value: Value ): SettingDataReified<ToTypeArgument<Value>> { return { typeName: SettingData.$typeName, fullTypeName: composeSuiType( SettingData.$typeName, ...[extractType(Value)] ) as `${typeof PKG_V22}::config::SettingData<${ToTypeStr<ToTypeArgument<Value>>}>`, typeArgs: [ extractType(Value) ] as [ToTypeStr<ToTypeArgument<Value>>], isPhantom: SettingData.$isPhantom, reifiedTypeArgs: [Value], fromFields: (fields: Record<string, any>) => SettingData.fromFields( Value, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => SettingData.fromFieldsWithTypes( Value, item, ), fromBcs: (data: Uint8Array) => SettingData.fromBcs( Value, data, ), bcs: SettingData.bcs(toBcs(Value)), fromJSONField: (field: any) => SettingData.fromJSONField( Value, field, ), fromJSON: (json: Record<string, any>) => SettingData.fromJSON( Value, json, ), fromSuiParsedData: (content: SuiParsedData) => SettingData.fromSuiParsedData( Value, content, ), fromSuiObjectData: (content: SuiObjectData) => SettingData.fromSuiObjectData( Value, content, ), fetch: async (client: SuiClient, id: string) => SettingData.fetch( client, Value, id, ), new: ( fields: SettingDataFields<ToTypeArgument<Value>>, ) => { return new SettingData( [extractType(Value)], fields ) }, kind: "StructClassReified", } }
+ static reified<Value extends Reified<TypeArgument, any>>( Value: Value ): SettingDataReified<ToTypeArgument<Value>> { return { typeName: SettingData.$typeName, fullTypeName: composeSuiType( SettingData.$typeName, ...[extractType(Value)] ) as `${typeof PKG_V25}::config::SettingData<${ToTypeStr<ToTypeArgument<Value>>}>`, typeArgs: [ extractType(Value) ] as [ToTypeStr<ToTypeArgument<Value>>], isPhantom: SettingData.$isPhantom, reifiedTypeArgs: [Value], fromFields: (fields: Record<string, any>) => SettingData.fromFields( Value, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => SettingData.fromFieldsWithTypes( Value, item, ), fromBcs: (data: Uint8Array) => SettingData.fromBcs( Value, data, ), bcs: SettingData.bcs(toBcs(Value)), fromJSONField: (field: any) => SettingData.fromJSONField( Value, field, ), fromJSON: (json: Record<string, any>) => SettingData.fromJSON( Value, json, ), fromSuiParsedData: (content: SuiParsedData) => SettingData.fromSuiParsedData( Value, content, ), fromSuiObjectData: (content: SuiObjectData) => SettingData.fromSuiObjectData( Value, content, ), fetch: async (client: SuiClient, id: string) => SettingData.fetch( client, Value, id, ), new: ( fields: SettingDataFields<ToTypeArgument<Value>>, ) => { return new SettingData( [extractType(Value)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return SettingData.reified }
 

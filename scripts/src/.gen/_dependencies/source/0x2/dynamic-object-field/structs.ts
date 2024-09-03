@@ -1,13 +1,13 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {BcsType, bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
 import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Wrapper =============================== */
 
-export function isWrapper(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::dynamic_object_field::Wrapper` + '<'); }
+export function isWrapper(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::dynamic_object_field::Wrapper` + '<'); }
 
 export interface WrapperFields<Name extends TypeArgument> { name: ToField<Name> }
 
@@ -15,17 +15,17 @@ export type WrapperReified<Name extends TypeArgument> = Reified< Wrapper<Name>, 
 
 export class Wrapper<Name extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::dynamic_object_field::Wrapper`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
+ static readonly $typeName = `${PKG_V25}::dynamic_object_field::Wrapper`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $typeName = Wrapper.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::dynamic_object_field::Wrapper<${ToTypeStr<Name>}>`; readonly $typeArgs: [ToTypeStr<Name>]; readonly $isPhantom = Wrapper.$isPhantom;
+ readonly $typeName = Wrapper.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::dynamic_object_field::Wrapper<${ToTypeStr<Name>}>`; readonly $typeArgs: [ToTypeStr<Name>]; readonly $isPhantom = Wrapper.$isPhantom;
 
  readonly name: ToField<Name>
 
- private constructor(typeArgs: [ToTypeStr<Name>], fields: WrapperFields<Name>, ) { this.$fullTypeName = composeSuiType( Wrapper.$typeName, ...typeArgs ) as `${typeof PKG_V22}::dynamic_object_field::Wrapper<${ToTypeStr<Name>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<Name>], fields: WrapperFields<Name>, ) { this.$fullTypeName = composeSuiType( Wrapper.$typeName, ...typeArgs ) as `${typeof PKG_V25}::dynamic_object_field::Wrapper<${ToTypeStr<Name>}>`; this.$typeArgs = typeArgs;
 
  this.name = fields.name; }
 
- static reified<Name extends Reified<TypeArgument, any>>( Name: Name ): WrapperReified<ToTypeArgument<Name>> { return { typeName: Wrapper.$typeName, fullTypeName: composeSuiType( Wrapper.$typeName, ...[extractType(Name)] ) as `${typeof PKG_V22}::dynamic_object_field::Wrapper<${ToTypeStr<ToTypeArgument<Name>>}>`, typeArgs: [ extractType(Name) ] as [ToTypeStr<ToTypeArgument<Name>>], isPhantom: Wrapper.$isPhantom, reifiedTypeArgs: [Name], fromFields: (fields: Record<string, any>) => Wrapper.fromFields( Name, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Wrapper.fromFieldsWithTypes( Name, item, ), fromBcs: (data: Uint8Array) => Wrapper.fromBcs( Name, data, ), bcs: Wrapper.bcs(toBcs(Name)), fromJSONField: (field: any) => Wrapper.fromJSONField( Name, field, ), fromJSON: (json: Record<string, any>) => Wrapper.fromJSON( Name, json, ), fromSuiParsedData: (content: SuiParsedData) => Wrapper.fromSuiParsedData( Name, content, ), fromSuiObjectData: (content: SuiObjectData) => Wrapper.fromSuiObjectData( Name, content, ), fetch: async (client: SuiClient, id: string) => Wrapper.fetch( client, Name, id, ), new: ( fields: WrapperFields<ToTypeArgument<Name>>, ) => { return new Wrapper( [extractType(Name)], fields ) }, kind: "StructClassReified", } }
+ static reified<Name extends Reified<TypeArgument, any>>( Name: Name ): WrapperReified<ToTypeArgument<Name>> { return { typeName: Wrapper.$typeName, fullTypeName: composeSuiType( Wrapper.$typeName, ...[extractType(Name)] ) as `${typeof PKG_V25}::dynamic_object_field::Wrapper<${ToTypeStr<ToTypeArgument<Name>>}>`, typeArgs: [ extractType(Name) ] as [ToTypeStr<ToTypeArgument<Name>>], isPhantom: Wrapper.$isPhantom, reifiedTypeArgs: [Name], fromFields: (fields: Record<string, any>) => Wrapper.fromFields( Name, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Wrapper.fromFieldsWithTypes( Name, item, ), fromBcs: (data: Uint8Array) => Wrapper.fromBcs( Name, data, ), bcs: Wrapper.bcs(toBcs(Name)), fromJSONField: (field: any) => Wrapper.fromJSONField( Name, field, ), fromJSON: (json: Record<string, any>) => Wrapper.fromJSON( Name, json, ), fromSuiParsedData: (content: SuiParsedData) => Wrapper.fromSuiParsedData( Name, content, ), fromSuiObjectData: (content: SuiObjectData) => Wrapper.fromSuiObjectData( Name, content, ), fetch: async (client: SuiClient, id: string) => Wrapper.fetch( client, Name, id, ), new: ( fields: WrapperFields<ToTypeArgument<Name>>, ) => { return new Wrapper( [extractType(Name)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Wrapper.reified }
 

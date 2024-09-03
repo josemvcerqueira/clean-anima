@@ -2,14 +2,14 @@ import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {Vector} from "../../../../_framework/vector";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
 import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Curve =============================== */
 
-export function isCurve(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::groth16::Curve`; }
+export function isCurve(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::groth16::Curve`; }
 
 export interface CurveFields { id: ToField<"u8"> }
 
@@ -17,17 +17,17 @@ export type CurveReified = Reified< Curve, CurveFields >;
 
 export class Curve implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::groth16::Curve`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::groth16::Curve`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = Curve.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::groth16::Curve`; readonly $typeArgs: []; readonly $isPhantom = Curve.$isPhantom;
+ readonly $typeName = Curve.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::groth16::Curve`; readonly $typeArgs: []; readonly $isPhantom = Curve.$isPhantom;
 
  readonly id: ToField<"u8">
 
- private constructor(typeArgs: [], fields: CurveFields, ) { this.$fullTypeName = composeSuiType( Curve.$typeName, ...typeArgs ) as `${typeof PKG_V22}::groth16::Curve`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: CurveFields, ) { this.$fullTypeName = composeSuiType( Curve.$typeName, ...typeArgs ) as `${typeof PKG_V25}::groth16::Curve`; this.$typeArgs = typeArgs;
 
  this.id = fields.id; }
 
- static reified( ): CurveReified { return { typeName: Curve.$typeName, fullTypeName: composeSuiType( Curve.$typeName, ...[] ) as `${typeof PKG_V22}::groth16::Curve`, typeArgs: [ ] as [], isPhantom: Curve.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Curve.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Curve.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Curve.fromBcs( data, ), bcs: Curve.bcs, fromJSONField: (field: any) => Curve.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Curve.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Curve.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Curve.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Curve.fetch( client, id, ), new: ( fields: CurveFields, ) => { return new Curve( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): CurveReified { return { typeName: Curve.$typeName, fullTypeName: composeSuiType( Curve.$typeName, ...[] ) as `${typeof PKG_V25}::groth16::Curve`, typeArgs: [ ] as [], isPhantom: Curve.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Curve.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Curve.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Curve.fromBcs( data, ), bcs: Curve.bcs, fromJSONField: (field: any) => Curve.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Curve.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Curve.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Curve.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Curve.fetch( client, id, ), new: ( fields: CurveFields, ) => { return new Curve( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Curve.reified() }
 
@@ -77,7 +77,7 @@ export class Curve implements StructClass { __StructClass = true as const;
 
 /* ============================== PreparedVerifyingKey =============================== */
 
-export function isPreparedVerifyingKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::groth16::PreparedVerifyingKey`; }
+export function isPreparedVerifyingKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::groth16::PreparedVerifyingKey`; }
 
 export interface PreparedVerifyingKeyFields { vkGammaAbcG1Bytes: ToField<Vector<"u8">>; alphaG1BetaG2Bytes: ToField<Vector<"u8">>; gammaG2NegPcBytes: ToField<Vector<"u8">>; deltaG2NegPcBytes: ToField<Vector<"u8">> }
 
@@ -85,17 +85,17 @@ export type PreparedVerifyingKeyReified = Reified< PreparedVerifyingKey, Prepare
 
 export class PreparedVerifyingKey implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::groth16::PreparedVerifyingKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::groth16::PreparedVerifyingKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = PreparedVerifyingKey.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::groth16::PreparedVerifyingKey`; readonly $typeArgs: []; readonly $isPhantom = PreparedVerifyingKey.$isPhantom;
+ readonly $typeName = PreparedVerifyingKey.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::groth16::PreparedVerifyingKey`; readonly $typeArgs: []; readonly $isPhantom = PreparedVerifyingKey.$isPhantom;
 
  readonly vkGammaAbcG1Bytes: ToField<Vector<"u8">>; readonly alphaG1BetaG2Bytes: ToField<Vector<"u8">>; readonly gammaG2NegPcBytes: ToField<Vector<"u8">>; readonly deltaG2NegPcBytes: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: PreparedVerifyingKeyFields, ) { this.$fullTypeName = composeSuiType( PreparedVerifyingKey.$typeName, ...typeArgs ) as `${typeof PKG_V22}::groth16::PreparedVerifyingKey`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: PreparedVerifyingKeyFields, ) { this.$fullTypeName = composeSuiType( PreparedVerifyingKey.$typeName, ...typeArgs ) as `${typeof PKG_V25}::groth16::PreparedVerifyingKey`; this.$typeArgs = typeArgs;
 
  this.vkGammaAbcG1Bytes = fields.vkGammaAbcG1Bytes;; this.alphaG1BetaG2Bytes = fields.alphaG1BetaG2Bytes;; this.gammaG2NegPcBytes = fields.gammaG2NegPcBytes;; this.deltaG2NegPcBytes = fields.deltaG2NegPcBytes; }
 
- static reified( ): PreparedVerifyingKeyReified { return { typeName: PreparedVerifyingKey.$typeName, fullTypeName: composeSuiType( PreparedVerifyingKey.$typeName, ...[] ) as `${typeof PKG_V22}::groth16::PreparedVerifyingKey`, typeArgs: [ ] as [], isPhantom: PreparedVerifyingKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PreparedVerifyingKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PreparedVerifyingKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PreparedVerifyingKey.fromBcs( data, ), bcs: PreparedVerifyingKey.bcs, fromJSONField: (field: any) => PreparedVerifyingKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PreparedVerifyingKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PreparedVerifyingKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PreparedVerifyingKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PreparedVerifyingKey.fetch( client, id, ), new: ( fields: PreparedVerifyingKeyFields, ) => { return new PreparedVerifyingKey( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): PreparedVerifyingKeyReified { return { typeName: PreparedVerifyingKey.$typeName, fullTypeName: composeSuiType( PreparedVerifyingKey.$typeName, ...[] ) as `${typeof PKG_V25}::groth16::PreparedVerifyingKey`, typeArgs: [ ] as [], isPhantom: PreparedVerifyingKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PreparedVerifyingKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PreparedVerifyingKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PreparedVerifyingKey.fromBcs( data, ), bcs: PreparedVerifyingKey.bcs, fromJSONField: (field: any) => PreparedVerifyingKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PreparedVerifyingKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PreparedVerifyingKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PreparedVerifyingKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PreparedVerifyingKey.fetch( client, id, ), new: ( fields: PreparedVerifyingKeyFields, ) => { return new PreparedVerifyingKey( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return PreparedVerifyingKey.reified() }
 
@@ -145,7 +145,7 @@ export class PreparedVerifyingKey implements StructClass { __StructClass = true 
 
 /* ============================== ProofPoints =============================== */
 
-export function isProofPoints(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::groth16::ProofPoints`; }
+export function isProofPoints(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::groth16::ProofPoints`; }
 
 export interface ProofPointsFields { bytes: ToField<Vector<"u8">> }
 
@@ -153,17 +153,17 @@ export type ProofPointsReified = Reified< ProofPoints, ProofPointsFields >;
 
 export class ProofPoints implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::groth16::ProofPoints`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::groth16::ProofPoints`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = ProofPoints.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::groth16::ProofPoints`; readonly $typeArgs: []; readonly $isPhantom = ProofPoints.$isPhantom;
+ readonly $typeName = ProofPoints.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::groth16::ProofPoints`; readonly $typeArgs: []; readonly $isPhantom = ProofPoints.$isPhantom;
 
  readonly bytes: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: ProofPointsFields, ) { this.$fullTypeName = composeSuiType( ProofPoints.$typeName, ...typeArgs ) as `${typeof PKG_V22}::groth16::ProofPoints`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ProofPointsFields, ) { this.$fullTypeName = composeSuiType( ProofPoints.$typeName, ...typeArgs ) as `${typeof PKG_V25}::groth16::ProofPoints`; this.$typeArgs = typeArgs;
 
  this.bytes = fields.bytes; }
 
- static reified( ): ProofPointsReified { return { typeName: ProofPoints.$typeName, fullTypeName: composeSuiType( ProofPoints.$typeName, ...[] ) as `${typeof PKG_V22}::groth16::ProofPoints`, typeArgs: [ ] as [], isPhantom: ProofPoints.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ProofPoints.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ProofPoints.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ProofPoints.fromBcs( data, ), bcs: ProofPoints.bcs, fromJSONField: (field: any) => ProofPoints.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ProofPoints.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ProofPoints.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ProofPoints.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ProofPoints.fetch( client, id, ), new: ( fields: ProofPointsFields, ) => { return new ProofPoints( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ProofPointsReified { return { typeName: ProofPoints.$typeName, fullTypeName: composeSuiType( ProofPoints.$typeName, ...[] ) as `${typeof PKG_V25}::groth16::ProofPoints`, typeArgs: [ ] as [], isPhantom: ProofPoints.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ProofPoints.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ProofPoints.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ProofPoints.fromBcs( data, ), bcs: ProofPoints.bcs, fromJSONField: (field: any) => ProofPoints.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ProofPoints.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ProofPoints.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ProofPoints.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ProofPoints.fetch( client, id, ), new: ( fields: ProofPointsFields, ) => { return new ProofPoints( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return ProofPoints.reified() }
 
@@ -213,7 +213,7 @@ export class ProofPoints implements StructClass { __StructClass = true as const;
 
 /* ============================== PublicProofInputs =============================== */
 
-export function isPublicProofInputs(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::groth16::PublicProofInputs`; }
+export function isPublicProofInputs(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::groth16::PublicProofInputs`; }
 
 export interface PublicProofInputsFields { bytes: ToField<Vector<"u8">> }
 
@@ -221,17 +221,17 @@ export type PublicProofInputsReified = Reified< PublicProofInputs, PublicProofIn
 
 export class PublicProofInputs implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::groth16::PublicProofInputs`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::groth16::PublicProofInputs`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = PublicProofInputs.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::groth16::PublicProofInputs`; readonly $typeArgs: []; readonly $isPhantom = PublicProofInputs.$isPhantom;
+ readonly $typeName = PublicProofInputs.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::groth16::PublicProofInputs`; readonly $typeArgs: []; readonly $isPhantom = PublicProofInputs.$isPhantom;
 
  readonly bytes: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: PublicProofInputsFields, ) { this.$fullTypeName = composeSuiType( PublicProofInputs.$typeName, ...typeArgs ) as `${typeof PKG_V22}::groth16::PublicProofInputs`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: PublicProofInputsFields, ) { this.$fullTypeName = composeSuiType( PublicProofInputs.$typeName, ...typeArgs ) as `${typeof PKG_V25}::groth16::PublicProofInputs`; this.$typeArgs = typeArgs;
 
  this.bytes = fields.bytes; }
 
- static reified( ): PublicProofInputsReified { return { typeName: PublicProofInputs.$typeName, fullTypeName: composeSuiType( PublicProofInputs.$typeName, ...[] ) as `${typeof PKG_V22}::groth16::PublicProofInputs`, typeArgs: [ ] as [], isPhantom: PublicProofInputs.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PublicProofInputs.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PublicProofInputs.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PublicProofInputs.fromBcs( data, ), bcs: PublicProofInputs.bcs, fromJSONField: (field: any) => PublicProofInputs.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PublicProofInputs.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PublicProofInputs.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PublicProofInputs.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PublicProofInputs.fetch( client, id, ), new: ( fields: PublicProofInputsFields, ) => { return new PublicProofInputs( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): PublicProofInputsReified { return { typeName: PublicProofInputs.$typeName, fullTypeName: composeSuiType( PublicProofInputs.$typeName, ...[] ) as `${typeof PKG_V25}::groth16::PublicProofInputs`, typeArgs: [ ] as [], isPhantom: PublicProofInputs.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PublicProofInputs.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PublicProofInputs.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PublicProofInputs.fromBcs( data, ), bcs: PublicProofInputs.bcs, fromJSONField: (field: any) => PublicProofInputs.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PublicProofInputs.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PublicProofInputs.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PublicProofInputs.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PublicProofInputs.fetch( client, id, ), new: ( fields: PublicProofInputsFields, ) => { return new PublicProofInputs( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return PublicProofInputs.reified() }
 

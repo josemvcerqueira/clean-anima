@@ -1,6 +1,6 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {ID, UID} from "../object/structs";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -8,7 +8,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== VersionChangeCap =============================== */
 
-export function isVersionChangeCap(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::versioned::VersionChangeCap`; }
+export function isVersionChangeCap(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::versioned::VersionChangeCap`; }
 
 export interface VersionChangeCapFields { versionedId: ToField<ID>; oldVersion: ToField<"u64"> }
 
@@ -16,17 +16,17 @@ export type VersionChangeCapReified = Reified< VersionChangeCap, VersionChangeCa
 
 export class VersionChangeCap implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::versioned::VersionChangeCap`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::versioned::VersionChangeCap`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = VersionChangeCap.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::versioned::VersionChangeCap`; readonly $typeArgs: []; readonly $isPhantom = VersionChangeCap.$isPhantom;
+ readonly $typeName = VersionChangeCap.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::versioned::VersionChangeCap`; readonly $typeArgs: []; readonly $isPhantom = VersionChangeCap.$isPhantom;
 
  readonly versionedId: ToField<ID>; readonly oldVersion: ToField<"u64">
 
- private constructor(typeArgs: [], fields: VersionChangeCapFields, ) { this.$fullTypeName = composeSuiType( VersionChangeCap.$typeName, ...typeArgs ) as `${typeof PKG_V22}::versioned::VersionChangeCap`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: VersionChangeCapFields, ) { this.$fullTypeName = composeSuiType( VersionChangeCap.$typeName, ...typeArgs ) as `${typeof PKG_V25}::versioned::VersionChangeCap`; this.$typeArgs = typeArgs;
 
  this.versionedId = fields.versionedId;; this.oldVersion = fields.oldVersion; }
 
- static reified( ): VersionChangeCapReified { return { typeName: VersionChangeCap.$typeName, fullTypeName: composeSuiType( VersionChangeCap.$typeName, ...[] ) as `${typeof PKG_V22}::versioned::VersionChangeCap`, typeArgs: [ ] as [], isPhantom: VersionChangeCap.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => VersionChangeCap.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VersionChangeCap.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => VersionChangeCap.fromBcs( data, ), bcs: VersionChangeCap.bcs, fromJSONField: (field: any) => VersionChangeCap.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => VersionChangeCap.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => VersionChangeCap.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => VersionChangeCap.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => VersionChangeCap.fetch( client, id, ), new: ( fields: VersionChangeCapFields, ) => { return new VersionChangeCap( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): VersionChangeCapReified { return { typeName: VersionChangeCap.$typeName, fullTypeName: composeSuiType( VersionChangeCap.$typeName, ...[] ) as `${typeof PKG_V25}::versioned::VersionChangeCap`, typeArgs: [ ] as [], isPhantom: VersionChangeCap.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => VersionChangeCap.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => VersionChangeCap.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => VersionChangeCap.fromBcs( data, ), bcs: VersionChangeCap.bcs, fromJSONField: (field: any) => VersionChangeCap.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => VersionChangeCap.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => VersionChangeCap.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => VersionChangeCap.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => VersionChangeCap.fetch( client, id, ), new: ( fields: VersionChangeCapFields, ) => { return new VersionChangeCap( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return VersionChangeCap.reified() }
 
@@ -76,7 +76,7 @@ export class VersionChangeCap implements StructClass { __StructClass = true as c
 
 /* ============================== Versioned =============================== */
 
-export function isVersioned(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::versioned::Versioned`; }
+export function isVersioned(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::versioned::Versioned`; }
 
 export interface VersionedFields { id: ToField<UID>; version: ToField<"u64"> }
 
@@ -84,17 +84,17 @@ export type VersionedReified = Reified< Versioned, VersionedFields >;
 
 export class Versioned implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::versioned::Versioned`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::versioned::Versioned`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = Versioned.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::versioned::Versioned`; readonly $typeArgs: []; readonly $isPhantom = Versioned.$isPhantom;
+ readonly $typeName = Versioned.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::versioned::Versioned`; readonly $typeArgs: []; readonly $isPhantom = Versioned.$isPhantom;
 
  readonly id: ToField<UID>; readonly version: ToField<"u64">
 
- private constructor(typeArgs: [], fields: VersionedFields, ) { this.$fullTypeName = composeSuiType( Versioned.$typeName, ...typeArgs ) as `${typeof PKG_V22}::versioned::Versioned`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: VersionedFields, ) { this.$fullTypeName = composeSuiType( Versioned.$typeName, ...typeArgs ) as `${typeof PKG_V25}::versioned::Versioned`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.version = fields.version; }
 
- static reified( ): VersionedReified { return { typeName: Versioned.$typeName, fullTypeName: composeSuiType( Versioned.$typeName, ...[] ) as `${typeof PKG_V22}::versioned::Versioned`, typeArgs: [ ] as [], isPhantom: Versioned.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Versioned.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Versioned.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Versioned.fromBcs( data, ), bcs: Versioned.bcs, fromJSONField: (field: any) => Versioned.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Versioned.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Versioned.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Versioned.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Versioned.fetch( client, id, ), new: ( fields: VersionedFields, ) => { return new Versioned( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): VersionedReified { return { typeName: Versioned.$typeName, fullTypeName: composeSuiType( Versioned.$typeName, ...[] ) as `${typeof PKG_V25}::versioned::Versioned`, typeArgs: [ ] as [], isPhantom: Versioned.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Versioned.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Versioned.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Versioned.fromBcs( data, ), bcs: Versioned.bcs, fromJSONField: (field: any) => Versioned.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Versioned.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Versioned.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Versioned.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Versioned.fetch( client, id, ), new: ( fields: VersionedFields, ) => { return new Versioned( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Versioned.reified() }
 

@@ -1,14 +1,14 @@
 [
   {
-    "type": "package_id",
-    "id": "0x08c9dfd49291e31fb48885dcd1624dd3c0e6d8399bac576859c858fb0fd264b6"
+    "type": "account::System",
+    "id": "0x01147f6020b87293bdddcc761298bff70f012811f55ed5cf0116e955a2c37c21"
   },
   {
-    "type": "account::System",
-    "id": "0x22bb9f37ce64a2ac688ae0748fcf36c799d084ae03ad3c1fe31ea0cb7270ca06"
+    "type": "package_id",
+    "id": "0x41e1771682029b727adeded87f54be24e86b96fb122290be88fd41135644fac6"
   },
   {
     "type": "package::UpgradeCap",
-    "id": "0xb27b846da3a7c1b38bac791c92f0765592a18e5aa797afede900c3423649f057"
+    "id": "0x668d80979ac526374c7a066797a9fdf70418d9555b6167ce60e152e74c6b4213"
   }
 ]

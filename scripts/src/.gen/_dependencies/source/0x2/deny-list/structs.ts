@@ -3,7 +3,7 @@ import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFiel
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {Vector} from "../../../../_framework/vector";
 import {Bag} from "../bag/structs";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {ID, UID} from "../object/structs";
 import {Table} from "../table/structs";
 import {VecSet} from "../vec-set/structs";
@@ -13,7 +13,7 @@ import {fromB64, fromHEX, toHEX} from "@mysten/sui/utils";
 
 /* ============================== AddressKey =============================== */
 
-export function isAddressKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::AddressKey`; }
+export function isAddressKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::AddressKey`; }
 
 export interface AddressKeyFields { pos0: ToField<"address"> }
 
@@ -21,17 +21,17 @@ export type AddressKeyReified = Reified< AddressKey, AddressKeyFields >;
 
 export class AddressKey implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::AddressKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::AddressKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = AddressKey.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::AddressKey`; readonly $typeArgs: []; readonly $isPhantom = AddressKey.$isPhantom;
+ readonly $typeName = AddressKey.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::AddressKey`; readonly $typeArgs: []; readonly $isPhantom = AddressKey.$isPhantom;
 
  readonly pos0: ToField<"address">
 
- private constructor(typeArgs: [], fields: AddressKeyFields, ) { this.$fullTypeName = composeSuiType( AddressKey.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::AddressKey`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: AddressKeyFields, ) { this.$fullTypeName = composeSuiType( AddressKey.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::AddressKey`; this.$typeArgs = typeArgs;
 
  this.pos0 = fields.pos0; }
 
- static reified( ): AddressKeyReified { return { typeName: AddressKey.$typeName, fullTypeName: composeSuiType( AddressKey.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::AddressKey`, typeArgs: [ ] as [], isPhantom: AddressKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => AddressKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => AddressKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => AddressKey.fromBcs( data, ), bcs: AddressKey.bcs, fromJSONField: (field: any) => AddressKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => AddressKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => AddressKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => AddressKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => AddressKey.fetch( client, id, ), new: ( fields: AddressKeyFields, ) => { return new AddressKey( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): AddressKeyReified { return { typeName: AddressKey.$typeName, fullTypeName: composeSuiType( AddressKey.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::AddressKey`, typeArgs: [ ] as [], isPhantom: AddressKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => AddressKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => AddressKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => AddressKey.fromBcs( data, ), bcs: AddressKey.bcs, fromJSONField: (field: any) => AddressKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => AddressKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => AddressKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => AddressKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => AddressKey.fetch( client, id, ), new: ( fields: AddressKeyFields, ) => { return new AddressKey( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return AddressKey.reified() }
 
@@ -81,7 +81,7 @@ export class AddressKey implements StructClass { __StructClass = true as const;
 
 /* ============================== ConfigKey =============================== */
 
-export function isConfigKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::ConfigKey`; }
+export function isConfigKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::ConfigKey`; }
 
 export interface ConfigKeyFields { perTypeIndex: ToField<"u64">; perTypeKey: ToField<Vector<"u8">> }
 
@@ -89,17 +89,17 @@ export type ConfigKeyReified = Reified< ConfigKey, ConfigKeyFields >;
 
 export class ConfigKey implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::ConfigKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::ConfigKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = ConfigKey.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::ConfigKey`; readonly $typeArgs: []; readonly $isPhantom = ConfigKey.$isPhantom;
+ readonly $typeName = ConfigKey.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::ConfigKey`; readonly $typeArgs: []; readonly $isPhantom = ConfigKey.$isPhantom;
 
  readonly perTypeIndex: ToField<"u64">; readonly perTypeKey: ToField<Vector<"u8">>
 
- private constructor(typeArgs: [], fields: ConfigKeyFields, ) { this.$fullTypeName = composeSuiType( ConfigKey.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::ConfigKey`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ConfigKeyFields, ) { this.$fullTypeName = composeSuiType( ConfigKey.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::ConfigKey`; this.$typeArgs = typeArgs;
 
  this.perTypeIndex = fields.perTypeIndex;; this.perTypeKey = fields.perTypeKey; }
 
- static reified( ): ConfigKeyReified { return { typeName: ConfigKey.$typeName, fullTypeName: composeSuiType( ConfigKey.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::ConfigKey`, typeArgs: [ ] as [], isPhantom: ConfigKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ConfigKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ConfigKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ConfigKey.fromBcs( data, ), bcs: ConfigKey.bcs, fromJSONField: (field: any) => ConfigKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ConfigKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ConfigKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ConfigKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ConfigKey.fetch( client, id, ), new: ( fields: ConfigKeyFields, ) => { return new ConfigKey( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ConfigKeyReified { return { typeName: ConfigKey.$typeName, fullTypeName: composeSuiType( ConfigKey.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::ConfigKey`, typeArgs: [ ] as [], isPhantom: ConfigKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ConfigKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ConfigKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ConfigKey.fromBcs( data, ), bcs: ConfigKey.bcs, fromJSONField: (field: any) => ConfigKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ConfigKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ConfigKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ConfigKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ConfigKey.fetch( client, id, ), new: ( fields: ConfigKeyFields, ) => { return new ConfigKey( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return ConfigKey.reified() }
 
@@ -149,7 +149,7 @@ export class ConfigKey implements StructClass { __StructClass = true as const;
 
 /* ============================== ConfigWriteCap =============================== */
 
-export function isConfigWriteCap(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::ConfigWriteCap`; }
+export function isConfigWriteCap(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::ConfigWriteCap`; }
 
 export interface ConfigWriteCapFields { dummyField: ToField<"bool"> }
 
@@ -157,17 +157,17 @@ export type ConfigWriteCapReified = Reified< ConfigWriteCap, ConfigWriteCapField
 
 export class ConfigWriteCap implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::ConfigWriteCap`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::ConfigWriteCap`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = ConfigWriteCap.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::ConfigWriteCap`; readonly $typeArgs: []; readonly $isPhantom = ConfigWriteCap.$isPhantom;
+ readonly $typeName = ConfigWriteCap.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::ConfigWriteCap`; readonly $typeArgs: []; readonly $isPhantom = ConfigWriteCap.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: ConfigWriteCapFields, ) { this.$fullTypeName = composeSuiType( ConfigWriteCap.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::ConfigWriteCap`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: ConfigWriteCapFields, ) { this.$fullTypeName = composeSuiType( ConfigWriteCap.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::ConfigWriteCap`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): ConfigWriteCapReified { return { typeName: ConfigWriteCap.$typeName, fullTypeName: composeSuiType( ConfigWriteCap.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::ConfigWriteCap`, typeArgs: [ ] as [], isPhantom: ConfigWriteCap.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ConfigWriteCap.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ConfigWriteCap.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ConfigWriteCap.fromBcs( data, ), bcs: ConfigWriteCap.bcs, fromJSONField: (field: any) => ConfigWriteCap.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ConfigWriteCap.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ConfigWriteCap.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ConfigWriteCap.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ConfigWriteCap.fetch( client, id, ), new: ( fields: ConfigWriteCapFields, ) => { return new ConfigWriteCap( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ConfigWriteCapReified { return { typeName: ConfigWriteCap.$typeName, fullTypeName: composeSuiType( ConfigWriteCap.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::ConfigWriteCap`, typeArgs: [ ] as [], isPhantom: ConfigWriteCap.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ConfigWriteCap.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ConfigWriteCap.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ConfigWriteCap.fromBcs( data, ), bcs: ConfigWriteCap.bcs, fromJSONField: (field: any) => ConfigWriteCap.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ConfigWriteCap.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ConfigWriteCap.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ConfigWriteCap.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ConfigWriteCap.fetch( client, id, ), new: ( fields: ConfigWriteCapFields, ) => { return new ConfigWriteCap( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return ConfigWriteCap.reified() }
 
@@ -217,7 +217,7 @@ export class ConfigWriteCap implements StructClass { __StructClass = true as con
 
 /* ============================== DenyList =============================== */
 
-export function isDenyList(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::DenyList`; }
+export function isDenyList(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::DenyList`; }
 
 export interface DenyListFields { id: ToField<UID>; lists: ToField<Bag> }
 
@@ -225,17 +225,17 @@ export type DenyListReified = Reified< DenyList, DenyListFields >;
 
 export class DenyList implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::DenyList`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::DenyList`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = DenyList.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::DenyList`; readonly $typeArgs: []; readonly $isPhantom = DenyList.$isPhantom;
+ readonly $typeName = DenyList.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::DenyList`; readonly $typeArgs: []; readonly $isPhantom = DenyList.$isPhantom;
 
  readonly id: ToField<UID>; readonly lists: ToField<Bag>
 
- private constructor(typeArgs: [], fields: DenyListFields, ) { this.$fullTypeName = composeSuiType( DenyList.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::DenyList`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: DenyListFields, ) { this.$fullTypeName = composeSuiType( DenyList.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::DenyList`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.lists = fields.lists; }
 
- static reified( ): DenyListReified { return { typeName: DenyList.$typeName, fullTypeName: composeSuiType( DenyList.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::DenyList`, typeArgs: [ ] as [], isPhantom: DenyList.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => DenyList.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => DenyList.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => DenyList.fromBcs( data, ), bcs: DenyList.bcs, fromJSONField: (field: any) => DenyList.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => DenyList.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => DenyList.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => DenyList.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => DenyList.fetch( client, id, ), new: ( fields: DenyListFields, ) => { return new DenyList( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): DenyListReified { return { typeName: DenyList.$typeName, fullTypeName: composeSuiType( DenyList.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::DenyList`, typeArgs: [ ] as [], isPhantom: DenyList.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => DenyList.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => DenyList.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => DenyList.fromBcs( data, ), bcs: DenyList.bcs, fromJSONField: (field: any) => DenyList.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => DenyList.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => DenyList.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => DenyList.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => DenyList.fetch( client, id, ), new: ( fields: DenyListFields, ) => { return new DenyList( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return DenyList.reified() }
 
@@ -285,7 +285,7 @@ export class DenyList implements StructClass { __StructClass = true as const;
 
 /* ============================== GlobalPauseKey =============================== */
 
-export function isGlobalPauseKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::GlobalPauseKey`; }
+export function isGlobalPauseKey(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::GlobalPauseKey`; }
 
 export interface GlobalPauseKeyFields { dummyField: ToField<"bool"> }
 
@@ -293,17 +293,17 @@ export type GlobalPauseKeyReified = Reified< GlobalPauseKey, GlobalPauseKeyField
 
 export class GlobalPauseKey implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::GlobalPauseKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::GlobalPauseKey`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = GlobalPauseKey.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::GlobalPauseKey`; readonly $typeArgs: []; readonly $isPhantom = GlobalPauseKey.$isPhantom;
+ readonly $typeName = GlobalPauseKey.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::GlobalPauseKey`; readonly $typeArgs: []; readonly $isPhantom = GlobalPauseKey.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
- private constructor(typeArgs: [], fields: GlobalPauseKeyFields, ) { this.$fullTypeName = composeSuiType( GlobalPauseKey.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::GlobalPauseKey`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: GlobalPauseKeyFields, ) { this.$fullTypeName = composeSuiType( GlobalPauseKey.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::GlobalPauseKey`; this.$typeArgs = typeArgs;
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): GlobalPauseKeyReified { return { typeName: GlobalPauseKey.$typeName, fullTypeName: composeSuiType( GlobalPauseKey.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::GlobalPauseKey`, typeArgs: [ ] as [], isPhantom: GlobalPauseKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => GlobalPauseKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => GlobalPauseKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => GlobalPauseKey.fromBcs( data, ), bcs: GlobalPauseKey.bcs, fromJSONField: (field: any) => GlobalPauseKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => GlobalPauseKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => GlobalPauseKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => GlobalPauseKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => GlobalPauseKey.fetch( client, id, ), new: ( fields: GlobalPauseKeyFields, ) => { return new GlobalPauseKey( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): GlobalPauseKeyReified { return { typeName: GlobalPauseKey.$typeName, fullTypeName: composeSuiType( GlobalPauseKey.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::GlobalPauseKey`, typeArgs: [ ] as [], isPhantom: GlobalPauseKey.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => GlobalPauseKey.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => GlobalPauseKey.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => GlobalPauseKey.fromBcs( data, ), bcs: GlobalPauseKey.bcs, fromJSONField: (field: any) => GlobalPauseKey.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => GlobalPauseKey.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => GlobalPauseKey.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => GlobalPauseKey.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => GlobalPauseKey.fetch( client, id, ), new: ( fields: GlobalPauseKeyFields, ) => { return new GlobalPauseKey( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return GlobalPauseKey.reified() }
 
@@ -353,7 +353,7 @@ export class GlobalPauseKey implements StructClass { __StructClass = true as con
 
 /* ============================== PerTypeConfigCreated =============================== */
 
-export function isPerTypeConfigCreated(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::PerTypeConfigCreated`; }
+export function isPerTypeConfigCreated(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::PerTypeConfigCreated`; }
 
 export interface PerTypeConfigCreatedFields { key: ToField<ConfigKey>; configId: ToField<ID> }
 
@@ -361,17 +361,17 @@ export type PerTypeConfigCreatedReified = Reified< PerTypeConfigCreated, PerType
 
 export class PerTypeConfigCreated implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::PerTypeConfigCreated`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::PerTypeConfigCreated`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = PerTypeConfigCreated.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::PerTypeConfigCreated`; readonly $typeArgs: []; readonly $isPhantom = PerTypeConfigCreated.$isPhantom;
+ readonly $typeName = PerTypeConfigCreated.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::PerTypeConfigCreated`; readonly $typeArgs: []; readonly $isPhantom = PerTypeConfigCreated.$isPhantom;
 
  readonly key: ToField<ConfigKey>; readonly configId: ToField<ID>
 
- private constructor(typeArgs: [], fields: PerTypeConfigCreatedFields, ) { this.$fullTypeName = composeSuiType( PerTypeConfigCreated.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::PerTypeConfigCreated`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: PerTypeConfigCreatedFields, ) { this.$fullTypeName = composeSuiType( PerTypeConfigCreated.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::PerTypeConfigCreated`; this.$typeArgs = typeArgs;
 
  this.key = fields.key;; this.configId = fields.configId; }
 
- static reified( ): PerTypeConfigCreatedReified { return { typeName: PerTypeConfigCreated.$typeName, fullTypeName: composeSuiType( PerTypeConfigCreated.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::PerTypeConfigCreated`, typeArgs: [ ] as [], isPhantom: PerTypeConfigCreated.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PerTypeConfigCreated.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PerTypeConfigCreated.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PerTypeConfigCreated.fromBcs( data, ), bcs: PerTypeConfigCreated.bcs, fromJSONField: (field: any) => PerTypeConfigCreated.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PerTypeConfigCreated.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PerTypeConfigCreated.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PerTypeConfigCreated.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PerTypeConfigCreated.fetch( client, id, ), new: ( fields: PerTypeConfigCreatedFields, ) => { return new PerTypeConfigCreated( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): PerTypeConfigCreatedReified { return { typeName: PerTypeConfigCreated.$typeName, fullTypeName: composeSuiType( PerTypeConfigCreated.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::PerTypeConfigCreated`, typeArgs: [ ] as [], isPhantom: PerTypeConfigCreated.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PerTypeConfigCreated.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PerTypeConfigCreated.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PerTypeConfigCreated.fromBcs( data, ), bcs: PerTypeConfigCreated.bcs, fromJSONField: (field: any) => PerTypeConfigCreated.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PerTypeConfigCreated.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PerTypeConfigCreated.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PerTypeConfigCreated.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PerTypeConfigCreated.fetch( client, id, ), new: ( fields: PerTypeConfigCreatedFields, ) => { return new PerTypeConfigCreated( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return PerTypeConfigCreated.reified() }
 
@@ -421,7 +421,7 @@ export class PerTypeConfigCreated implements StructClass { __StructClass = true 
 
 /* ============================== PerTypeList =============================== */
 
-export function isPerTypeList(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::deny_list::PerTypeList`; }
+export function isPerTypeList(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V25}::deny_list::PerTypeList`; }
 
 export interface PerTypeListFields { id: ToField<UID>; deniedCount: ToField<Table<"address", "u64">>; deniedAddresses: ToField<Table<ToPhantom<Vector<"u8">>, ToPhantom<VecSet<"address">>>> }
 
@@ -429,17 +429,17 @@ export type PerTypeListReified = Reified< PerTypeList, PerTypeListFields >;
 
 export class PerTypeList implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::deny_list::PerTypeList`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+ static readonly $typeName = `${PKG_V25}::deny_list::PerTypeList`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $typeName = PerTypeList.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::deny_list::PerTypeList`; readonly $typeArgs: []; readonly $isPhantom = PerTypeList.$isPhantom;
+ readonly $typeName = PerTypeList.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::deny_list::PerTypeList`; readonly $typeArgs: []; readonly $isPhantom = PerTypeList.$isPhantom;
 
  readonly id: ToField<UID>; readonly deniedCount: ToField<Table<"address", "u64">>; readonly deniedAddresses: ToField<Table<ToPhantom<Vector<"u8">>, ToPhantom<VecSet<"address">>>>
 
- private constructor(typeArgs: [], fields: PerTypeListFields, ) { this.$fullTypeName = composeSuiType( PerTypeList.$typeName, ...typeArgs ) as `${typeof PKG_V22}::deny_list::PerTypeList`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: PerTypeListFields, ) { this.$fullTypeName = composeSuiType( PerTypeList.$typeName, ...typeArgs ) as `${typeof PKG_V25}::deny_list::PerTypeList`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.deniedCount = fields.deniedCount;; this.deniedAddresses = fields.deniedAddresses; }
 
- static reified( ): PerTypeListReified { return { typeName: PerTypeList.$typeName, fullTypeName: composeSuiType( PerTypeList.$typeName, ...[] ) as `${typeof PKG_V22}::deny_list::PerTypeList`, typeArgs: [ ] as [], isPhantom: PerTypeList.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PerTypeList.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PerTypeList.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PerTypeList.fromBcs( data, ), bcs: PerTypeList.bcs, fromJSONField: (field: any) => PerTypeList.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PerTypeList.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PerTypeList.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PerTypeList.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PerTypeList.fetch( client, id, ), new: ( fields: PerTypeListFields, ) => { return new PerTypeList( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): PerTypeListReified { return { typeName: PerTypeList.$typeName, fullTypeName: composeSuiType( PerTypeList.$typeName, ...[] ) as `${typeof PKG_V25}::deny_list::PerTypeList`, typeArgs: [ ] as [], isPhantom: PerTypeList.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PerTypeList.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PerTypeList.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PerTypeList.fromBcs( data, ), bcs: PerTypeList.bcs, fromJSONField: (field: any) => PerTypeList.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PerTypeList.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PerTypeList.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PerTypeList.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PerTypeList.fetch( client, id, ), new: ( fields: PerTypeListFields, ) => { return new PerTypeList( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return PerTypeList.reified() }
 

@@ -2,14 +2,14 @@ import * as reified from "../../../../_framework/reified";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
 import {Vector} from "../../../../_framework/vector";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {BcsType, bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
 import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Entry =============================== */
 
-export function isEntry(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::priority_queue::Entry` + '<'); }
+export function isEntry(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::priority_queue::Entry` + '<'); }
 
 export interface EntryFields<T extends TypeArgument> { priority: ToField<"u64">; value: ToField<T> }
 
@@ -17,17 +17,17 @@ export type EntryReified<T extends TypeArgument> = Reified< Entry<T>, EntryField
 
 export class Entry<T extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::priority_queue::Entry`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
+ static readonly $typeName = `${PKG_V25}::priority_queue::Entry`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $typeName = Entry.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::priority_queue::Entry<${ToTypeStr<T>}>`; readonly $typeArgs: [ToTypeStr<T>]; readonly $isPhantom = Entry.$isPhantom;
+ readonly $typeName = Entry.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::priority_queue::Entry<${ToTypeStr<T>}>`; readonly $typeArgs: [ToTypeStr<T>]; readonly $isPhantom = Entry.$isPhantom;
 
  readonly priority: ToField<"u64">; readonly value: ToField<T>
 
- private constructor(typeArgs: [ToTypeStr<T>], fields: EntryFields<T>, ) { this.$fullTypeName = composeSuiType( Entry.$typeName, ...typeArgs ) as `${typeof PKG_V22}::priority_queue::Entry<${ToTypeStr<T>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<T>], fields: EntryFields<T>, ) { this.$fullTypeName = composeSuiType( Entry.$typeName, ...typeArgs ) as `${typeof PKG_V25}::priority_queue::Entry<${ToTypeStr<T>}>`; this.$typeArgs = typeArgs;
 
  this.priority = fields.priority;; this.value = fields.value; }
 
- static reified<T extends Reified<TypeArgument, any>>( T: T ): EntryReified<ToTypeArgument<T>> { return { typeName: Entry.$typeName, fullTypeName: composeSuiType( Entry.$typeName, ...[extractType(T)] ) as `${typeof PKG_V22}::priority_queue::Entry<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], isPhantom: Entry.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Entry.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Entry.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Entry.fromBcs( T, data, ), bcs: Entry.bcs(toBcs(T)), fromJSONField: (field: any) => Entry.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Entry.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Entry.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => Entry.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => Entry.fetch( client, T, id, ), new: ( fields: EntryFields<ToTypeArgument<T>>, ) => { return new Entry( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends Reified<TypeArgument, any>>( T: T ): EntryReified<ToTypeArgument<T>> { return { typeName: Entry.$typeName, fullTypeName: composeSuiType( Entry.$typeName, ...[extractType(T)] ) as `${typeof PKG_V25}::priority_queue::Entry<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], isPhantom: Entry.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Entry.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Entry.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Entry.fromBcs( T, data, ), bcs: Entry.bcs(toBcs(T)), fromJSONField: (field: any) => Entry.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Entry.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Entry.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => Entry.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => Entry.fetch( client, T, id, ), new: ( fields: EntryFields<ToTypeArgument<T>>, ) => { return new Entry( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Entry.reified }
 
@@ -81,7 +81,7 @@ export class Entry<T extends TypeArgument> implements StructClass { __StructClas
 
 /* ============================== PriorityQueue =============================== */
 
-export function isPriorityQueue(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::priority_queue::PriorityQueue` + '<'); }
+export function isPriorityQueue(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::priority_queue::PriorityQueue` + '<'); }
 
 export interface PriorityQueueFields<T extends TypeArgument> { entries: ToField<Vector<Entry<T>>> }
 
@@ -89,17 +89,17 @@ export type PriorityQueueReified<T extends TypeArgument> = Reified< PriorityQueu
 
 export class PriorityQueue<T extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::priority_queue::PriorityQueue`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
+ static readonly $typeName = `${PKG_V25}::priority_queue::PriorityQueue`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $typeName = PriorityQueue.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::priority_queue::PriorityQueue<${ToTypeStr<T>}>`; readonly $typeArgs: [ToTypeStr<T>]; readonly $isPhantom = PriorityQueue.$isPhantom;
+ readonly $typeName = PriorityQueue.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::priority_queue::PriorityQueue<${ToTypeStr<T>}>`; readonly $typeArgs: [ToTypeStr<T>]; readonly $isPhantom = PriorityQueue.$isPhantom;
 
  readonly entries: ToField<Vector<Entry<T>>>
 
- private constructor(typeArgs: [ToTypeStr<T>], fields: PriorityQueueFields<T>, ) { this.$fullTypeName = composeSuiType( PriorityQueue.$typeName, ...typeArgs ) as `${typeof PKG_V22}::priority_queue::PriorityQueue<${ToTypeStr<T>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<T>], fields: PriorityQueueFields<T>, ) { this.$fullTypeName = composeSuiType( PriorityQueue.$typeName, ...typeArgs ) as `${typeof PKG_V25}::priority_queue::PriorityQueue<${ToTypeStr<T>}>`; this.$typeArgs = typeArgs;
 
  this.entries = fields.entries; }
 
- static reified<T extends Reified<TypeArgument, any>>( T: T ): PriorityQueueReified<ToTypeArgument<T>> { return { typeName: PriorityQueue.$typeName, fullTypeName: composeSuiType( PriorityQueue.$typeName, ...[extractType(T)] ) as `${typeof PKG_V22}::priority_queue::PriorityQueue<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], isPhantom: PriorityQueue.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => PriorityQueue.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PriorityQueue.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => PriorityQueue.fromBcs( T, data, ), bcs: PriorityQueue.bcs(toBcs(T)), fromJSONField: (field: any) => PriorityQueue.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => PriorityQueue.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => PriorityQueue.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => PriorityQueue.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => PriorityQueue.fetch( client, T, id, ), new: ( fields: PriorityQueueFields<ToTypeArgument<T>>, ) => { return new PriorityQueue( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends Reified<TypeArgument, any>>( T: T ): PriorityQueueReified<ToTypeArgument<T>> { return { typeName: PriorityQueue.$typeName, fullTypeName: composeSuiType( PriorityQueue.$typeName, ...[extractType(T)] ) as `${typeof PKG_V25}::priority_queue::PriorityQueue<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], isPhantom: PriorityQueue.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => PriorityQueue.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PriorityQueue.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => PriorityQueue.fromBcs( T, data, ), bcs: PriorityQueue.bcs(toBcs(T)), fromJSONField: (field: any) => PriorityQueue.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => PriorityQueue.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => PriorityQueue.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => PriorityQueue.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => PriorityQueue.fetch( client, T, id, ), new: ( fields: PriorityQueueFields<ToTypeArgument<T>>, ) => { return new PriorityQueue( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return PriorityQueue.reified }
 

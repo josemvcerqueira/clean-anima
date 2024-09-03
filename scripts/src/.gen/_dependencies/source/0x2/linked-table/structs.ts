@@ -1,7 +1,7 @@
 import {PhantomReified, PhantomToTypeStr, PhantomTypeArgument, Reified, StructClass, ToField, ToPhantomTypeArgument, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
 import {Option} from "../../0x1/option/structs";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {UID} from "../object/structs";
 import {BcsType, bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -9,7 +9,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== LinkedTable =============================== */
 
-export function isLinkedTable(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::linked_table::LinkedTable` + '<'); }
+export function isLinkedTable(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::linked_table::LinkedTable` + '<'); }
 
 export interface LinkedTableFields<K extends TypeArgument, V extends PhantomTypeArgument> { id: ToField<UID>; size: ToField<"u64">; head: ToField<Option<K>>; tail: ToField<Option<K>> }
 
@@ -17,17 +17,17 @@ export type LinkedTableReified<K extends TypeArgument, V extends PhantomTypeArgu
 
 export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::linked_table::LinkedTable`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,true,] as const;
+ static readonly $typeName = `${PKG_V25}::linked_table::LinkedTable`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,true,] as const;
 
- readonly $typeName = LinkedTable.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::linked_table::LinkedTable<${ToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, PhantomToTypeStr<V>]; readonly $isPhantom = LinkedTable.$isPhantom;
+ readonly $typeName = LinkedTable.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::linked_table::LinkedTable<${ToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, PhantomToTypeStr<V>]; readonly $isPhantom = LinkedTable.$isPhantom;
 
  readonly id: ToField<UID>; readonly size: ToField<"u64">; readonly head: ToField<Option<K>>; readonly tail: ToField<Option<K>>
 
- private constructor(typeArgs: [ToTypeStr<K>, PhantomToTypeStr<V>], fields: LinkedTableFields<K, V>, ) { this.$fullTypeName = composeSuiType( LinkedTable.$typeName, ...typeArgs ) as `${typeof PKG_V22}::linked_table::LinkedTable<${ToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<K>, PhantomToTypeStr<V>], fields: LinkedTableFields<K, V>, ) { this.$fullTypeName = composeSuiType( LinkedTable.$typeName, ...typeArgs ) as `${typeof PKG_V25}::linked_table::LinkedTable<${ToTypeStr<K>}, ${PhantomToTypeStr<V>}>`; this.$typeArgs = typeArgs;
 
  this.id = fields.id;; this.size = fields.size;; this.head = fields.head;; this.tail = fields.tail; }
 
- static reified<K extends Reified<TypeArgument, any>, V extends PhantomReified<PhantomTypeArgument>>( K: K, V: V ): LinkedTableReified<ToTypeArgument<K>, ToPhantomTypeArgument<V>> { return { typeName: LinkedTable.$typeName, fullTypeName: composeSuiType( LinkedTable.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V22}::linked_table::LinkedTable<${ToTypeStr<ToTypeArgument<K>>}, ${PhantomToTypeStr<ToPhantomTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, PhantomToTypeStr<ToPhantomTypeArgument<V>>], isPhantom: LinkedTable.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => LinkedTable.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => LinkedTable.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => LinkedTable.fromBcs( [K, V], data, ), bcs: LinkedTable.bcs(toBcs(K)), fromJSONField: (field: any) => LinkedTable.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => LinkedTable.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => LinkedTable.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => LinkedTable.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => LinkedTable.fetch( client, [K, V], id, ), new: ( fields: LinkedTableFields<ToTypeArgument<K>, ToPhantomTypeArgument<V>>, ) => { return new LinkedTable( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
+ static reified<K extends Reified<TypeArgument, any>, V extends PhantomReified<PhantomTypeArgument>>( K: K, V: V ): LinkedTableReified<ToTypeArgument<K>, ToPhantomTypeArgument<V>> { return { typeName: LinkedTable.$typeName, fullTypeName: composeSuiType( LinkedTable.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V25}::linked_table::LinkedTable<${ToTypeStr<ToTypeArgument<K>>}, ${PhantomToTypeStr<ToPhantomTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, PhantomToTypeStr<ToPhantomTypeArgument<V>>], isPhantom: LinkedTable.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => LinkedTable.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => LinkedTable.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => LinkedTable.fromBcs( [K, V], data, ), bcs: LinkedTable.bcs(toBcs(K)), fromJSONField: (field: any) => LinkedTable.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => LinkedTable.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => LinkedTable.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => LinkedTable.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => LinkedTable.fetch( client, [K, V], id, ), new: ( fields: LinkedTableFields<ToTypeArgument<K>, ToPhantomTypeArgument<V>>, ) => { return new LinkedTable( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return LinkedTable.reified }
 
@@ -79,7 +79,7 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument> 
 
 /* ============================== Node =============================== */
 
-export function isNode(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::linked_table::Node` + '<'); }
+export function isNode(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::linked_table::Node` + '<'); }
 
 export interface NodeFields<K extends TypeArgument, V extends TypeArgument> { prev: ToField<Option<K>>; next: ToField<Option<K>>; value: ToField<V> }
 
@@ -87,17 +87,17 @@ export type NodeReified<K extends TypeArgument, V extends TypeArgument> = Reifie
 
 export class Node<K extends TypeArgument, V extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::linked_table::Node`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,false,] as const;
+ static readonly $typeName = `${PKG_V25}::linked_table::Node`; static readonly $numTypeParams = 2; static readonly $isPhantom = [false,false,] as const;
 
- readonly $typeName = Node.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::linked_table::Node<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, ToTypeStr<V>]; readonly $isPhantom = Node.$isPhantom;
+ readonly $typeName = Node.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::linked_table::Node<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; readonly $typeArgs: [ToTypeStr<K>, ToTypeStr<V>]; readonly $isPhantom = Node.$isPhantom;
 
  readonly prev: ToField<Option<K>>; readonly next: ToField<Option<K>>; readonly value: ToField<V>
 
- private constructor(typeArgs: [ToTypeStr<K>, ToTypeStr<V>], fields: NodeFields<K, V>, ) { this.$fullTypeName = composeSuiType( Node.$typeName, ...typeArgs ) as `${typeof PKG_V22}::linked_table::Node<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [ToTypeStr<K>, ToTypeStr<V>], fields: NodeFields<K, V>, ) { this.$fullTypeName = composeSuiType( Node.$typeName, ...typeArgs ) as `${typeof PKG_V25}::linked_table::Node<${ToTypeStr<K>}, ${ToTypeStr<V>}>`; this.$typeArgs = typeArgs;
 
  this.prev = fields.prev;; this.next = fields.next;; this.value = fields.value; }
 
- static reified<K extends Reified<TypeArgument, any>, V extends Reified<TypeArgument, any>>( K: K, V: V ): NodeReified<ToTypeArgument<K>, ToTypeArgument<V>> { return { typeName: Node.$typeName, fullTypeName: composeSuiType( Node.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V22}::linked_table::Node<${ToTypeStr<ToTypeArgument<K>>}, ${ToTypeStr<ToTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, ToTypeStr<ToTypeArgument<V>>], isPhantom: Node.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => Node.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Node.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => Node.fromBcs( [K, V], data, ), bcs: Node.bcs(toBcs(K), toBcs(V)), fromJSONField: (field: any) => Node.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => Node.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => Node.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => Node.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => Node.fetch( client, [K, V], id, ), new: ( fields: NodeFields<ToTypeArgument<K>, ToTypeArgument<V>>, ) => { return new Node( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
+ static reified<K extends Reified<TypeArgument, any>, V extends Reified<TypeArgument, any>>( K: K, V: V ): NodeReified<ToTypeArgument<K>, ToTypeArgument<V>> { return { typeName: Node.$typeName, fullTypeName: composeSuiType( Node.$typeName, ...[extractType(K), extractType(V)] ) as `${typeof PKG_V25}::linked_table::Node<${ToTypeStr<ToTypeArgument<K>>}, ${ToTypeStr<ToTypeArgument<V>>}>`, typeArgs: [ extractType(K), extractType(V) ] as [ToTypeStr<ToTypeArgument<K>>, ToTypeStr<ToTypeArgument<V>>], isPhantom: Node.$isPhantom, reifiedTypeArgs: [K, V], fromFields: (fields: Record<string, any>) => Node.fromFields( [K, V], fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Node.fromFieldsWithTypes( [K, V], item, ), fromBcs: (data: Uint8Array) => Node.fromBcs( [K, V], data, ), bcs: Node.bcs(toBcs(K), toBcs(V)), fromJSONField: (field: any) => Node.fromJSONField( [K, V], field, ), fromJSON: (json: Record<string, any>) => Node.fromJSON( [K, V], json, ), fromSuiParsedData: (content: SuiParsedData) => Node.fromSuiParsedData( [K, V], content, ), fromSuiObjectData: (content: SuiObjectData) => Node.fromSuiObjectData( [K, V], content, ), fetch: async (client: SuiClient, id: string) => Node.fetch( client, [K, V], id, ), new: ( fields: NodeFields<ToTypeArgument<K>, ToTypeArgument<V>>, ) => { return new Node( [extractType(K), extractType(V)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Node.reified }
 

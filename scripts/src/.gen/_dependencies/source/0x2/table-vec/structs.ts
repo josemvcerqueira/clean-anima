@@ -1,7 +1,7 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, PhantomToTypeStr, PhantomTypeArgument, Reified, StructClass, ToField, ToPhantomTypeArgument, ToTypeStr, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
-import {PKG_V22} from "../index";
+import {PKG_V25} from "../index";
 import {Table} from "../table/structs";
 import {bcs} from "@mysten/sui/bcs";
 import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
@@ -9,7 +9,7 @@ import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== TableVec =============================== */
 
-export function isTableVec(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V22}::table_vec::TableVec` + '<'); }
+export function isTableVec(type: string): boolean { type = compressSuiType(type); return type.startsWith(`${PKG_V25}::table_vec::TableVec` + '<'); }
 
 export interface TableVecFields<Element extends PhantomTypeArgument> { contents: ToField<Table<"u64", Element>> }
 
@@ -17,17 +17,17 @@ export type TableVecReified<Element extends PhantomTypeArgument> = Reified< Tabl
 
 export class TableVec<Element extends PhantomTypeArgument> implements StructClass { __StructClass = true as const;
 
- static readonly $typeName = `${PKG_V22}::table_vec::TableVec`; static readonly $numTypeParams = 1; static readonly $isPhantom = [true,] as const;
+ static readonly $typeName = `${PKG_V25}::table_vec::TableVec`; static readonly $numTypeParams = 1; static readonly $isPhantom = [true,] as const;
 
- readonly $typeName = TableVec.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::table_vec::TableVec<${PhantomToTypeStr<Element>}>`; readonly $typeArgs: [PhantomToTypeStr<Element>]; readonly $isPhantom = TableVec.$isPhantom;
+ readonly $typeName = TableVec.$typeName; readonly $fullTypeName: `${typeof PKG_V25}::table_vec::TableVec<${PhantomToTypeStr<Element>}>`; readonly $typeArgs: [PhantomToTypeStr<Element>]; readonly $isPhantom = TableVec.$isPhantom;
 
  readonly contents: ToField<Table<"u64", Element>>
 
- private constructor(typeArgs: [PhantomToTypeStr<Element>], fields: TableVecFields<Element>, ) { this.$fullTypeName = composeSuiType( TableVec.$typeName, ...typeArgs ) as `${typeof PKG_V22}::table_vec::TableVec<${PhantomToTypeStr<Element>}>`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [PhantomToTypeStr<Element>], fields: TableVecFields<Element>, ) { this.$fullTypeName = composeSuiType( TableVec.$typeName, ...typeArgs ) as `${typeof PKG_V25}::table_vec::TableVec<${PhantomToTypeStr<Element>}>`; this.$typeArgs = typeArgs;
 
  this.contents = fields.contents; }
 
- static reified<Element extends PhantomReified<PhantomTypeArgument>>( Element: Element ): TableVecReified<ToPhantomTypeArgument<Element>> { return { typeName: TableVec.$typeName, fullTypeName: composeSuiType( TableVec.$typeName, ...[extractType(Element)] ) as `${typeof PKG_V22}::table_vec::TableVec<${PhantomToTypeStr<ToPhantomTypeArgument<Element>>}>`, typeArgs: [ extractType(Element) ] as [PhantomToTypeStr<ToPhantomTypeArgument<Element>>], isPhantom: TableVec.$isPhantom, reifiedTypeArgs: [Element], fromFields: (fields: Record<string, any>) => TableVec.fromFields( Element, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => TableVec.fromFieldsWithTypes( Element, item, ), fromBcs: (data: Uint8Array) => TableVec.fromBcs( Element, data, ), bcs: TableVec.bcs, fromJSONField: (field: any) => TableVec.fromJSONField( Element, field, ), fromJSON: (json: Record<string, any>) => TableVec.fromJSON( Element, json, ), fromSuiParsedData: (content: SuiParsedData) => TableVec.fromSuiParsedData( Element, content, ), fromSuiObjectData: (content: SuiObjectData) => TableVec.fromSuiObjectData( Element, content, ), fetch: async (client: SuiClient, id: string) => TableVec.fetch( client, Element, id, ), new: ( fields: TableVecFields<ToPhantomTypeArgument<Element>>, ) => { return new TableVec( [extractType(Element)], fields ) }, kind: "StructClassReified", } }
+ static reified<Element extends PhantomReified<PhantomTypeArgument>>( Element: Element ): TableVecReified<ToPhantomTypeArgument<Element>> { return { typeName: TableVec.$typeName, fullTypeName: composeSuiType( TableVec.$typeName, ...[extractType(Element)] ) as `${typeof PKG_V25}::table_vec::TableVec<${PhantomToTypeStr<ToPhantomTypeArgument<Element>>}>`, typeArgs: [ extractType(Element) ] as [PhantomToTypeStr<ToPhantomTypeArgument<Element>>], isPhantom: TableVec.$isPhantom, reifiedTypeArgs: [Element], fromFields: (fields: Record<string, any>) => TableVec.fromFields( Element, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => TableVec.fromFieldsWithTypes( Element, item, ), fromBcs: (data: Uint8Array) => TableVec.fromBcs( Element, data, ), bcs: TableVec.bcs, fromJSONField: (field: any) => TableVec.fromJSONField( Element, field, ), fromJSON: (json: Record<string, any>) => TableVec.fromJSON( Element, json, ), fromSuiParsedData: (content: SuiParsedData) => TableVec.fromSuiParsedData( Element, content, ), fromSuiObjectData: (content: SuiObjectData) => TableVec.fromSuiObjectData( Element, content, ), fetch: async (client: SuiClient, id: string) => TableVec.fetch( client, Element, id, ), new: ( fields: TableVecFields<ToPhantomTypeArgument<Element>>, ) => { return new TableVec( [extractType(Element)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return TableVec.reified }
 

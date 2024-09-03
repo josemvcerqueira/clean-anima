@@ -16,8 +16,6 @@ export function type_( tx: Transaction, self: TransactionObjectInput ) { return 
 
 export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::init`, arguments: [ obj(tx, otw) ], }) }
 
-export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::image_url`, arguments: [ obj(tx, self) ], }) }
-
 export interface EquipArgs { uidMut: TransactionObjectInput; key: GenericArg; cosmeticId: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
 
 export function equip( tx: Transaction, typeArg: string, args: EquipArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::equip`, typeArguments: [typeArg], arguments: [ obj(tx, args.uidMut), generic(tx, `${typeArg}`, args.key), pure(tx, args.cosmeticId, `${ID.$typeName}`), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.policy) ], }) }
@@ -29,6 +27,8 @@ export function unequip( tx: Transaction, typeArg: string, args: UnequipArgs ) {
 export function colourWay( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::colour_way`, arguments: [ obj(tx, self) ], }) }
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::edition`, arguments: [ obj(tx, self) ], }) }
+
+export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export function manufacturer( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::manufacturer`, arguments: [ obj(tx, self) ], }) }
 
