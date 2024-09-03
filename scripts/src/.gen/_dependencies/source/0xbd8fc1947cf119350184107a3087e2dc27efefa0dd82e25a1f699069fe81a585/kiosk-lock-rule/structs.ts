@@ -1,8 +1,9 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
 import {PKG_V1} from "../index";
-import {bcs, fromB64} from "@mysten/bcs";
-import {SuiClient, SuiParsedData} from "@mysten/sui/client";
+import {bcs} from "@mysten/sui/bcs";
+import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
+import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Config =============================== */
 
@@ -12,13 +13,11 @@ export interface ConfigFields { dummyField: ToField<"bool"> }
 
 export type ConfigReified = Reified< Config, ConfigFields >;
 
-export class Config implements StructClass { static readonly $typeName = `${PKG_V1}::kiosk_lock_rule::Config`; static readonly $numTypeParams = 0;
+export class Config implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Config.$typeName;
+ static readonly $typeName = `${PKG_V1}::kiosk_lock_rule::Config`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::kiosk_lock_rule::Config`;
-
- readonly $typeArgs: [];
+ readonly $typeName = Config.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::kiosk_lock_rule::Config`; readonly $typeArgs: []; readonly $isPhantom = Config.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
@@ -26,7 +25,7 @@ export class Config implements StructClass { static readonly $typeName = `${PKG_
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): ConfigReified { return { typeName: Config.$typeName, fullTypeName: composeSuiType( Config.$typeName, ...[] ) as `${typeof PKG_V1}::kiosk_lock_rule::Config`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Config.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Config.fromBcs( data, ), bcs: Config.bcs, fromJSONField: (field: any) => Config.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Config.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Config.fetch( client, id, ), new: ( fields: ConfigFields, ) => { return new Config( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ConfigReified { return { typeName: Config.$typeName, fullTypeName: composeSuiType( Config.$typeName, ...[] ) as `${typeof PKG_V1}::kiosk_lock_rule::Config`, typeArgs: [ ] as [], isPhantom: Config.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Config.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Config.fromBcs( data, ), bcs: Config.bcs, fromJSONField: (field: any) => Config.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Config.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Config.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Config.fetch( client, id, ), new: ( fields: ConfigFields, ) => { return new Config( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Config.reified() }
 
@@ -64,8 +63,13 @@ export class Config implements StructClass { static readonly $typeName = `${PKG_
 
  static fromSuiParsedData( content: SuiParsedData ): Config { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isConfig(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Config object`); } return Config.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): Config { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isConfig(data.bcs.type)) { throw new Error(`object at is not a Config object`); }
+
+ return Config.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Config.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<Config> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Config object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isConfig(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Config object`); }
- return Config.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return Config.fromSuiObjectData( res.data ); }
 
  }
 
@@ -77,13 +81,11 @@ export interface RuleFields { dummyField: ToField<"bool"> }
 
 export type RuleReified = Reified< Rule, RuleFields >;
 
-export class Rule implements StructClass { static readonly $typeName = `${PKG_V1}::kiosk_lock_rule::Rule`; static readonly $numTypeParams = 0;
+export class Rule implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Rule.$typeName;
+ static readonly $typeName = `${PKG_V1}::kiosk_lock_rule::Rule`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::kiosk_lock_rule::Rule`;
-
- readonly $typeArgs: [];
+ readonly $typeName = Rule.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::kiosk_lock_rule::Rule`; readonly $typeArgs: []; readonly $isPhantom = Rule.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
@@ -91,7 +93,7 @@ export class Rule implements StructClass { static readonly $typeName = `${PKG_V1
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): RuleReified { return { typeName: Rule.$typeName, fullTypeName: composeSuiType( Rule.$typeName, ...[] ) as `${typeof PKG_V1}::kiosk_lock_rule::Rule`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Rule.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Rule.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Rule.fromBcs( data, ), bcs: Rule.bcs, fromJSONField: (field: any) => Rule.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Rule.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Rule.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Rule.fetch( client, id, ), new: ( fields: RuleFields, ) => { return new Rule( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): RuleReified { return { typeName: Rule.$typeName, fullTypeName: composeSuiType( Rule.$typeName, ...[] ) as `${typeof PKG_V1}::kiosk_lock_rule::Rule`, typeArgs: [ ] as [], isPhantom: Rule.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Rule.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Rule.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Rule.fromBcs( data, ), bcs: Rule.bcs, fromJSONField: (field: any) => Rule.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Rule.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Rule.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Rule.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Rule.fetch( client, id, ), new: ( fields: RuleFields, ) => { return new Rule( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Rule.reified() }
 
@@ -129,7 +131,12 @@ export class Rule implements StructClass { static readonly $typeName = `${PKG_V1
 
  static fromSuiParsedData( content: SuiParsedData ): Rule { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isRule(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Rule object`); } return Rule.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): Rule { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isRule(data.bcs.type)) { throw new Error(`object at is not a Rule object`); }
+
+ return Rule.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Rule.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<Rule> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Rule object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isRule(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Rule object`); }
- return Rule.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return Rule.fromSuiObjectData( res.data ); }
 
  }

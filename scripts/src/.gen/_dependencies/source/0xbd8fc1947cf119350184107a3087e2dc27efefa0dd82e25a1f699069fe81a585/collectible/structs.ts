@@ -1,6 +1,6 @@
 import * as reified from "../../../../_framework/reified";
 import {PhantomReified, PhantomToTypeStr, PhantomTypeArgument, Reified, StructClass, ToField, ToPhantomTypeArgument, ToTypeArgument, ToTypeStr, TypeArgument, assertFieldsWithTypesArgsMatch, assertReifiedTypeArgsMatch, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, extractType, fieldToJSON, phantom, toBcs, ToTypeStr as ToPhantom} from "../../../../_framework/reified";
-import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
+import {FieldsWithTypes, composeSuiType, compressSuiType, parseTypeName} from "../../../../_framework/util";
 import {Option} from "../../0x1/option/structs";
 import {String} from "../../0x1/string/structs";
 import {Referent} from "../../0x2/borrow/structs";
@@ -9,73 +9,9 @@ import {UID} from "../../0x2/object/structs";
 import {Publisher} from "../../0x2/package/structs";
 import {TransferPolicyCap} from "../../0x2/transfer-policy/structs";
 import {PKG_V1} from "../index";
-import {BcsType, bcs, fromB64} from "@mysten/bcs";
-import {SuiClient, SuiParsedData} from "@mysten/sui/client";
-
-/* ============================== Registry =============================== */
-
-export function isRegistry(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::collectible::Registry`; }
-
-export interface RegistryFields { id: ToField<UID>; publisher: ToField<Publisher> }
-
-export type RegistryReified = Reified< Registry, RegistryFields >;
-
-export class Registry implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::Registry`; static readonly $numTypeParams = 0;
-
- readonly $typeName = Registry.$typeName;
-
- readonly $fullTypeName: `${typeof PKG_V1}::collectible::Registry`;
-
- readonly $typeArgs: [];
-
- readonly id: ToField<UID>; readonly publisher: ToField<Publisher>
-
- private constructor(typeArgs: [], fields: RegistryFields, ) { this.$fullTypeName = composeSuiType( Registry.$typeName, ...typeArgs ) as `${typeof PKG_V1}::collectible::Registry`; this.$typeArgs = typeArgs;
-
- this.id = fields.id;; this.publisher = fields.publisher; }
-
- static reified( ): RegistryReified { return { typeName: Registry.$typeName, fullTypeName: composeSuiType( Registry.$typeName, ...[] ) as `${typeof PKG_V1}::collectible::Registry`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Registry.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Registry.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Registry.fromBcs( data, ), bcs: Registry.bcs, fromJSONField: (field: any) => Registry.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Registry.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Registry.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Registry.fetch( client, id, ), new: ( fields: RegistryFields, ) => { return new Registry( [], fields ) }, kind: "StructClassReified", } }
-
- static get r() { return Registry.reified() }
-
- static phantom( ): PhantomReified<ToTypeStr<Registry>> { return phantom(Registry.reified( )); } static get p() { return Registry.phantom() }
-
- static get bcs() { return bcs.struct("Registry", {
-
- id: UID.bcs, publisher: Publisher.bcs
-
-}) };
-
- static fromFields( fields: Record<string, any> ): Registry { return Registry.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), publisher: decodeFromFields(Publisher.reified(), fields.publisher) } ) }
-
- static fromFieldsWithTypes( item: FieldsWithTypes ): Registry { if (!isRegistry(item.type)) { throw new Error("not a Registry type");
-
- }
-
- return Registry.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), publisher: decodeFromFieldsWithTypes(Publisher.reified(), item.fields.publisher) } ) }
-
- static fromBcs( data: Uint8Array ): Registry { return Registry.fromFields( Registry.bcs.parse(data) ) }
-
- toJSONField() { return {
-
- id: this.id,publisher: this.publisher.toJSONField(),
-
-} }
-
- toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
-
- static fromJSONField( field: any ): Registry { return Registry.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), publisher: decodeFromJSONField(Publisher.reified(), field.publisher) } ) }
-
- static fromJSON( json: Record<string, any> ): Registry { if (json.$typeName !== Registry.$typeName) { throw new Error("not a WithTwoGenerics json object") };
-
- return Registry.fromJSONField( json, ) }
-
- static fromSuiParsedData( content: SuiParsedData ): Registry { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isRegistry(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Registry object`); } return Registry.fromFieldsWithTypes( content ); }
-
- static async fetch( client: SuiClient, id: string ): Promise<Registry> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Registry object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isRegistry(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Registry object`); }
- return Registry.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
-
- }
+import {BcsType, bcs} from "@mysten/sui/bcs";
+import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
+import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== COLLECTIBLE =============================== */
 
@@ -85,13 +21,11 @@ export interface COLLECTIBLEFields { dummyField: ToField<"bool"> }
 
 export type COLLECTIBLEReified = Reified< COLLECTIBLE, COLLECTIBLEFields >;
 
-export class COLLECTIBLE implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::COLLECTIBLE`; static readonly $numTypeParams = 0;
+export class COLLECTIBLE implements StructClass { __StructClass = true as const;
 
- readonly $typeName = COLLECTIBLE.$typeName;
+ static readonly $typeName = `${PKG_V1}::collectible::COLLECTIBLE`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::collectible::COLLECTIBLE`;
-
- readonly $typeArgs: [];
+ readonly $typeName = COLLECTIBLE.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::collectible::COLLECTIBLE`; readonly $typeArgs: []; readonly $isPhantom = COLLECTIBLE.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
@@ -99,7 +33,7 @@ export class COLLECTIBLE implements StructClass { static readonly $typeName = `$
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): COLLECTIBLEReified { return { typeName: COLLECTIBLE.$typeName, fullTypeName: composeSuiType( COLLECTIBLE.$typeName, ...[] ) as `${typeof PKG_V1}::collectible::COLLECTIBLE`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => COLLECTIBLE.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => COLLECTIBLE.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => COLLECTIBLE.fromBcs( data, ), bcs: COLLECTIBLE.bcs, fromJSONField: (field: any) => COLLECTIBLE.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => COLLECTIBLE.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => COLLECTIBLE.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => COLLECTIBLE.fetch( client, id, ), new: ( fields: COLLECTIBLEFields, ) => { return new COLLECTIBLE( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): COLLECTIBLEReified { return { typeName: COLLECTIBLE.$typeName, fullTypeName: composeSuiType( COLLECTIBLE.$typeName, ...[] ) as `${typeof PKG_V1}::collectible::COLLECTIBLE`, typeArgs: [ ] as [], isPhantom: COLLECTIBLE.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => COLLECTIBLE.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => COLLECTIBLE.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => COLLECTIBLE.fromBcs( data, ), bcs: COLLECTIBLE.bcs, fromJSONField: (field: any) => COLLECTIBLE.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => COLLECTIBLE.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => COLLECTIBLE.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => COLLECTIBLE.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => COLLECTIBLE.fetch( client, id, ), new: ( fields: COLLECTIBLEFields, ) => { return new COLLECTIBLE( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return COLLECTIBLE.reified() }
 
@@ -137,8 +71,13 @@ export class COLLECTIBLE implements StructClass { static readonly $typeName = `$
 
  static fromSuiParsedData( content: SuiParsedData ): COLLECTIBLE { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isCOLLECTIBLE(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a COLLECTIBLE object`); } return COLLECTIBLE.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): COLLECTIBLE { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isCOLLECTIBLE(data.bcs.type)) { throw new Error(`object at is not a COLLECTIBLE object`); }
+
+ return COLLECTIBLE.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return COLLECTIBLE.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<COLLECTIBLE> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching COLLECTIBLE object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isCOLLECTIBLE(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a COLLECTIBLE object`); }
- return COLLECTIBLE.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return COLLECTIBLE.fromSuiObjectData( res.data ); }
 
  }
 
@@ -150,13 +89,11 @@ export interface CollectibleFields<T extends TypeArgument> { id: ToField<UID>; i
 
 export type CollectibleReified<T extends TypeArgument> = Reified< Collectible<T>, CollectibleFields<T> >;
 
-export class Collectible<T extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::Collectible`; static readonly $numTypeParams = 1;
+export class Collectible<T extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Collectible.$typeName;
+ static readonly $typeName = `${PKG_V1}::collectible::Collectible`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::collectible::Collectible<${ToTypeStr<T>}>`;
-
- readonly $typeArgs: [ToTypeStr<T>];
+ readonly $typeName = Collectible.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::collectible::Collectible<${ToTypeStr<T>}>`; readonly $typeArgs: [ToTypeStr<T>]; readonly $isPhantom = Collectible.$isPhantom;
 
  readonly id: ToField<UID>; readonly imageUrl: ToField<String>; readonly name: ToField<Option<String>>; readonly description: ToField<Option<String>>; readonly creator: ToField<Option<String>>; readonly meta: ToField<Option<T>>
 
@@ -164,7 +101,7 @@ export class Collectible<T extends TypeArgument> implements StructClass { static
 
  this.id = fields.id;; this.imageUrl = fields.imageUrl;; this.name = fields.name;; this.description = fields.description;; this.creator = fields.creator;; this.meta = fields.meta; }
 
- static reified<T extends Reified<TypeArgument, any>>( T: T ): CollectibleReified<ToTypeArgument<T>> { return { typeName: Collectible.$typeName, fullTypeName: composeSuiType( Collectible.$typeName, ...[extractType(T)] ) as `${typeof PKG_V1}::collectible::Collectible<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Collectible.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Collectible.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Collectible.fromBcs( T, data, ), bcs: Collectible.bcs(toBcs(T)), fromJSONField: (field: any) => Collectible.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Collectible.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Collectible.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => Collectible.fetch( client, T, id, ), new: ( fields: CollectibleFields<ToTypeArgument<T>>, ) => { return new Collectible( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends Reified<TypeArgument, any>>( T: T ): CollectibleReified<ToTypeArgument<T>> { return { typeName: Collectible.$typeName, fullTypeName: composeSuiType( Collectible.$typeName, ...[extractType(T)] ) as `${typeof PKG_V1}::collectible::Collectible<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], isPhantom: Collectible.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => Collectible.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Collectible.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => Collectible.fromBcs( T, data, ), bcs: Collectible.bcs(toBcs(T)), fromJSONField: (field: any) => Collectible.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => Collectible.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => Collectible.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => Collectible.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => Collectible.fetch( client, T, id, ), new: ( fields: CollectibleFields<ToTypeArgument<T>>, ) => { return new Collectible( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Collectible.reified }
 
@@ -204,8 +141,15 @@ export class Collectible<T extends TypeArgument> implements StructClass { static
 
  static fromSuiParsedData<T extends Reified<TypeArgument, any>>( typeArg: T, content: SuiParsedData ): Collectible<ToTypeArgument<T>> { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isCollectible(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Collectible object`); } return Collectible.fromFieldsWithTypes( typeArg, content ); }
 
+ static fromSuiObjectData<T extends Reified<TypeArgument, any>>( typeArg: T, data: SuiObjectData ): Collectible<ToTypeArgument<T>> { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isCollectible(data.bcs.type)) { throw new Error(`object at is not a Collectible object`); }
+
+ const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs; if (gotTypeArgs.length !== 1) { throw new Error(`type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`); }; const gotTypeArg = compressSuiType(gotTypeArgs[0]); const expectedTypeArg = compressSuiType(extractType(typeArg)); if (gotTypeArg !== compressSuiType(extractType(typeArg))) { throw new Error(`type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`); };
+
+ return Collectible.fromBcs( typeArg, fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Collectible.fromSuiParsedData( typeArg, data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch<T extends Reified<TypeArgument, any>>( client: SuiClient, typeArg: T, id: string ): Promise<Collectible<ToTypeArgument<T>>> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Collectible object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isCollectible(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Collectible object`); }
- return Collectible.fromBcs( typeArg, fromB64(res.data.bcs.bcsBytes) ); }
+
+ return Collectible.fromSuiObjectData( typeArg, res.data ); }
 
  }
 
@@ -217,13 +161,11 @@ export interface CollectionCapFields<T extends TypeArgument> { id: ToField<UID>;
 
 export type CollectionCapReified<T extends TypeArgument> = Reified< CollectionCap<T>, CollectionCapFields<T> >;
 
-export class CollectionCap<T extends TypeArgument> implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::CollectionCap`; static readonly $numTypeParams = 1;
+export class CollectionCap<T extends TypeArgument> implements StructClass { __StructClass = true as const;
 
- readonly $typeName = CollectionCap.$typeName;
+ static readonly $typeName = `${PKG_V1}::collectible::CollectionCap`; static readonly $numTypeParams = 1; static readonly $isPhantom = [false,] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::collectible::CollectionCap<${ToTypeStr<T>}>`;
-
- readonly $typeArgs: [ToTypeStr<T>];
+ readonly $typeName = CollectionCap.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::collectible::CollectionCap<${ToTypeStr<T>}>`; readonly $typeArgs: [ToTypeStr<T>]; readonly $isPhantom = CollectionCap.$isPhantom;
 
  readonly id: ToField<UID>; readonly publisher: ToField<Referent<Publisher>>; readonly display: ToField<Referent<Display<ToPhantom<Collectible<T>>>>>; readonly policyCap: ToField<Referent<TransferPolicyCap<ToPhantom<Collectible<T>>>>>; readonly maxSupply: ToField<Option<"u32">>; readonly minted: ToField<"u32">; readonly burned: ToField<"u32">
 
@@ -231,7 +173,7 @@ export class CollectionCap<T extends TypeArgument> implements StructClass { stat
 
  this.id = fields.id;; this.publisher = fields.publisher;; this.display = fields.display;; this.policyCap = fields.policyCap;; this.maxSupply = fields.maxSupply;; this.minted = fields.minted;; this.burned = fields.burned; }
 
- static reified<T extends Reified<TypeArgument, any>>( T: T ): CollectionCapReified<ToTypeArgument<T>> { return { typeName: CollectionCap.$typeName, fullTypeName: composeSuiType( CollectionCap.$typeName, ...[extractType(T)] ) as `${typeof PKG_V1}::collectible::CollectionCap<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => CollectionCap.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => CollectionCap.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => CollectionCap.fromBcs( T, data, ), bcs: CollectionCap.bcs(toBcs(T)), fromJSONField: (field: any) => CollectionCap.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => CollectionCap.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => CollectionCap.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => CollectionCap.fetch( client, T, id, ), new: ( fields: CollectionCapFields<ToTypeArgument<T>>, ) => { return new CollectionCap( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends Reified<TypeArgument, any>>( T: T ): CollectionCapReified<ToTypeArgument<T>> { return { typeName: CollectionCap.$typeName, fullTypeName: composeSuiType( CollectionCap.$typeName, ...[extractType(T)] ) as `${typeof PKG_V1}::collectible::CollectionCap<${ToTypeStr<ToTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [ToTypeStr<ToTypeArgument<T>>], isPhantom: CollectionCap.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => CollectionCap.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => CollectionCap.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => CollectionCap.fromBcs( T, data, ), bcs: CollectionCap.bcs(toBcs(T)), fromJSONField: (field: any) => CollectionCap.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => CollectionCap.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => CollectionCap.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => CollectionCap.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => CollectionCap.fetch( client, T, id, ), new: ( fields: CollectionCapFields<ToTypeArgument<T>>, ) => { return new CollectionCap( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return CollectionCap.reified }
 
@@ -271,8 +213,15 @@ export class CollectionCap<T extends TypeArgument> implements StructClass { stat
 
  static fromSuiParsedData<T extends Reified<TypeArgument, any>>( typeArg: T, content: SuiParsedData ): CollectionCap<ToTypeArgument<T>> { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isCollectionCap(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a CollectionCap object`); } return CollectionCap.fromFieldsWithTypes( typeArg, content ); }
 
+ static fromSuiObjectData<T extends Reified<TypeArgument, any>>( typeArg: T, data: SuiObjectData ): CollectionCap<ToTypeArgument<T>> { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isCollectionCap(data.bcs.type)) { throw new Error(`object at is not a CollectionCap object`); }
+
+ const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs; if (gotTypeArgs.length !== 1) { throw new Error(`type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`); }; const gotTypeArg = compressSuiType(gotTypeArgs[0]); const expectedTypeArg = compressSuiType(extractType(typeArg)); if (gotTypeArg !== compressSuiType(extractType(typeArg))) { throw new Error(`type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`); };
+
+ return CollectionCap.fromBcs( typeArg, fromB64(data.bcs.bcsBytes) ); } if (data.content) { return CollectionCap.fromSuiParsedData( typeArg, data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch<T extends Reified<TypeArgument, any>>( client: SuiClient, typeArg: T, id: string ): Promise<CollectionCap<ToTypeArgument<T>>> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching CollectionCap object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isCollectionCap(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a CollectionCap object`); }
- return CollectionCap.fromBcs( typeArg, fromB64(res.data.bcs.bcsBytes) ); }
+
+ return CollectionCap.fromSuiObjectData( typeArg, res.data ); }
 
  }
 
@@ -284,13 +233,11 @@ export interface CollectionTicketFields<T extends PhantomTypeArgument> { id: ToF
 
 export type CollectionTicketReified<T extends PhantomTypeArgument> = Reified< CollectionTicket<T>, CollectionTicketFields<T> >;
 
-export class CollectionTicket<T extends PhantomTypeArgument> implements StructClass { static readonly $typeName = `${PKG_V1}::collectible::CollectionTicket`; static readonly $numTypeParams = 1;
+export class CollectionTicket<T extends PhantomTypeArgument> implements StructClass { __StructClass = true as const;
 
- readonly $typeName = CollectionTicket.$typeName;
+ static readonly $typeName = `${PKG_V1}::collectible::CollectionTicket`; static readonly $numTypeParams = 1; static readonly $isPhantom = [true,] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::collectible::CollectionTicket<${PhantomToTypeStr<T>}>`;
-
- readonly $typeArgs: [PhantomToTypeStr<T>];
+ readonly $typeName = CollectionTicket.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::collectible::CollectionTicket<${PhantomToTypeStr<T>}>`; readonly $typeArgs: [PhantomToTypeStr<T>]; readonly $isPhantom = CollectionTicket.$isPhantom;
 
  readonly id: ToField<UID>; readonly publisher: ToField<Publisher>; readonly maxSupply: ToField<Option<"u32">>
 
@@ -298,7 +245,7 @@ export class CollectionTicket<T extends PhantomTypeArgument> implements StructCl
 
  this.id = fields.id;; this.publisher = fields.publisher;; this.maxSupply = fields.maxSupply; }
 
- static reified<T extends PhantomReified<PhantomTypeArgument>>( T: T ): CollectionTicketReified<ToPhantomTypeArgument<T>> { return { typeName: CollectionTicket.$typeName, fullTypeName: composeSuiType( CollectionTicket.$typeName, ...[extractType(T)] ) as `${typeof PKG_V1}::collectible::CollectionTicket<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>], reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => CollectionTicket.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => CollectionTicket.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => CollectionTicket.fromBcs( T, data, ), bcs: CollectionTicket.bcs, fromJSONField: (field: any) => CollectionTicket.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => CollectionTicket.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => CollectionTicket.fromSuiParsedData( T, content, ), fetch: async (client: SuiClient, id: string) => CollectionTicket.fetch( client, T, id, ), new: ( fields: CollectionTicketFields<ToPhantomTypeArgument<T>>, ) => { return new CollectionTicket( [extractType(T)], fields ) }, kind: "StructClassReified", } }
+ static reified<T extends PhantomReified<PhantomTypeArgument>>( T: T ): CollectionTicketReified<ToPhantomTypeArgument<T>> { return { typeName: CollectionTicket.$typeName, fullTypeName: composeSuiType( CollectionTicket.$typeName, ...[extractType(T)] ) as `${typeof PKG_V1}::collectible::CollectionTicket<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`, typeArgs: [ extractType(T) ] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>], isPhantom: CollectionTicket.$isPhantom, reifiedTypeArgs: [T], fromFields: (fields: Record<string, any>) => CollectionTicket.fromFields( T, fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => CollectionTicket.fromFieldsWithTypes( T, item, ), fromBcs: (data: Uint8Array) => CollectionTicket.fromBcs( T, data, ), bcs: CollectionTicket.bcs, fromJSONField: (field: any) => CollectionTicket.fromJSONField( T, field, ), fromJSON: (json: Record<string, any>) => CollectionTicket.fromJSON( T, json, ), fromSuiParsedData: (content: SuiParsedData) => CollectionTicket.fromSuiParsedData( T, content, ), fromSuiObjectData: (content: SuiObjectData) => CollectionTicket.fromSuiObjectData( T, content, ), fetch: async (client: SuiClient, id: string) => CollectionTicket.fetch( client, T, id, ), new: ( fields: CollectionTicketFields<ToPhantomTypeArgument<T>>, ) => { return new CollectionTicket( [extractType(T)], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return CollectionTicket.reified }
 
@@ -336,7 +283,82 @@ export class CollectionTicket<T extends PhantomTypeArgument> implements StructCl
 
  static fromSuiParsedData<T extends PhantomReified<PhantomTypeArgument>>( typeArg: T, content: SuiParsedData ): CollectionTicket<ToPhantomTypeArgument<T>> { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isCollectionTicket(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a CollectionTicket object`); } return CollectionTicket.fromFieldsWithTypes( typeArg, content ); }
 
+ static fromSuiObjectData<T extends PhantomReified<PhantomTypeArgument>>( typeArg: T, data: SuiObjectData ): CollectionTicket<ToPhantomTypeArgument<T>> { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isCollectionTicket(data.bcs.type)) { throw new Error(`object at is not a CollectionTicket object`); }
+
+ const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs; if (gotTypeArgs.length !== 1) { throw new Error(`type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`); }; const gotTypeArg = compressSuiType(gotTypeArgs[0]); const expectedTypeArg = compressSuiType(extractType(typeArg)); if (gotTypeArg !== compressSuiType(extractType(typeArg))) { throw new Error(`type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`); };
+
+ return CollectionTicket.fromBcs( typeArg, fromB64(data.bcs.bcsBytes) ); } if (data.content) { return CollectionTicket.fromSuiParsedData( typeArg, data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch<T extends PhantomReified<PhantomTypeArgument>>( client: SuiClient, typeArg: T, id: string ): Promise<CollectionTicket<ToPhantomTypeArgument<T>>> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching CollectionTicket object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isCollectionTicket(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a CollectionTicket object`); }
- return CollectionTicket.fromBcs( typeArg, fromB64(res.data.bcs.bcsBytes) ); }
+
+ return CollectionTicket.fromSuiObjectData( typeArg, res.data ); }
+
+ }
+
+/* ============================== Registry =============================== */
+
+export function isRegistry(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::collectible::Registry`; }
+
+export interface RegistryFields { id: ToField<UID>; publisher: ToField<Publisher> }
+
+export type RegistryReified = Reified< Registry, RegistryFields >;
+
+export class Registry implements StructClass { __StructClass = true as const;
+
+ static readonly $typeName = `${PKG_V1}::collectible::Registry`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+
+ readonly $typeName = Registry.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::collectible::Registry`; readonly $typeArgs: []; readonly $isPhantom = Registry.$isPhantom;
+
+ readonly id: ToField<UID>; readonly publisher: ToField<Publisher>
+
+ private constructor(typeArgs: [], fields: RegistryFields, ) { this.$fullTypeName = composeSuiType( Registry.$typeName, ...typeArgs ) as `${typeof PKG_V1}::collectible::Registry`; this.$typeArgs = typeArgs;
+
+ this.id = fields.id;; this.publisher = fields.publisher; }
+
+ static reified( ): RegistryReified { return { typeName: Registry.$typeName, fullTypeName: composeSuiType( Registry.$typeName, ...[] ) as `${typeof PKG_V1}::collectible::Registry`, typeArgs: [ ] as [], isPhantom: Registry.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Registry.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Registry.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Registry.fromBcs( data, ), bcs: Registry.bcs, fromJSONField: (field: any) => Registry.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Registry.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Registry.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Registry.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Registry.fetch( client, id, ), new: ( fields: RegistryFields, ) => { return new Registry( [], fields ) }, kind: "StructClassReified", } }
+
+ static get r() { return Registry.reified() }
+
+ static phantom( ): PhantomReified<ToTypeStr<Registry>> { return phantom(Registry.reified( )); } static get p() { return Registry.phantom() }
+
+ static get bcs() { return bcs.struct("Registry", {
+
+ id: UID.bcs, publisher: Publisher.bcs
+
+}) };
+
+ static fromFields( fields: Record<string, any> ): Registry { return Registry.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), publisher: decodeFromFields(Publisher.reified(), fields.publisher) } ) }
+
+ static fromFieldsWithTypes( item: FieldsWithTypes ): Registry { if (!isRegistry(item.type)) { throw new Error("not a Registry type");
+
+ }
+
+ return Registry.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), publisher: decodeFromFieldsWithTypes(Publisher.reified(), item.fields.publisher) } ) }
+
+ static fromBcs( data: Uint8Array ): Registry { return Registry.fromFields( Registry.bcs.parse(data) ) }
+
+ toJSONField() { return {
+
+ id: this.id,publisher: this.publisher.toJSONField(),
+
+} }
+
+ toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
+
+ static fromJSONField( field: any ): Registry { return Registry.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), publisher: decodeFromJSONField(Publisher.reified(), field.publisher) } ) }
+
+ static fromJSON( json: Record<string, any> ): Registry { if (json.$typeName !== Registry.$typeName) { throw new Error("not a WithTwoGenerics json object") };
+
+ return Registry.fromJSONField( json, ) }
+
+ static fromSuiParsedData( content: SuiParsedData ): Registry { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isRegistry(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Registry object`); } return Registry.fromFieldsWithTypes( content ); }
+
+ static fromSuiObjectData( data: SuiObjectData ): Registry { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isRegistry(data.bcs.type)) { throw new Error(`object at is not a Registry object`); }
+
+ return Registry.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Registry.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
+ static async fetch( client: SuiClient, id: string ): Promise<Registry> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Registry object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isRegistry(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Registry object`); }
+
+ return Registry.fromSuiObjectData( res.data ); }
 
  }

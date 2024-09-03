@@ -470,9 +470,9 @@ module act::genesis_shop {
             quantities.pop_back();
 
             if (quantities.length() == 0) {
-                 builder.quantities.pop_back();
-                 builder.manufacturers.pop_back();
-                 builder.names.pop_back();
+                builder.quantities.pop_back();
+                builder.manufacturers.pop_back();
+                builder.names.pop_back();
             };
             return
         };

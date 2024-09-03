@@ -662,7 +662,7 @@ export class AnimaSDK {
     tx = new Transaction(),
   }: AirdropFreeMintArgs) {
     invariant(isValidSuiAddress(recipient), 'Please provide a valid recipient');
-
+    
     tx.moveCall({
       target: `${this.#packages.ACT}::genesis_drop::airdrop_freemint`,
       arguments: [

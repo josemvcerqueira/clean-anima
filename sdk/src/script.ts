@@ -1,44 +1,44 @@
 // import { bcs } from '@mysten/sui/bcs';
-// import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
-// import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-// import {
-//   GasData,
-//   SerialTransactionExecutor,
-//   Transaction,
-// } from '@mysten/sui/transactions';
-// import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
-// import dotenv from 'dotenv';
-// import * as fs from 'fs';
-// import invariant from 'tiny-invariant';
-// import util from 'util';
-// import { promisify } from 'util';
+import { getFullnodeUrl, OwnedObjectRef, SuiClient } from '@mysten/sui/client';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+import {
+  GasData,
+  SerialTransactionExecutor,
+  Transaction,
+} from '@mysten/sui/transactions';
+import { chunkArray, fetchAllDynamicFields } from '@polymedia/suitcase-core';
+import dotenv from 'dotenv';
+import * as fs from 'fs';
+import invariant from 'tiny-invariant';
+import util from 'util';
+import { promisify } from 'util';
 
-// import { AnimaSDK } from './anima';
-// import {
-//   BUILDER_FN_NAMES,
-//   OWNED_OBJECTS,
-//   PACKAGES,
-//   SHARED_OBJECTS,
-// } from './constants';
+import { AnimaSDK } from './anima';
+import {
+  BUILDER_FN_NAMES,
+  OWNED_OBJECTS,
+  PACKAGES,
+  SHARED_OBJECTS,
+} from './constants';
 
-// dotenv.config();
-// import { fromHEX, toHEX } from '@mysten/sui/utils';
-// import path from 'path';
-// import { slice } from 'ramda';
+dotenv.config();
+import { fromHEX, toHEX } from '@mysten/sui/utils';
+import path from 'path';
+import { slice } from 'ramda';
 
-// const read = promisify(fs.readFile);
-// const write = promisify(fs.writeFile);
+const read = promisify(fs.readFile);
+const write = promisify(fs.writeFile);
 
-// const client = new SuiClient({
-//   url: getFullnodeUrl('testnet'),
-// });
+const client = new SuiClient({
+  url: getFullnodeUrl('testnet'),
+});
 
 // export const log = (x: unknown) =>
 //   console.log(util.inspect(x, false, null, true));
 
-// const adminKeypair = Ed25519Keypair.fromSecretKey(
-//   Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
-// );
+const adminKeypair = Ed25519Keypair.fromSecretKey(
+  Uint8Array.from(Buffer.from(process.env.KEY!, 'base64')).slice(1)
+);
 
 // export const executeTx = async (tx: Transaction) => {
 //   const result = await client.signAndExecuteTransaction({
@@ -366,34 +366,74 @@
   //   signer: adminKeypair,
   // });
   // const promises = [];
-  // const chunks = chunkArray(parsedData.slice(373), 50);
-  // for (const arr of chunks) {
+
+  // const dfs = await fetchAllDynamicFields(
+  //   client,
+  //   "0xf790a081f7f138acd08008b44d0ea30f6e44f0a44a80732a7ee69baab277c0d1"
+  // );
+
+  // while (dfs.length > 0) {
+  //   const chunk = dfs.splice(0, 500);
   //   const tx = new Transaction();
   //   tx.setGasBudget(1_000_000_000);
   //   tx.setSender(adminKeypair.toSuiAddress());
-  //   arr.forEach((x: any) => {
-  //     console.log(x);
-  //     const hash = tx.moveCall({
-  //       target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
-  //       arguments: [
-  //         tx.pure.vector('u8', fromHEX(x.helm)),
-  //         tx.pure.vector('u8', fromHEX(x.chest)),
-  //         tx.pure.vector('u8', fromHEX(x.torso)),
-  //       ],
-  //     });
+  //   chunk.forEach((df: any) => {
+  //     console.log(df);
   //     tx.moveCall({
-  //       target: `${PACKAGES.ACT}::profile_pictures::add`,
+  //       target: `${PACKAGES.ACT}::profile_pictures::remove`,
   //       arguments: [
   //         tx.object(SHARED_OBJECTS.PROFILE_PICTURES_MUT),
   //         tx.object(SHARED_OBJECTS.ACCESS_CONTROL),
-  //         tx.object(OWNED_OBJECTS.ADMIN),
-  //         hash,
-  //         tx.pure.string(x.ipfs),
+  //         tx.object("0x0773a577228fa1b821fc72be2256390a0c22b08841ad72736ab276d5d684432c"),
+  //         tx.pure.vector('u8', df.name.value),
   //       ],
   //     });
   //   });
   //   promises.push(executor.executeTransaction(tx));
   // }
+
   // const digests = await Promise.all(promises);
   // console.log(digests.length);
+
+
+  const data = await read(
+    path.join(__dirname, `../pfps/flat-v3.json`),
+    'utf-8'
+  );
+  const parsedData = JSON.parse(data);
+  const executor = new SerialTransactionExecutor({
+    client,
+    signer: adminKeypair,
+  });
+  const promises = [];
+  while (parsedData.length > 0) {
+    const chunk = parsedData.splice(0, 200);
+    const tx = new Transaction();
+    tx.setGasBudget(1_000_000_000);
+    tx.setSender(adminKeypair.toSuiAddress());
+    chunk.forEach((x: any) => {
+      console.log(x);
+      const hash = tx.moveCall({
+        target: `${PACKAGES.ACT}::profile_pictures::cosmetic_to_pfp_hash`,
+        arguments: [
+          tx.pure.vector('u8', fromHEX(x.helm)),
+          tx.pure.vector('u8', fromHEX(x.chest)),
+          tx.pure.vector('u8', fromHEX(x.torso)),
+        ],
+      });
+      tx.moveCall({
+        target: `${PACKAGES.ACT}::profile_pictures::add`,
+        arguments: [
+          tx.object(SHARED_OBJECTS.PROFILE_PICTURES_MUT),
+          tx.object(SHARED_OBJECTS.ACCESS_CONTROL),
+          tx.object("0x0773a577228fa1b821fc72be2256390a0c22b08841ad72736ab276d5d684432c"),
+          hash,
+          tx.pure.string(x.ipfs),
+        ],
+      });
+    });
+    promises.push(executor.executeTransaction(tx));
+  }
+  const digests = await Promise.all(promises);
+  console.log(digests.length);
 })();

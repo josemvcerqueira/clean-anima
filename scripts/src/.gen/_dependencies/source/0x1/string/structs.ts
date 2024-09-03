@@ -1,9 +1,11 @@
 import * as reified from "../../../../_framework/reified";
-import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, Vector, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
+import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, fieldToJSON, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
+import {Vector} from "../../../../_framework/vector";
 import {PKG_V8} from "../index";
-import {bcs, fromB64} from "@mysten/bcs";
-import {SuiClient, SuiParsedData} from "@mysten/sui/client";
+import {bcs} from "@mysten/sui/bcs";
+import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
+import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== String =============================== */
 
@@ -13,13 +15,11 @@ export interface StringFields { bytes: ToField<Vector<"u8">> }
 
 export type StringReified = Reified< String, StringFields >;
 
-export class String implements StructClass { static readonly $typeName = `${PKG_V8}::string::String`; static readonly $numTypeParams = 0;
+export class String implements StructClass { __StructClass = true as const;
 
- readonly $typeName = String.$typeName;
+ static readonly $typeName = `${PKG_V8}::string::String`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V8}::string::String`;
-
- readonly $typeArgs: [];
+ readonly $typeName = String.$typeName; readonly $fullTypeName: `${typeof PKG_V8}::string::String`; readonly $typeArgs: []; readonly $isPhantom = String.$isPhantom;
 
  readonly bytes: ToField<Vector<"u8">>
 
@@ -27,7 +27,7 @@ export class String implements StructClass { static readonly $typeName = `${PKG_
 
  this.bytes = fields.bytes; }
 
- static reified( ): StringReified { return { typeName: String.$typeName, fullTypeName: composeSuiType( String.$typeName, ...[] ) as `${typeof PKG_V8}::string::String`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => String.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => String.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => String.fromBcs( data, ), bcs: String.bcs, fromJSONField: (field: any) => String.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => String.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => String.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => String.fetch( client, id, ), new: ( fields: StringFields, ) => { return new String( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): StringReified { return { typeName: String.$typeName, fullTypeName: composeSuiType( String.$typeName, ...[] ) as `${typeof PKG_V8}::string::String`, typeArgs: [ ] as [], isPhantom: String.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => String.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => String.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => String.fromBcs( data, ), bcs: String.bcs, fromJSONField: (field: any) => String.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => String.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => String.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => String.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => String.fetch( client, id, ), new: ( fields: StringFields, ) => { return new String( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return String.reified() }
 
@@ -65,7 +65,12 @@ export class String implements StructClass { static readonly $typeName = `${PKG_
 
  static fromSuiParsedData( content: SuiParsedData ): String { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isString(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a String object`); } return String.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): String { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isString(data.bcs.type)) { throw new Error(`object at is not a String object`); }
+
+ return String.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return String.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<String> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching String object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isString(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a String object`); }
- return String.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return String.fromSuiObjectData( res.data ); }
 
  }

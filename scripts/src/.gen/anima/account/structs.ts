@@ -1,13 +1,14 @@
 import * as reified from "../../_framework/reified";
 import {String} from "../../_dependencies/source/0x1/string/structs";
-import {ID, UID} from "../../_dependencies/source/0x2/object/structs";
+import {UID} from "../../_dependencies/source/0x2/object/structs";
 import {TableVec} from "../../_dependencies/source/0x2/table-vec/structs";
 import {Table} from "../../_dependencies/source/0x2/table/structs";
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom, ToTypeStr as ToPhantom} from "../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../_framework/util";
 import {PKG_V1} from "../index";
-import {bcs, fromB64} from "@mysten/bcs";
-import {SuiClient, SuiParsedData} from "@mysten/sui/client";
+import {bcs} from "@mysten/sui/bcs";
+import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
+import {fromB64, fromHEX, toHEX} from "@mysten/sui/utils";
 
 /* ============================== Accolade =============================== */
 
@@ -17,13 +18,11 @@ export interface AccoladeFields { type: ToField<String>; description: ToField<St
 
 export type AccoladeReified = Reified< Accolade, AccoladeFields >;
 
-export class Accolade implements StructClass { static readonly $typeName = `${PKG_V1}::account::Accolade`; static readonly $numTypeParams = 0;
+export class Accolade implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Accolade.$typeName;
+ static readonly $typeName = `${PKG_V1}::account::Accolade`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::account::Accolade`;
-
- readonly $typeArgs: [];
+ readonly $typeName = Accolade.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::account::Accolade`; readonly $typeArgs: []; readonly $isPhantom = Accolade.$isPhantom;
 
  readonly type: ToField<String>; readonly description: ToField<String>; readonly url: ToField<String>
 
@@ -31,7 +30,7 @@ export class Accolade implements StructClass { static readonly $typeName = `${PK
 
  this.type = fields.type;; this.description = fields.description;; this.url = fields.url; }
 
- static reified( ): AccoladeReified { return { typeName: Accolade.$typeName, fullTypeName: composeSuiType( Accolade.$typeName, ...[] ) as `${typeof PKG_V1}::account::Accolade`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Accolade.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Accolade.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Accolade.fromBcs( data, ), bcs: Accolade.bcs, fromJSONField: (field: any) => Accolade.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Accolade.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Accolade.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Accolade.fetch( client, id, ), new: ( fields: AccoladeFields, ) => { return new Accolade( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): AccoladeReified { return { typeName: Accolade.$typeName, fullTypeName: composeSuiType( Accolade.$typeName, ...[] ) as `${typeof PKG_V1}::account::Accolade`, typeArgs: [ ] as [], isPhantom: Accolade.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Accolade.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Accolade.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Accolade.fromBcs( data, ), bcs: Accolade.bcs, fromJSONField: (field: any) => Accolade.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Accolade.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Accolade.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Accolade.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Accolade.fetch( client, id, ), new: ( fields: AccoladeFields, ) => { return new Accolade( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Accolade.reified() }
 
@@ -69,8 +68,13 @@ export class Accolade implements StructClass { static readonly $typeName = `${PK
 
  static fromSuiParsedData( content: SuiParsedData ): Accolade { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isAccolade(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Accolade object`); } return Accolade.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): Accolade { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isAccolade(data.bcs.type)) { throw new Error(`object at is not a Accolade object`); }
+
+ return Accolade.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Accolade.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<Accolade> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Accolade object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isAccolade(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Accolade object`); }
- return Accolade.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return Accolade.fromSuiObjectData( res.data ); }
 
  }
 
@@ -78,25 +82,23 @@ export class Accolade implements StructClass { static readonly $typeName = `${PK
 
 export function isAccount(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::account::Account`; }
 
-export interface AccountFields { id: ToField<UID>; alias: ToField<String>; username: ToField<String>; creationDate: ToField<"u64">; accolades: ToField<TableVec<ToPhantom<Accolade>>> }
+export interface AccountFields { id: ToField<UID>; alias: ToField<String>; username: ToField<String>; creationDate: ToField<"u64"> }
 
 export type AccountReified = Reified< Account, AccountFields >;
 
-export class Account implements StructClass { static readonly $typeName = `${PKG_V1}::account::Account`; static readonly $numTypeParams = 0;
+export class Account implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Account.$typeName;
+ static readonly $typeName = `${PKG_V1}::account::Account`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::account::Account`;
+ readonly $typeName = Account.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::account::Account`; readonly $typeArgs: []; readonly $isPhantom = Account.$isPhantom;
 
- readonly $typeArgs: [];
-
- readonly id: ToField<UID>; readonly alias: ToField<String>; readonly username: ToField<String>; readonly creationDate: ToField<"u64">; readonly accolades: ToField<TableVec<ToPhantom<Accolade>>>
+ readonly id: ToField<UID>; readonly alias: ToField<String>; readonly username: ToField<String>; readonly creationDate: ToField<"u64">
 
  private constructor(typeArgs: [], fields: AccountFields, ) { this.$fullTypeName = composeSuiType( Account.$typeName, ...typeArgs ) as `${typeof PKG_V1}::account::Account`; this.$typeArgs = typeArgs;
 
- this.id = fields.id;; this.alias = fields.alias;; this.username = fields.username;; this.creationDate = fields.creationDate;; this.accolades = fields.accolades; }
+ this.id = fields.id;; this.alias = fields.alias;; this.username = fields.username;; this.creationDate = fields.creationDate; }
 
- static reified( ): AccountReified { return { typeName: Account.$typeName, fullTypeName: composeSuiType( Account.$typeName, ...[] ) as `${typeof PKG_V1}::account::Account`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Account.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Account.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Account.fromBcs( data, ), bcs: Account.bcs, fromJSONField: (field: any) => Account.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Account.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Account.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Account.fetch( client, id, ), new: ( fields: AccountFields, ) => { return new Account( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): AccountReified { return { typeName: Account.$typeName, fullTypeName: composeSuiType( Account.$typeName, ...[] ) as `${typeof PKG_V1}::account::Account`, typeArgs: [ ] as [], isPhantom: Account.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Account.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Account.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Account.fromBcs( data, ), bcs: Account.bcs, fromJSONField: (field: any) => Account.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Account.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Account.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Account.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Account.fetch( client, id, ), new: ( fields: AccountFields, ) => { return new Account( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Account.reified() }
 
@@ -104,29 +106,29 @@ export class Account implements StructClass { static readonly $typeName = `${PKG
 
  static get bcs() { return bcs.struct("Account", {
 
- id: UID.bcs, alias: String.bcs, username: String.bcs, creation_date: bcs.u64(), accolades: TableVec.bcs
+ id: UID.bcs, alias: String.bcs, username: String.bcs, creation_date: bcs.u64()
 
 }) };
 
- static fromFields( fields: Record<string, any> ): Account { return Account.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), alias: decodeFromFields(String.reified(), fields.alias), username: decodeFromFields(String.reified(), fields.username), creationDate: decodeFromFields("u64", fields.creation_date), accolades: decodeFromFields(TableVec.reified(reified.phantom(Accolade.reified())), fields.accolades) } ) }
+ static fromFields( fields: Record<string, any> ): Account { return Account.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), alias: decodeFromFields(String.reified(), fields.alias), username: decodeFromFields(String.reified(), fields.username), creationDate: decodeFromFields("u64", fields.creation_date) } ) }
 
  static fromFieldsWithTypes( item: FieldsWithTypes ): Account { if (!isAccount(item.type)) { throw new Error("not a Account type");
 
  }
 
- return Account.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), alias: decodeFromFieldsWithTypes(String.reified(), item.fields.alias), username: decodeFromFieldsWithTypes(String.reified(), item.fields.username), creationDate: decodeFromFieldsWithTypes("u64", item.fields.creation_date), accolades: decodeFromFieldsWithTypes(TableVec.reified(reified.phantom(Accolade.reified())), item.fields.accolades) } ) }
+ return Account.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), alias: decodeFromFieldsWithTypes(String.reified(), item.fields.alias), username: decodeFromFieldsWithTypes(String.reified(), item.fields.username), creationDate: decodeFromFieldsWithTypes("u64", item.fields.creation_date) } ) }
 
  static fromBcs( data: Uint8Array ): Account { return Account.fromFields( Account.bcs.parse(data) ) }
 
  toJSONField() { return {
 
- id: this.id,alias: this.alias,username: this.username,creationDate: this.creationDate.toString(),accolades: this.accolades.toJSONField(),
+ id: this.id,alias: this.alias,username: this.username,creationDate: this.creationDate.toString(),
 
 } }
 
  toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
 
- static fromJSONField( field: any ): Account { return Account.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), alias: decodeFromJSONField(String.reified(), field.alias), username: decodeFromJSONField(String.reified(), field.username), creationDate: decodeFromJSONField("u64", field.creationDate), accolades: decodeFromJSONField(TableVec.reified(reified.phantom(Accolade.reified())), field.accolades) } ) }
+ static fromJSONField( field: any ): Account { return Account.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), alias: decodeFromJSONField(String.reified(), field.alias), username: decodeFromJSONField(String.reified(), field.username), creationDate: decodeFromJSONField("u64", field.creationDate) } ) }
 
  static fromJSON( json: Record<string, any> ): Account { if (json.$typeName !== Account.$typeName) { throw new Error("not a WithTwoGenerics json object") };
 
@@ -134,73 +136,13 @@ export class Account implements StructClass { static readonly $typeName = `${PKG
 
  static fromSuiParsedData( content: SuiParsedData ): Account { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isAccount(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Account object`); } return Account.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): Account { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isAccount(data.bcs.type)) { throw new Error(`object at is not a Account object`); }
+
+ return Account.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Account.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<Account> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Account object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isAccount(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Account object`); }
- return Account.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
 
- }
-
-/* ============================== Registry =============================== */
-
-export function isRegistry(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::account::Registry`; }
-
-export interface RegistryFields { id: ToField<UID>; accounts: ToField<Table<"address", ToPhantom<ID>>> }
-
-export type RegistryReified = Reified< Registry, RegistryFields >;
-
-export class Registry implements StructClass { static readonly $typeName = `${PKG_V1}::account::Registry`; static readonly $numTypeParams = 0;
-
- readonly $typeName = Registry.$typeName;
-
- readonly $fullTypeName: `${typeof PKG_V1}::account::Registry`;
-
- readonly $typeArgs: [];
-
- readonly id: ToField<UID>; readonly accounts: ToField<Table<"address", ToPhantom<ID>>>
-
- private constructor(typeArgs: [], fields: RegistryFields, ) { this.$fullTypeName = composeSuiType( Registry.$typeName, ...typeArgs ) as `${typeof PKG_V1}::account::Registry`; this.$typeArgs = typeArgs;
-
- this.id = fields.id;; this.accounts = fields.accounts; }
-
- static reified( ): RegistryReified { return { typeName: Registry.$typeName, fullTypeName: composeSuiType( Registry.$typeName, ...[] ) as `${typeof PKG_V1}::account::Registry`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Registry.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Registry.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Registry.fromBcs( data, ), bcs: Registry.bcs, fromJSONField: (field: any) => Registry.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Registry.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Registry.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Registry.fetch( client, id, ), new: ( fields: RegistryFields, ) => { return new Registry( [], fields ) }, kind: "StructClassReified", } }
-
- static get r() { return Registry.reified() }
-
- static phantom( ): PhantomReified<ToTypeStr<Registry>> { return phantom(Registry.reified( )); } static get p() { return Registry.phantom() }
-
- static get bcs() { return bcs.struct("Registry", {
-
- id: UID.bcs, accounts: Table.bcs
-
-}) };
-
- static fromFields( fields: Record<string, any> ): Registry { return Registry.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), accounts: decodeFromFields(Table.reified(reified.phantom("address"), reified.phantom(ID.reified())), fields.accounts) } ) }
-
- static fromFieldsWithTypes( item: FieldsWithTypes ): Registry { if (!isRegistry(item.type)) { throw new Error("not a Registry type");
-
- }
-
- return Registry.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), accounts: decodeFromFieldsWithTypes(Table.reified(reified.phantom("address"), reified.phantom(ID.reified())), item.fields.accounts) } ) }
-
- static fromBcs( data: Uint8Array ): Registry { return Registry.fromFields( Registry.bcs.parse(data) ) }
-
- toJSONField() { return {
-
- id: this.id,accounts: this.accounts.toJSONField(),
-
-} }
-
- toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
-
- static fromJSONField( field: any ): Registry { return Registry.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), accounts: decodeFromJSONField(Table.reified(reified.phantom("address"), reified.phantom(ID.reified())), field.accounts) } ) }
-
- static fromJSON( json: Record<string, any> ): Registry { if (json.$typeName !== Registry.$typeName) { throw new Error("not a WithTwoGenerics json object") };
-
- return Registry.fromJSONField( json, ) }
-
- static fromSuiParsedData( content: SuiParsedData ): Registry { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isRegistry(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Registry object`); } return Registry.fromFieldsWithTypes( content ); }
-
- static async fetch( client: SuiClient, id: string ): Promise<Registry> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Registry object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isRegistry(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Registry object`); }
- return Registry.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+ return Account.fromSuiObjectData( res.data ); }
 
  }
 
@@ -208,25 +150,23 @@ export class Registry implements StructClass { static readonly $typeName = `${PK
 
 export function isReputation(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::account::Reputation`; }
 
-export interface ReputationFields { id: ToField<UID>; type: ToField<String>; value: ToField<"u64">; positive: ToField<"bool">; description: ToField<String>; url: ToField<String>; issuer: ToField<ID> }
+export interface ReputationFields { type: ToField<String>; value: ToField<"u64">; positive: ToField<"bool">; description: ToField<String>; url: ToField<String>; issuer: ToField<"address"> }
 
 export type ReputationReified = Reified< Reputation, ReputationFields >;
 
-export class Reputation implements StructClass { static readonly $typeName = `${PKG_V1}::account::Reputation`; static readonly $numTypeParams = 0;
+export class Reputation implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Reputation.$typeName;
+ static readonly $typeName = `${PKG_V1}::account::Reputation`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V1}::account::Reputation`;
+ readonly $typeName = Reputation.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::account::Reputation`; readonly $typeArgs: []; readonly $isPhantom = Reputation.$isPhantom;
 
- readonly $typeArgs: [];
-
- readonly id: ToField<UID>; readonly type: ToField<String>; readonly value: ToField<"u64">; readonly positive: ToField<"bool">; readonly description: ToField<String>; readonly url: ToField<String>; readonly issuer: ToField<ID>
+ readonly type: ToField<String>; readonly value: ToField<"u64">; readonly positive: ToField<"bool">; readonly description: ToField<String>; readonly url: ToField<String>; readonly issuer: ToField<"address">
 
  private constructor(typeArgs: [], fields: ReputationFields, ) { this.$fullTypeName = composeSuiType( Reputation.$typeName, ...typeArgs ) as `${typeof PKG_V1}::account::Reputation`; this.$typeArgs = typeArgs;
 
- this.id = fields.id;; this.type = fields.type;; this.value = fields.value;; this.positive = fields.positive;; this.description = fields.description;; this.url = fields.url;; this.issuer = fields.issuer; }
+ this.type = fields.type;; this.value = fields.value;; this.positive = fields.positive;; this.description = fields.description;; this.url = fields.url;; this.issuer = fields.issuer; }
 
- static reified( ): ReputationReified { return { typeName: Reputation.$typeName, fullTypeName: composeSuiType( Reputation.$typeName, ...[] ) as `${typeof PKG_V1}::account::Reputation`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Reputation.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Reputation.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Reputation.fromBcs( data, ), bcs: Reputation.bcs, fromJSONField: (field: any) => Reputation.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Reputation.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Reputation.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Reputation.fetch( client, id, ), new: ( fields: ReputationFields, ) => { return new Reputation( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): ReputationReified { return { typeName: Reputation.$typeName, fullTypeName: composeSuiType( Reputation.$typeName, ...[] ) as `${typeof PKG_V1}::account::Reputation`, typeArgs: [ ] as [], isPhantom: Reputation.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Reputation.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Reputation.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Reputation.fromBcs( data, ), bcs: Reputation.bcs, fromJSONField: (field: any) => Reputation.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Reputation.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Reputation.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Reputation.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Reputation.fetch( client, id, ), new: ( fields: ReputationFields, ) => { return new Reputation( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Reputation.reified() }
 
@@ -234,29 +174,29 @@ export class Reputation implements StructClass { static readonly $typeName = `${
 
  static get bcs() { return bcs.struct("Reputation", {
 
- id: UID.bcs, type: String.bcs, value: bcs.u64(), positive: bcs.bool(), description: String.bcs, url: String.bcs, issuer: ID.bcs
+ type: String.bcs, value: bcs.u64(), positive: bcs.bool(), description: String.bcs, url: String.bcs, issuer: bcs.bytes(32).transform({ input: (val: string) => fromHEX(val), output: (val: Uint8Array) => toHEX(val), })
 
 }) };
 
- static fromFields( fields: Record<string, any> ): Reputation { return Reputation.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), type: decodeFromFields(String.reified(), fields.type), value: decodeFromFields("u64", fields.value), positive: decodeFromFields("bool", fields.positive), description: decodeFromFields(String.reified(), fields.description), url: decodeFromFields(String.reified(), fields.url), issuer: decodeFromFields(ID.reified(), fields.issuer) } ) }
+ static fromFields( fields: Record<string, any> ): Reputation { return Reputation.reified( ).new( { type: decodeFromFields(String.reified(), fields.type), value: decodeFromFields("u64", fields.value), positive: decodeFromFields("bool", fields.positive), description: decodeFromFields(String.reified(), fields.description), url: decodeFromFields(String.reified(), fields.url), issuer: decodeFromFields("address", fields.issuer) } ) }
 
  static fromFieldsWithTypes( item: FieldsWithTypes ): Reputation { if (!isReputation(item.type)) { throw new Error("not a Reputation type");
 
  }
 
- return Reputation.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), type: decodeFromFieldsWithTypes(String.reified(), item.fields.type), value: decodeFromFieldsWithTypes("u64", item.fields.value), positive: decodeFromFieldsWithTypes("bool", item.fields.positive), description: decodeFromFieldsWithTypes(String.reified(), item.fields.description), url: decodeFromFieldsWithTypes(String.reified(), item.fields.url), issuer: decodeFromFieldsWithTypes(ID.reified(), item.fields.issuer) } ) }
+ return Reputation.reified( ).new( { type: decodeFromFieldsWithTypes(String.reified(), item.fields.type), value: decodeFromFieldsWithTypes("u64", item.fields.value), positive: decodeFromFieldsWithTypes("bool", item.fields.positive), description: decodeFromFieldsWithTypes(String.reified(), item.fields.description), url: decodeFromFieldsWithTypes(String.reified(), item.fields.url), issuer: decodeFromFieldsWithTypes("address", item.fields.issuer) } ) }
 
  static fromBcs( data: Uint8Array ): Reputation { return Reputation.fromFields( Reputation.bcs.parse(data) ) }
 
  toJSONField() { return {
 
- id: this.id,type: this.type,value: this.value.toString(),positive: this.positive,description: this.description,url: this.url,issuer: this.issuer,
+ type: this.type,value: this.value.toString(),positive: this.positive,description: this.description,url: this.url,issuer: this.issuer,
 
 } }
 
  toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
 
- static fromJSONField( field: any ): Reputation { return Reputation.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), type: decodeFromJSONField(String.reified(), field.type), value: decodeFromJSONField("u64", field.value), positive: decodeFromJSONField("bool", field.positive), description: decodeFromJSONField(String.reified(), field.description), url: decodeFromJSONField(String.reified(), field.url), issuer: decodeFromJSONField(ID.reified(), field.issuer) } ) }
+ static fromJSONField( field: any ): Reputation { return Reputation.reified( ).new( { type: decodeFromJSONField(String.reified(), field.type), value: decodeFromJSONField("u64", field.value), positive: decodeFromJSONField("bool", field.positive), description: decodeFromJSONField(String.reified(), field.description), url: decodeFromJSONField(String.reified(), field.url), issuer: decodeFromJSONField("address", field.issuer) } ) }
 
  static fromJSON( json: Record<string, any> ): Reputation { if (json.$typeName !== Reputation.$typeName) { throw new Error("not a WithTwoGenerics json object") };
 
@@ -264,7 +204,80 @@ export class Reputation implements StructClass { static readonly $typeName = `${
 
  static fromSuiParsedData( content: SuiParsedData ): Reputation { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isReputation(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Reputation object`); } return Reputation.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): Reputation { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isReputation(data.bcs.type)) { throw new Error(`object at is not a Reputation object`); }
+
+ return Reputation.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Reputation.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<Reputation> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Reputation object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isReputation(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Reputation object`); }
- return Reputation.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return Reputation.fromSuiObjectData( res.data ); }
+
+ }
+
+/* ============================== System =============================== */
+
+export function isSystem(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V1}::account::System`; }
+
+export interface SystemFields { id: ToField<UID>; accounts: ToField<Table<"address", "address">>; accolades: ToField<Table<"address", ToPhantom<TableVec<ToPhantom<Accolade>>>>>; reputation: ToField<Table<"address", ToPhantom<TableVec<ToPhantom<Reputation>>>>> }
+
+export type SystemReified = Reified< System, SystemFields >;
+
+export class System implements StructClass { __StructClass = true as const;
+
+ static readonly $typeName = `${PKG_V1}::account::System`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
+
+ readonly $typeName = System.$typeName; readonly $fullTypeName: `${typeof PKG_V1}::account::System`; readonly $typeArgs: []; readonly $isPhantom = System.$isPhantom;
+
+ readonly id: ToField<UID>; readonly accounts: ToField<Table<"address", "address">>; readonly accolades: ToField<Table<"address", ToPhantom<TableVec<ToPhantom<Accolade>>>>>; readonly reputation: ToField<Table<"address", ToPhantom<TableVec<ToPhantom<Reputation>>>>>
+
+ private constructor(typeArgs: [], fields: SystemFields, ) { this.$fullTypeName = composeSuiType( System.$typeName, ...typeArgs ) as `${typeof PKG_V1}::account::System`; this.$typeArgs = typeArgs;
+
+ this.id = fields.id;; this.accounts = fields.accounts;; this.accolades = fields.accolades;; this.reputation = fields.reputation; }
+
+ static reified( ): SystemReified { return { typeName: System.$typeName, fullTypeName: composeSuiType( System.$typeName, ...[] ) as `${typeof PKG_V1}::account::System`, typeArgs: [ ] as [], isPhantom: System.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => System.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => System.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => System.fromBcs( data, ), bcs: System.bcs, fromJSONField: (field: any) => System.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => System.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => System.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => System.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => System.fetch( client, id, ), new: ( fields: SystemFields, ) => { return new System( [], fields ) }, kind: "StructClassReified", } }
+
+ static get r() { return System.reified() }
+
+ static phantom( ): PhantomReified<ToTypeStr<System>> { return phantom(System.reified( )); } static get p() { return System.phantom() }
+
+ static get bcs() { return bcs.struct("System", {
+
+ id: UID.bcs, accounts: Table.bcs, accolades: Table.bcs, reputation: Table.bcs
+
+}) };
+
+ static fromFields( fields: Record<string, any> ): System { return System.reified( ).new( { id: decodeFromFields(UID.reified(), fields.id), accounts: decodeFromFields(Table.reified(reified.phantom("address"), reified.phantom("address")), fields.accounts), accolades: decodeFromFields(Table.reified(reified.phantom("address"), reified.phantom(TableVec.reified(reified.phantom(Accolade.reified())))), fields.accolades), reputation: decodeFromFields(Table.reified(reified.phantom("address"), reified.phantom(TableVec.reified(reified.phantom(Reputation.reified())))), fields.reputation) } ) }
+
+ static fromFieldsWithTypes( item: FieldsWithTypes ): System { if (!isSystem(item.type)) { throw new Error("not a System type");
+
+ }
+
+ return System.reified( ).new( { id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id), accounts: decodeFromFieldsWithTypes(Table.reified(reified.phantom("address"), reified.phantom("address")), item.fields.accounts), accolades: decodeFromFieldsWithTypes(Table.reified(reified.phantom("address"), reified.phantom(TableVec.reified(reified.phantom(Accolade.reified())))), item.fields.accolades), reputation: decodeFromFieldsWithTypes(Table.reified(reified.phantom("address"), reified.phantom(TableVec.reified(reified.phantom(Reputation.reified())))), item.fields.reputation) } ) }
+
+ static fromBcs( data: Uint8Array ): System { return System.fromFields( System.bcs.parse(data) ) }
+
+ toJSONField() { return {
+
+ id: this.id,accounts: this.accounts.toJSONField(),accolades: this.accolades.toJSONField(),reputation: this.reputation.toJSONField(),
+
+} }
+
+ toJSON() { return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() } }
+
+ static fromJSONField( field: any ): System { return System.reified( ).new( { id: decodeFromJSONField(UID.reified(), field.id), accounts: decodeFromJSONField(Table.reified(reified.phantom("address"), reified.phantom("address")), field.accounts), accolades: decodeFromJSONField(Table.reified(reified.phantom("address"), reified.phantom(TableVec.reified(reified.phantom(Accolade.reified())))), field.accolades), reputation: decodeFromJSONField(Table.reified(reified.phantom("address"), reified.phantom(TableVec.reified(reified.phantom(Reputation.reified())))), field.reputation) } ) }
+
+ static fromJSON( json: Record<string, any> ): System { if (json.$typeName !== System.$typeName) { throw new Error("not a WithTwoGenerics json object") };
+
+ return System.fromJSONField( json, ) }
+
+ static fromSuiParsedData( content: SuiParsedData ): System { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isSystem(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a System object`); } return System.fromFieldsWithTypes( content ); }
+
+ static fromSuiObjectData( data: SuiObjectData ): System { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isSystem(data.bcs.type)) { throw new Error(`object at is not a System object`); }
+
+ return System.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return System.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
+ static async fetch( client: SuiClient, id: string ): Promise<System> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching System object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isSystem(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a System object`); }
+
+ return System.fromSuiObjectData( res.data ); }
 
  }

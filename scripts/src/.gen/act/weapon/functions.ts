@@ -12,11 +12,9 @@ export function new_( tx: Transaction, args: NewArgs ) { return tx.moveCall({ ta
 
 export function name( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::name`, arguments: [ obj(tx, self) ], }) }
 
-export interface UpgradeArgs { self: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; url: string | TransactionArgument }
-
-export function upgrade( tx: Transaction, args: UpgradeArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::upgrade`, arguments: [ obj(tx, args.self), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.url, `${String.$typeName}`) ], }) }
-
 export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::init`, arguments: [ obj(tx, otw) ], }) }
+
+export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export interface EquipArgs { uidMut: TransactionObjectInput; key: GenericArg; weaponId: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
 
@@ -29,8 +27,6 @@ export function unequip( tx: Transaction, typeArg: string, args: UnequipArgs ) {
 export function colourWay( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::colour_way`, arguments: [ obj(tx, self) ], }) }
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::edition`, arguments: [ obj(tx, self) ], }) }
-
-export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export function killCount( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::kill_count`, arguments: [ obj(tx, self) ], }) }
 
@@ -45,5 +41,3 @@ export function slot( tx: Transaction, self: TransactionObjectInput ) { return t
 export function rarity( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::rarity`, arguments: [ obj(tx, self) ], }) }
 
 export function wearRating( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::wear_rating`, arguments: [ obj(tx, self) ], }) }
-
-export function upgrades( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::weapon::upgrades`, arguments: [ obj(tx, self) ], }) }

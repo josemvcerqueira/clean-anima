@@ -4,8 +4,9 @@ import {Option} from "../../0x1/option/structs";
 import {KioskOwnerCap} from "../../0x2/kiosk/structs";
 import {ID, UID} from "../../0x2/object/structs";
 import {PKG_V2, PKG_V3} from "../index";
-import {bcs, fromB64} from "@mysten/bcs";
-import {SuiClient, SuiParsedData} from "@mysten/sui/client";
+import {bcs} from "@mysten/sui/bcs";
+import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
+import {fromB64} from "@mysten/sui/utils";
 
 /* ============================== Borrow =============================== */
 
@@ -15,13 +16,11 @@ export interface BorrowFields { capId: ToField<ID>; ownedId: ToField<ID> }
 
 export type BorrowReified = Reified< Borrow, BorrowFields >;
 
-export class Borrow implements StructClass { static readonly $typeName = `${PKG_V2}::personal_kiosk::Borrow`; static readonly $numTypeParams = 0;
+export class Borrow implements StructClass { __StructClass = true as const;
 
- readonly $typeName = Borrow.$typeName;
+ static readonly $typeName = `${PKG_V2}::personal_kiosk::Borrow`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V2}::personal_kiosk::Borrow`;
-
- readonly $typeArgs: [];
+ readonly $typeName = Borrow.$typeName; readonly $fullTypeName: `${typeof PKG_V2}::personal_kiosk::Borrow`; readonly $typeArgs: []; readonly $isPhantom = Borrow.$isPhantom;
 
  readonly capId: ToField<ID>; readonly ownedId: ToField<ID>
 
@@ -29,7 +28,7 @@ export class Borrow implements StructClass { static readonly $typeName = `${PKG_
 
  this.capId = fields.capId;; this.ownedId = fields.ownedId; }
 
- static reified( ): BorrowReified { return { typeName: Borrow.$typeName, fullTypeName: composeSuiType( Borrow.$typeName, ...[] ) as `${typeof PKG_V2}::personal_kiosk::Borrow`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Borrow.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Borrow.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Borrow.fromBcs( data, ), bcs: Borrow.bcs, fromJSONField: (field: any) => Borrow.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Borrow.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Borrow.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => Borrow.fetch( client, id, ), new: ( fields: BorrowFields, ) => { return new Borrow( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): BorrowReified { return { typeName: Borrow.$typeName, fullTypeName: composeSuiType( Borrow.$typeName, ...[] ) as `${typeof PKG_V2}::personal_kiosk::Borrow`, typeArgs: [ ] as [], isPhantom: Borrow.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => Borrow.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => Borrow.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => Borrow.fromBcs( data, ), bcs: Borrow.bcs, fromJSONField: (field: any) => Borrow.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => Borrow.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => Borrow.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => Borrow.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => Borrow.fetch( client, id, ), new: ( fields: BorrowFields, ) => { return new Borrow( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return Borrow.reified() }
 
@@ -67,8 +66,13 @@ export class Borrow implements StructClass { static readonly $typeName = `${PKG_
 
  static fromSuiParsedData( content: SuiParsedData ): Borrow { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isBorrow(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a Borrow object`); } return Borrow.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): Borrow { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isBorrow(data.bcs.type)) { throw new Error(`object at is not a Borrow object`); }
+
+ return Borrow.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return Borrow.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<Borrow> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching Borrow object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isBorrow(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a Borrow object`); }
- return Borrow.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return Borrow.fromSuiObjectData( res.data ); }
 
  }
 
@@ -80,13 +84,11 @@ export interface NewPersonalKioskFields { kioskId: ToField<ID> }
 
 export type NewPersonalKioskReified = Reified< NewPersonalKiosk, NewPersonalKioskFields >;
 
-export class NewPersonalKiosk implements StructClass { static readonly $typeName = `${PKG_V3}::personal_kiosk::NewPersonalKiosk`; static readonly $numTypeParams = 0;
+export class NewPersonalKiosk implements StructClass { __StructClass = true as const;
 
- readonly $typeName = NewPersonalKiosk.$typeName;
+ static readonly $typeName = `${PKG_V3}::personal_kiosk::NewPersonalKiosk`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V3}::personal_kiosk::NewPersonalKiosk`;
-
- readonly $typeArgs: [];
+ readonly $typeName = NewPersonalKiosk.$typeName; readonly $fullTypeName: `${typeof PKG_V3}::personal_kiosk::NewPersonalKiosk`; readonly $typeArgs: []; readonly $isPhantom = NewPersonalKiosk.$isPhantom;
 
  readonly kioskId: ToField<ID>
 
@@ -94,7 +96,7 @@ export class NewPersonalKiosk implements StructClass { static readonly $typeName
 
  this.kioskId = fields.kioskId; }
 
- static reified( ): NewPersonalKioskReified { return { typeName: NewPersonalKiosk.$typeName, fullTypeName: composeSuiType( NewPersonalKiosk.$typeName, ...[] ) as `${typeof PKG_V3}::personal_kiosk::NewPersonalKiosk`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => NewPersonalKiosk.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => NewPersonalKiosk.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => NewPersonalKiosk.fromBcs( data, ), bcs: NewPersonalKiosk.bcs, fromJSONField: (field: any) => NewPersonalKiosk.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => NewPersonalKiosk.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => NewPersonalKiosk.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => NewPersonalKiosk.fetch( client, id, ), new: ( fields: NewPersonalKioskFields, ) => { return new NewPersonalKiosk( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): NewPersonalKioskReified { return { typeName: NewPersonalKiosk.$typeName, fullTypeName: composeSuiType( NewPersonalKiosk.$typeName, ...[] ) as `${typeof PKG_V3}::personal_kiosk::NewPersonalKiosk`, typeArgs: [ ] as [], isPhantom: NewPersonalKiosk.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => NewPersonalKiosk.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => NewPersonalKiosk.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => NewPersonalKiosk.fromBcs( data, ), bcs: NewPersonalKiosk.bcs, fromJSONField: (field: any) => NewPersonalKiosk.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => NewPersonalKiosk.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => NewPersonalKiosk.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => NewPersonalKiosk.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => NewPersonalKiosk.fetch( client, id, ), new: ( fields: NewPersonalKioskFields, ) => { return new NewPersonalKiosk( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return NewPersonalKiosk.reified() }
 
@@ -132,8 +134,13 @@ export class NewPersonalKiosk implements StructClass { static readonly $typeName
 
  static fromSuiParsedData( content: SuiParsedData ): NewPersonalKiosk { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isNewPersonalKiosk(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a NewPersonalKiosk object`); } return NewPersonalKiosk.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): NewPersonalKiosk { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isNewPersonalKiosk(data.bcs.type)) { throw new Error(`object at is not a NewPersonalKiosk object`); }
+
+ return NewPersonalKiosk.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return NewPersonalKiosk.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<NewPersonalKiosk> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching NewPersonalKiosk object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isNewPersonalKiosk(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a NewPersonalKiosk object`); }
- return NewPersonalKiosk.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return NewPersonalKiosk.fromSuiObjectData( res.data ); }
 
  }
 
@@ -145,13 +152,11 @@ export interface OwnerMarkerFields { dummyField: ToField<"bool"> }
 
 export type OwnerMarkerReified = Reified< OwnerMarker, OwnerMarkerFields >;
 
-export class OwnerMarker implements StructClass { static readonly $typeName = `${PKG_V2}::personal_kiosk::OwnerMarker`; static readonly $numTypeParams = 0;
+export class OwnerMarker implements StructClass { __StructClass = true as const;
 
- readonly $typeName = OwnerMarker.$typeName;
+ static readonly $typeName = `${PKG_V2}::personal_kiosk::OwnerMarker`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V2}::personal_kiosk::OwnerMarker`;
-
- readonly $typeArgs: [];
+ readonly $typeName = OwnerMarker.$typeName; readonly $fullTypeName: `${typeof PKG_V2}::personal_kiosk::OwnerMarker`; readonly $typeArgs: []; readonly $isPhantom = OwnerMarker.$isPhantom;
 
  readonly dummyField: ToField<"bool">
 
@@ -159,7 +164,7 @@ export class OwnerMarker implements StructClass { static readonly $typeName = `$
 
  this.dummyField = fields.dummyField; }
 
- static reified( ): OwnerMarkerReified { return { typeName: OwnerMarker.$typeName, fullTypeName: composeSuiType( OwnerMarker.$typeName, ...[] ) as `${typeof PKG_V2}::personal_kiosk::OwnerMarker`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => OwnerMarker.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => OwnerMarker.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => OwnerMarker.fromBcs( data, ), bcs: OwnerMarker.bcs, fromJSONField: (field: any) => OwnerMarker.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => OwnerMarker.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => OwnerMarker.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => OwnerMarker.fetch( client, id, ), new: ( fields: OwnerMarkerFields, ) => { return new OwnerMarker( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): OwnerMarkerReified { return { typeName: OwnerMarker.$typeName, fullTypeName: composeSuiType( OwnerMarker.$typeName, ...[] ) as `${typeof PKG_V2}::personal_kiosk::OwnerMarker`, typeArgs: [ ] as [], isPhantom: OwnerMarker.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => OwnerMarker.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => OwnerMarker.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => OwnerMarker.fromBcs( data, ), bcs: OwnerMarker.bcs, fromJSONField: (field: any) => OwnerMarker.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => OwnerMarker.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => OwnerMarker.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => OwnerMarker.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => OwnerMarker.fetch( client, id, ), new: ( fields: OwnerMarkerFields, ) => { return new OwnerMarker( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return OwnerMarker.reified() }
 
@@ -197,8 +202,13 @@ export class OwnerMarker implements StructClass { static readonly $typeName = `$
 
  static fromSuiParsedData( content: SuiParsedData ): OwnerMarker { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isOwnerMarker(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a OwnerMarker object`); } return OwnerMarker.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): OwnerMarker { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isOwnerMarker(data.bcs.type)) { throw new Error(`object at is not a OwnerMarker object`); }
+
+ return OwnerMarker.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return OwnerMarker.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<OwnerMarker> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching OwnerMarker object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isOwnerMarker(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a OwnerMarker object`); }
- return OwnerMarker.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return OwnerMarker.fromSuiObjectData( res.data ); }
 
  }
 
@@ -210,13 +220,11 @@ export interface PersonalKioskCapFields { id: ToField<UID>; cap: ToField<Option<
 
 export type PersonalKioskCapReified = Reified< PersonalKioskCap, PersonalKioskCapFields >;
 
-export class PersonalKioskCap implements StructClass { static readonly $typeName = `${PKG_V2}::personal_kiosk::PersonalKioskCap`; static readonly $numTypeParams = 0;
+export class PersonalKioskCap implements StructClass { __StructClass = true as const;
 
- readonly $typeName = PersonalKioskCap.$typeName;
+ static readonly $typeName = `${PKG_V2}::personal_kiosk::PersonalKioskCap`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V2}::personal_kiosk::PersonalKioskCap`;
-
- readonly $typeArgs: [];
+ readonly $typeName = PersonalKioskCap.$typeName; readonly $fullTypeName: `${typeof PKG_V2}::personal_kiosk::PersonalKioskCap`; readonly $typeArgs: []; readonly $isPhantom = PersonalKioskCap.$isPhantom;
 
  readonly id: ToField<UID>; readonly cap: ToField<Option<KioskOwnerCap>>
 
@@ -224,7 +232,7 @@ export class PersonalKioskCap implements StructClass { static readonly $typeName
 
  this.id = fields.id;; this.cap = fields.cap; }
 
- static reified( ): PersonalKioskCapReified { return { typeName: PersonalKioskCap.$typeName, fullTypeName: composeSuiType( PersonalKioskCap.$typeName, ...[] ) as `${typeof PKG_V2}::personal_kiosk::PersonalKioskCap`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PersonalKioskCap.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PersonalKioskCap.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PersonalKioskCap.fromBcs( data, ), bcs: PersonalKioskCap.bcs, fromJSONField: (field: any) => PersonalKioskCap.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PersonalKioskCap.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PersonalKioskCap.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => PersonalKioskCap.fetch( client, id, ), new: ( fields: PersonalKioskCapFields, ) => { return new PersonalKioskCap( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): PersonalKioskCapReified { return { typeName: PersonalKioskCap.$typeName, fullTypeName: composeSuiType( PersonalKioskCap.$typeName, ...[] ) as `${typeof PKG_V2}::personal_kiosk::PersonalKioskCap`, typeArgs: [ ] as [], isPhantom: PersonalKioskCap.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => PersonalKioskCap.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => PersonalKioskCap.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => PersonalKioskCap.fromBcs( data, ), bcs: PersonalKioskCap.bcs, fromJSONField: (field: any) => PersonalKioskCap.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => PersonalKioskCap.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => PersonalKioskCap.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => PersonalKioskCap.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => PersonalKioskCap.fetch( client, id, ), new: ( fields: PersonalKioskCapFields, ) => { return new PersonalKioskCap( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return PersonalKioskCap.reified() }
 
@@ -262,7 +270,12 @@ export class PersonalKioskCap implements StructClass { static readonly $typeName
 
  static fromSuiParsedData( content: SuiParsedData ): PersonalKioskCap { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isPersonalKioskCap(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a PersonalKioskCap object`); } return PersonalKioskCap.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): PersonalKioskCap { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isPersonalKioskCap(data.bcs.type)) { throw new Error(`object at is not a PersonalKioskCap object`); }
+
+ return PersonalKioskCap.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return PersonalKioskCap.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<PersonalKioskCap> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching PersonalKioskCap object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isPersonalKioskCap(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a PersonalKioskCap object`); }
- return PersonalKioskCap.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return PersonalKioskCap.fromSuiObjectData( res.data ); }
 
  }

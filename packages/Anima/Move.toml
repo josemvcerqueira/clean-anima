@@ -20,8 +20,8 @@ AnimaLib = { local = "../AnimaLib" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-anima = "0x1888fbf408a5c30f279c499f4f6c7bac78367e198fbcfdee75b36181f11ee557"
-animalib = "0x28bb1ad72138d9886efb358e746aae38b15adaf74af449a866b65680f17d746b"
+anima = "0x08c9dfd49291e31fb48885dcd1624dd3c0e6d8399bac576859c858fb0fd264b6"
+animalib = "0x9d4fcbdcdc69cc8a07c70724cff3a8ffb454b772381689810a30cf648133a9a4"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.

@@ -14,11 +14,9 @@ export function name( tx: Transaction, self: TransactionObjectInput ) { return t
 
 export function type_( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::type_`, arguments: [ obj(tx, self) ], }) }
 
-export interface UpgradeArgs { self: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; url: string | TransactionArgument }
-
-export function upgrade( tx: Transaction, args: UpgradeArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::upgrade`, arguments: [ obj(tx, args.self), obj(tx, args.accessControl), obj(tx, args.admin), pure(tx, args.url, `${String.$typeName}`) ], }) }
-
 export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::init`, arguments: [ obj(tx, otw) ], }) }
+
+export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::image_url`, arguments: [ obj(tx, self) ], }) }
 
 export interface EquipArgs { uidMut: TransactionObjectInput; key: GenericArg; cosmeticId: string | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; policy: TransactionObjectInput }
 
@@ -32,8 +30,6 @@ export function colourWay( tx: Transaction, self: TransactionObjectInput ) { ret
 
 export function edition( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::edition`, arguments: [ obj(tx, self) ], }) }
 
-export function imageUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::image_url`, arguments: [ obj(tx, self) ], }) }
-
 export function manufacturer( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::manufacturer`, arguments: [ obj(tx, self) ], }) }
 
 export function modelUrl( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::model_url`, arguments: [ obj(tx, self) ], }) }
@@ -44,4 +40,4 @@ export function rarity( tx: Transaction, self: TransactionObjectInput ) { return
 
 export function wearRating( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::wear_rating`, arguments: [ obj(tx, self) ], }) }
 
-export function upgrades( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::upgrades`, arguments: [ obj(tx, self) ], }) }
+export function formattedType( tx: Transaction, self: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::cosmetic::formatted_type`, arguments: [ obj(tx, self) ], }) }

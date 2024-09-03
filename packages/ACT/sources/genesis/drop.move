@@ -45,7 +45,7 @@ module act::genesis_drop {
     public struct GENESIS_DROP has drop {}
 
     // pass for whitelist and free mint, public phase doesn't need a pass
-    public struct GenesisPass has key {
+    public struct GenesisPass has key, store {
         id: UID,
         phase: u64,
         name: String,
@@ -204,7 +204,7 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         admin::assert_genesis_minter_role(access_control, admin);
-        transfer::transfer(
+        transfer::public_transfer(
             GenesisPass { 
                 id: object::new(ctx), 
                 name: b"Anima Labs’ Genesis Free Mint Pass".to_string(),
@@ -223,7 +223,7 @@ module act::genesis_drop {
         ctx: &mut TxContext,
     ) {
         admin::assert_genesis_minter_role(access_control, admin);
-        transfer::transfer(
+        transfer::public_transfer(
             GenesisPass { 
                 id: object::new(ctx), 
                 name: b"Anima Labs’ Genesis Whitelist Pass".to_string(),

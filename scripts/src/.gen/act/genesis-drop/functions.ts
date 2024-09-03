@@ -1,10 +1,13 @@
 import {PUBLISHED_AT} from "..";
-import {String} from "../../_dependencies/source/0x1/string/structs";
 import {obj, pure, vector} from "../../_framework/util";
 import {GenesisPass} from "./structs";
 import {Transaction, TransactionArgument, TransactionObjectInput} from "@mysten/sui/transactions";
 
-export function init( tx: Transaction, ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::init`, arguments: [ ], }) }
+export function init( tx: Transaction, otw: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::init`, arguments: [ obj(tx, otw) ], }) }
+
+export interface AdminMintToKioskArgs { accessControl: TransactionObjectInput; admin: TransactionObjectInput; genesisShop: TransactionObjectInput; kiosk: TransactionObjectInput; cap: TransactionObjectInput; quantity: bigint | TransactionArgument; clock: TransactionObjectInput }
+
+export function adminMintToKiosk( tx: Transaction, args: AdminMintToKioskArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::admin_mint_to_kiosk`, arguments: [ obj(tx, args.accessControl), obj(tx, args.admin), obj(tx, args.genesisShop), obj(tx, args.kiosk), obj(tx, args.cap), pure(tx, args.quantity, `u64`), obj(tx, args.clock) ], }) }
 
 export interface AirdropFreemintArgs { accessControl: TransactionObjectInput; admin: TransactionObjectInput; recipient: string | TransactionArgument }
 
@@ -18,23 +21,25 @@ export interface AssertCanMintArgs { sale: TransactionObjectInput; pass: Array<T
 
 export function assertCanMint( tx: Transaction, args: AssertCanMintArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::assert_can_mint`, arguments: [ obj(tx, args.sale), vector(tx, `${GenesisPass.$typeName}`, args.pass), pure(tx, args.amount, `u64`), pure(tx, args.quantity, `u64`), pure(tx, args.now, `u64`) ], }) }
 
-export function assertValidTicket( tx: Transaction, ticket: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::assert_valid_ticket`, arguments: [ obj(tx, ticket) ], }) }
+export interface MintToAvatarArgs { sale: TransactionObjectInput; genesisShop: TransactionObjectInput; pass: Array<TransactionObjectInput> | TransactionArgument; pfps: TransactionObjectInput; coin: TransactionObjectInput; clock: TransactionObjectInput }
 
-export interface GenerateImageToTicketArgs { ticket: TransactionObjectInput; imageUrl: string | TransactionArgument }
+export function mintToAvatar( tx: Transaction, args: MintToAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_avatar`, arguments: [ obj(tx, args.sale), obj(tx, args.genesisShop), vector(tx, `${GenesisPass.$typeName}`, args.pass), obj(tx, args.pfps), obj(tx, args.coin), obj(tx, args.clock) ], }) }
 
-export function generateImageToTicket( tx: Transaction, args: GenerateImageToTicketArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::generate_image_to_ticket`, arguments: [ obj(tx, args.ticket), pure(tx, args.imageUrl, `${String.$typeName}`) ], }) }
+export interface MintToKioskArgs { sale: TransactionObjectInput; genesisShop: TransactionObjectInput; pass: Array<TransactionObjectInput> | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; coin: TransactionObjectInput; quantity: bigint | TransactionArgument; clock: TransactionObjectInput }
 
-export interface MintToAvatarArgs { ticket: TransactionObjectInput; registry: TransactionObjectInput; random: TransactionObjectInput }
+export function mintToKiosk( tx: Transaction, args: MintToKioskArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_kiosk`, arguments: [ obj(tx, args.sale), obj(tx, args.genesisShop), vector(tx, `${GenesisPass.$typeName}`, args.pass), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.coin), pure(tx, args.quantity, `u64`), obj(tx, args.clock) ], }) }
 
-export function mintToAvatar( tx: Transaction, args: MintToAvatarArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_avatar`, arguments: [ obj(tx, args.ticket), obj(tx, args.registry), obj(tx, args.random) ], }) }
+export interface MintToKioskImplArgs { genesisShop: TransactionObjectInput; kiosk: TransactionObjectInput; cap: TransactionObjectInput; quantity: bigint | TransactionArgument; clock: TransactionObjectInput }
 
-export interface MintToKioskArgs { sale: TransactionObjectInput; genesisShop: TransactionObjectInput; registry: TransactionObjectInput; pass: Array<TransactionObjectInput> | TransactionArgument; kiosk: TransactionObjectInput; cap: TransactionObjectInput; coin: TransactionObjectInput; quantity: bigint | TransactionArgument; random: TransactionObjectInput; clock: TransactionObjectInput }
+export function mintToKioskImpl( tx: Transaction, args: MintToKioskImplArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_kiosk_impl`, arguments: [ obj(tx, args.genesisShop), obj(tx, args.kiosk), obj(tx, args.cap), pure(tx, args.quantity, `u64`), obj(tx, args.clock) ], }) }
 
-export function mintToKiosk( tx: Transaction, args: MintToKioskArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_kiosk`, arguments: [ obj(tx, args.sale), obj(tx, args.genesisShop), obj(tx, args.registry), vector(tx, `${GenesisPass.$typeName}`, args.pass), obj(tx, args.kiosk), obj(tx, args.cap), obj(tx, args.coin), pure(tx, args.quantity, `u64`), obj(tx, args.random), obj(tx, args.clock) ], }) }
+export function passDescription( tx: Transaction, pass: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::pass_description`, arguments: [ obj(tx, pass) ], }) }
 
-export interface MintToTicketArgs { sale: TransactionObjectInput; genesisShop: TransactionObjectInput; registry: TransactionObjectInput; pass: Array<TransactionObjectInput> | TransactionArgument; coin: TransactionObjectInput; random: TransactionObjectInput; clock: TransactionObjectInput }
+export function passImageUrl( tx: Transaction, pass: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::pass_image_url`, arguments: [ obj(tx, pass) ], }) }
 
-export function mintToTicket( tx: Transaction, args: MintToTicketArgs ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::mint_to_ticket`, arguments: [ obj(tx, args.sale), obj(tx, args.genesisShop), obj(tx, args.registry), vector(tx, `${GenesisPass.$typeName}`, args.pass), obj(tx, args.coin), obj(tx, args.random), obj(tx, args.clock) ], }) }
+export function passName( tx: Transaction, pass: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::pass_name`, arguments: [ obj(tx, pass) ], }) }
+
+export function passPhase( tx: Transaction, pass: TransactionObjectInput ) { return tx.moveCall({ target: `${PUBLISHED_AT}::genesis_drop::pass_phase`, arguments: [ obj(tx, pass) ], }) }
 
 export interface SetActiveArgs { sale: TransactionObjectInput; accessControl: TransactionObjectInput; admin: TransactionObjectInput; active: boolean | TransactionArgument }
 

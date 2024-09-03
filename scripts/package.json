@@ -11,6 +11,7 @@
     "publish-act": "bun ./src/publish-act.ts",
     "publish-anima": "bun ./src/publish-anima.ts",
     "prepare-shop": "bun ./src/prepare-shop.ts",
+    "fill-pfps": "bun ./src/fill-pfps.ts",
     "genesis-shop": "bun ./src/genesis-shop.ts",
     "sale": "bun ./src/sale.ts",
     "mint-to-ticket": "bun ./src/mint-to-ticket.ts",
@@ -18,9 +19,10 @@
     "mint-to-kiosk": "bun ./src/mint-to-kiosk.ts"
   },
   "dependencies": {
-    "@mysten/sui": "^1.2.1",
+    "@mysten/sui": "^1.7.0",
     "bun-types": "^1.0.25",
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.1",
+    "util": "^0.12.5"
   },
   "packageManager": "pnpm@9.1.0+sha512.67f5879916a9293e5cf059c23853d571beaf4f753c707f40cb22bed5fb1578c6aad3b6c4107ccb3ba0b35be003eb621a16471ac836c87beb53f9d54bb4612724"
 }

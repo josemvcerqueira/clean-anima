@@ -1,32 +1,31 @@
 import {PhantomReified, Reified, StructClass, ToField, ToTypeStr, decodeFromFields, decodeFromFieldsWithTypes, decodeFromJSONField, phantom} from "../../../../_framework/reified";
 import {FieldsWithTypes, composeSuiType, compressSuiType} from "../../../../_framework/util";
-import {PKG_V21} from "../index";
-import {bcs, fromB64, fromHEX, toHEX} from "@mysten/bcs";
-import {SuiClient, SuiParsedData} from "@mysten/sui/client";
+import {PKG_V22} from "../index";
+import {bcs} from "@mysten/sui/bcs";
+import {SuiClient, SuiObjectData, SuiParsedData} from "@mysten/sui/client";
+import {fromB64, fromHEX, toHEX} from "@mysten/sui/utils";
 
 /* ============================== ID =============================== */
 
-export function isID(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::object::ID`; }
+export function isID(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::object::ID`; }
 
 export interface IDFields { bytes: ToField<"address"> }
 
 export type IDReified = Reified< ID, IDFields >;
 
-export class ID implements StructClass { static readonly $typeName = `${PKG_V21}::object::ID`; static readonly $numTypeParams = 0;
+export class ID implements StructClass { __StructClass = true as const;
 
- readonly $typeName = ID.$typeName;
+ static readonly $typeName = `${PKG_V22}::object::ID`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V21}::object::ID`;
-
- readonly $typeArgs: [];
+ readonly $typeName = ID.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::object::ID`; readonly $typeArgs: []; readonly $isPhantom = ID.$isPhantom;
 
  readonly bytes: ToField<"address">
 
- private constructor(typeArgs: [], fields: IDFields, ) { this.$fullTypeName = composeSuiType( ID.$typeName, ...typeArgs ) as `${typeof PKG_V21}::object::ID`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: IDFields, ) { this.$fullTypeName = composeSuiType( ID.$typeName, ...typeArgs ) as `${typeof PKG_V22}::object::ID`; this.$typeArgs = typeArgs;
 
  this.bytes = fields.bytes; }
 
- static reified( ): IDReified { return { typeName: ID.$typeName, fullTypeName: composeSuiType( ID.$typeName, ...[] ) as `${typeof PKG_V21}::object::ID`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ID.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ID.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ID.fromBcs( data, ), bcs: ID.bcs, fromJSONField: (field: any) => ID.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ID.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ID.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => ID.fetch( client, id, ), new: ( fields: IDFields, ) => { return new ID( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): IDReified { return { typeName: ID.$typeName, fullTypeName: composeSuiType( ID.$typeName, ...[] ) as `${typeof PKG_V22}::object::ID`, typeArgs: [ ] as [], isPhantom: ID.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => ID.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => ID.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => ID.fromBcs( data, ), bcs: ID.bcs, fromJSONField: (field: any) => ID.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => ID.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => ID.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => ID.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => ID.fetch( client, id, ), new: ( fields: IDFields, ) => { return new ID( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return ID.reified() }
 
@@ -64,34 +63,37 @@ export class ID implements StructClass { static readonly $typeName = `${PKG_V21}
 
  static fromSuiParsedData( content: SuiParsedData ): ID { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isID(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a ID object`); } return ID.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): ID { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isID(data.bcs.type)) { throw new Error(`object at is not a ID object`); }
+
+ return ID.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return ID.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<ID> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching ID object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isID(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a ID object`); }
- return ID.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return ID.fromSuiObjectData( res.data ); }
 
  }
 
 /* ============================== UID =============================== */
 
-export function isUID(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V21}::object::UID`; }
+export function isUID(type: string): boolean { type = compressSuiType(type); return type === `${PKG_V22}::object::UID`; }
 
 export interface UIDFields { id: ToField<ID> }
 
 export type UIDReified = Reified< UID, UIDFields >;
 
-export class UID implements StructClass { static readonly $typeName = `${PKG_V21}::object::UID`; static readonly $numTypeParams = 0;
+export class UID implements StructClass { __StructClass = true as const;
 
- readonly $typeName = UID.$typeName;
+ static readonly $typeName = `${PKG_V22}::object::UID`; static readonly $numTypeParams = 0; static readonly $isPhantom = [] as const;
 
- readonly $fullTypeName: `${typeof PKG_V21}::object::UID`;
-
- readonly $typeArgs: [];
+ readonly $typeName = UID.$typeName; readonly $fullTypeName: `${typeof PKG_V22}::object::UID`; readonly $typeArgs: []; readonly $isPhantom = UID.$isPhantom;
 
  readonly id: ToField<ID>
 
- private constructor(typeArgs: [], fields: UIDFields, ) { this.$fullTypeName = composeSuiType( UID.$typeName, ...typeArgs ) as `${typeof PKG_V21}::object::UID`; this.$typeArgs = typeArgs;
+ private constructor(typeArgs: [], fields: UIDFields, ) { this.$fullTypeName = composeSuiType( UID.$typeName, ...typeArgs ) as `${typeof PKG_V22}::object::UID`; this.$typeArgs = typeArgs;
 
  this.id = fields.id; }
 
- static reified( ): UIDReified { return { typeName: UID.$typeName, fullTypeName: composeSuiType( UID.$typeName, ...[] ) as `${typeof PKG_V21}::object::UID`, typeArgs: [ ] as [], reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => UID.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => UID.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => UID.fromBcs( data, ), bcs: UID.bcs, fromJSONField: (field: any) => UID.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => UID.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => UID.fromSuiParsedData( content, ), fetch: async (client: SuiClient, id: string) => UID.fetch( client, id, ), new: ( fields: UIDFields, ) => { return new UID( [], fields ) }, kind: "StructClassReified", } }
+ static reified( ): UIDReified { return { typeName: UID.$typeName, fullTypeName: composeSuiType( UID.$typeName, ...[] ) as `${typeof PKG_V22}::object::UID`, typeArgs: [ ] as [], isPhantom: UID.$isPhantom, reifiedTypeArgs: [], fromFields: (fields: Record<string, any>) => UID.fromFields( fields, ), fromFieldsWithTypes: (item: FieldsWithTypes) => UID.fromFieldsWithTypes( item, ), fromBcs: (data: Uint8Array) => UID.fromBcs( data, ), bcs: UID.bcs, fromJSONField: (field: any) => UID.fromJSONField( field, ), fromJSON: (json: Record<string, any>) => UID.fromJSON( json, ), fromSuiParsedData: (content: SuiParsedData) => UID.fromSuiParsedData( content, ), fromSuiObjectData: (content: SuiObjectData) => UID.fromSuiObjectData( content, ), fetch: async (client: SuiClient, id: string) => UID.fetch( client, id, ), new: ( fields: UIDFields, ) => { return new UID( [], fields ) }, kind: "StructClassReified", } }
 
  static get r() { return UID.reified() }
 
@@ -129,7 +131,12 @@ export class UID implements StructClass { static readonly $typeName = `${PKG_V21
 
  static fromSuiParsedData( content: SuiParsedData ): UID { if (content.dataType !== "moveObject") { throw new Error("not an object"); } if (!isUID(content.type)) { throw new Error(`object at ${(content.fields as any).id} is not a UID object`); } return UID.fromFieldsWithTypes( content ); }
 
+ static fromSuiObjectData( data: SuiObjectData ): UID { if (data.bcs) { if (data.bcs.dataType !== "moveObject" || !isUID(data.bcs.type)) { throw new Error(`object at is not a UID object`); }
+
+ return UID.fromBcs( fromB64(data.bcs.bcsBytes) ); } if (data.content) { return UID.fromSuiParsedData( data.content ) } throw new Error( "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request." ); }
+
  static async fetch( client: SuiClient, id: string ): Promise<UID> { const res = await client.getObject({ id, options: { showBcs: true, }, }); if (res.error) { throw new Error(`error fetching UID object at id ${id}: ${res.error.code}`); } if (res.data?.bcs?.dataType !== "moveObject" || !isUID(res.data.bcs.type)) { throw new Error(`object at id ${id} is not a UID object`); }
- return UID.fromBcs( fromB64(res.data.bcs.bcsBytes) ); }
+
+ return UID.fromSuiObjectData( res.data ); }
 
  }

@@ -235,7 +235,7 @@ module act::assets {
     // Legs
     const LEGS_CHANCES: vector<vector<u64>> = vector[
         vector[403, 1201, 1201, 1201, 1201],
-        vector[0, 1201, 1201, 1201, 1200]
+        vector[1201, 1201, 1201, 1200]
     ];
     
     const LEGS_NAMES: vector<vector<u8>> = vector[

@@ -37,7 +37,7 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 
 			let builderId = "";
 			let j = 0;
-			while (j < 6) {
+			while (j < 7) {
 				const tx = new Transaction();
 				tx.setGasBudget(10000000000);
 				
@@ -49,15 +49,18 @@ import * as shop from "./.gen/act/genesis-shop/functions.js";
 				}
 
 				let i = 0;
+				if (j == 6) {
+					i = 167; // only 333 items left
+				}
 				while (i < 500) {
 					shop.newItem(tx, {
 						genesisShop: getId("genesis_shop::GenesisShop"),
-						builder: builder,
+						builder,
 					});
 					i++;
 				}
 				
-				if (j == 5) {
+				if (j == 6) {
 					shop.destroyBuilder(tx, builder);
 				} else {
 					shop.keep(tx, builder);

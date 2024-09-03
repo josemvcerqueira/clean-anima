@@ -17,6 +17,8 @@ import { client, keypair, IObjectInfo, getId } from './utils.js';
 
 	try {		
 		const tx = new Transaction();
+		tx.setGasBudget(1000000000);
+
 		const [upgradeCap] = tx.publish({ modules,dependencies });
 		tx.transferObjects([upgradeCap], keypair.getPublicKey().toSuiAddress());
 		
